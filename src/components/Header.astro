@@ -1,0 +1,5 @@
+---
+import site from '../data/site.json';
+---
+<header class="header"><div class="container header-inner"><a class="brand" href="/">{site.artisticName}</a><nav aria-label="Navegación principal"><a href="/tattoo/">Tattoo</a><a href="/obra/">Obra original</a><a href="/ilustracion/">Ilustración</a><a href="/sobre-mi/">Sobre mí</a><a href="/contacto/">Contacto</a></nav></div></header>
+<style>.header{border-bottom:1px solid #d4c8ba;background:var(--color-bg)}.header-inner{display:flex;flex-direction:column;padding-block:1rem;gap:1rem}.brand{font-family:Georgia,serif;font-size:1.35rem;text-decoration:none}nav{display:flex;gap:.4rem 1rem;flex-wrap:wrap}nav a{font-size:.9rem;text-decoration:none}nav a:hover{text-decoration:underline}@media(min-width:760px){.header-inner{flex-direction:row;align-items:center;justify-content:space-between}}</style>

@@ -1,0 +1,5 @@
+---
+import {forms,formUrl} from '../config/forms';
+const options=[['Tattoo',forms.tattoo],['Obra original',forms.artwork],['Ilustración',forms.illustration],['Otra consulta',forms.general],['Avisos por ciudad',forms.cityAlerts]] as const;
+---
+<div class="grid grid-2">{options.map(([label,url])=><a class="button secondary" href={formUrl(url,{source:'portfolio-contacto'})}>{label}</a>)}</div>
