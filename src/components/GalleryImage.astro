@@ -1,0 +1,7 @@
+---
+interface Props { src: string; alt: string; loading?: 'lazy'|'eager'; class?: string; }
+const {src, alt, loading='lazy', class: className} = Astro.props;
+let width=1200,height=1500;
+try { const media = await import('../generated/media.json'); const items = media.default as Record<string, {width:number;height:number}>; const item = items[src]; if(item){width=item.width;height=item.height;} } catch {}
+---
+<img src={src} alt={alt} width={width} height={height} loading={loading} decoding="async" class={className}/>

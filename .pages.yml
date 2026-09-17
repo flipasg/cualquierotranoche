@@ -1,0 +1,128 @@
+media:
+  input: media/uploads
+  output: /uploads
+  extensions: [jpg, jpeg, png, webp, svg]
+  rename: safe
+settings:
+  content:
+    merge: true
+  commit:
+    identity: app
+content:
+  - name: flash
+    label: Flash
+    type: collection
+    path: src/content/flash
+    filename: "{primary}.md"
+    view: { fields: [title, code, status, draft] }
+    fields: &common
+      - { name: title, label: Título, type: string, required: true }
+      - { name: description, label: Descripción, type: text }
+      - { name: cover, label: Imagen, type: image, required: true }
+      - { name: coverAlt, label: Texto alternativo, type: string, required: true }
+      - { name: draft, label: Borrador, type: boolean, default: false }
+      - { name: code, label: Código, type: string, required: true }
+      - name: status
+        label: Estado
+        type: select
+        options: [{ label: Disponible, value: disponible }, { label: Reservado, value: reservado }, { label: Tatuado, value: tatuado }]
+      - { name: note, label: Nota, type: string }
+      - { name: body, label: Contenido, type: rich-text }
+    operations: { create: true, rename: false, delete: false }
+  - name: tattoos
+    label: Tatuajes
+    type: collection
+    path: src/content/tattoos
+    filename: "{primary}.md"
+    fields:
+      - { name: title, label: Título, type: string, required: true }
+      - { name: description, label: Descripción, type: text }
+      - { name: cover, label: Fotografía, type: image, required: true }
+      - { name: coverAlt, label: Texto alternativo, type: string, required: true }
+      - { name: draft, label: Borrador, type: boolean, default: false }
+      - { name: body, label: Contenido, type: rich-text }
+    operations: { create: true, rename: false, delete: false }
+  - name: obras
+    label: Obras
+    type: collection
+    path: src/content/obras
+    filename: "{primary}.md"
+    fields:
+      - { name: title, label: Título, type: string, required: true }
+      - { name: description, label: Descripción, type: text }
+      - { name: technique, label: Técnica, type: string }
+      - { name: dimensions, label: Dimensiones, type: string }
+      - { name: widthCm, label: Ancho en cm, type: number }
+      - { name: heightCm, label: Alto en cm, type: number }
+      - name: status
+        label: Estado
+        type: select
+        options: [{ label: Disponible, value: disponible }, { label: Reservada, value: reservada }, { label: Vendida, value: vendida }]
+      - { name: priceEur, label: Precio en euros, type: number }
+      - { name: showPrice, label: Mostrar precio, type: boolean }
+      - { name: collection, label: Colección, type: string }
+      - { name: cover, label: Portada, type: image, required: true }
+      - { name: coverAlt, label: Texto alternativo, type: string, required: true }
+      - name: gallery
+        label: Galería
+        type: object
+        list: true
+        fields: [{ name: src, label: Imagen, type: image }, { name: alt, label: Texto alternativo, type: string }]
+      - { name: draft, label: Borrador, type: boolean, default: false }
+      - { name: body, label: Contenido, type: rich-text }
+    operations: { create: true, rename: false, delete: false }
+  - name: proyectos
+    label: Proyectos
+    type: collection
+    path: src/content/proyectos
+    filename: "{primary}.md"
+    fields:
+      - { name: title, label: Título, type: string }
+      - { name: description, label: Introducción, type: text }
+      - { name: client, label: Cliente, type: string }
+      - { name: services, label: Servicios, type: string }
+      - { name: year, label: Año, type: string }
+      - { name: contribution, label: Mi aportación, type: text }
+      - { name: cover, label: Portada, type: image }
+      - { name: coverAlt, label: Texto alternativo, type: string }
+      - name: gallery
+        label: Galería
+        type: object
+        list: true
+        fields: [{ name: src, label: Imagen, type: image }, { name: alt, label: Texto alternativo, type: string }]
+      - { name: draft, label: Borrador, type: boolean, default: false }
+      - { name: body, label: Contenido, type: rich-text }
+    operations: { create: true, rename: false, delete: false }
+  - name: sobre-mi
+    label: Página Sobre mí
+    type: file
+    path: src/content/paginas/sobre-mi.md
+    fields:
+      - { name: title, label: Título, type: string }
+      - { name: eyebrow, label: Antetítulo, type: string }
+      - { name: subtitle, label: Subtítulo, type: string }
+      - { name: location, label: Ubicación, type: string }
+      - { name: portrait, label: Retrato, type: image }
+      - { name: portraitAlt, label: Texto alternativo, type: string }
+      - { name: draft, label: Borrador, type: boolean, default: false }
+      - { name: body, label: Presentación, type: rich-text }
+  - name: site
+    label: Datos generales
+    type: file
+    path: src/data/site.json
+    format: json
+    fields:
+      - { name: name, label: Nombre, type: string }
+      - { name: artisticName, label: Nombre artístico, type: string }
+      - { name: intro, label: Introducción, type: text }
+      - { name: email, label: Email público, type: string }
+      - { name: instagram, label: URL de Instagram, type: string }
+      - { name: instagramLabel, label: Usuario de Instagram, type: string }
+  - name: ciudades
+    label: Ciudades
+    type: file
+    path: src/data/ciudades.json
+    format: json
+    fields:
+      - { name: cities, label: Ciudades, type: string, list: true }
+      - { name: note, label: Nota, type: text }

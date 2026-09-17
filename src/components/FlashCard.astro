@@ -1,0 +1,4 @@
+---
+import GalleryImage from './GalleryImage.astro'; import {forms,formUrl} from '../config/forms'; interface Props{flash:any} const {flash}=Astro.props;
+---
+<article class="card"><GalleryImage src={flash.data.cover} alt={flash.data.coverAlt}/><span class="status">{flash.data.status}</span><h3>{flash.data.title}</h3><p>{flash.data.code} · {flash.data.note}</p><a class="button" href={formUrl(forms.tattoo,{flashCode:flash.data.code,source:'portfolio-flash'})}>Pedir este flash</a></article>
