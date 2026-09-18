@@ -56,9 +56,13 @@ const { id, label } = Astro.props;
     gap: var(--space);
     overflow-x: auto;
     overscroll-behavior-inline: contain;
-    padding-bottom: 0.5rem;
     scroll-behavior: smooth;
     scroll-snap-type: inline mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .carousel-track::-webkit-scrollbar {
+    display: none;
   }
   .carousel-track :global(.carousel-item) {
     min-width: 0;
