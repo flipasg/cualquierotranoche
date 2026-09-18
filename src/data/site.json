@@ -6,8 +6,14 @@
     "intro": "Soy [nombre]. Trabajo entre la piel, el papel y la imagen. Aquí puedes descubrir mis piezas y contarme qué tienes en mente.",
     "heroImage": "/uploads/estudio-placeholder.svg",
     "heroImageAlt": "Fotografía en el estudio pendiente",
-    "primaryCta": { "label": "Ver mi trabajo", "href": "#trabajo" },
-    "secondaryCta": { "label": "Un poco sobre mí", "href": "/sobre-mi/" },
+    "primaryCta": {
+      "label": "Ver mi trabajo",
+      "href": "#trabajo"
+    },
+    "secondaryCta": {
+      "label": "Un poco sobre mí",
+      "href": "/sobre-mi/"
+    },
     "workHeading": "Explora mi trabajo",
     "disciplines": [
       {
@@ -40,11 +46,26 @@
   "instagram": "https://instagram.com/nombre-de-muestra",
   "instagramLabel": "@nombre-de-muestra",
   "navigation": [
-    { "href": "/tattoo/", "label": "Tattoo" },
-    { "href": "/obra/", "label": "Obra" },
-    { "href": "/ilustracion/", "label": "Ilustración" },
-    { "href": "/sobre-mi/", "label": "Sobre mí" },
-    { "href": "/contacto/", "label": "Contacto" }
+    {
+      "href": "/tattoo/",
+      "label": "Tattoo"
+    },
+    {
+      "href": "/obra/",
+      "label": "Obra"
+    },
+    {
+      "href": "/ilustracion/",
+      "label": "Ilustración"
+    },
+    {
+      "href": "/sobre-mi/",
+      "label": "Sobre mí"
+    },
+    {
+      "href": "/contacto/",
+      "label": "Contacto"
+    }
   ],
   "ui": {
     "skipLink": "Saltar al contenido",
@@ -111,15 +132,13 @@
       "requestCta": "Pedir este flash"
     },
     "artwork": {
-      "title": "Obra original",
+      "title": "Obra",
       "description": "Catálogo de piezas únicas en papel, pintura y collage.",
-      "eyebrow": "CATÁLOGO · CONTENIDO DE MUESTRA",
-      "heading": "Obra original",
+      "heading": "Obra",
       "intro": "Piezas únicas en papel, pintura y collage.",
       "filtersLabel": "Filtrar obras",
       "all": "Todas",
       "available": "Ver disponibles",
-      "detailEyebrow": "OBRA ORIGINAL",
       "shipping": "Envío a consultar",
       "interestCta": "Me interesa esta obra",
       "cardCta": "Ver la pieza"
