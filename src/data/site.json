@@ -14,6 +14,11 @@
       "label": "Un poco sobre mí",
       "href": "/sobre-mi/"
     },
+    "guestsCta": {
+      "label": "Próximos Guests",
+      "href": "/contacto/#proximos-guests",
+      "visible": true
+    },
     "workHeading": "Explora mi trabajo",
     "disciplines": [
       {
@@ -84,6 +89,7 @@
       "navigationLabel": "Navegación principal"
     },
     "footer": {
+      "formsHeading": "Formularios",
       "disciplines": "Tattoo · Obra original · Ilustración",
       "contact": "Contacto",
       "email": "Email",

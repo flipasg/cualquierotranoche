@@ -1,5 +1,17 @@
 ---
 import site from '../data/site.json';
+import { guests } from '../config/guests';
+import GuestFooter from './GuestFooter.astro';
+import TallyLink from './TallyLink.astro';
+import { forms } from '../config/forms';
+
+const formLinks = [
+  [site.ui.forms.tattoo, forms.tattoo],
+  [site.ui.forms.artwork, forms.artwork],
+  [site.ui.forms.illustration, forms.illustration],
+  [site.ui.forms.general, forms.general],
+  [site.ui.forms.cityAlerts, forms.cityAlerts],
+] as const;
 ---
 
 <footer>
@@ -8,13 +20,34 @@ import site from '../data/site.json';
       <strong>{site.artisticName}</strong><p>
         {site.ui.footer.disciplines}
       </p>
-    </div><div>
-      <a href="/contacto/">{site.ui.footer.contact}</a> · <a
-        href={`mailto:${site.email}`}>{site.ui.footer.email}</a
-      > · <a href={site.instagram} rel="me noreferrer"
-        >{site.ui.footer.instagram}</a
-      >
-    </div><p>{site.ui.footer.sampleNotice} © {new Date().getFullYear()}</p>
+      <div class="footer-links">
+        <a href="/contacto/">{site.ui.footer.contact}</a> · <a
+          href={`mailto:${site.email}`}>{site.ui.footer.email}</a
+        > · <a href={site.instagram} rel="me noreferrer"
+          >{site.ui.footer.instagram}</a
+        >
+      </div><p>{site.ui.footer.sampleNotice} © {new Date().getFullYear()}</p>
+    </div>
+    <section class="footer-forms" aria-labelledby="footer-forms-heading">
+      <h2 id="footer-forms-heading">{site.ui.footer.formsHeading}</h2>
+      <ul>
+        {
+          formLinks.map(([label, url]) => (
+            <li>
+              <TallyLink
+                url={url}
+                params={{ source: 'portfolio-footer' }}
+                linkStyle
+                className="footer-form-link"
+              >
+                {label} <span aria-hidden="true">↗</span>
+              </TallyLink>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <GuestFooter config={guests} pathname={Astro.url.pathname} />
   </div>
 </footer><style>
   footer {
@@ -23,10 +56,54 @@ import site from '../data/site.json';
   }
   .footer-grid {
     display: grid;
-    gap: 1rem;
+    gap: 2rem;
+  }
+  .footer-grid > div,
+  .footer-forms {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .footer-forms h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    padding-block: 0.4rem;
+  }
+  .footer-forms ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .footer-forms :global(.footer-form-link) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    min-height: 44px;
+    font-size: 0.9rem;
+    font-weight: 400;
   }
   footer p {
     margin: 0.25rem 0;
     color: var(--color-muted);
+  }
+  .footer-links {
+    margin-block: 1rem;
+  }
+  .footer-links a {
+    display: inline-block;
+    padding-block: 0.5rem;
+  }
+  @media (min-width: 800px) {
+    .footer-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(10rem, 0.65fr);
+      gap: clamp(1.5rem, 3vw, 3rem);
+    }
+    :global(.footer-grid:has(.footer-guests)) {
+      grid-template-columns: minmax(0, 1fr) minmax(10rem, 0.65fr) minmax(
+          0,
+          1.2fr
+        );
+    }
   }
 </style>

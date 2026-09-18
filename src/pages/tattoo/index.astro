@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContentCarousel from '../../components/ContentCarousel.astro';
 import FlashCard from '../../components/FlashCard.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
 import TattooCard from '../../components/TattooCard.astro';
 import site from '../../data/site.json';
 const flash = await getCollection(
@@ -50,7 +51,7 @@ const tattoos = await getCollection(
       )
     }
   </section><section id="flash" class="container section">
-    <p class="eyebrow">{site.ui.tattoo.flashSampleNotice}</p>{
+    <Eyebrow text={site.ui.tattoo.flashSampleNotice} />{
       flash.length ? (
         <ContentCarousel
           id="flash-carousel"

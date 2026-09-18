@@ -26,6 +26,12 @@ npm run preview
 
 También se pueden ejecutar por separado `npm run validate` y `npm run media`.
 
+Las imágenes de las galerías de tattoo, flash, obra e ilustración y de las fichas
+se abren en un visor ampliado. Permite zoom de 1× a 4× con botones, rueda o
+pellizco, arrastrar la imagen y volver a ajustarla. También admite `+`, `−`,
+flechas y `0` con teclado. Se cierra con el botón, `Escape` o el fondo exterior
+y devuelve el foco a la imagen. Sin JavaScript, el enlace abre la imagen.
+
 ## Formato del código
 
 Prettier y su plugin de Astro formatean los archivos fuente, contenido Markdown,
@@ -49,6 +55,25 @@ pendientes de formato.
   disciplinas; cada tarjeta incluye título, texto, enlace, imagen y texto
   alternativo. `social.json` controla un único favicon, una única imagen para
   compartir y sus textos en Open Graph y Twitter.
+- Guests: `src/data/guests.json` configura la agenda de Contacto y el resumen
+  del pie de página. En Pages CMS aparece como **Próximos Guests**: cada visita
+  tiene ciudad, estudio, dirección, enlace a Google Maps, descripción, inicio,
+  fin, color hexadecimal y visibilidad. Estudio, dirección, enlace y descripción
+  pueden quedar vacíos; no se muestran hasta completarlos. Dirección y enlace
+  son independientes y aparecen en la agenda y en el resumen del pie. Google Maps
+  se abre en una pestaña nueva; admite enlaces completos o cortos con `https://`.
+  Las fechas incluyen el año, permiten visitas de distintos años y se ordenan y
+  agrupan por mes y año. El identificador debe ser único y estable para conservar
+  el enlace directo a la visita. El build valida fechas, rangos, colores e identificadores.
+  La visibilidad es editorial: desactiva las visitas que ya no quieras anunciar;
+  no desaparecen automáticamente al pasar la fecha. Los cambios se publican con
+  el siguiente build. El resumen nunca aparece en Contacto y también puede
+  desactivarse globalmente. Si no hay visitas visibles, la agenda conserva un
+  mensaje y el enlace de avisos; el resumen del pie se omite.
+  En **Datos generales → Portada → Enlace a próximos guests** se editan el texto,
+  destino y visibilidad del enlace de la home. Los enlaces «Consultar cita» usan
+  el formulario de tattoo existente; su parámetro `source` identifica el guest,
+  sin añadir campos nuevos al formulario.
 - Formularios Tally: seguir [la guía de creación y conexión](docs/tally.md) y sustituir cada URL `REEMPLAZAR` en `src/config/forms.ts`. Mientras falte una URL válida, se muestra el estado pendiente sin un enlace roto. `npm test` comprueba las referencias y los parámetros permitidos.
 - Imágenes originales: añadir a `media/uploads/` y usar una ruta `/uploads/archivo.ext` en el frontmatter.
 - Marcar `draft: true` excluye una ficha de páginas públicas y su imagen exclusiva del procesamiento.

@@ -7,7 +7,11 @@ const { tattoo } = Astro.props;
 ---
 
 <article class="card">
-  <GalleryImage src={tattoo.data.cover} alt={tattoo.data.coverAlt} /><h3>
+  <GalleryImage
+    src={tattoo.data.cover}
+    alt={tattoo.data.coverAlt}
+    zoomable
+  /><h3>
     {tattoo.data.title}
   </h3><p>{tattoo.data.description}</p>
 </article>

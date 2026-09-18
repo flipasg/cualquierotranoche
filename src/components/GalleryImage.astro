@@ -4,8 +4,15 @@ interface Props {
   alt: string;
   loading?: 'lazy' | 'eager';
   class?: string;
+  zoomable?: boolean;
 }
-const { src, alt, loading = 'lazy', class: className } = Astro.props;
+const {
+  src,
+  alt,
+  loading = 'lazy',
+  class: className,
+  zoomable = false,
+} = Astro.props;
 let width = 1200,
   height = 1500;
 let mediaSrc = src;
@@ -24,12 +31,44 @@ try {
 } catch {}
 ---
 
-<img
-  src={mediaSrc}
-  alt={alt}
-  width={width}
-  height={height}
-  loading={loading}
-  decoding="async"
-  class={className}
-/>
+{
+  zoomable ? (
+    <a
+      class="gallery-image-link"
+      href={mediaSrc}
+      data-image-viewer-trigger
+      aria-label={`Ampliar imagen: ${alt}`}
+      aria-haspopup="dialog"
+      aria-controls="image-viewer"
+    >
+      <img
+        src={mediaSrc}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={loading}
+        decoding="async"
+        class={className}
+      />
+    </a>
+  ) : (
+    <img
+      src={mediaSrc}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding="async"
+      class={className}
+    />
+  )
+}
+
+<style>
+  .gallery-image-link {
+    display: block;
+    min-width: 0;
+    align-self: start;
+    cursor: zoom-in;
+  }
+</style>

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
 import TallyLink from '../../components/TallyLink.astro';
 import { forms } from '../../config/forms';
 import site from '../../data/site.json';
@@ -16,9 +17,10 @@ const { Content } = await render(project);
 
 <BaseLayout title={project.data.title} description={project.data.description}
   ><article class="container section">
-    <p class="eyebrow">
-      {site.ui.illustration.title} / {site.ui.illustration.projectEyebrow}
-    </p><h1>
+    <Eyebrow
+      text={site.ui.illustration.projectEyebrow}
+      prefix={site.ui.illustration.title}
+    /><h1>
       {project.data.title}
     </h1><p>
       {project.data.client} · {project.data.services} · {project.data.year}
@@ -26,15 +28,16 @@ const { Content } = await render(project);
       src={project.data.cover}
       alt={project.data.coverAlt}
       loading="eager"
+      zoomable
     /><section class="section prose">
-      <p class="eyebrow">{site.ui.illustration.contributionEyebrow}</p><h2>
+      <Eyebrow text={site.ui.illustration.contributionEyebrow} /><h2>
         {project.data.contribution}
       </h2><Content />
     </section>{
       project.data.gallery.map((image: any) => (
         <figure>
           <>
-            <GalleryImage src={image.src} alt={image.alt} />
+            <GalleryImage src={image.src} alt={image.alt} zoomable />
             <figcaption>{image.alt}</figcaption>
           </>
         </figure>

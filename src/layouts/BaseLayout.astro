@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ImageViewer from '../components/ImageViewer.astro';
 import site from '../data/site.json';
 import social from '../data/social.json';
 import media from '../generated/media.json';
@@ -49,6 +50,6 @@ const socialImage = new URL(mediaPath(social.image), Astro.site);
     </title></head
   ><body
     ><a class="skip-link" href="#contenido">{site.ui.skipLink}</a><Header
-    /><main id="contenido"><slot /></main><Footer /></body
+    /><main id="contenido"><slot /></main><Footer /><ImageViewer /></body
   >
 </html>

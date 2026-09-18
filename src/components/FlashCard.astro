@@ -10,9 +10,12 @@ const { flash } = Astro.props;
 ---
 
 <article class="card">
-  <GalleryImage src={flash.data.cover} alt={flash.data.coverAlt} /><span
-    class="status">{flash.data.status}</span
-  ><h3>{flash.data.title}</h3><p>
+  <GalleryImage
+    src={flash.data.cover}
+    alt={flash.data.coverAlt}
+    zoomable
+  /><span class="status">{flash.data.status}</span><h3>{flash.data.title}</h3><p
+  >
     {flash.data.code} · {flash.data.note}
   </p><TallyLink
     url={forms.tattoo}

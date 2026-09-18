@@ -19,6 +19,13 @@ import site from '../data/site.json';
           >{site.home.secondaryCta.label}</a
         >
       </div>
+      {
+        site.home.guestsCta.visible && (
+          <a class="home-guests-link" href={site.home.guestsCta.href}>
+            {site.home.guestsCta.label} <span aria-hidden="true">→</span>
+          </a>
+        )
+      }
     </div><GalleryImage
       src={site.home.heroImage}
       alt={site.home.heroImageAlt}
@@ -34,3 +41,13 @@ import site from '../data/site.json';
     </div>
   </section></BaseLayout
 >
+
+<style>
+  .home-guests-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding-block: 0.6rem;
+    font-weight: 700;
+    text-underline-offset: 0.25em;
+  }
+</style>

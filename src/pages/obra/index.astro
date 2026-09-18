@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/WorkCard.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
 import site from '../../data/site.json';
 const works = await getCollection('obras', ({ data }) => !data.draft);
 const collections = [
@@ -13,7 +14,7 @@ const collections = [
   title={site.ui.artwork.title}
   description={site.ui.artwork.description}
   ><section class="container section">
-    <p class="eyebrow">{site.ui.artwork.eyebrow}</p><h1>
+    <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
       {site.ui.artwork.heading}
     </h1><p class="lead">{site.ui.artwork.intro}</p><div
       class="filters"
