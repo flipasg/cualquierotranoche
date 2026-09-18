@@ -1,7 +1,7 @@
 ---
 title: FOTOGRAFÍA TATTOO 01
 description: Imagen pendiente
-cover: /uploads/flash-11.jpeg
+cover: /uploads/img6254.jpeg
 coverAlt: Marcador geométrico para una fotografía de tattoo pendiente
 draft: false
 showInCarousel: true
