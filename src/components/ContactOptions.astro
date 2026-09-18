@@ -1,12 +1,13 @@
 ---
 import { forms } from '../config/forms';
+import site from '../data/site.json';
 import TallyLink from './TallyLink.astro';
 const options = [
-  ['Tattoo', forms.tattoo],
-  ['Obra original', forms.artwork],
-  ['Ilustración', forms.illustration],
-  ['Otra consulta', forms.general],
-  ['Avisos por ciudad', forms.cityAlerts],
+  [site.ui.forms.tattoo, forms.tattoo],
+  [site.ui.forms.artwork, forms.artwork],
+  [site.ui.forms.illustration, forms.illustration],
+  [site.ui.forms.general, forms.general],
+  [site.ui.forms.cityAlerts, forms.cityAlerts],
 ] as const;
 ---
 

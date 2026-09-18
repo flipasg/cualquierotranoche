@@ -1,14 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactOptions from '../components/ContactOptions.astro';
+import site from '../data/site.json';
 ---
 
 <BaseLayout
-  title="Contacto"
-  description="Consultas de tattoo, obra e ilustración."
+  title={site.ui.contact.title}
+  description={site.ui.contact.description}
   ><section class="container section">
-    <h1>Hablemos</h1><p class="lead">
-      Elige qué tienes en mente y cuéntame un poco más.
+    <h1>{site.ui.contact.heading}</h1><p class="lead">
+      {site.ui.contact.intro}
     </p><ContactOptions />
   </section></BaseLayout
 >

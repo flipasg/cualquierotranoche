@@ -1,5 +1,6 @@
 ---
 import { formUrl, type FormParams } from '../config/forms';
+import site from '../data/site.json';
 
 interface Props {
   url: string;
@@ -38,7 +39,7 @@ const href = formUrl(url, params);
       <strong>
         <slot />
       </strong>
-      <span>Formulario disponible próximamente.</span>
+      <span>{site.ui.forms.unavailable}</span>
     </div>
   )
 }

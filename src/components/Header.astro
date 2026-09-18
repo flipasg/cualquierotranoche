@@ -13,17 +13,24 @@ const navigation = site.navigation;
       class="header-actions"
     >
       <TallyLink className="header-cta" url={forms.tattoo}
-        >Quiero tatuarme</TallyLink
+        >{site.ui.header.tattooCta}</TallyLink
       ><button
         class="menu-toggle"
         type="button"
         aria-controls="primary-navigation"
         aria-expanded="false"
       >
-        <span class="sr-only">Abrir menú</span><span aria-hidden="true">☰</span
-        >
+        <span
+          class="sr-only"
+          data-open-label={site.ui.header.openMenu}
+          data-close-label={site.ui.header.closeMenu}
+          >{site.ui.header.openMenu}</span
+        ><span aria-hidden="true">☰</span>
       </button>
-    </div><nav id="primary-navigation" aria-label="Navegación principal">
+    </div><nav
+      id="primary-navigation"
+      aria-label={site.ui.header.navigationLabel}
+    >
       {
         navigation.map((item) => {
           const isCurrentPage = pathname.startsWith(item.href);

@@ -163,7 +163,58 @@ content:
     fields:
       - { name: name, label: Nombre, type: string }
       - { name: artisticName, label: Nombre artístico, type: string }
-      - { name: intro, label: Introducción, type: text }
+      - name: home
+        label: Portada
+        type: object
+        fields:
+          - { name: title, label: Titular, type: string, required: true }
+          - { name: intro, label: Introducción, type: text, required: true }
+          - {
+              name: heroImage,
+              label: Imagen principal,
+              type: image,
+              required: true,
+            }
+          - {
+              name: heroImageAlt,
+              label: Texto alternativo de la imagen,
+              type: string,
+              required: true,
+            }
+          - name: primaryCta
+            label: Llamada a la acción principal
+            type: object
+            fields:
+              [
+                { name: label, label: Texto, type: string },
+                { name: href, label: Enlace, type: string },
+              ]
+          - name: secondaryCta
+            label: Llamada a la acción secundaria
+            type: object
+            fields:
+              [
+                { name: label, label: Texto, type: string },
+                { name: href, label: Enlace, type: string },
+              ]
+          - {
+              name: workHeading,
+              label: Título de la sección de trabajo,
+              type: string,
+            }
+          - name: disciplines
+            label: Disciplinas
+            type: object
+            list: true
+            fields:
+              [
+                { name: title, label: Título, type: string },
+                { name: text, label: Texto, type: text },
+                { name: href, label: Enlace, type: string },
+                { name: linkLabel, label: Texto del enlace, type: string },
+                { name: image, label: Imagen, type: image },
+                { name: imageAlt, label: Texto alternativo, type: string },
+              ]
       - { name: email, label: Email público, type: string }
       - { name: instagram, label: URL de Instagram, type: string }
       - { name: instagramLabel, label: Usuario de Instagram, type: string }
@@ -176,6 +227,224 @@ content:
             { name: href, label: Ruta, type: string, required: true },
             { name: label, label: Texto, type: string, required: true },
           ]
+      - name: ui
+        label: Textos de interfaz
+        type: object
+        fields:
+          - {
+              name: skipLink,
+              label: Enlace para saltar al contenido,
+              type: string,
+            }
+          - name: homePage
+            label: Metadatos de portada
+            type: object
+            fields:
+              [
+                { name: title, label: Título SEO, type: string },
+                { name: description, label: Descripción SEO, type: text },
+              ]
+          - name: about
+            label: Metadatos de Sobre mí
+            type: object
+            fields:
+              [
+                { name: title, label: Título SEO, type: string },
+                { name: description, label: Descripción SEO, type: text },
+              ]
+          - name: header
+            label: Cabecera
+            type: object
+            fields:
+              [
+                {
+                  name: tattooCta,
+                  label: Llamada a la acción de tattoo,
+                  type: string,
+                },
+                { name: openMenu, label: Abrir menú, type: string },
+                { name: closeMenu, label: Cerrar menú, type: string },
+                {
+                  name: navigationLabel,
+                  label: Etiqueta de navegación,
+                  type: string,
+                },
+              ]
+          - name: footer
+            label: Pie de página
+            type: object
+            fields:
+              [
+                { name: disciplines, label: Disciplinas, type: string },
+                { name: contact, label: Enlace de contacto, type: string },
+                { name: email, label: Enlace de email, type: string },
+                { name: instagram, label: Enlace de Instagram, type: string },
+                {
+                  name: sampleNotice,
+                  label: Aviso de contenido de muestra,
+                  type: string,
+                },
+              ]
+          - name: forms
+            label: Formularios
+            type: object
+            fields:
+              [
+                {
+                  name: unavailable,
+                  label: Formulario no disponible,
+                  type: string,
+                },
+                { name: tattoo, label: Tattoo, type: string },
+                { name: artwork, label: Obra original, type: string },
+                { name: illustration, label: Ilustración, type: string },
+                { name: general, label: Otra consulta, type: string },
+                { name: cityAlerts, label: Avisos por ciudad, type: string },
+              ]
+          - name: contact
+            label: Página de contacto
+            type: object
+            fields:
+              [
+                { name: title, label: Título SEO, type: string },
+                { name: description, label: Descripción SEO, type: text },
+                { name: heading, label: Titular, type: string },
+                { name: intro, label: Introducción, type: text },
+              ]
+          - name: tattoo
+            label: Página de tattoo
+            type: object
+            fields:
+              [
+                { name: title, label: Título SEO, type: string },
+                { name: description, label: Descripción SEO, type: text },
+                { name: heading, label: Titular, type: string },
+                { name: intro, label: Introducción, type: text },
+                { name: tattoos, label: Tatuajes, type: string },
+                { name: flash, label: Flash, type: string },
+                { name: viewAll, label: Ver todos, type: string },
+                { name: noTattoos, label: Sin tatuajes, type: string },
+                {
+                  name: flashSampleNotice,
+                  label: Aviso de flash de muestra,
+                  type: string,
+                },
+                { name: noFlash, label: Sin flash, type: string },
+              ]
+          - name: flash
+            label: Página de flash
+            type: object
+            fields:
+              [
+                { name: title, label: Título SEO, type: string },
+                { name: description, label: Descripción SEO, type: text },
+                { name: heading, label: Titular, type: string },
+                {
+                  name: filtersLabel,
+                  label: Etiqueta de filtros,
+                  type: string,
+                },
+                { name: all, label: Todos, type: string },
+                { name: empty, label: Sin resultados, type: string },
+                {
+                  name: pageSizeBefore,
+                  label: Texto antes del selector,
+                  type: string,
+                },
+                {
+                  name: pageSizeAfter,
+                  label: Texto después del selector,
+                  type: string,
+                },
+                {
+                  name: paginationLabel,
+                  label: Etiqueta de paginación,
+                  type: string,
+                },
+                { name: previous, label: Anterior, type: string },
+                { name: next, label: Siguiente, type: string },
+                { name: pageStatus, label: Estado de página, type: string },
+                { name: requestCta, label: Pedir este flash, type: string },
+              ]
+          - name: artwork
+            label: Página de obra
+            type: object
+            fields:
+              [
+                { name: title, label: Título SEO, type: string },
+                { name: description, label: Descripción SEO, type: text },
+                { name: eyebrow, label: Antetítulo del catálogo, type: string },
+                { name: heading, label: Titular, type: string },
+                { name: intro, label: Introducción, type: text },
+                {
+                  name: filtersLabel,
+                  label: Etiqueta de filtros,
+                  type: string,
+                },
+                { name: all, label: Todas, type: string },
+                { name: available, label: Ver disponibles, type: string },
+                {
+                  name: detailEyebrow,
+                  label: Antetítulo de ficha,
+                  type: string,
+                },
+                { name: shipping, label: Envío, type: string },
+                {
+                  name: interestCta,
+                  label: Me interesa esta obra,
+                  type: string,
+                },
+                { name: cardCta, label: Ver la pieza, type: string },
+              ]
+          - name: illustration
+            label: Página de ilustración
+            type: object
+            fields:
+              [
+                { name: title, label: Título SEO, type: string },
+                { name: description, label: Descripción SEO, type: text },
+                { name: heading, label: Titular, type: string },
+                { name: intro, label: Introducción, type: text },
+                {
+                  name: projectEyebrow,
+                  label: Antetítulo de ficha,
+                  type: string,
+                },
+                {
+                  name: projectCardEyebrow,
+                  label: Antetítulo de tarjeta,
+                  type: string,
+                },
+                { name: projectCta, label: Ver proyecto, type: string },
+                {
+                  name: contributionEyebrow,
+                  label: Antetítulo de aportación,
+                  type: string,
+                },
+                {
+                  name: contactHeading,
+                  label: Titular de contacto,
+                  type: string,
+                },
+                {
+                  name: contactCta,
+                  label: Llamada a la acción de contacto,
+                  type: string,
+                },
+              ]
+          - name: carousel
+            label: Carruseles
+            type: object
+            fields:
+              [
+                { name: previous, label: Anterior, type: string },
+                { name: next, label: Siguiente, type: string },
+                {
+                  name: controlsPrefix,
+                  label: Prefijo de controles,
+                  type: string,
+                },
+              ]
   - name: ciudades
     label: Ciudades
     type: file

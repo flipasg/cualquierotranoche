@@ -10,7 +10,7 @@ if (header && menuToggle) {
     if (!isCompact) {
       header.dataset.menuOpen = 'false';
       menuToggle.setAttribute('aria-expanded', 'false');
-      if (menuLabel) menuLabel.textContent = 'Abrir menú';
+      if (menuLabel) menuLabel.textContent = menuLabel.dataset.openLabel;
     }
   };
 
@@ -19,7 +19,9 @@ if (header && menuToggle) {
     header.dataset.menuOpen = String(!isOpen);
     menuToggle.setAttribute('aria-expanded', String(!isOpen));
     if (menuLabel) {
-      menuLabel.textContent = isOpen ? 'Abrir menú' : 'Cerrar menú';
+      menuLabel.textContent = isOpen
+        ? menuLabel.dataset.openLabel
+        : menuLabel.dataset.closeLabel;
     }
   });
 

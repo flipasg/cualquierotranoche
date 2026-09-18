@@ -1,5 +1,6 @@
 ---
 import GalleryImage from './GalleryImage.astro';
+import site from '../data/site.json';
 interface Props {
   project: any;
 }
@@ -9,7 +10,11 @@ const { project } = Astro.props;
 <article class="card">
   <a href={`/ilustracion/${project.id}/`}
     ><GalleryImage src={project.data.cover} alt={project.data.coverAlt} /></a
-  ><p class="eyebrow">Proyecto de muestra</p><h3>{project.data.title}</h3><p>
+  ><p class="eyebrow">{site.ui.illustration.projectCardEyebrow}</p><h3>
+    {project.data.title}
+  </h3><p>
     {project.data.client} · {project.data.services} · {project.data.year}
-  </p><a href={`/ilustracion/${project.id}/`}>Ver proyecto →</a>
+  </p><a href={`/ilustracion/${project.id}/`}
+    >{site.ui.illustration.projectCta}</a
+  >
 </article>

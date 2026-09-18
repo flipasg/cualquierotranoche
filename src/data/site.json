@@ -45,5 +45,101 @@
     { "href": "/ilustracion/", "label": "Ilustración" },
     { "href": "/sobre-mi/", "label": "Sobre mí" },
     { "href": "/contacto/", "label": "Contacto" }
-  ]
+  ],
+  "ui": {
+    "skipLink": "Saltar al contenido",
+    "homePage": {
+      "title": "Portfolio artístico",
+      "description": "Portfolio de muestra de tattoo, obra original e ilustración."
+    },
+    "about": {
+      "title": "Sobre mí",
+      "description": "Presentación de la artista y su práctica."
+    },
+    "header": {
+      "tattooCta": "Quiero tatuarme",
+      "openMenu": "Abrir menú",
+      "closeMenu": "Cerrar menú",
+      "navigationLabel": "Navegación principal"
+    },
+    "footer": {
+      "disciplines": "Tattoo · Obra original · Ilustración",
+      "contact": "Contacto",
+      "email": "Email",
+      "instagram": "Instagram",
+      "sampleNotice": "Contenido e imágenes de muestra."
+    },
+    "forms": {
+      "unavailable": "Formulario disponible próximamente.",
+      "tattoo": "Tattoo",
+      "artwork": "Obra original",
+      "illustration": "Ilustración",
+      "general": "Otra consulta",
+      "cityAlerts": "Avisos por ciudad"
+    },
+    "contact": {
+      "title": "Contacto",
+      "description": "Consultas de tattoo, obra e ilustración.",
+      "heading": "Hablemos",
+      "intro": "Elige qué tienes en mente y cuéntame un poco más."
+    },
+    "tattoo": {
+      "title": "Tattoo",
+      "description": "Tatuajes y diseños flash.",
+      "heading": "Tattoo",
+      "intro": "Una selección de tatuajes y diseños que están buscando su lugar.",
+      "tattoos": "Tatuajes",
+      "flash": "Flash",
+      "viewAll": "Ver todos",
+      "noTattoos": "No hay tatuajes seleccionados para mostrar.",
+      "flashSampleNotice": "Diseños de muestra · no son obras reales",
+      "noFlash": "No hay flash seleccionados para mostrar."
+    },
+    "flash": {
+      "title": "Flash",
+      "description": "Galería de diseños flash disponibles.",
+      "heading": "Flash",
+      "filtersLabel": "Filtrar flash",
+      "all": "Todos",
+      "empty": "No hay flash en esta categoría.",
+      "pageSizeBefore": "Mostrar",
+      "pageSizeAfter": "por página",
+      "paginationLabel": "Paginación de flash",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageStatus": "Página {currentPage} de {pageCount}",
+      "requestCta": "Pedir este flash"
+    },
+    "artwork": {
+      "title": "Obra original",
+      "description": "Catálogo de piezas únicas en papel, pintura y collage.",
+      "eyebrow": "CATÁLOGO · CONTENIDO DE MUESTRA",
+      "heading": "Obra original",
+      "intro": "Piezas únicas en papel, pintura y collage.",
+      "filtersLabel": "Filtrar obras",
+      "all": "Todas",
+      "available": "Ver disponibles",
+      "detailEyebrow": "OBRA ORIGINAL",
+      "shipping": "Envío a consultar",
+      "interestCta": "Me interesa esta obra",
+      "cardCta": "Ver la pieza"
+    },
+    "illustration": {
+      "title": "Ilustración",
+      "description": "Proyectos de ilustración, cartelería e identidad visual.",
+      "heading": "Ilustración",
+      "intro": "Imágenes pensadas para proyectos, marcas y espacios.",
+      "projectEyebrow": "PROYECTO DE MUESTRA",
+      "projectCardEyebrow": "Proyecto de muestra",
+      "projectCta": "Ver proyecto →",
+      "contributionEyebrow": "MI APORTACIÓN",
+      "contactHeading": "¿Tienes un proyecto en mente?",
+      "contactCta": "Cuéntame tu proyecto"
+    },
+    "carousel": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "controlsPrefix": "Controles de"
+    }
+  }
 }

@@ -2,14 +2,13 @@
 import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryImage from '../components/GalleryImage.astro';
+import site from '../data/site.json';
 const page = await getEntry('paginas', 'sobre-mi');
 if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible');
 const { Content } = await render(page);
 ---
 
-<BaseLayout
-  title="Sobre mí"
-  description="Presentación de la artista y su práctica."
+<BaseLayout title={site.ui.about.title} description={site.ui.about.description}
   ><section class="container section grid grid-2">
     <GalleryImage
       src={page.data.portrait}

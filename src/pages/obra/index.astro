@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/WorkCard.astro';
+import site from '../../data/site.json';
 const works = await getCollection('obras', ({ data }) => !data.draft);
 const collections = [
   ...new Set(works.map((work) => work.data.collection)),
@@ -9,18 +10,18 @@ const collections = [
 ---
 
 <BaseLayout
-  title="Obra original"
-  description="Catálogo de piezas únicas en papel, pintura y collage."
+  title={site.ui.artwork.title}
+  description={site.ui.artwork.description}
   ><section class="container section">
-    <p class="eyebrow">CATÁLOGO · CONTENIDO DE MUESTRA</p><h1>
-      Obra original
-    </h1><p class="lead">Piezas únicas en papel, pintura y collage.</p><div
+    <p class="eyebrow">{site.ui.artwork.eyebrow}</p><h1>
+      {site.ui.artwork.heading}
+    </h1><p class="lead">{site.ui.artwork.intro}</p><div
       class="filters"
-      aria-label="Filtrar obras"
+      aria-label={site.ui.artwork.filtersLabel}
       role="group"
     >
       <button type="button" data-filter="all" aria-pressed="true">
-        Todas
+        {site.ui.artwork.all}
       </button>{
         collections.map((collection) => (
           <button
@@ -31,7 +32,9 @@ const collections = [
             {collection}
           </button>
         ))
-      }<button type="button" data-filter="available">Ver disponibles</button>
+      }<button type="button" data-filter="available"
+        >{site.ui.artwork.available}</button
+      >
     </div><div class="grid grid-2">
       {works.map((work) => <WorkCard work={work} />)}
     </div>

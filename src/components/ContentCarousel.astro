@@ -1,4 +1,5 @@
 ---
+import site from '../data/site.json';
 interface Props {
   id: string;
   label: string;
@@ -11,13 +12,13 @@ const { id, label } = Astro.props;
   <div
     class="carousel-controls"
     data-carousel-controls
-    aria-label={`Controles de ${label}`}
+    aria-label={`${site.ui.carousel.controlsPrefix} ${label}`}
     hidden
   >
     <button type="button" data-carousel-previous aria-controls={id}>
-      Anterior
+      {site.ui.carousel.previous}
     </button><button type="button" data-carousel-next aria-controls={id}>
-      Siguiente
+      {site.ui.carousel.next}
     </button>
   </div><div
     id={id}

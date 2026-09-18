@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FlashCard from '../../components/FlashCard.astro';
 import flashCategories from '../../data/flash-categories.json';
+import site from '../../data/site.json';
 
 const flash = await getCollection('flash', ({ data }) => !data.draft);
 const categories = flashCategories.categories;
@@ -12,9 +13,13 @@ const defaultCategory =
   'all';
 ---
 
-<BaseLayout title="Flash" description="Galería de diseños flash disponibles."
+<BaseLayout title={site.ui.flash.title} description={site.ui.flash.description}
   ><section class="container section">
-    <h1>Flash</h1><div class="filters" aria-label="Filtrar flash" role="group">
+    <h1>{site.ui.flash.heading}</h1><div
+      class="filters"
+      aria-label={site.ui.flash.filtersLabel}
+      role="group"
+    >
       {
         categories.map((category) => (
           <button
@@ -31,9 +36,9 @@ const defaultCategory =
         data-flash-category="all"
         aria-pressed={defaultCategory === 'all' ? 'true' : 'false'}
       >
-        Todos
+        {site.ui.flash.all}
       </button>
-    </div><p data-flash-empty hidden>No hay flash en esta categoría.</p><div
+    </div><p data-flash-empty hidden>{site.ui.flash.empty}</p><div
       class="grid grid-3"
       data-flash-grid
     >
@@ -49,13 +54,23 @@ const defaultCategory =
       }
     </div><div class="pagination-layout">
       <label class="page-size" for="flash-page-size"
-        >Mostrar<select id="flash-page-size" data-flash-page-size>
+        >{site.ui.flash.pageSizeBefore}<select
+          id="flash-page-size"
+          data-flash-page-size
+        >
           <option value="6">6</option>
           <option value="12">12</option>
           <option value="18">18</option>
           <option value="24">24</option>
-        </select>por página</label
-      ><nav data-flash-pagination aria-label="Paginación de flash"></nav>
+        </select>{site.ui.flash.pageSizeAfter}</label
+      ><nav
+        data-flash-pagination
+        aria-label={site.ui.flash.paginationLabel}
+        data-previous-label={site.ui.flash.previous}
+        data-next-label={site.ui.flash.next}
+        data-page-status={site.ui.flash.pageStatus}
+      >
+      </nav>
     </div>
   </section></BaseLayout
 >
@@ -149,7 +164,7 @@ const defaultCategory =
     const previous = document.createElement('button');
     previous.type = 'button';
     previous.className = 'button secondary';
-    previous.textContent = 'Anterior';
+    previous.textContent = pagination.dataset.previousLabel ?? '';
     previous.disabled = currentPage === 1;
     previous.addEventListener('click', () => {
       currentPage -= 1;
@@ -157,12 +172,14 @@ const defaultCategory =
     });
 
     const status = document.createElement('span');
-    status.textContent = `Página ${currentPage} de ${pageCount}`;
+    status.textContent = (pagination.dataset.pageStatus ?? '')
+      .replace('{currentPage}', String(currentPage))
+      .replace('{pageCount}', String(pageCount));
 
     const next = document.createElement('button');
     next.type = 'button';
     next.className = 'button secondary';
-    next.textContent = 'Siguiente';
+    next.textContent = pagination.dataset.nextLabel ?? '';
     next.disabled = currentPage === pageCount;
     next.addEventListener('click', () => {
       currentPage += 1;

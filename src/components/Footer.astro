@@ -6,13 +6,15 @@ import site from '../data/site.json';
   <div class="container footer-grid">
     <div>
       <strong>{site.artisticName}</strong><p>
-        Tattoo · Obra original · Ilustración
+        {site.ui.footer.disciplines}
       </p>
     </div><div>
-      <a href="/contacto/">Contacto</a> · <a href={`mailto:${site.email}`}
-        >Email</a
-      > · <a href={site.instagram} rel="me noreferrer">Instagram</a>
-    </div><p>Contenido e imágenes de muestra. © {new Date().getFullYear()}</p>
+      <a href="/contacto/">{site.ui.footer.contact}</a> · <a
+        href={`mailto:${site.email}`}>{site.ui.footer.email}</a
+      > · <a href={site.instagram} rel="me noreferrer"
+        >{site.ui.footer.instagram}</a
+      >
+    </div><p>{site.ui.footer.sampleNotice} © {new Date().getFullYear()}</p>
   </div>
 </footer><style>
   footer {

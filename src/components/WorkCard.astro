@@ -1,5 +1,6 @@
 ---
 import GalleryImage from './GalleryImage.astro';
+import site from '../data/site.json';
 interface Props {
   work: any;
 }
@@ -22,5 +23,5 @@ const { work } = Astro.props;
         <strong>{work.data.priceEur} €</strong>
       </p>
     ) : null
-  }<a href={`/obra/${work.id}/`}>Ver la pieza</a>
+  }<a href={`/obra/${work.id}/`}>{site.ui.artwork.cardCta}</a>
 </article>

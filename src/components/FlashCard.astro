@@ -2,6 +2,7 @@
 import GalleryImage from './GalleryImage.astro';
 import TallyLink from './TallyLink.astro';
 import { forms } from '../config/forms';
+import site from '../data/site.json';
 interface Props {
   flash: any;
 }
@@ -16,6 +17,6 @@ const { flash } = Astro.props;
   </p><TallyLink
     url={forms.tattoo}
     params={{ flashCode: flash.data.code, source: 'portfolio-flash' }}
-    linkStyle>Pedir este flash</TallyLink
+    linkStyle>{site.ui.flash.requestCta}</TallyLink
   >
 </article>

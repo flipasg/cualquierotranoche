@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import TallyLink from '../../components/TallyLink.astro';
 import { forms } from '../../config/forms';
+import site from '../../data/site.json';
 export async function getStaticPaths() {
   return (await getCollection('proyectos', ({ data }) => !data.draft)).map(
     (project) => ({ params: { id: project.id }, props: { project } }),
@@ -15,7 +16,9 @@ const { Content } = await render(project);
 
 <BaseLayout title={project.data.title} description={project.data.description}
   ><article class="container section">
-    <p class="eyebrow">ILUSTRACIÓN / PROYECTO DE MUESTRA</p><h1>
+    <p class="eyebrow">
+      {site.ui.illustration.title} / {site.ui.illustration.projectEyebrow}
+    </p><h1>
       {project.data.title}
     </h1><p>
       {project.data.client} · {project.data.services} · {project.data.year}
@@ -24,7 +27,7 @@ const { Content } = await render(project);
       alt={project.data.coverAlt}
       loading="eager"
     /><section class="section prose">
-      <p class="eyebrow">MI APORTACIÓN</p><h2>
+      <p class="eyebrow">{site.ui.illustration.contributionEyebrow}</p><h2>
         {project.data.contribution}
       </h2><Content />
     </section>{
@@ -37,10 +40,10 @@ const { Content } = await render(project);
         </figure>
       ))
     }<section class="section">
-      <h2>¿Tienes un proyecto en mente?</h2><TallyLink
+      <h2>{site.ui.illustration.contactHeading}</h2><TallyLink
         url={forms.illustration}
         params={{ source: 'portfolio-proyecto' }}
-        >Cuéntame tu proyecto</TallyLink
+        >{site.ui.illustration.contactCta}</TallyLink
       >
     </section>
   </article></BaseLayout

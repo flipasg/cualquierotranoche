@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContentCarousel from '../../components/ContentCarousel.astro';
 import FlashCard from '../../components/FlashCard.astro';
 import TattooCard from '../../components/TattooCard.astro';
+import site from '../../data/site.json';
 const flash = await getCollection(
   'flash',
   ({ data }) => !data.draft && data.showInCarousel,
@@ -14,61 +15,65 @@ const tattoos = await getCollection(
 );
 ---
 
-<BaseLayout title="Tattoo" description="Tatuajes y diseños flash."
+<BaseLayout
+  title={site.ui.tattoo.title}
+  description={site.ui.tattoo.description}
   ><section class="container section">
-    <h1>Tattoo</h1><p class="lead">
-      Una selección de tatuajes y diseños que están buscando su lugar.
+    <h1>{site.ui.tattoo.heading}</h1><p class="lead">
+      {site.ui.tattoo.intro}
     </p><div class="button-row">
-      <a class="button secondary" href="#tatuajes">Tatuajes</a><a
-        class="button secondary"
-        href="#flash">Flash</a
-      >
+      <a class="button secondary" href="#tatuajes">{site.ui.tattoo.tattoos}</a
+      ><a class="button secondary" href="#flash">{site.ui.tattoo.flash}</a>
     </div>
   </section><section id="tatuajes" class="container section">
     <div class="section-heading">
-      <h2>Tatuajes</h2><a href="/tattoo/tatuajes/">Ver todos</a>
-    </div>{
-      tattoos.length ? (
-        <ContentCarousel id="tattoo-carousel" label="Tatuajes">
-          {tattoos.map((item) => (
-            <div class="carousel-item">
-              <TattooCard tattoo={item} />
-            </div>
-          ))}
-        </ContentCarousel>
-      ) : (
-        <p>No hay tatuajes seleccionados para mostrar.</p>
-      )
-    }
-  </section><section id="flash" class="container section">
-    <p class="eyebrow">Diseños de muestra · no son obras reales</p><div
-      class="section-heading"
-    >
-      <h2>Flash</h2><a href="/tattoo/flash/">Ver todos</a>
-    </div>{
-      flash.length ? (
-        <ContentCarousel id="flash-carousel" label="Flash">
-          {flash.map((item) => (
-            <div class="carousel-item">
-              <FlashCard flash={item} />
-            </div>
-          ))}
-        </ContentCarousel>
-      ) : (
-        <p>No hay flash seleccionados para mostrar.</p>
-      )
-    }
+      <h2>{site.ui.tattoo.tattoos}</h2><a href="/tattoo/tatuajes/"
+        >{site.ui.tattoo.viewAll}</a
+      >{
+        tattoos.length ? (
+          <ContentCarousel id="tattoo-carousel" label={site.ui.tattoo.tattoos}>
+            {tattoos.map((item) => (
+              <div class="carousel-item">
+                <TattooCard tattoo={item} />
+              </div>
+            ))}
+          </ContentCarousel>
+        ) : (
+          <p>{site.ui.tattoo.noTattoos}</p>
+        )
+      }
+    </div><section id="flash" class="container section">
+      <p class="eyebrow">{site.ui.tattoo.flashSampleNotice}</p><div
+        class="section-heading"
+      >
+        <h2>{site.ui.tattoo.flash}</h2><a href="/tattoo/flash/"
+          >{site.ui.tattoo.viewAll}</a
+        >{
+          flash.length ? (
+            <ContentCarousel id="flash-carousel" label={site.ui.tattoo.flash}>
+              {flash.map((item) => (
+                <div class="carousel-item">
+                  <FlashCard flash={item} />
+                </div>
+              ))}
+            </ContentCarousel>
+          ) : (
+            <p>{site.ui.tattoo.noFlash}</p>
+          )
+        }
+      </div>
+    </section>
+
+    <style>
+      .section-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .section-heading h2 {
+        margin-bottom: 1rem;
+      }
+    </style>
   </section></BaseLayout
 >
-
-<style>
-  .section-heading {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  .section-heading h2 {
-    margin-bottom: 1rem;
-  }
-</style>

@@ -20,7 +20,8 @@ test('los filtros de obra son controles y filtran las tarjetas por sus datos', (
     page,
     /data-filter="collection"\s+data-collection=\{collection\}/,
   );
-  assert.match(page, /data-filter="available">Ver disponibles<\/button>/);
+  assert.match(page, /data-filter="available"/);
+  assert.match(page, /site\.ui\.artwork\.available/);
   assert.match(page, /card\.hidden =/);
   assert.match(card, /data-work-card/);
   assert.match(card, /data-collection=\{work\.data\.collection\}/);

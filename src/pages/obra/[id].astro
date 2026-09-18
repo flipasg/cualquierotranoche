@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import TallyLink from '../../components/TallyLink.astro';
 import { forms } from '../../config/forms';
+import site from '../../data/site.json';
 export async function getStaticPaths() {
   return (await getCollection('obras', ({ data }) => !data.draft)).map(
     (work) => ({ params: { id: work.id }, props: { work } }),
@@ -15,7 +16,9 @@ const { Content } = await render(work);
 
 <BaseLayout title={work.data.title} description={work.data.description}
   ><article class="container section">
-    <p class="eyebrow">OBRA ORIGINAL / {work.data.collection}</p><h1>
+    <p class="eyebrow">
+      {site.ui.artwork.detailEyebrow} / {work.data.collection}
+    </p><h1>
       {work.data.title}
     </h1><div class="grid grid-2">
       <GalleryImage
@@ -29,10 +32,12 @@ const { Content } = await render(work);
           work.data.showPrice && work.data.priceEur ? (
             <h3>{work.data.priceEur} €</h3>
           ) : null
-        }<p>Envío a consultar</p><div class="prose"><Content /></div><TallyLink
+        }<p>{site.ui.artwork.shipping}</p><div class="prose">
+          <Content />
+        </div><TallyLink
           url={forms.artwork}
           params={{ artworkId: work.id, source: 'portfolio-obra' }}
-          >Me interesa esta obra</TallyLink
+          >{site.ui.artwork.interestCta}</TallyLink
         >
       </div>
     </div>{
