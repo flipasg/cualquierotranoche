@@ -1,9 +1,9 @@
 export const forms = {
-  tattoo: 'https://tally.so/r/REEMPLAZAR',
-  cityAlerts: 'https://tally.so/r/REEMPLAZAR',
-  artwork: 'https://tally.so/r/REEMPLAZAR',
-  illustration: 'https://tally.so/r/REEMPLAZAR',
-  general: 'https://tally.so/r/REEMPLAZAR',
+  tattoo: 'https://tally.so/r/QKG0YY',
+  cityAlerts: 'https://tally.so/r/gDB4vO',
+  artwork: 'https://tally.so/r/Pdo045',
+  illustration: 'https://tally.so/r/1AjExW',
+  general: 'https://tally.so/r/rjXEWM',
 } as const;
 
 type PublicParam = 'flashCode' | 'artworkId' | 'source';
