@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactOptions from '../components/ContactOptions.astro';
+import Eyebrow from '../components/Eyebrow.astro';
 import GuestAgenda from '../components/GuestAgenda.astro';
 import { guests } from '../config/guests';
 import site from '../data/site.json';
@@ -11,6 +12,7 @@ import site from '../data/site.json';
   description={site.ui.contact.description}
   ><section class="container section contact-layout">
     <div>
+      <Eyebrow text={site.ui.contact.eyebrow} />
       <h1>{site.ui.contact.heading}</h1><p class="lead">
         {site.ui.contact.intro}
       </p><ContactOptions />
@@ -28,7 +30,10 @@ import site from '../data/site.json';
     min-width: 0;
   }
   h1 {
-    font-size: clamp(3rem, 7vw, 6rem);
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    letter-spacing: -0.035em;
+    margin-bottom: 2rem;
+    max-width: none;
     overflow-wrap: anywhere;
   }
   .lead {

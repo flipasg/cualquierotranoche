@@ -325,6 +325,7 @@ content:
               [
                 { name: title, label: Título SEO, type: string },
                 { name: description, label: Descripción SEO, type: text },
+                { name: eyebrow, label: Antetítulo, type: string },
                 { name: heading, label: Titular, type: string },
                 { name: intro, label: Introducción, type: text },
               ]
