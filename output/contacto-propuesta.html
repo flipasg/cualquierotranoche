@@ -1,0 +1,314 @@
+<style>
+  #guest-contact-proposal {
+    --guest-bg: #ceb7aa;
+    --guest-ink: #233a4b;
+    --guest-line: #a78f83;
+    background: var(--guest-bg);
+    color: var(--guest-ink);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: clamp(22px, 4vw, 40px);
+    container-type: inline-size;
+  }
+  #guest-contact-proposal * {
+    box-sizing: border-box;
+  }
+  #guest-contact-proposal .guest-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 38px;
+  }
+  #guest-contact-proposal h2,
+  #guest-contact-proposal h3,
+  #guest-contact-proposal p {
+    margin: 0;
+  }
+  #guest-contact-proposal h2 {
+    font-size: clamp(42px, 6vw, 60px);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+  #guest-contact-proposal .guest-intro {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  #guest-contact-proposal .guest-forms {
+    display: grid;
+    gap: 10px;
+  }
+  #guest-contact-proposal a {
+    color: inherit;
+  }
+  #guest-contact-proposal .guest-form {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    border: 1px solid var(--guest-ink);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  #guest-contact-proposal .guest-form:hover {
+    background: #dac8be;
+  }
+  #guest-contact-proposal a:focus-visible {
+    outline: 3px solid var(--guest-ink);
+    outline-offset: 3px;
+  }
+  #guest-contact-proposal .guest-agenda {
+    border-left: 1px solid var(--guest-line);
+    padding-left: 30px;
+  }
+  #guest-contact-proposal .guest-kicker {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  #guest-contact-proposal .guest-agenda h2 {
+    font-size: 34px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 27px;
+  }
+  #guest-contact-proposal h3 {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  #guest-contact-proposal .guest-month + .guest-month {
+    margin-top: 26px;
+  }
+  #guest-contact-proposal ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+  }
+  #guest-contact-proposal .guest-event {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--guest-line);
+  }
+  #guest-contact-proposal .guest-date {
+    background: var(--city-color);
+    color: #233a4b;
+    padding: 12px 6px;
+    text-align: center;
+    font-size: 23px;
+    line-height: 1.2;
+    letter-spacing: -0.045em;
+    border-radius: 4px;
+  }
+  #guest-contact-proposal .guest-city {
+    font-size: 19px;
+    font-weight: 400;
+  }
+  #guest-contact-proposal .guest-inquiry {
+    display: inline-block;
+    font-size: 13px;
+    text-underline-offset: 4px;
+    padding-top: 7px;
+  }
+  #guest-contact-proposal .guest-alert {
+    display: inline-block;
+    font-size: 13px;
+    text-underline-offset: 4px;
+    margin-top: 25px;
+  }
+  #guest-contact-proposal[data-layout='mobile'] .guest-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #guest-contact-proposal[data-layout='mobile'] .guest-agenda {
+    border-left: 0;
+    border-top: 1px solid var(--guest-line);
+    padding: 28px 0 0;
+  }
+  @container (max-width: 530px) {
+    #guest-contact-proposal .guest-layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+    }
+    #guest-contact-proposal .guest-agenda {
+      border-left: 0;
+      border-top: 1px solid var(--guest-line);
+      padding: 28px 0 0;
+    }
+  }
+</style>
+<div
+  id="guest-contact-proposal"
+  aria-label="Propuesta de contacto y próximos guests"
+>
+  <div class="guest-layout">
+    <section aria-labelledby="guest-contact-heading">
+      <h2 id="guest-contact-heading">Hablemos</h2>
+      <p class="guest-intro">
+        Elige qué tienes en mente y cuéntame un poco más.
+      </p>
+      <div class="guest-forms">
+        <a
+          class="guest-form"
+          href="https://tally.so/r/QKG0YY"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Tattoo <span aria-hidden="true">↗</span></a
+        >
+        <a
+          class="guest-form"
+          href="https://tally.so/r/Pdo045"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Obra original <span aria-hidden="true">↗</span></a
+        >
+        <a
+          class="guest-form"
+          href="https://tally.so/r/1AjExW"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Ilustración <span aria-hidden="true">↗</span></a
+        >
+        <a
+          class="guest-form"
+          href="https://tally.so/r/rjXEWM"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Otra consulta <span aria-hidden="true">↗</span></a
+        >
+        <a
+          class="guest-form"
+          href="https://tally.so/r/gDB4vO"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Avisos por ciudad <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </section>
+    <section class="guest-agenda" aria-labelledby="guest-agenda-heading">
+      <p class="guest-kicker">Tattoo · Próximas fechas</p>
+      <h2 id="guest-agenda-heading">Próximos Guests</h2>
+      <div class="guest-month">
+        <h3>Octubre</h3>
+        <ul>
+          <li class="guest-event" style="--city-color: #deb9a0">
+            <span class="guest-date" aria-label="Del 8 al 10 de octubre"
+              >08–10</span
+            >
+            <div>
+              <span class="guest-city">Barcelona</span><br /><a
+                class="guest-inquiry"
+                href="https://tally.so/r/QKG0YY"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Consultar cita para Barcelona"
+                >Consultar cita ↗</a
+              >
+            </div>
+          </li>
+          <li class="guest-event" style="--city-color: #b7c3a7">
+            <span class="guest-date" aria-label="Del 15 al 17 de octubre"
+              >15–17</span
+            >
+            <div>
+              <span class="guest-city">Bilbo</span><br /><a
+                class="guest-inquiry"
+                href="https://tally.so/r/QKG0YY"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Consultar cita para Bilbo"
+                >Consultar cita ↗</a
+              >
+            </div>
+          </li>
+          <li class="guest-event" style="--city-color: #e1c985">
+            <span class="guest-date" aria-label="Del 22 al 24 de octubre"
+              >22–24</span
+            >
+            <div>
+              <span class="guest-city">Valencia</span><br /><a
+                class="guest-inquiry"
+                href="https://tally.so/r/QKG0YY"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Consultar cita para Valencia"
+                >Consultar cita ↗</a
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="guest-month">
+        <h3>Noviembre</h3>
+        <ul>
+          <li class="guest-event" style="--city-color: #b6bdce">
+            <span class="guest-date" aria-label="Del 26 al 28 de noviembre"
+              >26–28</span
+            >
+            <div>
+              <span class="guest-city">Madrid</span><br /><a
+                class="guest-inquiry"
+                href="https://tally.so/r/QKG0YY"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Consultar cita para Madrid"
+                >Consultar cita ↗</a
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+      <a
+        class="guest-alert"
+        href="https://tally.so/r/gDB4vO"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Avísame cuando vengas a mi ciudad ↗</a
+      >
+    </section>
+  </div>
+</div>
+<script>
+  (() => {
+    const root = document.getElementById('guest-contact-proposal');
+    const state = { layout: 'desktop', palette: 'soft' };
+    const palettes = {
+      soft: ['#deb9a0', '#b7c3a7', '#e1c985', '#b6bdce'],
+      neutral: ['#dcc9bd', '#c9c3b2', '#dfcfaf', '#c5c4c9'],
+    };
+    function render() {
+      root.dataset.layout = state.layout;
+      root.querySelectorAll('.guest-event').forEach((event, index) => {
+        event.style.setProperty('--city-color', palettes[state.palette][index]);
+      });
+    }
+    render();
+    if (globalThis.Tweak) {
+      const tweak = new Tweak({ container: root, onChange: render });
+      tweak.addSelect(state, 'layout', {
+        label: 'Distribución',
+        options: [
+          { label: 'Dos columnas', value: 'desktop' },
+          { label: 'Apilado móvil', value: 'mobile' },
+        ],
+      });
+      tweak.addSelect(state, 'palette', {
+        label: 'Acentos de ciudad',
+        options: [
+          { label: 'Colores suaves', value: 'soft' },
+          { label: 'Más discretos', value: 'neutral' },
+        ],
+      });
+    }
+  })();
+</script>

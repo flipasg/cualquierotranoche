@@ -1,0 +1,13 @@
+---
+interface Props {
+  text?: string | null;
+  prefix?: string | null;
+  suffix?: string | null;
+}
+
+const { text, prefix, suffix } = Astro.props;
+const label = text?.trim();
+const parts = [prefix?.trim(), label, suffix?.trim()].filter(Boolean);
+---
+
+{label && <p class="eyebrow">{parts.join(' / ')}</p>}

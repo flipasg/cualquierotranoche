@@ -1,0 +1,167 @@
+<dialog id="image-viewer" class="image-viewer" aria-label="Visor de imágenes">
+  <div class="image-viewer__layout">
+    <div class="image-viewer__toolbar">
+      <div
+        class="image-viewer__zoom"
+        role="group"
+        aria-label="Zoom de la imagen"
+      >
+        <button
+          type="button"
+          data-viewer-out
+          aria-label="Reducir imagen"
+          disabled>−</button
+        >
+        <output data-viewer-zoom aria-live="polite" aria-label="Nivel de zoom"
+          >100 %</output
+        >
+        <button
+          type="button"
+          data-viewer-in
+          aria-label="Ampliar imagen"
+          disabled>+</button
+        >
+        <button type="button" data-viewer-reset disabled>Ajustar</button>
+      </div>
+      <button type="button" data-viewer-close autofocus>Cerrar ×</button>
+    </div>
+    <div
+      class="image-viewer__viewport"
+      data-viewer-viewport
+      tabindex="0"
+      aria-label="Imagen ampliada"
+      aria-describedby="image-viewer-help"
+    >
+      <img data-viewer-image alt="" draggable="false" hidden />
+      <p data-viewer-message role="status">Cargando imagen…</p>
+    </div>
+    <div class="image-viewer__footer">
+      <p data-viewer-caption></p>
+      <p id="image-viewer-help">
+        Amplía con +, la rueda o dos dedos. Arrastra para explorar. Con teclado:
+        + / −, flechas y 0 para ajustar. Esc para cerrar.
+      </p>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .image-viewer {
+    width: calc(100% - 2rem);
+    max-width: 1600px;
+    height: calc(100dvh - 2rem);
+    max-height: none;
+    padding: 0;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    color: var(--color-text);
+    overflow: hidden;
+  }
+  .image-viewer::backdrop {
+    background: rgb(0 0 0 / 80%);
+  }
+  .image-viewer__layout {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    height: 100%;
+  }
+  .image-viewer__toolbar,
+  .image-viewer__zoom {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .image-viewer__toolbar {
+    justify-content: space-between;
+    padding: 0.75rem;
+  }
+  .image-viewer button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .image-viewer button:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  .image-viewer output {
+    min-width: 4.5ch;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .image-viewer__viewport {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    background: var(--color-text);
+    color: var(--color-bg);
+    touch-action: none;
+    user-select: none;
+    cursor: zoom-in;
+  }
+  .image-viewer__viewport:focus-visible {
+    outline-color: var(--color-bg);
+    outline-offset: -4px;
+  }
+  .image-viewer__viewport[data-zoomed='true'] {
+    cursor: grab;
+  }
+  .image-viewer__viewport[data-dragging='true'] {
+    cursor: grabbing;
+  }
+  .image-viewer__viewport img {
+    grid-area: 1 / 1;
+    max-width: none;
+    pointer-events: none;
+  }
+  .image-viewer__viewport [hidden] {
+    display: none;
+  }
+  .image-viewer__viewport p {
+    margin: 1rem;
+    text-align: center;
+  }
+  .image-viewer__footer {
+    padding: 0.75rem 1rem;
+    max-height: 25dvh;
+    overflow: auto;
+  }
+  .image-viewer__footer p {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  #image-viewer-help {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin-top: 0.25rem;
+  }
+  @media (max-width: 600px) {
+    .image-viewer {
+      width: 100%;
+      max-width: 100%;
+      height: 100dvh;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+    }
+    .image-viewer__toolbar {
+      padding: 0.5rem;
+      gap: 0.25rem;
+    }
+    .image-viewer__zoom {
+      gap: 0.25rem;
+    }
+  }
+</style>
+
+<script is:inline type="module" src="/scripts/image-viewer.js"></script>

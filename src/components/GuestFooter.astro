@@ -1,0 +1,138 @@
+---
+import {
+  guestDateRange,
+  visibleGuests,
+  type GuestsConfig,
+} from '../lib/guests';
+
+interface Props {
+  config: GuestsConfig;
+  pathname: string;
+}
+const { config, pathname } = Astro.props;
+const entries = visibleGuests(config.entries);
+const show =
+  config.showInFooter &&
+  pathname.replace(/\/+$/, '') !== '/contacto' &&
+  entries.length > 0;
+---
+
+{
+  show && (
+    <section class="footer-guests" aria-labelledby="footer-guests-heading">
+      <h2 id="footer-guests-heading">
+        <a href="/contacto/#proximos-guests">
+          {config.footerHeading} <span aria-hidden="true">→</span>
+        </a>
+      </h2>
+      <ul>
+        {entries.map((guest) => (
+          <li>
+            <a class="footer-guest" href={`/contacto/#guest-${guest.id}`}>
+              <span class="footer-guest-title">
+                <span
+                  class="guest-dot"
+                  style={{ backgroundColor: guest.color }}
+                  aria-hidden="true"
+                />
+                <span>{guest.city}</span>
+                <span class="guest-range">{guestDateRange(guest)}</span>
+              </span>
+              {guest.studio && <span class="guest-studio">{guest.studio}</span>}
+              {guest.address && (
+                <span class="guest-address">{guest.address}</span>
+              )}
+              {guest.description && (
+                <span class="guest-description">{guest.description}</span>
+              )}
+            </a>
+            {guest.mapsUrl && (
+              <a
+                class="guest-map"
+                href={guest.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${config.mapsLabel}: ${guest.city}`}
+              >
+                {config.mapsLabel} <span aria-hidden="true">↗</span>
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .footer-guests {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+  h2 a {
+    display: inline-block;
+    padding-block: 0.4rem;
+    text-decoration: none;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li + li {
+    border-top: 1px solid var(--color-border);
+  }
+  .footer-guest {
+    display: block;
+    padding: 0.7rem 0;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .footer-guest-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.5rem;
+  }
+  .guest-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .guest-range {
+    font-size: 0.8rem;
+    margin-left: auto;
+  }
+  .guest-studio,
+  .guest-address,
+  .guest-description {
+    display: block;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    padding-left: 1.05rem;
+  }
+  .guest-description,
+  .guest-address {
+    white-space: pre-line;
+  }
+  .guest-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    min-height: 44px;
+    margin-left: 1.05rem;
+    font-size: 0.8rem;
+    text-underline-offset: 0.25em;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+</style>

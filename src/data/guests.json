@@ -1,0 +1,60 @@
+{
+  "heading": "Próximos Guests",
+  "eyebrow": "Tattoo · Próximas fechas",
+  "inquiryLabel": "Consultar cita",
+  "mapsLabel": "Ver en Google Maps",
+  "alertsLabel": "Avísame cuando vengas a mi ciudad",
+  "emptyMessage": "Pronto anunciaré nuevas fechas. Puedes apuntarte para recibir avisos de tu ciudad.",
+  "footerHeading": "Próximos Guests",
+  "showInFooter": true,
+  "entries": [
+    {
+      "id": "barcelona-octubre",
+      "city": "Barcelona",
+      "studio": "",
+      "address": "",
+      "mapsUrl": "",
+      "description": "",
+      "startDate": "2026-10-08",
+      "endDate": "2026-10-10",
+      "color": "#deb9a0",
+      "visible": true
+    },
+    {
+      "id": "bilbo-octubre",
+      "city": "Bilbo",
+      "studio": "",
+      "address": "",
+      "mapsUrl": "",
+      "description": "",
+      "startDate": "2026-10-15",
+      "endDate": "2026-10-17",
+      "color": "#b7c3a7",
+      "visible": true
+    },
+    {
+      "id": "valencia-octubre",
+      "city": "Valencia",
+      "studio": "",
+      "address": "",
+      "mapsUrl": "",
+      "description": "",
+      "startDate": "2026-10-22",
+      "endDate": "2026-10-24",
+      "color": "#e1c985",
+      "visible": true
+    },
+    {
+      "id": "madrid-noviembre",
+      "city": "Madrid",
+      "studio": "",
+      "address": "",
+      "mapsUrl": "",
+      "description": "",
+      "startDate": "2026-11-26",
+      "endDate": "2026-11-28",
+      "color": "#b6bdce",
+      "visible": true
+    }
+  ]
+}

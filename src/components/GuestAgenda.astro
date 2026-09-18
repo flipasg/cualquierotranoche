@@ -1,0 +1,229 @@
+---
+import { forms } from '../config/forms';
+import {
+  groupGuestsByMonth,
+  guestDateColor,
+  guestDateRange,
+  guestDays,
+  type GuestsConfig,
+} from '../lib/guests';
+import TallyLink from './TallyLink.astro';
+
+interface Props {
+  config: GuestsConfig;
+}
+const { config } = Astro.props;
+const groups = groupGuestsByMonth(config.entries);
+---
+
+<section
+  id="proximos-guests"
+  class="guest-agenda"
+  aria-labelledby="guests-heading"
+>
+  {config.eyebrow && <p class="eyebrow">{config.eyebrow}</p>}
+  <h2 id="guests-heading">{config.heading}</h2>
+  {
+    groups.length ? (
+      groups.map((group) => (
+        <section class="guest-month" aria-labelledby={`month-${group.key}`}>
+          <h3 id={`month-${group.key}`}>{group.label}</h3>
+          <ul>
+            {group.entries.map((guest) => (
+              <li id={`guest-${guest.id}`} class="guest-event">
+                <time
+                  datetime={guest.startDate}
+                  class:list={[
+                    'guest-date',
+                    {
+                      'guest-date--long':
+                        guest.startDate.slice(0, 7) !==
+                        guest.endDate.slice(0, 7),
+                    },
+                  ]}
+                  style={{
+                    backgroundColor: guest.color,
+                    color: guestDateColor(guest.color),
+                  }}
+                  aria-label={guestDateRange(guest)}
+                >
+                  {guestDays(guest)}
+                </time>
+
+                <div class="guest-details">
+                  <h4>{guest.city}</h4>
+                  {guest.studio && <p class="guest-studio">{guest.studio}</p>}
+                  {guest.address && (
+                    <p class="guest-address">{guest.address}</p>
+                  )}
+                  {guest.description && (
+                    <p class="guest-description">{guest.description}</p>
+                  )}
+                  {guest.startDate.slice(0, 4) !==
+                    guest.endDate.slice(0, 4) && (
+                    <p class="guest-description">{guestDateRange(guest)}</p>
+                  )}
+                  <div class="guest-actions">
+                    <TallyLink
+                      url={forms.tattoo}
+                      params={{ source: `portfolio-guest-${guest.id}` }}
+                      linkStyle
+                    >
+                      {config.inquiryLabel}
+                      <span class="sr-only">
+                        : {guest.city}, {guestDateRange(guest)}
+                      </span>{' '}
+                      <span aria-hidden="true">↗</span>
+                    </TallyLink>
+                    {guest.mapsUrl && (
+                      <a
+                        class="guest-map"
+                        href={guest.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {config.mapsLabel}
+                        <span class="sr-only">: {guest.city}</span>{' '}
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    ) : (
+      <p class="guest-empty">{config.emptyMessage}</p>
+    )
+  }
+  <div class="guest-alerts">
+    <TallyLink
+      url={forms.cityAlerts}
+      params={{ source: 'portfolio-guests-alerts' }}
+      linkStyle
+    >
+      {config.alertsLabel}
+      <span aria-hidden="true">↗</span>
+    </TallyLink>
+  </div>
+</section>
+
+<style>
+  .guest-agenda,
+  .guest-event {
+    scroll-margin-top: 8rem;
+  }
+  .guest-agenda h2 {
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    letter-spacing: -0.035em;
+    margin-bottom: 2rem;
+  }
+  .guest-month + .guest-month {
+    margin-top: 2rem;
+  }
+  .guest-month h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .guest-event {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .guest-date {
+    display: grid;
+    place-items: center;
+    min-height: 4.5rem;
+    padding: 0.75rem 0.3rem;
+    border-radius: var(--radius);
+    font-size: 1.7rem;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+  .guest-date--long {
+    font-size: 1rem;
+  }
+  .guest-details {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  h4 {
+    margin: 0 0 0.2rem;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    font-weight: 400;
+  }
+  .guest-studio {
+    margin: 0.35rem 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .guest-description,
+  .guest-address {
+    margin: 0.5rem 0;
+    white-space: pre-line;
+    font-size: 0.95rem;
+  }
+  .guest-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.25rem;
+  }
+  .guest-map {
+    text-underline-offset: 0.25em;
+  }
+  .guest-details :global(.link-button),
+  .guest-map {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.3em;
+    min-height: 44px;
+    font-size: 0.85rem;
+    font-weight: 400;
+  }
+  .guest-alerts {
+    margin-top: 1.5rem;
+  }
+  .guest-alerts :global(.link-button) {
+    display: inline-block;
+    padding-block: 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 380px) {
+    .guest-event {
+      grid-template-columns: 5.5rem minmax(0, 1fr);
+      gap: 1rem;
+    }
+    .guest-date {
+      font-size: 1.4rem;
+    }
+    .guest-date--long {
+      font-size: 0.85rem;
+    }
+  }
+</style>
