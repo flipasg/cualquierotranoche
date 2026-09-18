@@ -14,7 +14,9 @@ const flash = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/flash' }),
   schema: base.extend({
     code: z.string(),
-    status: z.enum(['disponible', 'reservado', 'tatuado']),
+    status: z
+      .enum(['disponible', 'reservado', 'tatuado'])
+      .default('disponible'),
     note: z.string(),
     showInCarousel: z.boolean().default(true),
     categories: z.array(z.string().min(1)).default([]),
