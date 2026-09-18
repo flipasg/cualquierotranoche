@@ -464,7 +464,7 @@ content:
                 },
               ]
   - name: social
-    label: Compartir y favicon
+    label: Compartir en redes y favicon
     type: file
     path: src/data/social.json
     format: json
@@ -472,21 +472,22 @@ content:
       - { name: favicon, label: Favicon, type: image, required: true }
       - {
           name: title,
-          label: Título al compartir,
+          label: Título general para compartir la portada,
           type: string,
           required: true,
         }
       - {
           name: description,
-          label: Descripción al compartir,
+          label: Descripción general para compartir la portada,
           type: text,
           required: true,
         }
       - {
           name: image,
-          label: Imagen única al compartir,
+          label: Imagen general de respaldo,
           type: image,
           required: true,
+          description: 'JPG, PNG o WebP. Recomendado: 1200 × 630 píxeles, con margen alrededor de textos y logotipos.',
         }
       - {
           name: imageAlt,
@@ -494,6 +495,33 @@ content:
           type: string,
           required: true,
         }
+      - name: pages
+        label: Personalizar cada página
+        type: object
+        list: true
+        description: Los campos vacíos usan los valores automáticos. Las obras y proyectos usan su portada si es JPG, PNG o WebP; las demás páginas usan la imagen general.
+        fields:
+          - name: path
+            label: Ruta de la página
+            type: string
+            required: true
+            description: 'Por ejemplo /, /tattoo/ o /obra/nombre-de-la-obra/. Copia solo la ruta, sin dominio, parámetros ni #. Cada ruta debe aparecer una sola vez.'
+          - name: title
+            label: Título al compartir
+            type: string
+            description: Opcional. Si queda vacío se usa el título de la página; en Inicio se usa el título general de esta sección.
+          - name: description
+            label: Descripción al compartir
+            type: text
+            description: Opcional. Si queda vacía se usa la descripción de la página; en Inicio se usa la descripción general de esta sección.
+          - name: image
+            label: Imagen al compartir
+            type: image
+            description: 'Opcional. JPG, PNG o WebP; recomendado 1200 × 630 píxeles. No uses SVG. Añade también su descripción alternativa.'
+          - name: imageAlt
+            label: Descripción alternativa de la imagen
+            type: string
+            description: Describe lo que se ve. Obligatoria si eliges una imagen propia; deja ambos campos vacíos para usar la imagen automática.
   - name: guests
     label: Próximos Guests
     type: file

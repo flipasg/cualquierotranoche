@@ -12,16 +12,27 @@ const input = 'media/uploads',
 await mkdir(output, { recursive: true });
 await mkdir('src/generated', { recursive: true });
 const drafts = new Set();
+const published = new Set();
+const social = JSON.parse(await readFile('src/data/social.json', 'utf8'));
+for (const path of [
+  social.favicon,
+  social.image,
+  ...(social.pages ?? []).map((page) => page.image),
+]) {
+  if (path) published.add(path.replace(/^\/uploads\//, ''));
+}
 for (const folder of ['flash', 'tattoos', 'obras', 'proyectos', 'paginas'])
   for (const file of await readdir(join('src/content', folder))) {
     if (!file.endsWith('.md')) continue;
     const raw = await readFile(join('src/content', folder, file), 'utf8');
-    if (/\ndraft:\s*true\s*\n/.test(raw))
-      for (const m of raw.matchAll(/\/uploads\/([^"'\n]+)/g)) drafts.add(m[1]);
+    const references = /\ndraft:\s*true\s*\n/.test(raw) ? drafts : published;
+    for (const m of raw.matchAll(/\/uploads\/([^"'\n]+)/g))
+      references.add(m[1]);
   }
 const manifest = {};
 for (const name of await readdir(input)) {
-  if (drafts.has(name)) continue;
+  // Una imagen compartida con contenido público o redes no es exclusiva del borrador.
+  if (drafts.has(name) && !published.has(name)) continue;
   const ext = extname(name).toLowerCase();
   const source = join(input, name);
   if (ext === '.svg') {

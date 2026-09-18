@@ -53,8 +53,9 @@ pendientes de formato.
   `src/data/ciudades.json`. La sección
   de portada `home` reúne su titular, llamadas a la acción y las tarjetas de
   disciplinas; cada tarjeta incluye título, texto, enlace, imagen y texto
-  alternativo. `social.json` controla un único favicon, una única imagen para
-  compartir y sus textos en Open Graph y Twitter.
+  alternativo. `social.json` controla el favicon, la imagen general para compartir
+  y las imágenes y textos por página en Open Graph y Twitter. Consulta la
+  [guía de imágenes sociales y publicación](docs/seo-y-compartir.md).
 - Guests: `src/data/guests.json` configura la agenda de Contacto y el resumen
   del pie de página. En Pages CMS aparece como **Próximos Guests**: cada visita
   tiene ciudad, estudio, dirección, enlace a Google Maps, descripción, inicio,

@@ -15,7 +15,11 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 ---
 
-<BaseLayout title={project.data.title} description={project.data.description}
+<BaseLayout
+  title={project.data.title}
+  description={project.data.description}
+  socialImage={project.data.cover}
+  socialImageAlt={project.data.coverAlt}
   ><article class="container section">
     <Eyebrow
       text={site.ui.illustration.projectEyebrow}

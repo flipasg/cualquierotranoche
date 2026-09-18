@@ -2,21 +2,41 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ImageViewer from '../components/ImageViewer.astro';
+import SocialMeta from '../components/SocialMeta.astro';
 import site from '../data/site.json';
-import social from '../data/social.json';
+import { social } from '../config/social';
+import { resolveSocial } from '../lib/social';
 import media from '../generated/media.json';
 import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
   showFooter?: boolean;
+  socialImage?: string;
+  socialImageAlt?: string;
 }
-const { title, description, showFooter = true } = Astro.props;
+const {
+  title,
+  description,
+  showFooter = true,
+  socialImage,
+  socialImageAlt,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const mediaPath = (path: string) =>
   media[path as keyof typeof media]?.src ?? path;
 const favicon = mediaPath(social.favicon);
-const socialImage = new URL(mediaPath(social.image), Astro.site);
+const metadata = resolveSocial(
+  social,
+  {
+    pathname: Astro.url.pathname,
+    title: `${title} · ${site.artisticName}`,
+    description,
+    image: socialImage,
+    imageAlt: socialImageAlt,
+  },
+  media,
+);
 ---
 
 <!doctype html>
@@ -28,30 +48,15 @@ const socialImage = new URL(mediaPath(social.image), Astro.site);
     /><meta name="description" content={description} /><link
       rel="icon"
       href={favicon}
-    /><link rel="canonical" href={canonical} /><meta
-      property="og:type"
-      content="website"
-    /><meta property="og:title" content={social.title} /><meta
-      property="og:description"
-      content={social.description}
-    /><meta property="og:url" content={canonical} /><meta
-      property="og:site_name"
-      content={site.artisticName}
-    /><meta property="og:image" content={socialImage} /><meta
-      property="og:image:alt"
-      content={social.imageAlt}
-    /><meta name="twitter:card" content="summary_large_image" /><meta
-      name="twitter:title"
-      content={social.title}
-    /><meta name="twitter:description" content={social.description} /><meta
-      name="twitter:image"
-      content={socialImage}
-    /><meta name="twitter:image:alt" content={social.imageAlt} /><title>
+    /><link rel="canonical" href={canonical} /><SocialMeta
+      metadata={metadata}
+      canonical={canonical}
+      siteName={site.artisticName}
+    /><title>
       {title} · {site.artisticName}
     </title></head
   ><body
     ><a class="skip-link" href="#contenido">{site.ui.skipLink}</a><Header
     /><main id="contenido"><slot /></main>{showFooter && <Footer />}<ImageViewer
-    /></body
-  >
+    /></body>
 </html>

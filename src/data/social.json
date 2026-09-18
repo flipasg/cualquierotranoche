@@ -3,5 +3,63 @@
   "title": "Nombre artístico",
   "description": "Tattoo, obra original e ilustración.",
   "image": "/uploads/codex-image-14-sept-2026-163046.png",
-  "imageAlt": "Imagen para compartir del portfolio de Nombre artístico"
+  "imageAlt": "Imagen para compartir del portfolio de Nombre artístico",
+  "pages": [
+    {
+      "path": "/",
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAlt": ""
+    },
+    {
+      "path": "/tattoo/",
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAlt": ""
+    },
+    {
+      "path": "/tattoo/tatuajes/",
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAlt": ""
+    },
+    {
+      "path": "/tattoo/flash/",
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAlt": ""
+    },
+    {
+      "path": "/obra/",
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAlt": ""
+    },
+    {
+      "path": "/ilustracion/",
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAlt": ""
+    },
+    {
+      "path": "/sobre-mi/",
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAlt": ""
+    },
+    {
+      "path": "/contacto/",
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAlt": ""
+    }
+  ]
 }
