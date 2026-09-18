@@ -26,54 +26,52 @@ const tattoos = await getCollection(
       ><a class="button secondary" href="#flash">{site.ui.tattoo.flash}</a>
     </div>
   </section><section id="tatuajes" class="container section">
-    <div class="section-heading">
-      <h2>{site.ui.tattoo.tattoos}</h2><a href="/tattoo/tatuajes/"
-        >{site.ui.tattoo.viewAll}</a
-      >{
-        tattoos.length ? (
-          <ContentCarousel id="tattoo-carousel" label={site.ui.tattoo.tattoos}>
-            {tattoos.map((item) => (
-              <div class="carousel-item">
-                <TattooCard tattoo={item} />
-              </div>
-            ))}
-          </ContentCarousel>
-        ) : (
-          <p>{site.ui.tattoo.noTattoos}</p>
-        )
-      }
-    </div><section id="flash" class="container section">
-      <p class="eyebrow">{site.ui.tattoo.flashSampleNotice}</p><div
-        class="section-heading"
-      >
-        <h2>{site.ui.tattoo.flash}</h2><a href="/tattoo/flash/"
-          >{site.ui.tattoo.viewAll}</a
-        >{
-          flash.length ? (
-            <ContentCarousel id="flash-carousel" label={site.ui.tattoo.flash}>
-              {flash.map((item) => (
-                <div class="carousel-item">
-                  <FlashCard flash={item} />
-                </div>
-              ))}
-            </ContentCarousel>
-          ) : (
+    {
+      tattoos.length ? (
+        <ContentCarousel
+          id="tattoo-carousel"
+          label={site.ui.tattoo.tattoos}
+          viewAllHref="/tattoo/tatuajes/"
+          viewAllLabel={site.ui.tattoo.viewAll}
+        >
+          {tattoos.map((item) => (
+            <div class="carousel-item">
+              <TattooCard tattoo={item} />
+            </div>
+          ))}
+        </ContentCarousel>
+      ) : (
+        <>
+          <>
+            <h2>{site.ui.tattoo.tattoos}</h2>
+            <p>{site.ui.tattoo.noTattoos}</p>
+          </>
+        </>
+      )
+    }
+  </section><section id="flash" class="container section">
+    <p class="eyebrow">{site.ui.tattoo.flashSampleNotice}</p>{
+      flash.length ? (
+        <ContentCarousel
+          id="flash-carousel"
+          label={site.ui.tattoo.flash}
+          viewAllHref="/tattoo/flash/"
+          viewAllLabel={site.ui.tattoo.viewAll}
+        >
+          {flash.map((item) => (
+            <div class="carousel-item">
+              <FlashCard flash={item} />
+            </div>
+          ))}
+        </ContentCarousel>
+      ) : (
+        <>
+          <>
+            <h2>{site.ui.tattoo.flash}</h2>
             <p>{site.ui.tattoo.noFlash}</p>
-          )
-        }
-      </div>
-    </section>
-
-    <style>
-      .section-heading {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 1rem;
-      }
-      .section-heading h2 {
-        margin-bottom: 1rem;
-      }
-    </style>
-  </section></BaseLayout
->
+          </>
+        </>
+      )
+    }
+  </section>
+</BaseLayout>

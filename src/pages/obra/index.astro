@@ -41,30 +41,4 @@ const collections = [
   </section></BaseLayout
 >
 
-<script>
-  const filters =
-    document.querySelectorAll<HTMLButtonElement>('.filters button');
-  const cards = document.querySelectorAll<HTMLElement>('[data-work-card]');
-
-  filters.forEach((filter) => {
-    filter.addEventListener('click', () => {
-      const type = filter.dataset.filter;
-      const collection = filter.dataset.collection;
-
-      cards.forEach((card) => {
-        const matchesCollection = card.dataset.collection === collection;
-        const isAvailable = card.dataset.status === 'disponible';
-        card.hidden =
-          type === 'collection'
-            ? !matchesCollection
-            : type === 'available'
-              ? !isAvailable
-              : false;
-      });
-
-      filters.forEach((button) => {
-        button.setAttribute('aria-pressed', String(button === filter));
-      });
-    });
-  });
-</script>
+<script is:inline src="/scripts/obra-filters.js"></script>

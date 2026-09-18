@@ -445,6 +445,37 @@ content:
                   type: string,
                 },
               ]
+  - name: social
+    label: Compartir y favicon
+    type: file
+    path: src/data/social.json
+    format: json
+    fields:
+      - { name: favicon, label: Favicon, type: image, required: true }
+      - {
+          name: title,
+          label: Título al compartir,
+          type: string,
+          required: true,
+        }
+      - {
+          name: description,
+          label: Descripción al compartir,
+          type: text,
+          required: true,
+        }
+      - {
+          name: image,
+          label: Imagen única al compartir,
+          type: image,
+          required: true,
+        }
+      - {
+          name: imageAlt,
+          label: Descripción de la imagen al compartir,
+          type: string,
+          required: true,
+        }
   - name: ciudades
     label: Ciudades
     type: file

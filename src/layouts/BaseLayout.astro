@@ -2,6 +2,8 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import site from '../data/site.json';
+import social from '../data/social.json';
+import media from '../generated/media.json';
 import '../styles/global.css';
 interface Props {
   title: string;
@@ -9,6 +11,10 @@ interface Props {
 }
 const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const mediaPath = (path: string) =>
+  media[path as keyof typeof media]?.src ?? path;
+const favicon = mediaPath(social.favicon);
+const socialImage = new URL(mediaPath(social.image), Astro.site);
 ---
 
 <!doctype html>
@@ -18,15 +24,29 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       name="viewport"
       content="width=device-width"
     /><meta name="description" content={description} /><link
-      rel="canonical"
-      href={canonical}
-    /><meta property="og:type" content="website" /><meta
-      property="og:title"
-      content={title}
-    /><meta property="og:description" content={description} /><meta
-      property="og:url"
-      content={canonical}
-    /><title>{title} · {site.artisticName}</title></head
+      rel="icon"
+      href={favicon}
+    /><link rel="canonical" href={canonical} /><meta
+      property="og:type"
+      content="website"
+    /><meta property="og:title" content={social.title} /><meta
+      property="og:description"
+      content={social.description}
+    /><meta property="og:url" content={canonical} /><meta
+      property="og:site_name"
+      content={site.artisticName}
+    /><meta property="og:image" content={socialImage} /><meta
+      property="og:image:alt"
+      content={social.imageAlt}
+    /><meta name="twitter:card" content="summary_large_image" /><meta
+      name="twitter:title"
+      content={social.title}
+    /><meta name="twitter:description" content={social.description} /><meta
+      name="twitter:image"
+      content={socialImage}
+    /><meta name="twitter:image:alt" content={social.imageAlt} /><title>
+      {title} · {site.artisticName}
+    </title></head
   ><body
     ><a class="skip-link" href="#contenido">{site.ui.skipLink}</a><Header
     /><main id="contenido"><slot /></main><Footer /></body

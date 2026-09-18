@@ -8,7 +8,7 @@ Astro en modo estático, TypeScript estricto, Content Collections + Zod, Markdow
 
 ## Instalación y desarrollo
 
-Requiere Node.js 20 o superior.
+Requiere Node.js 20.19.5 o superior.
 
 ```bash
 npm install
@@ -43,10 +43,12 @@ pendientes de formato.
 ## Editar contenido
 
 - Fichas Markdown: `src/content/{flash,tattoos,obras,proyectos,paginas}/`.
-- Datos globales: `src/data/site.json` y `src/data/ciudades.json`. La sección
+- Datos globales: `src/data/site.json`, `src/data/social.json` y
+  `src/data/ciudades.json`. La sección
   de portada `home` reúne su titular, llamadas a la acción y las tarjetas de
   disciplinas; cada tarjeta incluye título, texto, enlace, imagen y texto
-  alternativo.
+  alternativo. `social.json` controla un único favicon, una única imagen para
+  compartir y sus textos en Open Graph y Twitter.
 - Formularios Tally: seguir [la guía de creación y conexión](docs/tally.md) y sustituir cada URL `REEMPLAZAR` en `src/config/forms.ts`. Mientras falte una URL válida, se muestra el estado pendiente sin un enlace roto. `npm test` comprueba las referencias y los parámetros permitidos.
 - Imágenes originales: añadir a `media/uploads/` y usar una ruta `/uploads/archivo.ext` en el frontmatter.
 - Marcar `draft: true` excluye una ficha de páginas públicas y su imagen exclusiva del procesamiento.
@@ -68,13 +70,16 @@ Conectar el repositorio y configurar:
 
 - **Build command:** `npm run build`
 - **Output directory:** `dist`
-- **Node:** 20 o superior
+- **Node:** 20.19.5 o superior
 
-No hacen falta variables secretas. Antes de desplegar, actualizar `site` en `astro.config.mjs`, el sitemap de `public/robots.txt` y los enlaces de Tally.
+No hacen falta variables secretas. Antes de desplegar, actualizar `site` en
+`astro.config.mjs` y los enlaces de Tally. El sitemap se genera durante el
+build; `public/robots.txt` apunta a su índice.
 
 ## Sustituir los placeholders
 
-1. Cambiar nombre, intro, email e Instagram en `src/data/site.json`.
+1. Cambiar nombre, intro, email e Instagram en `src/data/site.json` y sustituir
+   el favicon, la imagen y los textos provisionales de `src/data/social.json`.
 2. Reemplazar los SVG en `media/uploads/` por JPG, PNG, WebP o SVG propios.
 3. Actualizar las rutas, dimensiones, estados, precios y textos alternativos en cada Markdown.
 4. Sustituir los textos provisionales, incluido `src/content/paginas/sobre-mi.md`.

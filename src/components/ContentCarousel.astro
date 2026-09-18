@@ -3,23 +3,31 @@ import site from '../data/site.json';
 interface Props {
   id: string;
   label: string;
+  viewAllHref: string;
+  viewAllLabel: string;
 }
 
-const { id, label } = Astro.props;
+const { id, label, viewAllHref, viewAllLabel } = Astro.props;
 ---
 
 <div class="carousel" data-carousel>
-  <div
-    class="carousel-controls"
-    data-carousel-controls
-    aria-label={`${site.ui.carousel.controlsPrefix} ${label}`}
-    hidden
-  >
-    <button type="button" data-carousel-previous aria-controls={id}>
-      {site.ui.carousel.previous}
-    </button><button type="button" data-carousel-next aria-controls={id}>
-      {site.ui.carousel.next}
-    </button>
+  <div class="carousel-heading">
+    <h2>{label}</h2>
+    <div class="carousel-actions">
+      <a href={viewAllHref}>{viewAllLabel}</a>
+      <div
+        class="carousel-controls"
+        data-carousel-controls
+        aria-label={`${site.ui.carousel.controlsPrefix} ${label}`}
+        hidden
+      >
+        <button type="button" data-carousel-previous aria-controls={id}>
+          {site.ui.carousel.previous}
+        </button><button type="button" data-carousel-next aria-controls={id}>
+          {site.ui.carousel.next}
+        </button>
+      </div>
+    </div>
   </div><div
     id={id}
     class="carousel-track"
@@ -34,7 +42,27 @@ const { id, label } = Astro.props;
 <style>
   .carousel {
     display: grid;
+    min-width: 0;
     gap: 1rem;
+  }
+  .carousel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .carousel-heading h2 {
+    margin: 0;
+  }
+  .carousel-actions {
+    display: grid;
+    justify-items: end;
+    gap: 0.375rem;
+    margin-left: auto;
+  }
+  .carousel-controls[hidden] {
+    display: none;
   }
   .carousel-controls {
     display: flex;
@@ -42,12 +70,14 @@ const { id, label } = Astro.props;
     gap: 0.5rem;
   }
   .carousel-controls button {
-    min-height: 2.5rem;
+    min-height: 2rem;
+    padding: 0.2rem 0.5rem;
     border: 1px solid var(--color-accent);
     border-radius: var(--radius);
     background: transparent;
     color: inherit;
     font: inherit;
+    font-size: 0.875rem;
     cursor: pointer;
   }
   .carousel-track {
@@ -81,51 +111,4 @@ const { id, label } = Astro.props;
   }
 </style>
 
-<script>
-  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ? 'auto'
-    : 'smooth';
-
-  document
-    .querySelectorAll<HTMLElement>('[data-carousel]')
-    .forEach((carousel) => {
-      const track = carousel.querySelector<HTMLElement>(
-        '[data-carousel-track]',
-      );
-      const previous = carousel.querySelector<HTMLButtonElement>(
-        '[data-carousel-previous]',
-      );
-      const next = carousel.querySelector<HTMLButtonElement>(
-        '[data-carousel-next]',
-      );
-      const controls = carousel.querySelector<HTMLElement>(
-        '[data-carousel-controls]',
-      );
-
-      if (!track || !previous || !next || !controls) return;
-
-      const updateControls = () => {
-        controls.hidden = track.scrollWidth <= track.clientWidth + 1;
-      };
-
-      const scroll = (direction: 1 | -1) => {
-        track.scrollBy({
-          left: direction * track.clientWidth * 0.85,
-          behavior,
-        });
-      };
-
-      previous.addEventListener('click', () => scroll(-1));
-      next.addEventListener('click', () => scroll(1));
-      track.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowLeft') scroll(-1);
-        if (event.key === 'ArrowRight') scroll(1);
-      });
-
-      track.querySelectorAll('img').forEach((image) => {
-        image.addEventListener('load', updateControls);
-      });
-      new ResizeObserver(updateControls).observe(track);
-      requestAnimationFrame(updateControls);
-    });
-</script>
+<script is:inline type="module" src="/scripts/content-carousel.js"></script>
