@@ -1,7 +1,41 @@
 {
   "name": "[nombre]",
   "artisticName": "Nombre artístico",
-  "intro": "Soy [nombre]. Trabajo entre la piel, el papel y la imagen. Aquí puedes descubrir mis piezas y contarme qué tienes en mente.",
+  "home": {
+    "title": "Dibujar, crear, dejar una huella.",
+    "intro": "Soy [nombre]. Trabajo entre la piel, el papel y la imagen. Aquí puedes descubrir mis piezas y contarme qué tienes en mente.",
+    "heroImage": "/uploads/estudio-placeholder.svg",
+    "heroImageAlt": "Fotografía en el estudio pendiente",
+    "primaryCta": { "label": "Ver mi trabajo", "href": "#trabajo" },
+    "secondaryCta": { "label": "Un poco sobre mí", "href": "/sobre-mi/" },
+    "workHeading": "Explora mi trabajo",
+    "disciplines": [
+      {
+        "title": "Tattoo",
+        "text": "Piezas realizadas y diseños disponibles",
+        "href": "/tattoo/",
+        "linkLabel": "Explorar tattoo",
+        "image": "/uploads/tattoo-01.svg",
+        "imageAlt": "Marcador de muestra para la sección de tattoo"
+      },
+      {
+        "title": "Obra original",
+        "text": "Papel, pintura y collage",
+        "href": "/obra/",
+        "linkLabel": "Explorar obra original",
+        "image": "/uploads/obra-01.svg",
+        "imageAlt": "Composición geométrica de muestra para la sección de obra original"
+      },
+      {
+        "title": "Ilustración",
+        "text": "Imágenes para proyectos y marcas",
+        "href": "/ilustracion/",
+        "linkLabel": "Explorar ilustración",
+        "image": "/uploads/proyecto-principal.svg",
+        "imageAlt": "Ilustración de muestra para la sección de ilustración"
+      }
+    ]
+  },
   "email": "hola@ejemplo.com",
   "instagram": "https://instagram.com/nombre-de-muestra",
   "instagramLabel": "@nombre-de-muestra",

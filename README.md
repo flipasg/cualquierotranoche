@@ -43,7 +43,10 @@ pendientes de formato.
 ## Editar contenido
 
 - Fichas Markdown: `src/content/{flash,tattoos,obras,proyectos,paginas}/`.
-- Datos globales: `src/data/site.json` y `src/data/ciudades.json`.
+- Datos globales: `src/data/site.json` y `src/data/ciudades.json`. La sección
+  de portada `home` reúne su titular, llamadas a la acción y las tarjetas de
+  disciplinas; cada tarjeta incluye título, texto, enlace, imagen y texto
+  alternativo.
 - Formularios Tally: seguir [la guía de creación y conexión](docs/tally.md) y sustituir cada URL `REEMPLAZAR` en `src/config/forms.ts`. Mientras falte una URL válida, se muestra el estado pendiente sin un enlace roto. `npm test` comprueba las referencias y los parámetros permitidos.
 - Imágenes originales: añadir a `media/uploads/` y usar una ruta `/uploads/archivo.ext` en el frontmatter.
 - Marcar `draft: true` excluye una ficha de páginas públicas y su imagen exclusiva del procesamiento.

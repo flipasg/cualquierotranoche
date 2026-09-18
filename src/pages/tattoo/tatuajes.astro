@@ -8,7 +8,7 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
 
 <BaseLayout title="Tatuajes" description="Galería de tatuajes."
   ><section class="container section">
-    <p class="eyebrow">TATTOO</p><h1>Tatuajes</h1><div class="grid grid-3">
+    <h1>Tatuajes</h1><div class="grid grid-3">
       {tattoos.map((item) => <TattooCard tattoo={item} />)}
     </div>
   </section></BaseLayout

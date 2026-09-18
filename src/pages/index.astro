@@ -10,39 +10,27 @@ import site from '../data/site.json';
   description="Portfolio de muestra de tattoo, obra original e ilustración."
   ><section class="container section hero">
     <div>
-      <p class="eyebrow">TATTOO · OBRA ORIGINAL · ILUSTRACIÓN</p><h1>
-        Dibujar, crear, dejar una huella.
-      </h1><p class="lead">{site.intro}</p><div class="button-row">
-        <a class="button" href="#trabajo">Ver mi trabajo</a><a
-          class="button secondary"
-          href="/sobre-mi/">Un poco sobre mí</a
+      <h1>{site.home.title}</h1><p class="lead">
+        {site.home.intro}
+      </p><div class="button-row">
+        <a class="button" href={site.home.primaryCta.href}
+          >{site.home.primaryCta.label}</a
+        ><a class="button secondary" href={site.home.secondaryCta.href}
+          >{site.home.secondaryCta.label}</a
         >
       </div>
     </div><GalleryImage
-      src="/uploads/estudio-placeholder.svg"
-      alt="Fotografía en el estudio pendiente"
+      src={site.home.heroImage}
+      alt={site.home.heroImageAlt}
       loading="eager"
     />
   </section><section id="trabajo" class="container section">
-    <p class="eyebrow">Tres disciplinas</p><h2>Explora mi trabajo</h2><div
-      class="grid grid-3"
-    >
-      <DisciplineCard
-        number="01"
-        title="Tattoo"
-        text="Piezas realizadas y diseños disponibles"
-        href="/tattoo/"
-      /><DisciplineCard
-        number="02"
-        title="Obra original"
-        text="Papel, pintura y collage"
-        href="/obra/"
-      /><DisciplineCard
-        number="03"
-        title="Ilustración"
-        text="Imágenes para proyectos y marcas"
-        href="/ilustracion/"
-      />
+    <h2>{site.home.workHeading}</h2><div class="grid grid-3">
+      {
+        site.home.disciplines.map((discipline) => (
+          <DisciplineCard {...discipline} />
+        ))
+      }
     </div>
   </section></BaseLayout
 >

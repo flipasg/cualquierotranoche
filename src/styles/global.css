@@ -119,6 +119,7 @@ p {
 }
 .status {
   display: inline-block;
+  margin-bottom: 0.75rem;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -140,6 +141,10 @@ p {
 }
 .hero img {
   width: 100%;
+}
+.discipline-card__image {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
 .prose {
   max-width: 44rem;
@@ -227,6 +232,7 @@ p {
   }
   .hero {
     grid-template-columns: 1.1fr 0.9fr;
+    min-height: 70vh;
   }
   .editorial {
     grid-template-columns: repeat(3, 1fr);

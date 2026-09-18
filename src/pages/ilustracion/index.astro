@@ -9,9 +9,7 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
   title="Ilustración"
   description="Proyectos de ilustración, cartelería e identidad visual."
   ><section class="container section">
-    <p class="eyebrow">ILUSTRACIÓN · PROYECTOS DE MUESTRA</p><h1>
-      Ilustración
-    </h1><p class="lead">
+    <h1>Ilustración</h1><p class="lead">
       Imágenes pensadas para proyectos, marcas y espacios.
     </p><div class="grid grid-2">
       {projects.map((project) => <ProjectCard project={project} />)}

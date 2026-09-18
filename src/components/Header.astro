@@ -183,33 +183,4 @@ const navigation = site.navigation;
   }
 </style>
 
-<script>
-  const header = document.querySelector<HTMLElement>('[data-header]');
-  const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
-  const menuLabel = menuToggle?.querySelector<HTMLElement>('.sr-only');
-
-  if (header && menuToggle) {
-    const updateHeader = () => {
-      const isCompact = window.innerWidth < 900;
-      header.classList.toggle('is-compact', isCompact);
-
-      if (!isCompact) {
-        header.dataset.menuOpen = 'false';
-        menuToggle.setAttribute('aria-expanded', 'false');
-        if (menuLabel) menuLabel.textContent = 'Abrir menú';
-      }
-    };
-
-    menuToggle.addEventListener('click', () => {
-      const isOpen = header.dataset.menuOpen === 'true';
-      header.dataset.menuOpen = String(!isOpen);
-      menuToggle.setAttribute('aria-expanded', String(!isOpen));
-      if (menuLabel)
-        menuLabel.textContent = isOpen ? 'Abrir menú' : 'Cerrar menú';
-    });
-
-    updateHeader();
-    window.addEventListener('scroll', updateHeader, { passive: true });
-    window.addEventListener('resize', updateHeader);
-  }
-</script>
+<script is:inline src="/scripts/header-menu.js"></script>

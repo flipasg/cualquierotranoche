@@ -1,6 +1,5 @@
 ---
 title: 'Hola, soy [nombre].'
-eyebrow: 'SOBRE MÍ'
 subtitle: 'Tattoo, obra original e ilustración.'
 location: 'Vitoria-Gasteiz / Proyectos y colaboraciones'
 portrait: '/uploads/retrato-placeholder.svg'

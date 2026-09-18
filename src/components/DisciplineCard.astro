@@ -1,15 +1,19 @@
 ---
+import GalleryImage from './GalleryImage.astro';
+
 interface Props {
   title: string;
   text: string;
   href: string;
-  number: string;
+  linkLabel: string;
+  image: string;
+  imageAlt: string;
 }
-const { title, text, href, number } = Astro.props;
+const { title, text, href, linkLabel, image, imageAlt } = Astro.props;
 ---
 
 <article class="card">
-  <p class="eyebrow">{number}</p><h3>{title}</h3><p>{text}</p><a href={href}
-    >Explorar {title.toLowerCase()} →</a
-  >
+  <GalleryImage src={image} alt={imageAlt} class="discipline-card__image" /><h3>
+    {title}
+  </h3><p>{text}</p><a href={href}>{linkLabel} →</a>
 </article>
