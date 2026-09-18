@@ -141,7 +141,8 @@
       "available": "Ver disponibles",
       "shipping": "Envío a consultar",
       "interestCta": "Me interesa esta obra",
-      "cardCta": "Ver la pieza"
+      "cardCta": "Ver la pieza",
+      "eyebrow": " "
     },
     "illustration": {
       "title": "Ilustración",
