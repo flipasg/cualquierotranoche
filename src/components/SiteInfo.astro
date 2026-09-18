@@ -1,0 +1,46 @@
+---
+import site from '../data/site.json';
+
+interface Props {
+  showContactLink?: boolean;
+}
+
+const { showContactLink = true } = Astro.props;
+---
+
+<div class="site-info">
+  <strong>{site.artisticName}</strong>
+  <p>{site.ui.footer.disciplines}</p>
+  <div class="site-info-links">
+    {
+      showContactLink && (
+        <>
+          <a href="/contacto/">{site.ui.footer.contact}</a> ·{' '}
+        </>
+      )
+    }
+    <a href={`mailto:${site.email}`}>{site.ui.footer.email}</a> · <a
+      href={site.instagram}
+      rel="me noreferrer">{site.ui.footer.instagram}</a
+    >
+  </div>
+  <p>{site.ui.footer.sampleNotice} © {new Date().getFullYear()}</p>
+</div>
+
+<style>
+  .site-info {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  p {
+    margin: 0.25rem 0;
+    color: var(--color-muted);
+  }
+  .site-info-links {
+    margin-block: 1rem;
+  }
+  a {
+    display: inline-block;
+    padding-block: 0.5rem;
+  }
+</style>

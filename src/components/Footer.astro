@@ -4,6 +4,7 @@ import { guests } from '../config/guests';
 import GuestFooter from './GuestFooter.astro';
 import TallyLink from './TallyLink.astro';
 import { forms } from '../config/forms';
+import SiteInfo from './SiteInfo.astro';
 
 const formLinks = [
   [site.ui.forms.tattoo, forms.tattoo],
@@ -16,18 +17,7 @@ const formLinks = [
 
 <footer>
   <div class="container footer-grid">
-    <div>
-      <strong>{site.artisticName}</strong><p>
-        {site.ui.footer.disciplines}
-      </p>
-      <div class="footer-links">
-        <a href="/contacto/">{site.ui.footer.contact}</a> · <a
-          href={`mailto:${site.email}`}>{site.ui.footer.email}</a
-        > · <a href={site.instagram} rel="me noreferrer"
-          >{site.ui.footer.instagram}</a
-        >
-      </div><p>{site.ui.footer.sampleNotice} © {new Date().getFullYear()}</p>
-    </div>
+    <SiteInfo />
     <section class="footer-forms" aria-labelledby="footer-forms-heading">
       <h2 id="footer-forms-heading">{site.ui.footer.formsHeading}</h2>
       <ul>
@@ -40,7 +30,7 @@ const formLinks = [
                 linkStyle
                 className="footer-form-link"
               >
-                {label} <span aria-hidden="true">↗</span>
+                {label}
               </TallyLink>
             </li>
           ))
@@ -58,7 +48,6 @@ const formLinks = [
     display: grid;
     gap: 2rem;
   }
-  .footer-grid > div,
   .footer-forms {
     min-width: 0;
     overflow-wrap: anywhere;
@@ -78,21 +67,9 @@ const formLinks = [
   .footer-forms :global(.footer-form-link) {
     display: inline-flex;
     align-items: center;
-    gap: 0.35em;
     min-height: 44px;
     font-size: 0.9rem;
     font-weight: 400;
-  }
-  footer p {
-    margin: 0.25rem 0;
-    color: var(--color-muted);
-  }
-  .footer-links {
-    margin-block: 1rem;
-  }
-  .footer-links a {
-    display: inline-block;
-    padding-block: 0.5rem;
   }
   @media (min-width: 800px) {
     .footer-grid {

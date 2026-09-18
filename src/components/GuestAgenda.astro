@@ -72,8 +72,7 @@ const groups = groupGuestsByMonth(config.entries);
                       {config.inquiryLabel}
                       <span class="sr-only">
                         : {guest.city}, {guestDateRange(guest)}
-                      </span>{' '}
-                      <span aria-hidden="true">↗</span>
+                      </span>
                     </TallyLink>
                     {guest.mapsUrl && (
                       <a
@@ -83,8 +82,7 @@ const groups = groupGuestsByMonth(config.entries);
                         rel="noopener noreferrer"
                       >
                         {config.mapsLabel}
-                        <span class="sr-only">: {guest.city}</span>{' '}
-                        <span aria-hidden="true">↗</span>
+                        <span class="sr-only">: {guest.city}</span>
                       </a>
                     )}
                   </div>
@@ -105,7 +103,6 @@ const groups = groupGuestsByMonth(config.entries);
       linkStyle
     >
       {config.alertsLabel}
-      <span aria-hidden="true">↗</span>
     </TallyLink>
   </div>
 </section>
@@ -189,7 +186,6 @@ const groups = groupGuestsByMonth(config.entries);
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
-    column-gap: 0.3em;
     min-height: 44px;
     font-size: 0.85rem;
     font-weight: 400;

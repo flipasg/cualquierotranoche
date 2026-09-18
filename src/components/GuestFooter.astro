@@ -21,9 +21,7 @@ const show =
   show && (
     <section class="footer-guests" aria-labelledby="footer-guests-heading">
       <h2 id="footer-guests-heading">
-        <a href="/contacto/#proximos-guests">
-          {config.footerHeading} <span aria-hidden="true">→</span>
-        </a>
+        <a href="/contacto/#proximos-guests">{config.footerHeading}</a>
       </h2>
       <ul>
         {entries.map((guest) => (
@@ -54,7 +52,7 @@ const show =
                 rel="noopener noreferrer"
                 aria-label={`${config.mapsLabel}: ${guest.city}`}
               >
-                {config.mapsLabel} <span aria-hidden="true">↗</span>
+                {config.mapsLabel}
               </a>
             )}
           </li>
@@ -126,7 +124,6 @@ const show =
   .guest-map {
     display: inline-flex;
     align-items: center;
-    gap: 0.3em;
     min-height: 44px;
     margin-left: 1.05rem;
     font-size: 0.8rem;
