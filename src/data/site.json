@@ -142,7 +142,8 @@
       "shipping": "Envío a consultar",
       "interestCta": "Me interesa esta obra",
       "cardCta": "Ver la pieza",
-      "eyebrow": " "
+      "eyebrow": "Obra",
+      "detailEyebrow": "Obra"
     },
     "illustration": {
       "title": "Ilustración",
