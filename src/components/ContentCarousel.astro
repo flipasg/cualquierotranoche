@@ -1,0 +1,126 @@
+---
+interface Props {
+  id: string;
+  label: string;
+}
+
+const { id, label } = Astro.props;
+---
+
+<div class="carousel" data-carousel>
+  <div
+    class="carousel-controls"
+    data-carousel-controls
+    aria-label={`Controles de ${label}`}
+    hidden
+  >
+    <button type="button" data-carousel-previous aria-controls={id}>
+      Anterior
+    </button><button type="button" data-carousel-next aria-controls={id}>
+      Siguiente
+    </button>
+  </div><div
+    id={id}
+    class="carousel-track"
+    data-carousel-track
+    tabindex="0"
+    aria-label={label}
+  >
+    <slot />
+  </div>
+</div>
+
+<style>
+  .carousel {
+    display: grid;
+    gap: 1rem;
+  }
+  .carousel-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  .carousel-controls button {
+    min-height: 2.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .carousel-track {
+    display: grid;
+    grid-auto-columns: minmax(84%, 1fr);
+    grid-auto-flow: column;
+    gap: var(--space);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding-bottom: 0.5rem;
+    scroll-behavior: smooth;
+    scroll-snap-type: inline mandatory;
+  }
+  .carousel-track :global(.carousel-item) {
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  @media (min-width: 700px) {
+    .carousel-track {
+      grid-auto-columns: minmax(20rem, 48%);
+    }
+  }
+  @media (min-width: 1024px) {
+    .carousel-track {
+      grid-auto-columns: minmax(20rem, 31%);
+    }
+  }
+</style>
+
+<script>
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ? 'auto'
+    : 'smooth';
+
+  document
+    .querySelectorAll<HTMLElement>('[data-carousel]')
+    .forEach((carousel) => {
+      const track = carousel.querySelector<HTMLElement>(
+        '[data-carousel-track]',
+      );
+      const previous = carousel.querySelector<HTMLButtonElement>(
+        '[data-carousel-previous]',
+      );
+      const next = carousel.querySelector<HTMLButtonElement>(
+        '[data-carousel-next]',
+      );
+      const controls = carousel.querySelector<HTMLElement>(
+        '[data-carousel-controls]',
+      );
+
+      if (!track || !previous || !next || !controls) return;
+
+      const updateControls = () => {
+        controls.hidden = track.scrollWidth <= track.clientWidth + 1;
+      };
+
+      const scroll = (direction: 1 | -1) => {
+        track.scrollBy({
+          left: direction * track.clientWidth * 0.85,
+          behavior,
+        });
+      };
+
+      previous.addEventListener('click', () => scroll(-1));
+      next.addEventListener('click', () => scroll(1));
+      track.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') scroll(-1);
+        if (event.key === 'ArrowRight') scroll(1);
+      });
+
+      track.querySelectorAll('img').forEach((image) => {
+        image.addEventListener('load', updateControls);
+      });
+      new ResizeObserver(updateControls).observe(track);
+      requestAnimationFrame(updateControls);
+    });
+</script>

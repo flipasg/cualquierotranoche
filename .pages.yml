@@ -13,32 +13,64 @@ content:
     label: Flash
     type: collection
     path: src/content/flash
-    filename: "{primary}.md"
+    filename: '{primary}.md'
     view: { fields: [title, code, status, draft] }
     fields: &common
       - { name: title, label: Título, type: string, required: true }
       - { name: description, label: Descripción, type: text }
       - { name: cover, label: Imagen, type: image, required: true }
-      - { name: coverAlt, label: Texto alternativo, type: string, required: true }
+      - {
+          name: coverAlt,
+          label: Texto alternativo,
+          type: string,
+          required: true,
+        }
       - { name: draft, label: Borrador, type: boolean, default: false }
       - { name: code, label: Código, type: string, required: true }
       - name: status
         label: Estado
         type: select
-        options: [{ label: Disponible, value: disponible }, { label: Reservado, value: reservado }, { label: Tatuado, value: tatuado }]
+        options:
+          values:
+            - { label: Disponible, name: disponible }
+            - { label: Reservado, name: reservado }
+            - { label: Tatuado, name: tatuado }
       - { name: note, label: Nota, type: string }
+      - {
+          name: showInCarousel,
+          label: Mostrar en el carrusel,
+          type: boolean,
+          default: true,
+        }
+      - {
+          name: categories,
+          label: Categorías (usa los identificadores de Categorías de flash),
+          type: string,
+          list: true,
+        }
       - { name: body, label: Contenido, type: rich-text }
     operations: { create: true, rename: false, delete: false }
   - name: tattoos
     label: Tatuajes
     type: collection
     path: src/content/tattoos
-    filename: "{primary}.md"
+    filename: '{primary}.md'
     fields:
       - { name: title, label: Título, type: string, required: true }
       - { name: description, label: Descripción, type: text }
       - { name: cover, label: Fotografía, type: image, required: true }
-      - { name: coverAlt, label: Texto alternativo, type: string, required: true }
+      - {
+          name: coverAlt,
+          label: Texto alternativo,
+          type: string,
+          required: true,
+        }
+      - {
+          name: showInCarousel,
+          label: Mostrar en el carrusel,
+          type: boolean,
+          default: true,
+        }
       - { name: draft, label: Borrador, type: boolean, default: false }
       - { name: body, label: Contenido, type: rich-text }
     operations: { create: true, rename: false, delete: false }
@@ -46,7 +78,7 @@ content:
     label: Obras
     type: collection
     path: src/content/obras
-    filename: "{primary}.md"
+    filename: '{primary}.md'
     fields:
       - { name: title, label: Título, type: string, required: true }
       - { name: description, label: Descripción, type: text }
@@ -57,17 +89,30 @@ content:
       - name: status
         label: Estado
         type: select
-        options: [{ label: Disponible, value: disponible }, { label: Reservada, value: reservada }, { label: Vendida, value: vendida }]
+        options:
+          values:
+            - { label: Disponible, name: disponible }
+            - { label: Reservada, name: reservada }
+            - { label: Vendida, name: vendida }
       - { name: priceEur, label: Precio en euros, type: number }
       - { name: showPrice, label: Mostrar precio, type: boolean }
       - { name: collection, label: Colección, type: string }
       - { name: cover, label: Portada, type: image, required: true }
-      - { name: coverAlt, label: Texto alternativo, type: string, required: true }
+      - {
+          name: coverAlt,
+          label: Texto alternativo,
+          type: string,
+          required: true,
+        }
       - name: gallery
         label: Galería
         type: object
         list: true
-        fields: [{ name: src, label: Imagen, type: image }, { name: alt, label: Texto alternativo, type: string }]
+        fields:
+          [
+            { name: src, label: Imagen, type: image },
+            { name: alt, label: Texto alternativo, type: string },
+          ]
       - { name: draft, label: Borrador, type: boolean, default: false }
       - { name: body, label: Contenido, type: rich-text }
     operations: { create: true, rename: false, delete: false }
@@ -75,7 +120,7 @@ content:
     label: Proyectos
     type: collection
     path: src/content/proyectos
-    filename: "{primary}.md"
+    filename: '{primary}.md'
     fields:
       - { name: title, label: Título, type: string }
       - { name: description, label: Introducción, type: text }
@@ -89,7 +134,11 @@ content:
         label: Galería
         type: object
         list: true
-        fields: [{ name: src, label: Imagen, type: image }, { name: alt, label: Texto alternativo, type: string }]
+        fields:
+          [
+            { name: src, label: Imagen, type: image },
+            { name: alt, label: Texto alternativo, type: string },
+          ]
       - { name: draft, label: Borrador, type: boolean, default: false }
       - { name: body, label: Contenido, type: rich-text }
     operations: { create: true, rename: false, delete: false }
@@ -118,6 +167,15 @@ content:
       - { name: email, label: Email público, type: string }
       - { name: instagram, label: URL de Instagram, type: string }
       - { name: instagramLabel, label: Usuario de Instagram, type: string }
+      - name: navigation
+        label: Navegación principal
+        type: object
+        list: true
+        fields:
+          [
+            { name: href, label: Ruta, type: string, required: true },
+            { name: label, label: Texto, type: string, required: true },
+          ]
   - name: ciudades
     label: Ciudades
     type: file
@@ -126,3 +184,18 @@ content:
     fields:
       - { name: cities, label: Ciudades, type: string, list: true }
       - { name: note, label: Nota, type: text }
+  - name: flash-categories
+    label: Categorías de flash
+    type: file
+    path: src/data/flash-categories.json
+    format: json
+    fields:
+      - name: categories
+        label: Categorías
+        type: object
+        list: true
+        fields:
+          [
+            { name: id, label: Identificador, type: string, required: true },
+            { name: label, label: Nombre, type: string, required: true },
+          ]

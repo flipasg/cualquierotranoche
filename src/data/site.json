@@ -4,5 +4,12 @@
   "intro": "Soy [nombre]. Trabajo entre la piel, el papel y la imagen. Aquí puedes descubrir mis piezas y contarme qué tienes en mente.",
   "email": "hola@ejemplo.com",
   "instagram": "https://instagram.com/nombre-de-muestra",
-  "instagramLabel": "@nombre-de-muestra"
+  "instagramLabel": "@nombre-de-muestra",
+  "navigation": [
+    { "href": "/tattoo/", "label": "Tattoo" },
+    { "href": "/obra/", "label": "Obra" },
+    { "href": "/ilustracion/", "label": "Ilustración" },
+    { "href": "/sobre-mi/", "label": "Sobre mí" },
+    { "href": "/contacto/", "label": "Contacto" }
+  ]
 }

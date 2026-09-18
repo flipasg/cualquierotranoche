@@ -1,4 +1,44 @@
 ---
-import {getCollection,render} from 'astro:content';import BaseLayout from '../../layouts/BaseLayout.astro';import GalleryImage from '../../components/GalleryImage.astro';import {forms,formUrl} from '../../config/forms';export async function getStaticPaths(){return (await getCollection('obras',({data})=>!data.draft)).map(work=>({params:{id:work.id},props:{work}}));}const {work}=Astro.props;const {Content}=await render(work);
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GalleryImage from '../../components/GalleryImage.astro';
+import TallyLink from '../../components/TallyLink.astro';
+import { forms } from '../../config/forms';
+export async function getStaticPaths() {
+  return (await getCollection('obras', ({ data }) => !data.draft)).map(
+    (work) => ({ params: { id: work.id }, props: { work } }),
+  );
+}
+const { work } = Astro.props;
+const { Content } = await render(work);
 ---
-<BaseLayout title={work.data.title} description={work.data.description}><article class="container section"><p class="eyebrow">OBRA ORIGINAL / {work.data.collection}</p><h1>{work.data.title}</h1><div class="grid grid-2"><GalleryImage src={work.data.cover} alt={work.data.coverAlt} loading="eager"/><div><span class="status">{work.data.status}</span><p>{work.data.technique}<br/>{work.data.dimensions}</p>{work.data.showPrice&&work.data.priceEur?<h3>{work.data.priceEur} €</h3>:null}<p>Envío a consultar</p><div class="prose"><Content/></div><a class="button" href={formUrl(forms.artwork,{artworkId:work.id,source:'portfolio-obra'})}>Me interesa esta obra</a></div></div>{work.data.gallery.map((image:any)=><GalleryImage src={image.src} alt={image.alt}/>)}</article></BaseLayout>
+
+<BaseLayout title={work.data.title} description={work.data.description}
+  ><article class="container section">
+    <p class="eyebrow">OBRA ORIGINAL / {work.data.collection}</p><h1>
+      {work.data.title}
+    </h1><div class="grid grid-2">
+      <GalleryImage
+        src={work.data.cover}
+        alt={work.data.coverAlt}
+        loading="eager"
+      /><div>
+        <span class="status">{work.data.status}</span><p>
+          {work.data.technique}<br />{work.data.dimensions}
+        </p>{
+          work.data.showPrice && work.data.priceEur ? (
+            <h3>{work.data.priceEur} €</h3>
+          ) : null
+        }<p>Envío a consultar</p><div class="prose"><Content /></div><TallyLink
+          url={forms.artwork}
+          params={{ artworkId: work.id, source: 'portfolio-obra' }}
+          >Me interesa esta obra</TallyLink
+        >
+      </div>
+    </div>{
+      work.data.gallery.map((image: any) => (
+        <GalleryImage src={image.src} alt={image.alt} />
+      ))
+    }
+  </article></BaseLayout
+>

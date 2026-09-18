@@ -1,5 +1,215 @@
 ---
 import site from '../data/site.json';
+import TallyLink from './TallyLink.astro';
+import { forms } from '../config/forms';
+
+const pathname = Astro.url.pathname;
+const navigation = site.navigation;
 ---
-<header class="header"><div class="container header-inner"><a class="brand" href="/">{site.artisticName}</a><nav aria-label="Navegación principal"><a href="/tattoo/">Tattoo</a><a href="/obra/">Obra original</a><a href="/ilustracion/">Ilustración</a><a href="/sobre-mi/">Sobre mí</a><a href="/contacto/">Contacto</a></nav></div></header>
-<style>.header{border-bottom:1px solid #d4c8ba;background:var(--color-bg)}.header-inner{display:flex;flex-direction:column;padding-block:1rem;gap:1rem}.brand{font-family:Georgia,serif;font-size:1.35rem;text-decoration:none}nav{display:flex;gap:.4rem 1rem;flex-wrap:wrap}nav a{font-size:.9rem;text-decoration:none}nav a:hover{text-decoration:underline}@media(min-width:760px){.header-inner{flex-direction:row;align-items:center;justify-content:space-between}}</style>
+
+<header class="header" data-header data-menu-open="false">
+  <div class="container header-inner">
+    <a class="brand" href="/">{site.artisticName}</a><div
+      class="header-actions"
+    >
+      <TallyLink className="header-cta" url={forms.tattoo}
+        >Quiero tatuarme</TallyLink
+      ><button
+        class="menu-toggle"
+        type="button"
+        aria-controls="primary-navigation"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Abrir menú</span><span aria-hidden="true">☰</span
+        >
+      </button>
+    </div><nav id="primary-navigation" aria-label="Navegación principal">
+      {
+        navigation.map((item) => {
+          const isCurrentPage = pathname.startsWith(item.href);
+
+          return (
+            <a
+              href={item.href}
+              aria-current={isCurrentPage ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+  </div>
+</header>
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+  .header-inner {
+    display: flex;
+    flex-direction: column;
+    padding-block: 1rem;
+    gap: 1rem;
+  }
+  .brand {
+    font-family: var(--font-family);
+    font-size: 1.35rem;
+    text-decoration: none;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .header-actions,
+  .menu-toggle {
+    display: none;
+  }
+  .header :global(.header-cta) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.25rem;
+    padding: 0.4rem 0.65rem;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    gap: 0.4rem 1rem;
+    flex-wrap: wrap;
+  }
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    padding-inline: 0.5rem;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+  nav a[aria-current='page'] {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  @media (max-width: 899px) {
+    .header .header-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      column-gap: 0.5rem;
+      row-gap: 0.5rem;
+      padding-block: 0.5rem;
+    }
+    .header .brand {
+      grid-column: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .header .header-actions {
+      display: contents;
+    }
+    .header :global(.header-cta) {
+      grid-column: 2;
+      justify-self: end;
+      min-height: 2.25rem;
+      font-size: 0.8rem;
+    }
+    .header .menu-toggle {
+      display: inline-flex;
+      grid-column: 3;
+      justify-self: end;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      min-height: 2.25rem;
+      padding: 0;
+      border: 1px solid var(--color-accent);
+      border-radius: var(--radius);
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .header nav {
+      display: none;
+    }
+    .header[data-menu-open='true'] nav {
+      display: flex;
+      grid-column: 1 / -1;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-top: 0.5rem;
+    }
+  }
+  @media (min-width: 900px) {
+    .header-inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-actions {
+      display: flex;
+      order: 2;
+      margin-left: auto;
+    }
+    nav {
+      order: 1;
+      margin-left: auto;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menuLabel = menuToggle?.querySelector<HTMLElement>('.sr-only');
+
+  if (header && menuToggle) {
+    const updateHeader = () => {
+      const isCompact = window.innerWidth < 900;
+      header.classList.toggle('is-compact', isCompact);
+
+      if (!isCompact) {
+        header.dataset.menuOpen = 'false';
+        menuToggle.setAttribute('aria-expanded', 'false');
+        if (menuLabel) menuLabel.textContent = 'Abrir menú';
+      }
+    };
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = header.dataset.menuOpen === 'true';
+      header.dataset.menuOpen = String(!isOpen);
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
+      if (menuLabel)
+        menuLabel.textContent = isOpen ? 'Abrir menú' : 'Cerrar menú';
+    });
+
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    window.addEventListener('resize', updateHeader);
+  }
+</script>

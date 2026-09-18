@@ -1,4 +1,74 @@
 ---
-import {getCollection} from 'astro:content';import BaseLayout from '../../layouts/BaseLayout.astro';import FlashCard from '../../components/FlashCard.astro';import TattooCard from '../../components/TattooCard.astro';import {forms,formUrl} from '../../config/forms';const flash=(await getCollection('flash',({data})=>!data.draft));const tattoos=(await getCollection('tattoos',({data})=>!data.draft));
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentCarousel from '../../components/ContentCarousel.astro';
+import FlashCard from '../../components/FlashCard.astro';
+import TattooCard from '../../components/TattooCard.astro';
+const flash = await getCollection(
+  'flash',
+  ({ data }) => !data.draft && data.showInCarousel,
+);
+const tattoos = await getCollection(
+  'tattoos',
+  ({ data }) => !data.draft && data.showInCarousel,
+);
 ---
-<BaseLayout title="Tattoo" description="Tatuajes realizados y diseños flash disponibles."><section class="container section"><p class="eyebrow">TATTOO</p><h1>Tattoo</h1><p class="lead">Una selección de tatuajes y diseños que están buscando su lugar.</p><div class="button-row"><a class="button" href="#solicitud">Cuéntame tu idea</a><a class="button secondary" href="#realizados">Tatuajes realizados</a><a class="button secondary" href="#flash">Flash disponibles</a><a class="button secondary" href="/contacto/#ciudades">¿Cuándo vienes a mi ciudad?</a></div></section><section id="flash" class="container section"><p class="eyebrow">Diseños de muestra · no son obras reales</p><h2>Flash disponibles</h2><div class="grid grid-3">{flash.map(item=><FlashCard flash={item}/>)}</div></section><section id="realizados" class="container section"><h2>Tatuajes realizados</h2><div class="grid grid-2">{tattoos.map(item=><TattooCard tattoo={item}/>)}</div></section><section class="container section editorial"><div><p class="eyebrow">02 / GALERÍA</p><h3>Diseños completos</h3><p>Los flashes se ven enteros. Código y disponibilidad debajo; nada depende de pasar el ratón.</p></div><div><p class="eyebrow">OTRA VISTA</p><h3>Tatuajes realizados</h3><p>La otra pestaña usa fotos grandes en dos columnas. Ambas vistas permanecen dentro de Tattoo.</p></div><p>El botón de cada flash conserva el diseño al abrir la solicitud.</p></section><section id="solicitud" class="container section"><p class="eyebrow">TATTOO / SOLICITUD</p><h2>Cuéntame tu idea</h2><p class="lead">No hace falta tenerlo todo decidido. Podemos darle forma.</p><div class="form-mock" aria-label="Vista previa de los datos solicitados"><fieldset class="group"><legend>GRUPO 01 / CONTACTO</legend><label class="field">Nombre * <span class="fake-input">Tu nombre</span></label><label class="field">Email * <span class="fake-input">tu@email.com</span></label></fieldset><fieldset class="group"><legend>GRUPO 02 / PROPUESTA</legend><p>Diseño personalizado · Flash seleccionado</p><div class="notice"><strong>Flash de muestra 01</strong><br/>Referencia F-001 · <a href="#flash">Cambiar</a></div><label class="field">Idea o notas sobre el diseño <span class="fake-input">Cuéntame tu propuesta</span></label><label class="field">Referencias opcionales <span class="fake-input">+ Añadir imágenes</span><small>Hasta 3 imágenes · Máximo 10 MB por archivo</small></label></fieldset><fieldset class="group"><legend>GRUPO 03 / DETALLES Y CIUDAD</legend>{['Tamaño aproximado','Zona del cuerpo','Negro o color','Ciudad donde vives *','Dónde te tatuarías *','Disponibilidad y otras notas'].map(x=><label class="field">{x}<span class="fake-input">Completar en Tally</span></label>)}<p>☐ Quiero recibir avisos de nuevas fechas en la ciudad elegida.</p><a href="/contacto/#privacidad">Información de privacidad</a></fieldset><a class="button" href={formUrl(forms.tattoo,{source:'portfolio-tattoo'})}>Enviar propuesta</a><p class="muted">Enviar la propuesta no confirma una cita ni reserva el diseño.</p></div></section></BaseLayout>
+
+<BaseLayout title="Tattoo" description="Tatuajes y diseños flash."
+  ><section class="container section">
+    <p class="eyebrow">TATTOO</p><h1>Tattoo</h1><p class="lead">
+      Una selección de tatuajes y diseños que están buscando su lugar.
+    </p><div class="button-row">
+      <a class="button secondary" href="#tatuajes">Tatuajes</a><a
+        class="button secondary"
+        href="#flash">Flash</a
+      >
+    </div>
+  </section><section id="tatuajes" class="container section">
+    <div class="section-heading">
+      <h2>Tatuajes</h2><a href="/tattoo/tatuajes/">Ver todos</a>
+    </div>{
+      tattoos.length ? (
+        <ContentCarousel id="tattoo-carousel" label="Tatuajes">
+          {tattoos.map((item) => (
+            <div class="carousel-item">
+              <TattooCard tattoo={item} />
+            </div>
+          ))}
+        </ContentCarousel>
+      ) : (
+        <p>No hay tatuajes seleccionados para mostrar.</p>
+      )
+    }
+  </section><section id="flash" class="container section">
+    <p class="eyebrow">Diseños de muestra · no son obras reales</p><div
+      class="section-heading"
+    >
+      <h2>Flash</h2><a href="/tattoo/flash/">Ver todos</a>
+    </div>{
+      flash.length ? (
+        <ContentCarousel id="flash-carousel" label="Flash">
+          {flash.map((item) => (
+            <div class="carousel-item">
+              <FlashCard flash={item} />
+            </div>
+          ))}
+        </ContentCarousel>
+      ) : (
+        <p>No hay flash seleccionados para mostrar.</p>
+      )
+    }
+  </section></BaseLayout
+>
+
+<style>
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .section-heading h2 {
+    margin-bottom: 1rem;
+  }
+</style>

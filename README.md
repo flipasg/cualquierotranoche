@@ -26,11 +26,25 @@ npm run preview
 
 También se pueden ejecutar por separado `npm run validate` y `npm run media`.
 
+## Formato del código
+
+Prettier y su plugin de Astro formatean los archivos fuente, contenido Markdown,
+configuración y SVG. Se excluyen dependencias, archivos generados y el lockfile
+que mantiene npm.
+
+```bash
+npm run format
+npm run format:check
+```
+
+`format` aplica el formato y `format:check` comprueba que no quedan cambios
+pendientes de formato.
+
 ## Editar contenido
 
 - Fichas Markdown: `src/content/{flash,tattoos,obras,proyectos,paginas}/`.
 - Datos globales: `src/data/site.json` y `src/data/ciudades.json`.
-- Formularios Tally: sustituir cada URL `REEMPLAZAR` en `src/config/forms.ts`.
+- Formularios Tally: seguir [la guía de creación y conexión](docs/tally.md) y sustituir cada URL `REEMPLAZAR` en `src/config/forms.ts`. Mientras falte una URL válida, se muestra el estado pendiente sin un enlace roto. `npm test` comprueba las referencias y los parámetros permitidos.
 - Imágenes originales: añadir a `media/uploads/` y usar una ruta `/uploads/archivo.ext` en el frontmatter.
 - Marcar `draft: true` excluye una ficha de páginas públicas y su imagen exclusiva del procesamiento.
 

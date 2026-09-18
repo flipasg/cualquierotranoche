@@ -1,0 +1,197 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FlashCard from '../../components/FlashCard.astro';
+import flashCategories from '../../data/flash-categories.json';
+
+const flash = await getCollection('flash', ({ data }) => !data.draft);
+const categories = flashCategories.categories;
+const defaultCategory =
+  categories.find((category) => category.id === 'destacados')?.id ??
+  categories[0]?.id ??
+  'all';
+---
+
+<BaseLayout title="Flash" description="Galería de diseños flash disponibles."
+  ><section class="container section">
+    <p class="eyebrow">TATTOO</p><h1>Flash</h1><div
+      class="filters"
+      aria-label="Filtrar flash"
+      role="group"
+    >
+      {
+        categories.map((category) => (
+          <button
+            type="button"
+            data-flash-category={category.id}
+            aria-pressed={category.id === defaultCategory ? 'true' : 'false'}
+          >
+            {category.label}
+          </button>
+        ))
+      }<button
+        class="all-filter"
+        type="button"
+        data-flash-category="all"
+        aria-pressed={defaultCategory === 'all' ? 'true' : 'false'}
+      >
+        Todos
+      </button>
+    </div><p data-flash-empty hidden>No hay flash en esta categoría.</p><div
+      class="grid grid-3"
+      data-flash-grid
+    >
+      {
+        flash.map((item) => (
+          <div
+            data-flash-card
+            data-flash-categories={item.data.categories.join(' ')}
+          >
+            <FlashCard flash={item} />
+          </div>
+        ))
+      }
+    </div><div class="pagination-layout">
+      <label class="page-size" for="flash-page-size"
+        >Mostrar<select id="flash-page-size" data-flash-page-size>
+          <option value="6">6</option>
+          <option value="12">12</option>
+          <option value="18">18</option>
+          <option value="24">24</option>
+        </select>por página</label
+      ><nav data-flash-pagination aria-label="Paginación de flash"></nav>
+    </div>
+  </section></BaseLayout
+>
+
+<style>
+  .all-filter {
+    opacity: 0.65;
+  }
+  .all-filter[aria-pressed='true'] {
+    opacity: 1;
+  }
+  .pagination-layout,
+  [data-flash-pagination] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .pagination-layout {
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .page-size {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  [data-flash-pagination] button,
+  [data-flash-page-size] {
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--color-accent);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  :global([data-flash-pagination] button:disabled) {
+    cursor: default;
+    opacity: 0.5;
+  }
+</style>
+
+<script>
+  let pageSize = 6;
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>(
+    '[data-flash-category]',
+  );
+  const cards = [
+    ...document.querySelectorAll<HTMLElement>('[data-flash-card]'),
+  ];
+  const pagination = document.querySelector<HTMLElement>(
+    '[data-flash-pagination]',
+  );
+  const emptyMessage =
+    document.querySelector<HTMLElement>('[data-flash-empty]');
+  const pageSizeSelect = document.querySelector<HTMLSelectElement>(
+    '[data-flash-page-size]',
+  );
+  let selectedCategory =
+    document.querySelector<HTMLButtonElement>(
+      '[data-flash-category][aria-pressed="true"]',
+    )?.dataset.flashCategory ?? 'all';
+  let currentPage = 1;
+
+  const render = () => {
+    const selectedCards = cards.filter(
+      (card) =>
+        selectedCategory === 'all' ||
+        card.dataset.flashCategories?.split(' ').includes(selectedCategory),
+    );
+    const pageCount = Math.max(1, Math.ceil(selectedCards.length / pageSize));
+    currentPage = Math.min(currentPage, pageCount);
+    if (emptyMessage) emptyMessage.hidden = selectedCards.length > 0;
+
+    cards.forEach((card) => {
+      const index = selectedCards.indexOf(card);
+      card.hidden =
+        index === -1 ||
+        index < (currentPage - 1) * pageSize ||
+        index >= currentPage * pageSize;
+    });
+
+    if (!pagination) return;
+    pagination.replaceChildren();
+    pagination.hidden = pageCount === 1;
+    if (pageCount === 1) return;
+
+    const previous = document.createElement('button');
+    previous.type = 'button';
+    previous.className = 'button secondary';
+    previous.textContent = 'Anterior';
+    previous.disabled = currentPage === 1;
+    previous.addEventListener('click', () => {
+      currentPage -= 1;
+      render();
+    });
+
+    const status = document.createElement('span');
+    status.textContent = `Página ${currentPage} de ${pageCount}`;
+
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'button secondary';
+    next.textContent = 'Siguiente';
+    next.disabled = currentPage === pageCount;
+    next.addEventListener('click', () => {
+      currentPage += 1;
+      render();
+    });
+
+    pagination.append(previous, status, next);
+  };
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedCategory = button.dataset.flashCategory ?? 'all';
+      currentPage = 1;
+      filterButtons.forEach((filter) => {
+        filter.setAttribute('aria-pressed', String(filter === button));
+      });
+      render();
+    });
+  });
+
+  pageSizeSelect?.addEventListener('change', () => {
+    pageSize = Number(pageSizeSelect.value);
+    currentPage = 1;
+    render();
+  });
+
+  render();
+</script>

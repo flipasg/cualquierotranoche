@@ -1,4 +1,30 @@
 ---
 import site from '../data/site.json';
 ---
-<footer><div class="container footer-grid"><div><strong>{site.artisticName}</strong><p>Tattoo · Obra original · Ilustración</p></div><div><a href={`mailto:${site.email}`}>Email</a> · <a href={site.instagram} rel="me noreferrer">Instagram</a></div><p>Contenido e imágenes de muestra. © {new Date().getFullYear()}</p></div></footer><style>footer{border-top:1px solid #d4c8ba;padding-block:3rem}.footer-grid{display:grid;gap:1rem}footer p{margin:.25rem 0;color:var(--color-muted)}</style>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <strong>{site.artisticName}</strong><p>
+        Tattoo · Obra original · Ilustración
+      </p>
+    </div><div>
+      <a href="/contacto/">Contacto</a> · <a href={`mailto:${site.email}`}
+        >Email</a
+      > · <a href={site.instagram} rel="me noreferrer">Instagram</a>
+    </div><p>Contenido e imágenes de muestra. © {new Date().getFullYear()}</p>
+  </div>
+</footer><style>
+  footer {
+    border-top: 1px solid var(--color-border);
+    padding-block: 3rem;
+  }
+  .footer-grid {
+    display: grid;
+    gap: 1rem;
+  }
+  footer p {
+    margin: 0.25rem 0;
+    color: var(--color-muted);
+  }
+</style>
