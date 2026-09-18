@@ -1,0 +1,9 @@
+{
+  "categories": [
+    { "id": "destacados", "label": "Destacados" },
+    { "id": "centauros", "label": "Centauros" },
+    { "id": "ventanas", "label": "Ventanas" },
+    { "id": "serpientes", "label": "Serpientes" },
+    { "id": "botanica", "label": "Botánica" }
+  ]
+}

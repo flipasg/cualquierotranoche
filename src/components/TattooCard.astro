@@ -1,4 +1,13 @@
 ---
-import GalleryImage from './GalleryImage.astro'; interface Props{tattoo:any} const {tattoo}=Astro.props;
+import GalleryImage from './GalleryImage.astro';
+interface Props {
+  tattoo: any;
+}
+const { tattoo } = Astro.props;
 ---
-<article class="card"><GalleryImage src={tattoo.data.cover} alt={tattoo.data.coverAlt}/><h3>{tattoo.data.title}</h3><p>{tattoo.data.description}</p></article>
+
+<article class="card">
+  <GalleryImage src={tattoo.data.cover} alt={tattoo.data.coverAlt} /><h3>
+    {tattoo.data.title}
+  </h3><p>{tattoo.data.description}</p>
+</article>

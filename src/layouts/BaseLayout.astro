@@ -1,7 +1,33 @@
 ---
-import Header from '../components/Header.astro';import Footer from '../components/Footer.astro';import '../styles/global.css';
-interface Props { title: string; description: string; }
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+interface Props {
+  title: string;
+  description: string;
+}
 const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
-<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="description" content={description}><link rel="canonical" href={canonical}><meta property="og:type" content="website"><meta property="og:title" content={title}><meta property="og:description" content={description}><meta property="og:url" content={canonical}><title>{title} · Nombre artístico</title></head><body><a class="skip-link" href="#contenido">Saltar al contenido</a><Header/><main id="contenido"><slot/></main><Footer/></body></html>
+
+<!doctype html>
+<html lang="es">
+  <head
+    ><meta charset="UTF-8" /><meta
+      name="viewport"
+      content="width=device-width"
+    /><meta name="description" content={description} /><link
+      rel="canonical"
+      href={canonical}
+    /><meta property="og:type" content="website" /><meta
+      property="og:title"
+      content={title}
+    /><meta property="og:description" content={description} /><meta
+      property="og:url"
+      content={canonical}
+    /><title>{title} · Nombre artístico</title></head
+  ><body
+    ><a class="skip-link" href="#contenido">Saltar al contenido</a><Header
+    /><main id="contenido"><slot /></main><Footer /></body
+  >
+</html>

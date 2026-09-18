@@ -1,5 +1,57 @@
-import {readdir,readFile,writeFile,mkdir,copyFile} from 'node:fs/promises';import {join,extname,basename} from 'node:path';import sharp from 'sharp';
-const input='media/uploads',output='public/uploads';await mkdir(output,{recursive:true});await mkdir('src/generated',{recursive:true});
-const drafts=new Set();for(const folder of ['flash','tattoos','obras','proyectos','paginas'])for(const file of await readdir(join('src/content',folder))){if(!file.endsWith('.md'))continue;const raw=await readFile(join('src/content',folder,file),'utf8');if(/\ndraft:\s*true\s*\n/.test(raw))for(const m of raw.matchAll(/\/uploads\/([^"'\n]+)/g))drafts.add(m[1]);}
-const manifest={};for(const name of await readdir(input)){if(drafts.has(name))continue;const ext=extname(name).toLowerCase();const source=join(input,name);if(ext==='.svg'){await copyFile(source,join(output,name));const raw=await readFile(source,'utf8');const view=raw.match(/viewBox="[^"]*\s(\d+)\s(\d+)"/);manifest[`/uploads/${name}`]={src:`/uploads/${name}`,width:Number(view?.[1]||1200),height:Number(view?.[2]||1500)};}else if(['.jpg','.jpeg','.png','.webp'].includes(ext)){const out=`${basename(name,ext)}.webp`;const image=sharp(source).rotate().resize({width:2000,height:2400,fit:'inside',withoutEnlargement:true});await image.webp({quality:84}).toFile(join(output,out));const meta=await sharp(join(output,out)).metadata();manifest[`/uploads/${name}`]={src:`/uploads/${out}`,width:meta.width,height:meta.height};}}
-await writeFile('src/generated/media.json',JSON.stringify(manifest,null,2)+'\n');console.log(`Medios preparados: ${Object.keys(manifest).length}.`);
+import {
+  readdir,
+  readFile,
+  writeFile,
+  mkdir,
+  copyFile,
+} from 'node:fs/promises';
+import { join, extname, basename } from 'node:path';
+import sharp from 'sharp';
+const input = 'media/uploads',
+  output = 'public/uploads';
+await mkdir(output, { recursive: true });
+await mkdir('src/generated', { recursive: true });
+const drafts = new Set();
+for (const folder of ['flash', 'tattoos', 'obras', 'proyectos', 'paginas'])
+  for (const file of await readdir(join('src/content', folder))) {
+    if (!file.endsWith('.md')) continue;
+    const raw = await readFile(join('src/content', folder, file), 'utf8');
+    if (/\ndraft:\s*true\s*\n/.test(raw))
+      for (const m of raw.matchAll(/\/uploads\/([^"'\n]+)/g)) drafts.add(m[1]);
+  }
+const manifest = {};
+for (const name of await readdir(input)) {
+  if (drafts.has(name)) continue;
+  const ext = extname(name).toLowerCase();
+  const source = join(input, name);
+  if (ext === '.svg') {
+    await copyFile(source, join(output, name));
+    const raw = await readFile(source, 'utf8');
+    const view = raw.match(/viewBox="[^"]*\s(\d+)\s(\d+)"/);
+    manifest[`/uploads/${name}`] = {
+      src: `/uploads/${name}`,
+      width: Number(view?.[1] || 1200),
+      height: Number(view?.[2] || 1500),
+    };
+  } else if (['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
+    const out = `${basename(name, ext)}.webp`;
+    const image = sharp(source).rotate().resize({
+      width: 2000,
+      height: 2400,
+      fit: 'inside',
+      withoutEnlargement: true,
+    });
+    await image.webp({ quality: 84 }).toFile(join(output, out));
+    const meta = await sharp(join(output, out)).metadata();
+    manifest[`/uploads/${name}`] = {
+      src: `/uploads/${out}`,
+      width: meta.width,
+      height: meta.height,
+    };
+  }
+}
+await writeFile(
+  'src/generated/media.json',
+  JSON.stringify(manifest, null, 2) + '\n',
+);
+console.log(`Medios preparados: ${Object.keys(manifest).length}.`);

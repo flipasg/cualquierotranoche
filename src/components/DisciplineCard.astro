@@ -1,4 +1,15 @@
 ---
-interface Props { title:string; text:string; href:string; number:string } const {title,text,href,number}=Astro.props;
+interface Props {
+  title: string;
+  text: string;
+  href: string;
+  number: string;
+}
+const { title, text, href, number } = Astro.props;
 ---
-<article class="card"><p class="eyebrow">{number}</p><h3>{title}</h3><p>{text}</p><a href={href}>Explorar {title.toLowerCase()} →</a></article>
+
+<article class="card">
+  <p class="eyebrow">{number}</p><h3>{title}</h3><p>{text}</p><a href={href}
+    >Explorar {title.toLowerCase()} →</a
+  >
+</article>

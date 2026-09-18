@@ -1,4 +1,14 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';import ContactOptions from '../components/ContactOptions.astro';import {forms,formUrl} from '../config/forms';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactOptions from '../components/ContactOptions.astro';
 ---
-<BaseLayout title="Contacto" description="Consultas de tattoo, obra, ilustración y avisos por ciudad."><section class="container section"><h1>Hablemos</h1><p class="lead">Elige qué tienes en mente y cuéntame un poco más.</p><ContactOptions/></section><section id="ciudades" class="container section"><p class="eyebrow">TATTOO / AVISOS POR CIUDAD</p><h2>¿Nos vemos en tu ciudad?</h2><p class="lead">Déjame tu ciudad y te avisaré cuando anuncie fechas allí.</p><p>Puedes apuntarte aunque aún no tengas decidido el diseño. No reserva una cita ni garantiza una visita.</p><div class="form-mock"><fieldset class="group"><legend>DATOS PARA EL AVISO</legend>{['Nombre *','Email *','Ciudad donde vives *','Ciudad o ciudades para tatuarte *'].map(x=><label class="field">{x}<span class="fake-input">Completar en Tally</span></label>)}<a id="privacidad" href="#privacidad">Información de privacidad · Cómo darte de baja</a></fieldset><a class="button" href={formUrl(forms.cityAlerts,{source:'portfolio-ciudades'})}>Quiero recibir el aviso</a><p class="muted">Solo recibirás avisos de las ciudades que elijas.</p></div></section><section class="container section editorial"><div><p class="eyebrow">07 / CONTACTO</p><h3>Una puerta común</h3><p>El menú de Contacto reúne las consultas. Desde una obra o un flash se entra con el motivo ya seleccionado.</p></div><div><p class="eyebrow">CIUDADES</p><h3>Un formulario breve</h3><p>Los avisos tienen su propia entrada desde Tattoo. Aquí se muestra esa variante del contacto.</p></div><div><p class="eyebrow">GESTIÓN</p><h3>Sin falsas reservas</h3><p>Apuntarse expresa interés. El texto explica qué ocurrirá y evita prometer una cita.</p></div></section></BaseLayout>
+
+<BaseLayout
+  title="Contacto"
+  description="Consultas de tattoo, obra e ilustración."
+  ><section class="container section">
+    <h1>Hablemos</h1><p class="lead">
+      Elige qué tienes en mente y cuéntame un poco más.
+    </p><ContactOptions />
+  </section></BaseLayout
+>

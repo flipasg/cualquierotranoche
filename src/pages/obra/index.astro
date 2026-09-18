@@ -1,4 +1,67 @@
 ---
-import {getCollection} from 'astro:content';import BaseLayout from '../../layouts/BaseLayout.astro';import WorkCard from '../../components/WorkCard.astro';const works=await getCollection('obras',({data})=>!data.draft);
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WorkCard from '../../components/WorkCard.astro';
+const works = await getCollection('obras', ({ data }) => !data.draft);
+const collections = [
+  ...new Set(works.map((work) => work.data.collection)),
+].sort((first, second) => first.localeCompare(second));
 ---
-<BaseLayout title="Obra original" description="Catálogo de piezas únicas en papel, pintura y collage."><section class="container section"><p class="eyebrow">CATÁLOGO · CONTENIDO DE MUESTRA</p><h1>Obra original</h1><p class="lead">Piezas únicas en papel, pintura y collage.</p><div class="filters" aria-label="Filtros disponibles"><span>Todas</span><span>Colección 01</span><span>Colección 02</span><span>Ver disponibles</span></div><div class="grid grid-2">{works.map(work=><WorkCard work={work}/>)}</div></section><section class="container section editorial"><div><p class="eyebrow">04 / CATÁLOGO</p><h3>La obra respira</h3><p>Dos columnas con espacio generoso. Las colecciones filtran la vista sin añadir otro nivel de navegación.</p></div><div><p class="eyebrow">AL ABRIR UNA PIEZA</p><p>El contacto conserva la pieza elegida.</p></div><p><strong>Precio solo ilustrativo.</strong></p></section></BaseLayout>
+
+<BaseLayout
+  title="Obra original"
+  description="Catálogo de piezas únicas en papel, pintura y collage."
+  ><section class="container section">
+    <p class="eyebrow">CATÁLOGO · CONTENIDO DE MUESTRA</p><h1>
+      Obra original
+    </h1><p class="lead">Piezas únicas en papel, pintura y collage.</p><div
+      class="filters"
+      aria-label="Filtrar obras"
+      role="group"
+    >
+      <button type="button" data-filter="all" aria-pressed="true">
+        Todas
+      </button>{
+        collections.map((collection) => (
+          <button
+            type="button"
+            data-filter="collection"
+            data-collection={collection}
+          >
+            {collection}
+          </button>
+        ))
+      }<button type="button" data-filter="available">Ver disponibles</button>
+    </div><div class="grid grid-2">
+      {works.map((work) => <WorkCard work={work} />)}
+    </div>
+  </section></BaseLayout
+>
+
+<script>
+  const filters =
+    document.querySelectorAll<HTMLButtonElement>('.filters button');
+  const cards = document.querySelectorAll<HTMLElement>('[data-work-card]');
+
+  filters.forEach((filter) => {
+    filter.addEventListener('click', () => {
+      const type = filter.dataset.filter;
+      const collection = filter.dataset.collection;
+
+      cards.forEach((card) => {
+        const matchesCollection = card.dataset.collection === collection;
+        const isAvailable = card.dataset.status === 'disponible';
+        card.hidden =
+          type === 'collection'
+            ? !matchesCollection
+            : type === 'available'
+              ? !isAvailable
+              : false;
+      });
+
+      filters.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button === filter));
+      });
+    });
+  });
+</script>
