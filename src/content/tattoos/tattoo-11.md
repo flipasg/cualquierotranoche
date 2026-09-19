@@ -1,9 +1,9 @@
 ---
-title: 'Tatuaje de muestra 11'
-description: 'Tatuaje de muestra para la galería.'
-cover: '/uploads/tattoo-01.svg'
-coverAlt: 'Marcador de muestra para el tatuaje 11'
+title: Pececillo
+description: Flash pequeñito hecho en Madrid.
+cover: /uploads/web6.jpg
+coverAlt: Tattoo
 draft: false
+showInCarousel: true
 ---
-
-Tatuaje de muestra para completar la galería.
+Tattoo
