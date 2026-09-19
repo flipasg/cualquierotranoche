@@ -27,7 +27,7 @@
         "href": "/tattoo/",
         "linkLabel": "Explorar tattoo",
         "image": "/uploads/portada2.jpg",
-        "imageAlt": "Marcador de muestra para la sección de tattoo"
+        "imageAlt": "Tattoo"
       },
       {
         "title": "Obra",
@@ -35,7 +35,7 @@
         "href": "/obra/",
         "linkLabel": "Explorar obra",
         "image": "/uploads/portada3.jpg",
-        "imageAlt": "Composición geométrica de muestra para la sección de obra original"
+        "imageAlt": "collage"
       },
       {
         "title": "Ilustración",
@@ -43,7 +43,7 @@
         "href": "/ilustracion/",
         "linkLabel": "Explorar ilustración",
         "image": "/uploads/portada4.jpg",
-        "imageAlt": "Ilustración de muestra para la sección de ilustración"
+        "imageAlt": "Cartel"
       }
     ]
   },
