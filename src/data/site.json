@@ -23,18 +23,18 @@
     "disciplines": [
       {
         "title": "Tattoo",
-        "text": "Piezas realizadas y diseños disponibles",
+        "text": "Tatuajes realizadas y diseños disponibles",
         "href": "/tattoo/",
         "linkLabel": "Explorar tattoo",
-        "image": "/uploads/tattoo-01.svg",
+        "image": "/uploads/portada2.jpg",
         "imageAlt": "Marcador de muestra para la sección de tattoo"
       },
       {
-        "title": "Obra original",
-        "text": "Papel, pintura y collage",
+        "title": "Obra",
+        "text": "Obra original y seriada",
         "href": "/obra/",
-        "linkLabel": "Explorar obra original",
-        "image": "/uploads/obra-01.svg",
+        "linkLabel": "Explorar obra",
+        "image": "/uploads/portada3.jpg",
         "imageAlt": "Composición geométrica de muestra para la sección de obra original"
       },
       {
@@ -42,14 +42,14 @@
         "text": "Imágenes para proyectos y marcas",
         "href": "/ilustracion/",
         "linkLabel": "Explorar ilustración",
-        "image": "/uploads/proyecto-principal.svg",
+        "image": "/uploads/portada4.jpg",
         "imageAlt": "Ilustración de muestra para la sección de ilustración"
       }
     ]
   },
-  "email": "hola@ejemplo.com",
-  "instagram": "https://instagram.com/nombre-de-muestra",
-  "instagramLabel": "@nombre-de-muestra",
+  "email": "cualquierotranoche@gmail.com",
+  "instagram": "https://instagram.com/cualquierotranoche",
+  "instagramLabel": "@cualquierotranoche",
   "navigation": [
     {
       "href": "/tattoo/",
@@ -75,7 +75,7 @@
   "ui": {
     "skipLink": "Saltar al contenido",
     "homePage": {
-      "title": "Portfolio artístico",
+      "title": "Tattoo y arte ",
       "description": "Portfolio de muestra de tattoo, obra original e ilustración."
     },
     "about": {
@@ -113,9 +113,9 @@
     },
     "tattoo": {
       "title": "Tattoo",
-      "description": "Tatuajes y diseños flash.",
+      "description": "Tatuajes y flash.",
       "heading": "Tattoo",
-      "intro": "Una selección de tatuajes y diseños que están buscando su lugar.",
+      "intro": "Una selección de tatuajes y diseños disponibles",
       "tattoos": "Tatuajes",
       "flash": "Flash",
       "viewAll": "Ver todos",
