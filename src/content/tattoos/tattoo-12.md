@@ -1,9 +1,9 @@
 ---
-title: 'Tatuaje de muestra 12'
-description: 'Tatuaje de muestra para la galería.'
-cover: '/uploads/tattoo-02.svg'
-coverAlt: 'Marcador de muestra para el tatuaje 12'
+title: "Anaconda "
+description: "Diseño del flashbook hecho en Vitoria. "
+cover: /uploads/web13.jpg
+coverAlt: Tattoo
 draft: false
+showInCarousel: true
 ---
-
-Tatuaje de muestra para completar la galería.
+Tattoo
