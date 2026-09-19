@@ -90,7 +90,7 @@
     },
     "footer": {
       "formsHeading": "Formularios",
-      "disciplines": "Tattoo · Obra original · Ilustración",
+      "disciplines": "Tattoo · Obra · Ilustración",
       "contact": "Contacto",
       "email": "Email",
       "instagram": "Instagram",
@@ -99,7 +99,7 @@
     "forms": {
       "unavailable": "Formulario disponible próximamente.",
       "tattoo": "Tattoo",
-      "artwork": "Obra original",
+      "artwork": "Obra",
       "illustration": "Ilustración",
       "general": "Otra consulta",
       "cityAlerts": "Avisos por ciudad"
@@ -115,7 +115,7 @@
       "title": "Tattoo",
       "description": "Tatuajes y flash.",
       "heading": "Tattoo",
-      "intro": "Una selección de tatuajes y diseños disponibles",
+      "intro": "Necesito conservar la frescura del gesto. En la trazada despeinada de mis piezas hay un anhelo por ser dibujo y no solo tatuaje. En el tattoo mi imaginario depura sus formas con una textura inusual.\n\nA continuación te invito a explorar esta selección de piezas frescas y curadas. Tambien podrás sumergirte en mi flashbook.",
       "tattoos": "Tatuajes",
       "flash": "Flash",
       "viewAll": "Ver todos",
@@ -125,7 +125,7 @@
     },
     "flash": {
       "title": "Flash",
-      "description": "Galería de diseños flash disponibles.",
+      "description": "Diseños disponibles para ser tatuados.",
       "heading": "Flash",
       "filtersLabel": "Filtrar flash",
       "all": "Todos",
@@ -140,9 +140,9 @@
     },
     "artwork": {
       "title": "Obra",
-      "description": "Catálogo de piezas únicas en papel, pintura y collage.",
+      "description": "Obra original y seriada ",
       "heading": "Obra",
-      "intro": "Piezas únicas en papel, pintura y collage.",
+      "intro": "Mis imágenes emergen entre brochazos de pintura, recortes bastos de papeles y trazos expresivos. Es una pelea entre lo gráfico y lo pictórico, lo íntimo y lo crudo.\n\nAquí encuentras diferentes colecciones de obra original y seriada. ",
       "filtersLabel": "Filtrar obras",
       "all": "Todas",
       "available": "Ver disponibles",
@@ -156,7 +156,7 @@
       "title": "Ilustración",
       "description": "Proyectos de ilustración, cartelería e identidad visual.",
       "heading": "Ilustración",
-      "intro": "Imágenes pensadas para proyectos, marcas y espacios.",
+      "intro": "Mi universo visual puesto al servicio de un proyecto. Diseño de cartelería, editorial… ",
       "projectEyebrow": "PROYECTO DE MUESTRA",
       "projectCardEyebrow": "Proyecto de muestra",
       "projectCta": "Ver proyecto",
