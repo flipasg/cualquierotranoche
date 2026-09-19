@@ -1,9 +1,9 @@
 ---
-title: 'Tatuaje de muestra 04'
-description: 'Tatuaje de muestra para la galería.'
-cover: '/uploads/tattoo-02.svg'
-coverAlt: 'Marcador de muestra para el tatuaje 04'
+title: "Bestia asaeteada "
+description: Diseño custom para Yara hecho en mi visita a Gijón.
+cover: /uploads/web2.jpg
+coverAlt: Tattoo
 draft: false
+showInCarousel: true
 ---
-
-Tatuaje de muestra para completar la galería.
+Tattoo
