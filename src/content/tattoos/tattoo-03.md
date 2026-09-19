@@ -1,6 +1,7 @@
 ---
 title: Sirena pescada
-description: Sirena que nada en el pecho de Liber.
+description: Esta criatura marina nada sinuosamente en el pecho de Liber, que
+  vino desde Granada a Vitoria para pescarla.
 cover: /uploads/web7.jpg
 coverAlt: Tattoo
 draft: false
