@@ -1,9 +1,8 @@
 ---
-title: FOTOGRAFÍA TATTOO 01
-description: Imagen pendiente
-cover: /uploads/img6254.jpeg
-coverAlt: Marcador geométrico para una fotografía de tattoo pendiente
+title: Garza Negra
+cover: /uploads/web1.jpg
+coverAlt: Tatuaje
 draft: false
 showInCarousel: true
 ---
-Fotografía de muestra. No representa un trabajo real de la artista.
+Tattoo
