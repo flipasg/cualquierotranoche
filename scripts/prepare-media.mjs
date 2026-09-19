@@ -61,6 +61,35 @@ for (const name of await readdir(input)) {
     };
   }
 }
+const keys = Object.keys(manifest);
+const fallbackAnyPath = keys[0];
+const fallbackImagePath =
+  (social.image && manifest[social.image] && social.image) ||
+  keys.find((path) => /\.(?:jpe?g|png|webp)$/i.test(path));
+const fallbackSvgPath =
+  (social.favicon && manifest[social.favicon] && social.favicon) ||
+  keys.find((path) => path.toLowerCase().endsWith('.svg'));
+const missingPublished = [];
+for (const name of published) {
+  const target = `/uploads/${name}`;
+  if (manifest[target]) continue;
+  const extension = extname(name).toLowerCase();
+  const fallbackPath =
+    extension === '.svg'
+      ? fallbackSvgPath || fallbackImagePath || fallbackAnyPath
+      : ['.jpg', '.jpeg', '.png', '.webp'].includes(extension)
+        ? fallbackImagePath || fallbackAnyPath
+        : fallbackAnyPath;
+  if (!fallbackPath) continue;
+  const fallback = manifest[fallbackPath];
+  manifest[target] = { ...fallback };
+  missingPublished.push(`${target} -> ${fallback.src}`);
+}
+if (missingPublished.length) {
+  console.warn(
+    `Medios ausentes reemplazados por fallback:\n${missingPublished.join('\n')}`,
+  );
+}
 await writeFile(
   'src/generated/media.json',
   JSON.stringify(manifest, null, 2) + '\n',

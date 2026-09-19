@@ -300,6 +300,10 @@ test('prepara medios sociales compartidos con borradores y excluye los exclusivo
       join(directory, 'src/content/obras/draft.md'),
       '---\ndraft: true\ncover: /uploads/shared.png\ngallery:\n  - src: /uploads/custom.png\n  - src: /uploads/private.png\n---\n',
     );
+    await writeFile(
+      join(directory, 'src/content/flash/publicado.md'),
+      '---\ndraft: false\ncover: /uploads/falta.png\n---\n',
+    );
     for (const name of ['shared', 'custom', 'private'])
       await sharp({
         create: { width: 2, height: 2, channels: 3, background: '#ffffff' },
@@ -317,6 +321,11 @@ test('prepara medios sociales compartidos con borradores y excluye los exclusivo
     assert.ok(result['/uploads/shared.png']);
     assert.ok(result['/uploads/custom.png']);
     assert.equal(result['/uploads/private.png'], undefined);
+    assert.ok(result['/uploads/falta.png']);
+    assert.equal(
+      result['/uploads/falta.png'].src,
+      result['/uploads/shared.png'].src,
+    );
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
