@@ -1,9 +1,9 @@
 ---
-title: 'Tatuaje de muestra 03'
-description: 'Tatuaje de muestra para la galería.'
-cover: '/uploads/tattoo-01.svg'
-coverAlt: 'Marcador de muestra para el tatuaje 03'
+title: Sirena pescada
+description: Sirena que nada en el pecho de Liber.
+cover: /uploads/web7.jpg
+coverAlt: Tattoo
 draft: false
+showInCarousel: true
 ---
-
-Tatuaje de muestra para completar la galería.
+Tattoo
