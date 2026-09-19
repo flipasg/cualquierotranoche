@@ -1,9 +1,10 @@
 ---
-title: 'Tatuaje de muestra 07'
-description: 'Tatuaje de muestra para la galería.'
-cover: '/uploads/tattoo-01.svg'
-coverAlt: 'Marcador de muestra para el tatuaje 07'
+title: Ventanita estrellada
+description: "Ventana custom para Ana en el muslo hecho en Barcelona. Se muestra
+  el tatuaje curado de varios meses. "
+cover: /uploads/web14.jpg
+coverAlt: Tattoo
 draft: false
+showInCarousel: true
 ---
-
-Tatuaje de muestra para completar la galería.
+Tattoo
