@@ -1,9 +1,9 @@
 ---
-title: 'Tatuaje de muestra 10'
-description: 'Tatuaje de muestra para la galería.'
-cover: '/uploads/tattoo-02.svg'
-coverAlt: 'Marcador de muestra para el tatuaje 10'
+title: "Tigre dramático "
+description: Pieza para el antebrazo de Ainara. Se muestra curado de al menos un año.
+cover: /uploads/web16.jpg
+coverAlt: Tattoo
 draft: false
+showInCarousel: true
 ---
-
-Tatuaje de muestra para completar la galería.
+Tattoo
