@@ -1,9 +1,9 @@
 {
-  "name": "[nombre]",
-  "artisticName": "Nombre artístico",
+  "name": "Patricia",
+  "artisticName": "Cualquier otra noche",
   "home": {
-    "title": "Dibujar, crear, dejar una huella.",
-    "intro": "Soy [nombre]. Trabajo entre la piel, el papel y la imagen. Aquí puedes descubrir mis piezas y contarme qué tienes en mente.",
+    "title": "Papel. Piel.",
+    "intro": "Soy Patricia. Mi universo gráfico se despliega tanto en la piel como en el papel. Te invito a descubrirlo.",
     "heroImage": "/uploads/estudio-placeholder.svg",
     "heroImageAlt": "Fotografía en el estudio pendiente",
     "primaryCta": {
