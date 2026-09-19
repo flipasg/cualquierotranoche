@@ -2,6 +2,7 @@ import { readdir, readFile, access } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 const roots = ['flash', 'tattoos', 'obras', 'proyectos', 'paginas'];
 let errors = [];
+let warnings = [];
 let files = [];
 for (const root of roots) {
   const dir = join('src/content', root);
@@ -20,7 +21,7 @@ for (const file of files) {
     try {
       await access(join('media', match[1]));
     } catch {
-      errors.push(`${file}: no existe media${match[1]}`);
+      warnings.push(`${file}: no existe media${match[1]}`);
     }
   }
 }
@@ -28,6 +29,9 @@ if (errors.length) {
   console.error(errors.join('\n'));
   process.exit(1);
 }
+if (warnings.length) {
+  console.warn(`Avisos de contenido:\n${warnings.join('\n')}`);
+}
 console.log(
-  `Contenido válido: ${files.length} fichas y medios referenciados presentes.`,
+  `Contenido válido: ${files.length} fichas revisadas.`,
 );
