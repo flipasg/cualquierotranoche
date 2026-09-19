@@ -1,9 +1,10 @@
 ---
-title: "Centauro Lorda "
-description: Imagen pendiente
-cover: /uploads/tattoo-02.svg
-coverAlt: Marcador geométrico para una fotografía de tattoo pendiente
+title: Centauro Lorca
+description: Proyecto en dos sesiones que se inspira en los sonetos del amor
+  oscuro de Federico Garcia Lorca.
+cover: /uploads/web8-1.jpg
+coverAlt: Tattoo
 draft: false
 showInCarousel: true
 ---
-Fotografía de muestra. No representa un trabajo real de la artista.
+Tattoo
