@@ -10,10 +10,13 @@ cover: /uploads/web2-3.jpg
 coverAlt: Imagen de marca ilustrada
 gallery:
   - src: /uploads/web15-11.jpg
-    alt: Nerimmoon
+    alt: Letrero tienda
   - src: /uploads/web15-12.jpg
-    alt: nerimmoon
-  - {}
+    alt: Instagram
+  - src: /uploads/web15-13.jpg
+    alt: Tarjeta de visita 1
+  - src: /uploads/web15-14.jpg
+    alt: Tarjeta de visita 2
 draft: false
 ---
 Este proyecto es una muestra editorial y no corresponde a un encargo real.
