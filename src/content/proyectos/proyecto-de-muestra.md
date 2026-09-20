@@ -1,5 +1,5 @@
 ---
-title: Imagen de marca Nerimmoon Vintage
+title: Nerimmoon Vintage
 description: "Identidad visual ilustrada para Nerimmoon, una tienda de ropa
   vintage y espacio creativo con un universo muy personal: rosa y rojo,
   feminidad rebelde, trazos expresivos y un perro salchicha llamado Phil."
