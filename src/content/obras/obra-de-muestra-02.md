@@ -8,8 +8,8 @@ status: disponible
 priceEur: 350
 showPrice: true
 collection: "Esperando mi dia "
-cover: /uploads/obra-02.svg
-coverAlt: Composición geométrica de muestra en tinta y dorado
+cover: /uploads/web15-3.jpg
+coverAlt: Obra original
 draft: false
 ---
 Collage de muestra creado para presentar la estructura del catálogo. Sustituir por contenido real.
