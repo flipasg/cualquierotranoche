@@ -1,6 +1,6 @@
 ---
 title: Ángel de la guarda
-description: Obra original construida mediante técnica mixta.
+description: Obra original
 technique: "Técnica mixta sobre papel 100% algodón "
 dimensions: 36 × 51 cm
 widthCm: 36
