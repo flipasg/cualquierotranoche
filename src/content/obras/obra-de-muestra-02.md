@@ -11,6 +11,6 @@ collection: "Esperando mi dia "
 cover: /uploads/web15-3.jpg
 coverAlt: Obra original
 draft: false
-description: Blabla
+description: Blablablan
 ---
 Blablablabla
