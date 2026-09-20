@@ -9,10 +9,10 @@ status: disponible
 priceEur: 400
 showPrice: false
 collection: "Esperando mi dia "
-cover: /uploads/web11.jpg
+cover: /uploads/web15-6.jpg
 coverAlt: "Obra original "
 gallery:
-  - src: /uploads/web15-4.jpg
+  - src: /uploads/web11-1.jpg
     alt: Detalle
 draft: false
 ---
