@@ -16,4 +16,8 @@ gallery:
 draft: false
 priceEur: 300
 ---
-obra original 
+**Esperando mi día** es una colección realizada a principios de 2024, nacida de un periodo de distancia forzada.
+
+Son obras atravesadas por las visitas, los trayectos, el anhelo de cuidar a alguien desde lejos y los recuerdos de un tiempo compartido. Imágenes de una espera prolongada, donde conviven la ausencia, la nostalgia, la fe, el consuelo y la intimidad interrumpida.
+
+**Ángel de la guarda** encapsula de forma alegórica el anhelo de proteger y acompañar incluso en la distancia. 
