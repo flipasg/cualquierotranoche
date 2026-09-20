@@ -5,7 +5,7 @@ dimensions: 36 × 51 cm
 widthCm: 36
 heightCm: 51
 status: disponible
-priceEur: 350
+priceEur: 400
 showPrice: true
 collection: "Esperando mi dia "
 cover: /uploads/web15-3.jpg
