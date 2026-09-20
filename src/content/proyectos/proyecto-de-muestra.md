@@ -6,7 +6,10 @@ description: "Identidad visual ilustrada para Nerimmoon Vintage, una tienda de
 client: Nerimmoon Vintage
 services: Cartelería e identidad visual
 year: "2025"
-contribution: Concepto visual, ilustración y adaptación a los soportes acordados.
+contribution: |-
+  La frescura del dibujo manual a través de un trazo nervioso y expresivo.
+  Un imaginario de bestias, gestos y formas vivas.
+  Una identidad gráfica con carácter, juego y espontaneidad.
 cover: /uploads/web2-3.jpg
 coverAlt: Imagen de marca ilustrada
 gallery:
