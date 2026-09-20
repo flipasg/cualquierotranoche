@@ -11,8 +11,8 @@ collection: "Esperando mi dia "
 cover: /uploads/web1-1.jpg
 coverAlt: "Obra original "
 gallery:
-  - src: /uploads/obra-01-detalle.svg
-    alt: Detalle geométrico de la obra de muestra 01
+  - src: /uploads/web15-2.jpg
+    alt: Detalle
 draft: false
 ---
-Collage de muestra creado para presentar la estructura de la ficha. Sustituir por la obra y el texto reales.
+obra original 
