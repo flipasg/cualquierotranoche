@@ -7,7 +7,7 @@ services: Cartelería e identidad visual
 year: "2025"
 contribution: Concepto visual, ilustración y adaptación a los soportes acordados.
 cover: /uploads/web2-3.jpg
-coverAlt: Aplicación principal de un proyecto de ilustración de muestra
+coverAlt: Imagen de marca ilustrada
 gallery:
   - src: /uploads/web15-11.jpg
     alt: Nerimmoon
