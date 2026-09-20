@@ -8,10 +8,10 @@ heightCm: 51
 status: vendida
 showPrice: false
 collection: "Esperando mi dia "
-cover: /uploads/web1-1.jpg
+cover: /uploads/web15-5.jpg
 coverAlt: "Obra original "
 gallery:
-  - src: /uploads/web15-2.jpg
+  - src: /uploads/web1-2.jpg
     alt: Detalle
 draft: false
 priceEur: 300
