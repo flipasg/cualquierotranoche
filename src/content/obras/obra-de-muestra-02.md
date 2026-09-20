@@ -12,5 +12,8 @@ cover: /uploads/web15-3.jpg
 coverAlt: Obra original
 draft: false
 description: Blablablan
+gallery:
+  - src: /uploads/web8-2.jpg
+    alt: Detalle
 ---
 Blablablabla
