@@ -1,8 +1,8 @@
 ---
 title: Cristales
 technique: "Técnica mixta sobre papel 100% algodón "
-dimensions: 31 × 51 cm
-widthCm: 31
+dimensions: 36 × 51 cm
+widthCm: 36
 heightCm: 51
 status: disponible
 priceEur: 350
