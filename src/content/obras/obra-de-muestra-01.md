@@ -8,8 +8,8 @@ heightCm: 51
 status: vendida
 showPrice: false
 collection: "Esperando mi dia "
-cover: /uploads/obra-01.svg
-coverAlt: Composición geométrica de muestra en granate y rosa
+cover: /uploads/web1-1.jpg
+coverAlt: "Obra original "
 gallery:
   - src: /uploads/obra-01-detalle.svg
     alt: Detalle geométrico de la obra de muestra 01
