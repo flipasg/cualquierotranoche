@@ -6,10 +6,7 @@ description: "Identidad visual ilustrada para Nerimmoon, una tienda de ropa
 client: Nerimmoon Vintage
 services: Cartelería e identidad visual
 year: "2025"
-contribution: |-
-  La frescura del dibujo manual a través de un trazo nervioso y expresivo.
-  Un imaginario de bestias, gestos y formas vivas.
-  Una identidad gráfica con carácter, juego y espontaneidad.
+contribution: Un lenguaje fresco e irreverente, de trazo nervioso y bestias locas.
 cover: /uploads/web2-3.jpg
 coverAlt: Imagen de marca ilustrada
 gallery:
