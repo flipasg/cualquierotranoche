@@ -8,7 +8,7 @@ heightCm: 51
 status: disponible
 priceEur: 400
 showPrice: true
-collection: Esperando mi dia
+collection: "Esperando mi dia "
 cover: /uploads/web15-9.jpg
 coverAlt: obra original
 gallery:
