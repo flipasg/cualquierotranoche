@@ -1,7 +1,7 @@
 ---
 title: Imagen de marca Nerimmoon Vintage
-description: "Identidad visual ilustrada para Nerimmoon Vintage, una tienda de
-  ropa vintage y espacio creativa con un universo muy personal: rosa y rojo,
+description: "Identidad visual ilustrada para Nerimmoon, una tienda de ropa
+  vintage y espacio creativo con un universo muy personal: rosa y rojo,
   feminidad rebelde, trazos expresivos y un perro salchicha llamado Phil."
 client: Nerimmoon Vintage
 services: Cartelería e identidad visual
