@@ -14,5 +14,6 @@ gallery:
   - src: /uploads/web15-2.jpg
     alt: Detalle
 draft: false
+priceEur: 300
 ---
 obra original 
