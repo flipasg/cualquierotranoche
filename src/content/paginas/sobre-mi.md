@@ -1,13 +1,20 @@
 ---
-title: Hola, soy Patricia
+title: ¿Por qué dibujo?
 subtitle: Tattoo, obra e ilustración.
 location: Vitoria-Gasteiz / Proyectos y colaboraciones
-portrait: /uploads/retrato-placeholder.svg
-portraitAlt: Espacio reservado para un retrato de la artista en su estudio
+portrait: /uploads/portada1-1.jpg
+portraitAlt: Foto Patricia
 draft: false
+eyebrow: Blbabala
 ---
-Una presentación breve sobre tu manera de mirar y trabajar.
+Soy Patricia y no sé por qué dibujo.
 
-Aquí se puede contar qué conecta tus disciplinas y qué tipo de proyectos te interesa desarrollar.
+A veces dudo de si algo de esto tiene sentido y pierdo la luz. Pero no necesito pintar para ser esto. Solo mirar.
 
-Trayectoria seleccionada, ubicación y forma de trabajar. Un texto cercano que se pueda leer de una vez.
+Yo solo soy un animalillo. Una bestia cruda que olfatea y busca imágenes que desvelen algo.
+
+Hay un anhelo en el dibujo. Estoy siempre rondando las mismas formas, como un buitre. Y algo se desoculta. Algo que no puedo simplemente tomar como mío.
+
+Hace poco comprendí que mis dibujos no son míos. Son de todas.
+
+Estoy agradecida porque se me ha dado este sabor.
