@@ -1,16 +1,19 @@
 ---
-title: Imagen de marca para tienda vintage
+title: Imagen de marca Nerimmoon Vintage
 description: Una introducción breve al encargo, a su contexto y a la idea que
   guio el trabajo.
-client: Nerimmoon
+client: Nerimmoon Vintage
 services: Cartelería e identidad visual
 year: "2025"
 contribution: Concepto visual, ilustración y adaptación a los soportes acordados.
-cover: /uploads/proyecto-principal.svg
+cover: /uploads/web2-3.jpg
 coverAlt: Aplicación principal de un proyecto de ilustración de muestra
 gallery:
-  - src: /uploads/proyecto-detalle.svg
-    alt: Detalle de la ilustración de muestra
+  - src: /uploads/web15-11.jpg
+    alt: Nerimmoon
+  - src: /uploads/web15-12.jpg
+    alt: nerimmoon
+  - {}
 draft: false
 ---
 Este proyecto es una muestra editorial y no corresponde a un encargo real.
