@@ -1,6 +1,6 @@
 ---
 title: Ángel de la guarda
-description: Pieza provisional; no es una obra real de la artista.
+description: Obra original construida mediante técnica mixta.
 technique: "Técnica mixta sobre papel 100% algodón "
 dimensions: 36 × 51 cm
 widthCm: 36
