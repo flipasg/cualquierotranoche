@@ -1,6 +1,6 @@
 ---
 title: Hola, soy Patricia
-subtitle: Tattoo, obra original e ilustración.
+subtitle: Tattoo, obra e ilustración.
 location: Vitoria-Gasteiz / Proyectos y colaboraciones
 portrait: /uploads/retrato-placeholder.svg
 portraitAlt: Espacio reservado para un retrato de la artista en su estudio
