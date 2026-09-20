@@ -20,4 +20,4 @@ draft: false
 
 Son obras atravesadas por las visitas, los trayectos, el anhelo de cuidar a alguien desde lejos y los recuerdos de un tiempo compartido. Imágenes de una espera prolongada, donde conviven la ausencia, la nostalgia, la fe, el consuelo y la intimidad interrumpida.
 
-Te dejé es central en la colección porque de forma alegórica narra la despedida. La atmósfera lluviosa incide no solo en la angustia de la separación, sino en la sensación de abandono forzoso.
+**Te dejé** es central en la colección porque de forma alegórica narra la despedida. La atmósfera lluviosa incide no solo en la angustia de la separación, sino en la sensación de abandono forzoso.
