@@ -5,11 +5,29 @@ import { forms } from '../config/forms';
 
 const pathname = Astro.url.pathname;
 const navigation = site.navigation;
+const headerLogo = site.ui.header.logo ?? {};
+const desktopLogo = headerLogo.desktop || '';
+const tabletLogo = headerLogo.tablet || desktopLogo || '';
+const mobileLogo = headerLogo.mobile || tabletLogo || desktopLogo || '';
+const hasLogo = Boolean(desktopLogo || tabletLogo || mobileLogo);
+const logoAlt = headerLogo.alt?.trim() || site.artisticName;
 ---
 
 <header class="header" data-header data-menu-open="false">
   <div class="container header-inner">
-    <a class="brand" href="/">{site.artisticName}</a><div
+    <a class="brand" href="/">
+      {
+        hasLogo ? (
+          <picture>
+            {desktopLogo && <source media="(min-width: 900px)" srcset={desktopLogo} />}
+            {tabletLogo && <source media="(min-width: 700px)" srcset={tabletLogo} />}
+            <img src={mobileLogo || desktopLogo || tabletLogo} alt={logoAlt} />
+          </picture>
+        ) : (
+          site.artisticName
+        )
+      }
+    </a><div
       class="header-actions"
     >
       <TallyLink className="header-cta" url={forms.tattoo}
@@ -63,9 +81,19 @@ const navigation = site.navigation;
     gap: 1rem;
   }
   .brand {
+    display: inline-flex;
+    align-items: center;
     font-family: var(--font-family);
     font-size: 1.35rem;
     text-decoration: none;
+  }
+  .brand picture {
+    display: inline-flex;
+    align-items: center;
+  }
+  .brand img {
+    max-height: 3rem;
+    width: auto;
   }
   .sr-only {
     position: absolute;
@@ -135,6 +163,11 @@ const navigation = site.navigation;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .header .brand img {
+      max-height: 2.25rem;
+      max-width: min(55vw, 260px);
+      object-fit: contain;
+    }
     .header .header-actions {
       display: contents;
     }
@@ -186,6 +219,10 @@ const navigation = site.navigation;
     nav {
       order: 1;
       margin-left: auto;
+    }
+    .brand img {
+      max-height: 2.75rem;
+      max-width: 320px;
     }
   }
 </style>

@@ -3,9 +3,11 @@ import site from '../data/site.json';
 
 interface Props {
   showContactLink?: boolean;
+  showStudioInfo?: boolean;
 }
 
-const { showContactLink = true } = Astro.props;
+const { showContactLink = true, showStudioInfo = false } = Astro.props;
+const studio = site.ui.contact.studio ?? {};
 ---
 
 <div class="site-info">
@@ -24,6 +26,25 @@ const { showContactLink = true } = Astro.props;
       rel="me noreferrer">{site.ui.footer.instagram}</a
     >
   </div>
+  {
+    showStudioInfo && (
+      <div class="studio-info">
+        {studio.address && <p>{studio.address}</p>}
+        <div class="studio-links">
+          {studio.addressLinkText && studio.addressLinkUrl && (
+            <a href={studio.addressLinkUrl} target="_blank" rel="noreferrer">
+              {studio.addressLinkText}
+            </a>
+          )}
+          {studio.mapText && studio.mapUrl && (
+            <a href={studio.mapUrl} target="_blank" rel="noreferrer">
+              {studio.mapText}
+            </a>
+          )}
+        </div>
+      </div>
+    )
+  }
   <p>{site.ui.footer.sampleNotice} © {new Date().getFullYear()}</p>
 </div>
 
@@ -38,6 +59,14 @@ const { showContactLink = true } = Astro.props;
   }
   .site-info-links {
     margin-block: 1rem;
+  }
+  .studio-info {
+    margin-bottom: 1rem;
+  }
+  .studio-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
   }
   a {
     display: inline-block;

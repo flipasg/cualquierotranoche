@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContentCarousel from '../../components/ContentCarousel.astro';
 import FlashCard from '../../components/FlashCard.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
+import GalleryImage from '../../components/GalleryImage.astro';
 import TattooCard from '../../components/TattooCard.astro';
 import site from '../../data/site.json';
 const flash = await getCollection(
@@ -19,13 +20,26 @@ const tattoos = await getCollection(
 <BaseLayout
   title={site.ui.tattoo.title}
   description={site.ui.tattoo.description}
-  ><section class="container section">
-    <h1>{site.ui.tattoo.heading}</h1><p class="lead">
-      {site.ui.tattoo.intro}
-    </p><div class="button-row">
-      <a class="button secondary" href="#tatuajes">{site.ui.tattoo.tattoos}</a
-      ><a class="button secondary" href="#flash">{site.ui.tattoo.flash}</a>
+  ><section class="container section section-intro">
+    <div>
+      <h1>{site.ui.tattoo.heading}</h1><p class="lead">
+        {site.ui.tattoo.intro}
+      </p><div class="button-row">
+        <a class="button secondary" href="#tatuajes">{site.ui.tattoo.tattoos}</a
+        ><a class="button secondary" href="#flash">{site.ui.tattoo.flash}</a>
+      </div>
     </div>
+    {
+      site.ui.tattoo.heroImage && (
+        <div class="section-intro__media">
+          <GalleryImage
+            src={site.ui.tattoo.heroImage}
+            alt={site.ui.tattoo.heroImageAlt || site.ui.tattoo.heading}
+            loading="eager"
+          />
+        </div>
+      )
+    }
   </section><section id="tatuajes" class="container section">
     {
       tattoos.length ? (

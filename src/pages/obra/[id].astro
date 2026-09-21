@@ -26,7 +26,7 @@ const { Content } = await render(work);
       suffix={work.data.collection}
     /><h1>
       {work.data.title}
-    </h1><div class="grid grid-2">
+    </h1><div class="grid grid-2 obra-detail">
       <GalleryImage
         src={work.data.cover}
         alt={work.data.coverAlt}
@@ -42,15 +42,40 @@ const { Content } = await render(work);
         }<p>{site.ui.artwork.shipping}</p><div class="prose">
           <Content />
         </div><TallyLink
+          className="obra-interest"
           url={forms.artwork}
           params={{ artworkId: work.id, source: 'portfolio-obra' }}
           >{site.ui.artwork.interestCta}</TallyLink
         >
       </div>
-    </div>{
+    </div><section class="obra-gallery">
+      {
       work.data.gallery.map((image: any) => (
         <GalleryImage src={image.src} alt={image.alt} zoomable />
       ))
     }
+    </section>
   </article></BaseLayout
 >
+
+<style>
+  .obra-detail {
+    gap: clamp(1.25rem, 4vw, 3rem);
+  }
+  .obra-interest {
+    margin-top: 1rem;
+  }
+  .obra-gallery {
+    margin-top: clamp(2rem, 6vw, 5rem);
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 900px) {
+    .obra-detail {
+      margin-bottom: 1rem;
+    }
+    .obra-gallery {
+      margin-top: clamp(3rem, 7vw, 6rem);
+    }
+  }
+</style>

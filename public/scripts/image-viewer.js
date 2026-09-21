@@ -217,6 +217,11 @@ export function initImageViewer(root = document) {
     event.preventDefault();
     zoom(view.scale > 1 ? 1 : 2, pointFromEvent(event));
   });
+  root.addEventListener('dblclick', (event) => {
+    if (event.target.closest?.('[data-image-viewer-trigger]')) {
+      event.preventDefault();
+    }
+  });
   viewport.addEventListener('pointerdown', (event) => {
     if (!ready || event.button !== 0) return;
     pointers.set(event.pointerId, pointFromEvent(event));

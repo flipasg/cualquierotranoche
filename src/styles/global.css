@@ -49,11 +49,11 @@ h3 {
   margin: 0 0 1rem;
 }
 h1 {
-  font-size: clamp(3rem, 10vw, 7.5rem);
+  font-size: clamp(2.4rem, 8vw, 5rem);
   max-width: 12ch;
 }
 h2 {
-  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  font-size: clamp(1.8rem, 5vw, 3.4rem);
 }
 h3 {
   font-size: clamp(1.4rem, 3vw, 2rem);
@@ -143,6 +143,14 @@ p {
   display: grid;
   align-items: center;
   gap: 2rem;
+}
+.section-intro {
+  min-height: calc(100svh - var(--header-height, 0px));
+  display: grid;
+  align-content: center;
+}
+.section-intro__media {
+  margin-top: 1rem;
 }
 .hero img {
   width: 100%;
@@ -238,6 +246,15 @@ p {
   .hero {
     grid-template-columns: 1.1fr 0.9fr;
     min-height: 70vh;
+  }
+  .section-intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: center;
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .section-intro__media {
+    margin-top: 0;
+    justify-self: end;
   }
   .editorial {
     grid-template-columns: repeat(3, 1fr);
