@@ -149,6 +149,14 @@ p {
   display: grid;
   align-content: center;
 }
+.section-intro--stacked {
+  min-height: auto;
+  padding-block-start: clamp(2rem, 6vw, 4rem);
+  padding-block-end: clamp(1.5rem, 4vw, 3rem);
+}
+.section-intro--stacked + .section {
+  padding-top: clamp(1.5rem, 4vw, 3rem);
+}
 .page-header {
   width: 100%;
 }
@@ -265,7 +273,6 @@ p {
     column-gap: clamp(1.5rem, 4vw, 3rem);
   }
   .section-intro--stacked {
-    min-height: auto;
     grid-template-columns: minmax(0, 1fr);
   }
   .page-header__image,
