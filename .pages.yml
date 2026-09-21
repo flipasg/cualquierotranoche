@@ -371,10 +371,14 @@ content:
                 { name: description, label: Descripción SEO, type: text },
                 { name: heading, label: Titular, type: string },
                 { name: intro, label: Introducción, type: text },
-                { name: heroImage, label: Imagen de portada, type: image },
+                {
+                  name: heroImage,
+                  label: Imagen de cabecera (horizontal),
+                  type: image,
+                },
                 {
                   name: heroImageAlt,
-                  label: Texto alternativo de portada,
+                  label: Texto alternativo de la cabecera,
                   type: string,
                 },
                 { name: tattoos, label: Tatuajes, type: string },
@@ -433,10 +437,14 @@ content:
                 { name: eyebrow, label: Antetítulo del catálogo, type: string },
                 { name: heading, label: Titular, type: string },
                 { name: intro, label: Introducción, type: text },
-                { name: heroImage, label: Imagen de portada, type: image },
+                {
+                  name: heroImage,
+                  label: Imagen de cabecera (horizontal),
+                  type: image,
+                },
                 {
                   name: heroImageAlt,
-                  label: Texto alternativo de portada,
+                  label: Texto alternativo de la cabecera,
                   type: string,
                 },
                 {
@@ -468,10 +476,14 @@ content:
                 { name: description, label: Descripción SEO, type: text },
                 { name: heading, label: Titular, type: string },
                 { name: intro, label: Introducción, type: text },
-                { name: heroImage, label: Imagen de portada, type: image },
+                {
+                  name: heroImage,
+                  label: Imagen de cabecera (horizontal),
+                  type: image,
+                },
                 {
                   name: heroImageAlt,
-                  label: Texto alternativo de portada,
+                  label: Texto alternativo de la cabecera,
                   type: string,
                 },
                 {

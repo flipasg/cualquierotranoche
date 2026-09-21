@@ -14,7 +14,20 @@ const collections = [
 <BaseLayout
   title={site.ui.artwork.title}
   description={site.ui.artwork.description}
-  ><section class="container section section-intro">
+>
+  {
+    site.ui.artwork.heroImage && (
+      <section class="page-header" aria-label={site.ui.artwork.heading}>
+        <GalleryImage
+          src={site.ui.artwork.heroImage}
+          alt={site.ui.artwork.heroImageAlt || site.ui.artwork.heading}
+          loading="eager"
+          class="page-header__image"
+        />
+      </section>
+    )
+  }
+  <section class="container section section-intro">
     <div>
       <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
         {site.ui.artwork.heading}
@@ -40,22 +53,11 @@ const collections = [
         >
       </div>
     </div>
-    {
-      site.ui.artwork.heroImage && (
-        <div class="section-intro__media">
-          <GalleryImage
-            src={site.ui.artwork.heroImage}
-            alt={site.ui.artwork.heroImageAlt || site.ui.artwork.heading}
-            loading="eager"
-          />
-        </div>
-      )
-    }
   </section><section class="container section">
     <div class="grid grid-2">
       {works.map((work) => <WorkCard work={work} />)}
     </div>
-  </section></BaseLayout
->
+  </section>
+</BaseLayout>
 
 <script is:inline src="/scripts/obra-filters.js"></script>
