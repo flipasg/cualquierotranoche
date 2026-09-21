@@ -9,7 +9,7 @@ const projectHref = `/proyectos/${project.id}/`;
 ---
 
 <article class="card">
-  <a class="card__link" href={projectHref}>
+  <a class="card__link" href={projectHref} aria-label={project.data.title}>
     <GalleryImage src={project.data.cover} alt={project.data.coverAlt} /><h3>
       {project.data.title}
     </h3><span class="card__cta">{site.ui.illustration.projectCta}</span>
