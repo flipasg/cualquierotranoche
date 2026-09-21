@@ -149,6 +149,18 @@ p {
   display: grid;
   align-content: center;
 }
+.page-header {
+  width: 100%;
+}
+.page-header__image,
+.page-header__image.gallery-image {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
 .section-intro__media {
   margin-top: 1rem;
 }
@@ -252,9 +264,14 @@ p {
     align-items: center;
     column-gap: clamp(1.5rem, 4vw, 3rem);
   }
-  .section-intro__media {
-    margin-top: 0;
-    justify-self: end;
+  .section-intro--stacked {
+    min-height: auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .page-header__image,
+  .page-header__image.gallery-image {
+    aspect-ratio: 21 / 9;
+    max-height: min(70svh, 40rem);
   }
   .editorial {
     grid-template-columns: repeat(3, 1fr);

@@ -20,7 +20,20 @@ const tattoos = await getCollection(
 <BaseLayout
   title={site.ui.tattoo.title}
   description={site.ui.tattoo.description}
-  ><section class="container section section-intro">
+>
+  {
+    site.ui.tattoo.heroImage && (
+      <section class="page-header" aria-label={site.ui.tattoo.heading}>
+        <GalleryImage
+          src={site.ui.tattoo.heroImage}
+          alt={site.ui.tattoo.heroImageAlt || site.ui.tattoo.heading}
+          loading="eager"
+          class="page-header__image"
+        />
+      </section>
+    )
+  }
+  <section class="container section section-intro section-intro--stacked">
     <div>
       <h1>{site.ui.tattoo.heading}</h1><p class="lead">
         {site.ui.tattoo.intro}
@@ -29,17 +42,6 @@ const tattoos = await getCollection(
         ><a class="button secondary" href="#flash">{site.ui.tattoo.flash}</a>
       </div>
     </div>
-    {
-      site.ui.tattoo.heroImage && (
-        <div class="section-intro__media">
-          <GalleryImage
-            src={site.ui.tattoo.heroImage}
-            alt={site.ui.tattoo.heroImageAlt || site.ui.tattoo.heading}
-            loading="eager"
-          />
-        </div>
-      )
-    }
   </section><section id="tatuajes" class="container section">
     {
       tattoos.length ? (
