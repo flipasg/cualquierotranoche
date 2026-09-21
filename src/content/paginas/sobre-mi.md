@@ -1,6 +1,6 @@
 ---
-title: "Hola, "
-subtitle: Soy Patricia, y no se por que dibujo.
+title: Soy Patricia,
+subtitle: y no se por que dibujo.
 location: Vitoria-Gasteiz / No Limits Tattoo
 portrait: /uploads/portada1-1.jpg
 portraitAlt: Foto Patricia
