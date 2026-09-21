@@ -3,9 +3,16 @@ import site from '../data/site.json';
 import TallyLink from './TallyLink.astro';
 import { forms } from '../config/forms';
 
+type HeaderLogo = {
+  alt?: string;
+  desktop?: string;
+  tablet?: string;
+  mobile?: string;
+};
+
 const pathname = Astro.url.pathname;
 const navigation = site.navigation;
-const headerLogo = site.ui.header.logo ?? {};
+const headerLogo: HeaderLogo = site.ui.header.logo ?? {};
 const desktopLogo = headerLogo.desktop || '';
 const tabletLogo = headerLogo.tablet || desktopLogo || '';
 const mobileLogo = headerLogo.mobile || tabletLogo || desktopLogo || '';

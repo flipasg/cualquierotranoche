@@ -6,8 +6,16 @@ interface Props {
   showStudioInfo?: boolean;
 }
 
+interface StudioInfo {
+  address?: string;
+  addressLinkText?: string;
+  addressLinkUrl?: string;
+  mapText?: string;
+  mapUrl?: string;
+}
+
 const { showContactLink = true, showStudioInfo = false } = Astro.props;
-const studio = site.ui.contact.studio ?? {};
+const studio: StudioInfo = site.ui.contact.studio ?? {};
 ---
 
 <div class="site-info">
