@@ -5,16 +5,29 @@ interface Props {
   project: any;
 }
 const { project } = Astro.props;
+const projectHref = `/proyectos/${project.id}/`;
 ---
 
 <article class="card">
-  <GalleryImage
-    src={project.data.cover}
-    alt={project.data.coverAlt}
-    zoomable
-  /><h3>
-    {project.data.title}
-  </h3><a href={`/proyectos/${project.id}/`}
-    >{site.ui.illustration.projectCta}</a
-  >
+  <a class="card__link" href={projectHref} aria-label={project.data.title}>
+    <GalleryImage src={project.data.cover} alt={project.data.coverAlt} /><h3>
+      {project.data.title}
+    </h3><span class="card__cta">{site.ui.illustration.projectCta}</span>
+  </a>
 </article>
+
+<style>
+  .card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+  .card__cta {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .card__link:hover .card__cta,
+  .card__link:focus-visible .card__cta {
+    text-decoration-thickness: 2px;
+  }
+</style>
