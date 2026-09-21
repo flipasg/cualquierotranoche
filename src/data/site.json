@@ -38,10 +38,10 @@
         "imageAlt": "collage"
       },
       {
-        "title": "Ilustración",
+        "title": "Proyectos",
         "text": "Imágenes para proyectos y marcas",
-        "href": "/ilustracion/",
-        "linkLabel": "Explorar ilustración",
+        "href": "/proyectos/",
+        "linkLabel": "Explorar proyectos",
         "image": "/uploads/portada4-4.jpg",
         "imageAlt": "Cartel"
       }
@@ -60,8 +60,8 @@
       "label": "Obra"
     },
     {
-      "href": "/ilustracion/",
-      "label": "Ilustración"
+      "href": "/proyectos/",
+      "label": "Proyectos"
     },
     {
       "href": "/sobre-mi/",
@@ -86,11 +86,17 @@
       "tattooCta": "Quiero tatuarme",
       "openMenu": "Abrir menú",
       "closeMenu": "Cerrar menú",
-      "navigationLabel": "Navegación principal"
+      "navigationLabel": "Navegación principal",
+      "logo": {
+        "alt": "Cualquier otra noche",
+        "mobile": "",
+        "tablet": "",
+        "desktop": ""
+      }
     },
     "footer": {
       "formsHeading": "Formularios",
-      "disciplines": "Tattoo · Obra · Ilustración",
+      "disciplines": "Tattoo · Obra · Proyectos",
       "contact": "Contacto",
       "email": "Email",
       "instagram": "Instagram",
@@ -109,13 +115,22 @@
       "description": "Consultas de tattoo, obra e ilustración.",
       "eyebrow": "Contacto · Consultas",
       "heading": "Hablemos",
-      "intro": "Elige qué tienes en mente y cuéntame un poco más."
+      "intro": "Elige qué tienes en mente y cuéntame un poco más.",
+      "studio": {
+        "address": "",
+        "addressLinkText": "",
+        "addressLinkUrl": "",
+        "mapText": "",
+        "mapUrl": ""
+      }
     },
     "tattoo": {
       "title": "Tattoo",
       "description": "Tatuajes y flash",
       "heading": "Tattoo",
       "intro": "Necesito conservar la frescura del gesto. En la trazada despeinada de mis piezas hay un anhelo por ser dibujo y no solo tatuaje. En el tattoo mi imaginario depura sus formas con una textura inusual.\n\n\nA continuación te invito a explorar esta selección de piezas frescas y curadas. Tambien podrás sumergirte en mi flashbook.",
+      "heroImage": "",
+      "heroImageAlt": "",
       "tattoos": "Tatuajes",
       "flash": "Flash",
       "viewAll": "Ver todos",
@@ -143,6 +158,8 @@
       "description": "Obra original y seriada ",
       "heading": "Obra",
       "intro": "Mis imágenes emergen entre brochazos de pintura, recortes bastos de papeles y trazos expresivos. Es una pelea entre lo gráfico y lo pictórico, lo íntimo y lo crudo.\n\nAquí encuentras diferentes colecciones de obra original y seriada. ",
+      "heroImage": "",
+      "heroImageAlt": "",
       "filtersLabel": "Filtrar obras",
       "all": "Todas",
       "available": "Ver disponibles",
@@ -153,16 +170,27 @@
       "detailEyebrow": "Obra"
     },
     "illustration": {
-      "title": "Ilustración",
-      "description": "Proyectos de ilustración, cartelería e identidad visual.",
-      "heading": "Ilustración",
+      "title": "Proyectos",
+      "description": "Proyectos visuales, cartelería e identidad.",
+      "heading": "Proyectos",
       "intro": "Mi universo visual puesto al servicio de un proyecto. Diseño de cartelería, editorial… ",
+      "heroImage": "",
+      "heroImageAlt": "",
       "projectEyebrow": "PROYECTO",
       "projectCardEyebrow": "Proyecto",
       "projectCta": "Ver proyecto",
       "contributionEyebrow": "MI APORTACIÓN",
       "contactHeading": "¿Tienes un proyecto en mente?",
       "contactCta": "Cuéntame tu proyecto"
+    },
+    "imageSizing": {
+      "default": "100vw",
+      "zoomable": "(max-width: 699px) 100vw, (max-width: 1099px) 80vw, 64vw",
+      "maxWidth": {
+        "mobile": "100%",
+        "tablet": "100%",
+        "desktop": "100%"
+      }
     },
     "carousel": {
       "previous": "Anterior",

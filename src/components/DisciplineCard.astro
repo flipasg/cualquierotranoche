@@ -12,8 +12,23 @@ interface Props {
 const { title, text, href, linkLabel, image, imageAlt } = Astro.props;
 ---
 
-<article class="card">
-  <GalleryImage src={image} alt={imageAlt} class="discipline-card__image" /><h3>
-    {title}
-  </h3><p>{text}</p><a href={href}>{linkLabel}</a>
+<article class="card discipline-card">
+  <a class="discipline-card__link" href={href} aria-label={linkLabel}>
+    <GalleryImage src={image} alt={imageAlt} class="discipline-card__image" /><h3>
+      {title}
+    </h3><p>{text}</p><span>{linkLabel}</span>
+  </a>
 </article>
+
+<style>
+  .discipline-card__link {
+    display: grid;
+    color: inherit;
+    text-decoration: none;
+    gap: 0.25rem;
+    height: 100%;
+  }
+  .discipline-card__link:hover span {
+    text-decoration: underline;
+  }
+</style>

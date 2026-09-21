@@ -49,7 +49,7 @@ content:
           list: true,
         }
       - { name: body, label: Contenido, type: rich-text }
-    operations: { create: true, rename: false, delete: false }
+    operations: { create: true, rename: true, delete: true }
   - name: tattoos
     label: Tatuajes
     type: collection
@@ -73,7 +73,7 @@ content:
         }
       - { name: draft, label: Borrador, type: boolean, default: false }
       - { name: body, label: Contenido, type: rich-text }
-    operations: { create: true, rename: false, delete: false }
+    operations: { create: true, rename: true, delete: true }
   - name: obras
     label: Obras
     type: collection
@@ -115,7 +115,7 @@ content:
           ]
       - { name: draft, label: Borrador, type: boolean, default: false }
       - { name: body, label: Contenido, type: rich-text }
-    operations: { create: true, rename: false, delete: false }
+    operations: { create: true, rename: true, delete: true }
   - name: proyectos
     label: Proyectos
     type: collection
@@ -141,7 +141,7 @@ content:
           ]
       - { name: draft, label: Borrador, type: boolean, default: false }
       - { name: body, label: Contenido, type: rich-text }
-    operations: { create: true, rename: false, delete: false }
+    operations: { create: true, rename: true, delete: true }
   - name: sobre-mi
     label: Página Sobre mí
     type: file
@@ -281,6 +281,18 @@ content:
                   label: Etiqueta de navegación,
                   type: string,
                 },
+                {
+                  name: logo,
+                  label: Logotipo,
+                  type: object,
+                  fields:
+                    [
+                      { name: alt, label: Texto alternativo, type: string },
+                      { name: mobile, label: Logo móvil, type: image },
+                      { name: tablet, label: Logo tablet, type: image },
+                      { name: desktop, label: Logo ordenador, type: image },
+                    ],
+                },
               ]
           - name: footer
             label: Pie de página
@@ -328,6 +340,27 @@ content:
                 { name: eyebrow, label: Antetítulo, type: string },
                 { name: heading, label: Titular, type: string },
                 { name: intro, label: Introducción, type: text },
+                {
+                  name: studio,
+                  label: Estudio,
+                  type: object,
+                  fields:
+                    [
+                      { name: address, label: Dirección, type: text },
+                      {
+                        name: addressLinkText,
+                        label: Texto del enlace de dirección,
+                        type: string,
+                      },
+                      {
+                        name: addressLinkUrl,
+                        label: URL del enlace de dirección,
+                        type: string,
+                      },
+                      { name: mapText, label: Texto del mapa, type: string },
+                      { name: mapUrl, label: URL del mapa, type: string },
+                    ],
+                },
               ]
           - name: tattoo
             label: Página de tattoo
@@ -338,6 +371,12 @@ content:
                 { name: description, label: Descripción SEO, type: text },
                 { name: heading, label: Titular, type: string },
                 { name: intro, label: Introducción, type: text },
+                { name: heroImage, label: Imagen de portada, type: image },
+                {
+                  name: heroImageAlt,
+                  label: Texto alternativo de portada,
+                  type: string,
+                },
                 { name: tattoos, label: Tatuajes, type: string },
                 { name: flash, label: Flash, type: string },
                 { name: viewAll, label: Ver todos, type: string },
@@ -394,6 +433,12 @@ content:
                 { name: eyebrow, label: Antetítulo del catálogo, type: string },
                 { name: heading, label: Titular, type: string },
                 { name: intro, label: Introducción, type: text },
+                { name: heroImage, label: Imagen de portada, type: image },
+                {
+                  name: heroImageAlt,
+                  label: Texto alternativo de portada,
+                  type: string,
+                },
                 {
                   name: filtersLabel,
                   label: Etiqueta de filtros,
@@ -415,7 +460,7 @@ content:
                 { name: cardCta, label: Ver la pieza, type: string },
               ]
           - name: illustration
-            label: Página de ilustración
+            label: Página de proyectos
             type: object
             fields:
               [
@@ -423,6 +468,12 @@ content:
                 { name: description, label: Descripción SEO, type: text },
                 { name: heading, label: Titular, type: string },
                 { name: intro, label: Introducción, type: text },
+                { name: heroImage, label: Imagen de portada, type: image },
+                {
+                  name: heroImageAlt,
+                  label: Texto alternativo de portada,
+                  type: string,
+                },
                 {
                   name: projectEyebrow,
                   label: Antetítulo de ficha,
@@ -439,15 +490,32 @@ content:
                   label: Antetítulo de aportación,
                   type: string,
                 },
+              ]
+          - name: imageSizing
+            label: Tamaños de imagen
+            type: object
+            fields:
+              [
                 {
-                  name: contactHeading,
-                  label: Titular de contacto,
+                  name: default,
+                  label: Atributo sizes por defecto,
                   type: string,
                 },
                 {
-                  name: contactCta,
-                  label: Llamada a la acción de contacto,
+                  name: zoomable,
+                  label: Atributo sizes para imágenes ampliables,
                   type: string,
+                },
+                {
+                  name: maxWidth,
+                  label: Ancho máximo visible,
+                  type: object,
+                  fields:
+                    [
+                      { name: mobile, label: Móvil, type: string },
+                      { name: tablet, label: Tablet, type: string },
+                      { name: desktop, label: Ordenador, type: string },
+                    ],
                 },
               ]
           - name: carousel

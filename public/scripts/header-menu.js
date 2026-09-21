@@ -12,6 +12,10 @@ if (header && menuToggle) {
       menuToggle.setAttribute('aria-expanded', 'false');
       if (menuLabel) menuLabel.textContent = menuLabel.dataset.openLabel;
     }
+    document.documentElement.style.setProperty(
+      '--header-height',
+      `${header.getBoundingClientRect().height}px`,
+    );
   };
 
   menuToggle.addEventListener('click', () => {
@@ -23,6 +27,7 @@ if (header && menuToggle) {
         ? menuLabel.dataset.openLabel
         : menuLabel.dataset.closeLabel;
     }
+    requestAnimationFrame(updateHeader);
   });
 
   updateHeader();

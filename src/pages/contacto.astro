@@ -18,7 +18,9 @@ import site from '../data/site.json';
       <h1>{site.ui.contact.heading}</h1><p class="lead">
         {site.ui.contact.intro}
       </p><ContactOptions />
-      <div class="contact-info"><SiteInfo showContactLink={false} /></div>
+      <div class="contact-info"
+        ><SiteInfo showContactLink={false} showStudioInfo /></div
+      >
     </div>
     <div class="contact-agenda"><GuestAgenda config={guests} /></div>
   </section></BaseLayout
