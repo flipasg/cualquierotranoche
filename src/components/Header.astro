@@ -12,7 +12,8 @@ type HeaderLogo = {
 
 const pathname = Astro.url.pathname;
 const navigation = site.navigation;
-const headerLogo: HeaderLogo = site.ui.header.logo ?? {};
+const header = site.ui.header as typeof site.ui.header & { logo?: HeaderLogo };
+const headerLogo = header.logo ?? {};
 const desktopLogo = headerLogo.desktop || '';
 const tabletLogo = headerLogo.tablet || desktopLogo || '';
 const mobileLogo = headerLogo.mobile || tabletLogo || desktopLogo || '';
