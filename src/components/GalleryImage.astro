@@ -55,7 +55,7 @@ try {
         sizes={zoomable ? zoomableSizes : defaultSizes}
         loading={loading}
         decoding="async"
-        class={className}
+        class:list={['gallery-image', className]}
         style={imageStyle}
       />
     </a>
@@ -68,7 +68,7 @@ try {
       sizes={zoomable ? zoomableSizes : defaultSizes}
       loading={loading}
       decoding="async"
-      class={className}
+      class:list={['gallery-image', className]}
       style={imageStyle}
     />
   )
@@ -83,16 +83,16 @@ try {
     max-width: var(--gallery-max-mobile);
     touch-action: manipulation;
   }
-  .gallery-image-link img,
-  img {
+  .gallery-image-link .gallery-image,
+  .gallery-image {
     max-width: var(--gallery-max-mobile);
   }
   @media (min-width: 700px) {
     .gallery-image-link {
       max-width: var(--gallery-max-tablet);
     }
-    .gallery-image-link img,
-    img {
+    .gallery-image-link .gallery-image,
+    .gallery-image {
       max-width: var(--gallery-max-tablet);
     }
   }
@@ -100,8 +100,8 @@ try {
     .gallery-image-link {
       max-width: var(--gallery-max-desktop);
     }
-    .gallery-image-link img,
-    img {
+    .gallery-image-link .gallery-image,
+    .gallery-image {
       max-width: var(--gallery-max-desktop);
     }
   }

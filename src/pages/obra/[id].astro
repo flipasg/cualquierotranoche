@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 }
 const { work } = Astro.props;
 const { Content } = await render(work);
+const gallery = work.data.gallery ?? [];
 ---
 
 <BaseLayout
@@ -50,7 +51,7 @@ const { Content } = await render(work);
       </div>
     </div><section class="obra-gallery">
       {
-      work.data.gallery.map((image: any) => (
+      gallery.map((image: any) => (
         <GalleryImage src={image.src} alt={image.alt} zoomable />
       ))
     }

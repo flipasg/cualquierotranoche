@@ -11,6 +11,7 @@ export async function getStaticPaths() {
 }
 const { project } = Astro.props;
 const { Content } = await render(project);
+const gallery = project.data.gallery ?? [];
 ---
 
 <BaseLayout
@@ -36,7 +37,7 @@ const { Content } = await render(project);
         {project.data.contribution}
       </h2><Content />
     </section>{
-      project.data.gallery.map((image: any) => (
+      gallery.map((image: any) => (
         <GalleryImage src={image.src} alt={image.alt} zoomable />
       ))
     }
