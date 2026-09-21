@@ -260,7 +260,13 @@ p {
     min-height: 70vh;
   }
   .section-intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: center;
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .section-intro--stacked {
     min-height: auto;
+    grid-template-columns: minmax(0, 1fr);
   }
   .page-header__image,
   .page-header__image.gallery-image {
