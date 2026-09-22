@@ -1,65 +1,33 @@
 {
   "favicon": "/uploads/favicon.svg",
-  "title": "Nombre artístico",
-  "description": "Tattoo, obra original e ilustración.",
+  "title": "Cualquier otra noche",
+  "description": "Tattoo, obra y proyectos.",
   "image": "/uploads/portada2.jpg",
   "imageAlt": "Imagen para compartir del portfolio de Nombre artístico",
   "pages": [
     {
-      "path": "/",
-      "title": "",
-      "description": "",
-      "image": "",
-      "imageAlt": ""
+      "path": "/"
     },
     {
-      "path": "/tattoo/",
-      "title": "",
-      "description": "",
-      "image": "",
-      "imageAlt": ""
+      "path": "/tattoo/"
     },
     {
-      "path": "/tattoo/tatuajes/",
-      "title": "",
-      "description": "",
-      "image": "",
-      "imageAlt": ""
+      "path": "/tattoo/tatuajes/"
     },
     {
-      "path": "/tattoo/flash/",
-      "title": "",
-      "description": "",
-      "image": "",
-      "imageAlt": ""
+      "path": "/tattoo/flash/"
     },
     {
-      "path": "/obra/",
-      "title": "",
-      "description": "",
-      "image": "",
-      "imageAlt": ""
+      "path": "/obra/"
     },
     {
-      "path": "/proyectos/",
-      "title": "",
-      "description": "",
-      "image": "",
-      "imageAlt": ""
+      "path": "/proyectos/"
     },
     {
-      "path": "/sobre-mi/",
-      "title": "",
-      "description": "",
-      "image": "",
-      "imageAlt": ""
+      "path": "/sobre-mi/"
     },
     {
-      "path": "/contacto/",
-      "title": "",
-      "description": "",
-      "image": "",
-      "imageAlt": ""
+      "path": "/contacto/"
     }
   ]
 }
