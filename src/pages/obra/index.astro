@@ -4,12 +4,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
-import { site } from '../../data';
+import { artworkCollections, site } from '../../data';
 import RichText from '../../components/RichText.astro';
 const works = await getCollection('obras', ({ data }) => !data.draft);
-const collections = [
-  ...new Set(works.map((work) => work.data.collection)),
-].sort((first, second) => first.localeCompare(second));
+
+const usedCollectionIds = new Set(
+  works.flatMap((work) => (work.data.collection ? [work.data.collection] : [])),
+);
+
+const collections = artworkCollections.collections
+  ?.filter((collection) => usedCollectionIds.has(collection.id))
+  .sort((first, second) => first.title.localeCompare(second.title, 'es'));
 ---
 
 <BaseLayout
@@ -32,10 +37,7 @@ const collections = [
     <div>
       <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
         {site.ui.artwork.heading}
-      </h1><RichText
-        content={site.ui.artwork.intro}
-        class='lead'  
-      /><div
+      </h1><RichText content={site.ui.artwork.intro} class='lead' /><div
         class='filters'
         aria-label={site.ui.artwork.filtersLabel}
         role='group'
@@ -43,13 +45,13 @@ const collections = [
         <button type='button' data-filter='all' aria-pressed='true'>
           {site.ui.artwork.all}
         </button>{
-          collections.map((collection) => (
+          collections?.map((collection) => (
             <button
               type='button'
               data-filter='collection'
-              data-collection={collection}
+              data-collection={collection.id}
             >
-              {collection}
+              {collection.title}
             </button>
           ))
         }<button type='button' data-filter='available'

@@ -1,31 +1,41 @@
-import collectionsData from '../data/obra-collections.json';
+import { artworkCollections } from '../data';
+import type { ArtworkCollection } from '../data';
 
-export interface ObraCollection {
-  id: string;
-  title: string;
-  description: string;
+export function getArtworkCollection(
+  id?: string | null,
+): ArtworkCollection | undefined {
+  if (!id) return undefined;
+
+  return artworkCollections.collections?.find(
+    (collection) => collection.id === id,
+  );
 }
 
-export const obraCollections: ObraCollection[] = collectionsData.collections;
-
-function slugify(value: string): string {
-  return value
-    .trim()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+export function getCollectionSlug(id?: string | null): string {
+  return id?.trim() ?? '';
 }
 
-// Resolves the CMS-configured slug for a work's raw collection text, falling
-// back to a generated slug when no matching entry exists yet.
-export function getCollectionSlug(collectionName: string): string {
-  const trimmed = collectionName.trim();
-  const match = obraCollections.find((entry) => entry.title.trim() === trimmed);
-  return match?.id ?? slugify(trimmed);
+export function getCollectionTitle(id?: string | null): string {
+  return getArtworkCollection(id)?.title ?? '';
 }
 
-export function getCollectionBySlug(slug: string): ObraCollection | undefined {
-  return obraCollections.find((entry) => entry.id === slug);
+export function getCollectionHref(id?: string | null): string {
+  const collectionId = getCollectionSlug(id);
+
+  return collectionId
+    ? `/obra/${collectionId}/`
+    : '/obra/';
+}
+
+export function getWorkHref(
+  work: {
+    id: string;
+    data: {
+      collection?: string;
+    };
+  },
+): string {
+  const collectionId = getCollectionSlug(work.data.collection);
+
+  return `/obra/${collectionId}/${work.id}/`;
 }

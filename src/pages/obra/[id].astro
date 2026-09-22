@@ -1,21 +1,20 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import GalleryImage from '../../../components/GalleryImage.astro';
-import Eyebrow from '../../../components/Eyebrow.astro';
-import TallyLink from '../../../components/TallyLink.astro';
-import { forms } from '../../../config/forms';
-import { artworkCollections, site } from '../../../data';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GalleryImage from '../../components/GalleryImage.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import TallyLink from '../../components/TallyLink.astro';
+import { forms } from '../../config/forms';
+import { site } from '../../data';
 
 export async function getStaticPaths() {
   return (
     await getCollection(
       'obras',
-      ({ data }) => !data.draft && Boolean(data.collection),
+      ({ data }) => !data.draft && !data.collection,
     )
   ).map((work) => ({
     params: {
-      collection: work.data.collection!,
       id: work.id,
     },
     props: { work },
@@ -23,10 +22,6 @@ export async function getStaticPaths() {
 }
 
 const { work } = Astro.props;
-
-const collection = artworkCollections.collections?.find(
-  (collection) => collection.id === work.data.collection,
-);
 
 const { Content } = await render(work);
 const gallery = work.data.gallery ?? [];
@@ -50,10 +45,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
       />
 
       <div>
-        <Eyebrow
-          text={site.ui.artwork.detailEyebrow}
-          suffix={collection?.title}
-        />
+        <Eyebrow text={site.ui.artwork.detailEyebrow} />
 
         <h1>{work.data.title}</h1>
 
