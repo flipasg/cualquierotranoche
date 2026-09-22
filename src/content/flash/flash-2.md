@@ -9,7 +9,8 @@ status: disponible
 note: Tamaño mínimo 10cm
 showInCarousel: true
 categories:
-  - Híbrido humano animal
   - Pájaros
+  - Arpías
+  - Destacado
 ---
 Diseño para tatuaje 
