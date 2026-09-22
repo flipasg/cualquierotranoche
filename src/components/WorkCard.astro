@@ -5,6 +5,19 @@ interface Props {
   work: any;
 }
 const { work } = Astro.props;
+const titleId = `work-card-title-${work.id}`;
+const metaId = `work-card-meta-${work.id}`;
+const statusId = `work-card-status-${work.id}`;
+const priceId = `work-card-price-${work.id}`;
+const ctaId = `work-card-cta-${work.id}`;
+const descriptionIds = [
+  statusId,
+  metaId,
+  work.data.showPrice && work.data.priceEur ? priceId : null,
+  ctaId,
+]
+  .filter(Boolean)
+  .join(' ');
 ---
 
 <article
@@ -13,21 +26,29 @@ const { work } = Astro.props;
   data-collection={work.data.collection}
   data-status={work.data.status}
 >
-  <a class="card__link" href={`/obra/${work.id}/`}>
+  <a
+    class="card__link"
+    href={`/obra/${work.id}/`}
+    aria-labelledby={titleId}
+    aria-describedby={descriptionIds}
+  >
     <GalleryImage
       src={work.data.cover}
       alt={work.data.coverAlt}
       sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
-    /><span class="status">{work.data.status}</span><h3>{work.data.title}</h3><p
+    /><span id={statusId} class="status">{work.data.status}</span><h3
+      id={titleId}
     >
+      {work.data.title}
+    </h3><p id={metaId}>
       {work.data.technique} · {work.data.dimensions}
     </p>{
       work.data.showPrice && work.data.priceEur ? (
-        <p>
+        <p id={priceId}>
           <strong>{work.data.priceEur} €</strong>
         </p>
       ) : null
-    }<span class="card__cta">{site.ui.artwork.cardCta}</span>
+    }<span id={ctaId} class="card__cta">{site.ui.artwork.cardCta}</span>
   </a>
 </article>
 
