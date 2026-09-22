@@ -1,7 +1,7 @@
 ---
 title: Arpía Desalada
 description: Diseño disponible para ser tatuado.
-cover: /uploads/flash2.jpg
+cover: /uploads/flash2-1.jpg
 coverAlt: "Diseño para tatuaje "
 draft: false
 code: "2"
