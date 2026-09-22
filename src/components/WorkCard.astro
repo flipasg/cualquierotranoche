@@ -17,7 +17,7 @@ const { work } = Astro.props;
     <GalleryImage
       src={work.data.cover}
       alt=""
-      sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
+      sizes={site.ui.imageSizing.zoomable || site.ui.imageSizing.default}
     /><span class="status">{work.data.status}</span><h3>
       {work.data.title}
     </h3><p>

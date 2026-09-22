@@ -13,7 +13,7 @@ const projectHref = `/proyectos/${project.id}/`;
     <GalleryImage
       src={project.data.cover}
       alt={project.data.coverAlt}
-      sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
+      sizes={site.ui.imageSizing.zoomable || site.ui.imageSizing.default}
     /><h3>
       {project.data.title}
     </h3><span class="card__cta">{site.ui.illustration.projectCta}</span>
