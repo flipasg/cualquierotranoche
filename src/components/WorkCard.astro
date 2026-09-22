@@ -9,15 +9,15 @@ const titleId = `work-card-title-${work.id}`;
 ---
 
 <article
-  class="card"
+  class="card card--linked"
   data-work-card
   data-collection={work.data.collection}
   data-status={work.data.status}
 >
-  <a class="card__link" href={`/obra/${work.id}/`} aria-labelledby={titleId}>
+  <div class="card__content">
     <GalleryImage
       src={work.data.cover}
-      alt=""
+      alt={work.data.coverAlt}
       sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
     /><span class="status">{work.data.status}</span><h3 id={titleId}>
       {work.data.title}
@@ -30,21 +30,33 @@ const titleId = `work-card-title-${work.id}`;
         </p>
       ) : null
     }<span class="card__cta">{site.ui.artwork.cardCta}</span>
-  </a>
+  </div>
+  <a class="card__link" href={`/obra/${work.id}/`} aria-labelledby={titleId}
+  ></a>
 </article>
 
 <style>
+  .card--linked {
+    position: relative;
+  }
+  .card__content {
+    position: relative;
+    z-index: 0;
+  }
   .card__link {
-    display: block;
-    color: inherit;
-    text-decoration: none;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
   }
   .card__cta {
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }
-  .card__link:hover .card__cta,
-  .card__link:focus-visible .card__cta {
+  .card--linked:hover .card__cta {
     text-decoration-thickness: 2px;
+  }
+  .card__link:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
   }
 </style>
