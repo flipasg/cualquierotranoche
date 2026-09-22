@@ -48,11 +48,17 @@ for (const name of await readdir(input)) {
   } else if (['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
     const baseName = basename(name, ext);
     const sourceMeta = await sharp(source).rotate().metadata();
-    const targetWidths = sourceMeta.width
-      ? responsiveWidths.filter((width) => width < sourceMeta.width)
+    const rotatedWidth =
+      sourceMeta.orientation &&
+      [5, 6, 7, 8].includes(sourceMeta.orientation) &&
+      sourceMeta.height
+        ? sourceMeta.height
+        : sourceMeta.width;
+    const targetWidths = rotatedWidth
+      ? responsiveWidths.filter((width) => width < rotatedWidth)
       : [];
-    const variantWidths = sourceMeta.width
-      ? [...targetWidths, Math.min(sourceMeta.width, 2000)]
+    const variantWidths = rotatedWidth
+      ? [...targetWidths, Math.min(rotatedWidth, 2000)]
       : [2000];
     const variants = [];
     for (const width of [...new Set(variantWidths)].sort((a, b) => a - b)) {
