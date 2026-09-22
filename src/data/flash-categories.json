@@ -1,9 +1,44 @@
 {
   "categories": [
-    { "id": "destacados", "label": "Destacados" },
-    { "id": "centauros", "label": "Centauros" },
-    { "id": "ventanas", "label": "Ventanas" },
-    { "id": "serpientes", "label": "Serpientes" },
-    { "id": "botanica", "label": "Botánica" }
+    {
+      "id": "destacados",
+      "label": "Destacados"
+    },
+    {
+      "id": "Centauros",
+      "label": "Centauros"
+    },
+    {
+      "id": "Ventanas",
+      "label": "Ventanas"
+    },
+    {
+      "id": "Pájaros",
+      "label": "Pájaros"
+    },
+    {
+      "id": "Flores",
+      "label": "Flores"
+    },
+    {
+      "id": "Bestias",
+      "label": "Bestias"
+    },
+    {
+      "id": "Figuras",
+      "label": "Figuras"
+    },
+    {
+      "id": "Híbrido humano animal",
+      "label": "Híbrido humano animal"
+    },
+    {
+      "id": "Bustos",
+      "label": "Bustos"
+    },
+    {
+      "id": "Sirenas",
+      "label": "Sirenas"
+    }
   ]
 }
