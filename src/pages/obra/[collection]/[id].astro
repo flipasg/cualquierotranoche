@@ -1,0 +1,114 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GalleryImage from '../../../components/GalleryImage.astro';
+import Eyebrow from '../../../components/Eyebrow.astro';
+import TallyLink from '../../../components/TallyLink.astro';
+import { forms } from '../../../config/forms';
+import site from '../../../data/site.json';
+import { getCollectionSlug } from '../../../lib/obra-collections';
+export async function getStaticPaths() {
+  return (await getCollection('obras', ({ data }) => !data.draft)).map(
+    (work) => ({
+      params: { collection: getCollectionSlug(work.data.collection), id: work.id },
+      props: { work },
+    }),
+  );
+}
+const { work } = Astro.props;
+const { Content } = await render(work);
+const gallery = work.data.gallery ?? [];
+const cardFrame = site.ui.imageSizing.cardFrame ?? {};
+const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
+---
+
+<BaseLayout
+  title={work.data.title}
+  description={work.data.description}
+  socialImage={work.data.cover}
+  socialImageAlt={work.data.coverAlt}
+  ><article class='container section'>
+    <div class='grid grid-2 obra-detail'>
+      <GalleryImage
+        src={work.data.cover}
+        alt={work.data.coverAlt}
+        loading='eager'
+        zoomable
+      /><div>
+        <Eyebrow
+          text={site.ui.artwork.detailEyebrow}
+          suffix={work.data.collection}
+        /><h1>
+          {work.data.title}
+        </h1>
+        <span class='status'>{work.data.status}</span><p>
+          {work.data.technique}<br />{work.data.dimensions}
+        </p>{
+          work.data.showPrice && work.data.priceEur ? (
+            <h3>{work.data.priceEur} €</h3>
+          ) : null
+        }<p>{site.ui.artwork.shipping}</p><div class='prose'>
+          <Content />
+        </div>
+
+        {
+          work.data.status === 'disponible' && (
+            <TallyLink
+              className='obra-interest'
+              url={forms.artwork}
+              params={{ artworkId: work.id, source: 'portfolio-obra' }}
+            >
+              {site.ui.artwork.interestCta}
+            </TallyLink>
+          )
+        }
+      </div>
+    </div><section class='obra-gallery'>
+      {
+        gallery.map((image: any) => (
+          <div class='card--media-sized' style={cardStyle}>
+            <GalleryImage
+              src={image.src}
+              alt={image.alt}
+              sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
+              zoomable
+            />
+          </div>
+        ))
+      }
+    </section>
+  </article></BaseLayout
+>
+
+<style>
+  .obra-detail {
+    gap: clamp(1.25rem, 4vw, 3rem);
+  }
+  .obra-interest {
+    margin-top: 1rem;
+  }
+  .obra-gallery {
+    margin-top: clamp(2rem, 6vw, 5rem);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 700px) {
+    .obra-gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 900px) {
+    .obra-detail {
+      margin-bottom: 1rem;
+    }
+    .obra-gallery {
+      margin-top: clamp(3rem, 7vw, 6rem);
+    }
+  }
+  @media (min-width: 1100px) {
+    .obra-gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

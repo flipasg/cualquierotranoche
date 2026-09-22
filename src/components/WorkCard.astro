@@ -1,12 +1,14 @@
 ---
 import GalleryImage from './GalleryImage.astro';
 import site from '../data/site.json';
+import { getCollectionSlug } from '../lib/obra-collections';
 interface Props {
   work: any;
 }
 const { work } = Astro.props;
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
+const collectionSlug = getCollectionSlug(work.data.collection);
 ---
 
 <article
@@ -16,7 +18,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   data-status={work.data.status}
   style={cardStyle}
 >
-  <a class="card__link" href={`/obra/${work.id}/`}>
+  <a class="card__link" href={`/obra/${collectionSlug}/${work.id}/`}>
     <GalleryImage
       src={work.data.cover}
       alt=""

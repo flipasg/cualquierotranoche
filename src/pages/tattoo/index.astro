@@ -23,72 +23,82 @@ const tattoos = await getCollection(
 >
   {
     site.ui.tattoo.heroImage && (
-      <section class="page-header" aria-label={site.ui.tattoo.heading}>
+      <section class='page-header' aria-label={site.ui.tattoo.heading}>
         <GalleryImage
           src={site.ui.tattoo.heroImage}
           alt={site.ui.tattoo.heroImageAlt || site.ui.tattoo.heading}
-          loading="eager"
-          class="page-header__image"
+          loading='eager'
+          class='page-header__image'
         />
       </section>
     )
   }
-  <section class="container section section-intro section-intro--stacked">
+  <section class='container section section-intro section-intro--stacked'>
     <div>
-      <h1>{site.ui.tattoo.heading}</h1><p class="lead">
+      <h1>{site.ui.tattoo.heading}</h1><p class='lead'>
         {site.ui.tattoo.intro}
-      </p><div class="button-row">
-        <a class="button secondary" href="#tatuajes">{site.ui.tattoo.tattoos}</a
-        ><a class="button secondary" href="#flash">{site.ui.tattoo.flash}</a>
+      </p><div class='button-row'>
+        <a class='button secondary' href='#tattoo-content'>{site.ui.tattoo.tattoos}</a
+        ><a class='button secondary' href='#flash'>{site.ui.tattoo.flash}</a>
       </div>
     </div>
-  </section><section id="tatuajes" class="container section">
-    {
-      tattoos.length ? (
-        <ContentCarousel
-          id="tattoo-carousel"
-          label={site.ui.tattoo.tattoos}
-          viewAllHref="/tattoo/tatuajes/"
-          viewAllLabel={site.ui.tattoo.viewAll}
-        >
-          {tattoos.map((item) => (
-            <div class="carousel-item">
-              <TattooCard tattoo={item} />
-            </div>
-          ))}
-        </ContentCarousel>
-      ) : (
-        <>
+  </section>
+
+  <section id="tattoo-content" class="container section">
+    <div id='tatuajes' class='container'>
+      {
+        tattoos.length ? (
+          <ContentCarousel
+            id='tattoo-carousel'
+            label={site.ui.tattoo.tattoos}
+            viewAllHref='/tattoo/tatuajes/'
+            viewAllLabel={site.ui.tattoo.viewAll}
+          >
+            {tattoos.map((item) => (
+              <div class='carousel-item'>
+                <TattooCard tattoo={item} />
+              </div>
+            ))}
+          </ContentCarousel>
+        ) : (
           <>
-            <h2>{site.ui.tattoo.tattoos}</h2>
-            <p>{site.ui.tattoo.noTattoos}</p>
+            <>
+              <h2>{site.ui.tattoo.tattoos}</h2>
+              <p>{site.ui.tattoo.noTattoos}</p>
+            </>
           </>
-        </>
-      )
-    }
-  </section><section id="flash" class="container section">
-    <Eyebrow text={site.ui.tattoo.flashSampleNotice} />{
-      flash.length ? (
-        <ContentCarousel
-          id="flash-carousel"
-          label={site.ui.tattoo.flash}
-          viewAllHref="/tattoo/flash/"
-          viewAllLabel={site.ui.tattoo.viewAll}
-        >
-          {flash.map((item) => (
-            <div class="carousel-item">
-              <FlashCard flash={item} />
-            </div>
-          ))}
-        </ContentCarousel>
-      ) : (
-        <>
+        )
+      }
+    </div><div id='flash' class='container'>
+      <Eyebrow text={site.ui.tattoo.flashSampleNotice} />{
+        flash.length ? (
+          <ContentCarousel
+            id='flash-carousel'
+            label={site.ui.tattoo.flash}
+            viewAllHref='/tattoo/flash/'
+            viewAllLabel={site.ui.tattoo.viewAll}
+          >
+            {flash.map((item) => (
+              <div class='carousel-item'>
+                <FlashCard flash={item} />
+              </div>
+            ))}
+          </ContentCarousel>
+        ) : (
           <>
-            <h2>{site.ui.tattoo.flash}</h2>
-            <p>{site.ui.tattoo.noFlash}</p>
+            <>
+              <h2>{site.ui.tattoo.flash}</h2>
+              <p>{site.ui.tattoo.noFlash}</p>
+            </>
           </>
-        </>
-      )
-    }
+        )
+      }
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  #tatuajes {
+    padding-bottom: 2rem;
+  }
+</style>

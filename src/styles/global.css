@@ -50,7 +50,6 @@ h3 {
 }
 h1 {
   font-size: clamp(2.4rem, 8vw, 5rem);
-  max-width: 12ch;
 }
 h2 {
   font-size: clamp(1.8rem, 5vw, 3.4rem);
