@@ -51,7 +51,10 @@ for (const name of await readdir(input)) {
     const targetWidths = responsiveWidths.filter(
       (width) => !sourceMeta.width || width < sourceMeta.width,
     );
-    const variantWidths = [...targetWidths, Math.min(sourceMeta.width || 2000, 2000)];
+    const variantWidths = [
+      ...targetWidths,
+      Math.min(sourceMeta.width || 2000, 2000),
+    ];
     const variants = [];
     for (const width of [...new Set(variantWidths)].sort((a, b) => a - b)) {
       const out = `${baseName}-w${width}.webp`;

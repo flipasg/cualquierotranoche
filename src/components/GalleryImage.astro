@@ -42,7 +42,9 @@ try {
     mediaSrc = item.src;
     width = item.width;
     height = item.height;
-    srcset = item.srcset?.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
+    srcset = item.srcset
+      ?.map((variant) => `${variant.src} ${variant.width}w`)
+      .join(', ');
   }
 } catch {}
 ---
