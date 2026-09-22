@@ -176,6 +176,7 @@
     "imageSizing": {
       "default": "100vw",
       "zoomable": "(max-width: 699px) 100vw, (max-width: 1099px) 80vw, 64vw",
+      "card": "(max-width: 699px) 100vw, (max-width: 1099px) 80vw, 64vw",
       "maxWidth": {
         "mobile": "100%",
         "tablet": "100%",

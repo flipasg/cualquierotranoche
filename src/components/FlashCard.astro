@@ -14,6 +14,7 @@ const { flash } = Astro.props;
     src={flash.data.cover}
     alt={flash.data.coverAlt}
     zoomable
+    sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
   /><span class="status">{flash.data.status}</span><h3>{flash.data.title}</h3><p
   >
     {flash.data.code} · {flash.data.note}
