@@ -169,7 +169,11 @@
     "imageSizing": {
       "default": "100vw",
       "zoomable": "(max-width: 699px) 100vw, (max-width: 1099px) 80vw, 64vw",
-      "card": "(max-width: 699px) 100vw, (max-width: 1099px) 80vw, 64vw",
+      "card": "(max-width: 359px) calc(100vw - 2rem), 320px",
+      "cardFrame": {
+        "width": "320px",
+        "height": "400px"
+      },
       "maxWidth": {
         "mobile": "100%",
         "tablet": "100%",

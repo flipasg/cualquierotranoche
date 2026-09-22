@@ -6,14 +6,16 @@ interface Props {
 }
 const { project } = Astro.props;
 const projectHref = `/proyectos/${project.id}/`;
+const cardFrame = site.ui.imageSizing.cardFrame ?? {};
+const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
 
-<article class="card">
+<article class="card card--media-sized" style={cardStyle}>
   <a class="card__link" href={projectHref} aria-label={project.data.title}>
     <GalleryImage
       src={project.data.cover}
       alt={project.data.coverAlt}
-      sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
+      sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
     /><h3>
       {project.data.title}
     </h3><span class="card__cta">{site.ui.illustration.projectCta}</span>

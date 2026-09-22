@@ -12,6 +12,8 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const gallery = project.data.gallery ?? [];
+const cardFrame = site.ui.imageSizing.cardFrame ?? {};
+const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
 
 <BaseLayout
@@ -19,27 +21,63 @@ const gallery = project.data.gallery ?? [];
   description={project.data.description}
   socialImage={project.data.cover}
   socialImageAlt={project.data.coverAlt}
-  ><article class="container section">
-    <Eyebrow
-      text={site.ui.illustration.projectEyebrow}
-      prefix={site.ui.illustration.title}
-    /><h1>
-      {project.data.title}
-    </h1><p>
-      {project.data.client} · {project.data.services} · {project.data.year}
-    </p><p class="lead">{project.data.description}</p><GalleryImage
-      src={project.data.cover}
-      alt={project.data.coverAlt}
-      loading="eager"
-      zoomable
-    /><section class="section prose">
+  ><article class='container section'>
+    <div class='grid grid-2 proyecto-detail'>
+      <div>
+        <Eyebrow
+          text={site.ui.illustration.projectEyebrow}
+          prefix={site.ui.illustration.title}
+        /><h1>
+          {project.data.title}
+        </h1>
+        <p>
+          {project.data.client} · {project.data.services} · {project.data.year}
+        </p><p class='lead'>{project.data.description}</p>
+      </div>
+      <GalleryImage
+        src={project.data.cover}
+        alt={project.data.coverAlt}
+        loading='eager'
+        zoomable
+      />
+    </div><section class='container section'>
       <Eyebrow text={site.ui.illustration.contributionEyebrow} /><h2>
         {project.data.contribution}
       </h2><Content />
-    </section>{
-      gallery.map((image: any) => (
-        <GalleryImage src={image.src} alt={image.alt} zoomable />
-      ))
-    }
+    </section><section class='proyecto-gallery'>
+      {
+        gallery.map((image: any) => (
+          <div class='card--media-sized' style={cardStyle}>
+            <GalleryImage
+              src={image.src}
+              alt={image.alt}
+              sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
+              zoomable
+            />
+          </div>
+        ))
+      }
+    </section>
   </article></BaseLayout
 >
+
+<style>
+  .proyecto-detail {
+    gap: clamp(1.25rem, 4vw, 3rem);
+  }
+  .proyecto-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 700px) {
+    .proyecto-gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1100px) {
+    .proyecto-gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

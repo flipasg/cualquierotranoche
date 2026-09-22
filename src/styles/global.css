@@ -50,7 +50,6 @@ h3 {
 }
 h1 {
   font-size: clamp(2.4rem, 8vw, 5rem);
-  max-width: 12ch;
 }
 h2 {
   font-size: clamp(1.8rem, 5vw, 3.4rem);
@@ -121,6 +120,19 @@ p {
   width: 100%;
   background: var(--color-surface);
   margin-bottom: 1rem;
+}
+.card--media-sized {
+  width: min(100%, var(--card-media-width, 100%));
+}
+.card--media-sized .gallery-image-link,
+.card--media-sized .gallery-image,
+.card--media-sized img {
+  width: 100%;
+  max-width: 100%;
+}
+.card--media-sized img {
+  height: var(--card-media-height, auto);
+  object-fit: cover;
 }
 .status {
   display: inline-block;
