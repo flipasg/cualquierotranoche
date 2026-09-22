@@ -1,15 +1,15 @@
 ---
 title: Universo
-description: Diseño disponible
+description: Diseño disponible para ser tatuado
 cover: /uploads/flash1.jpg
-coverAlt: flash 1
+coverAlt: "Diseño para tatuaje "
 draft: false
 code: "1"
 status: disponible
-note: Diseño disponible para ser tatuado
+note: Tamaño mínimo 10cm
 showInCarousel: true
 categories:
   - Figuras
   - Destacado
 ---
-Tamaño mínimo 10cm
+Diseño disponible 
