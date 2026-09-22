@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import site from '../../data/site.json';
+import { site } from '../../data';
 const projects = await getCollection('proyectos', ({ data }) => !data.draft);
 ---
 
@@ -17,7 +17,7 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
         <GalleryImage
           src={site.ui.illustration.heroImage}
           alt={
-            site.ui.illustration.heroImageAlt || site.ui.illustration.heading
+            `${site.ui.illustration.heroImageAlt || site.ui.illustration.heading}`
           }
           loading="eager"
           class="page-header__image"

@@ -2,22 +2,22 @@
 import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryImage from '../components/GalleryImage.astro';
-import site from '../data/site.json';
+import { site } from '../data';
 const page = await getEntry('paginas', 'sobre-mi');
 if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible');
 const { Content } = await render(page);
 ---
 
 <BaseLayout title={site.ui.about.title} description={site.ui.about.description}
-  ><section class="container section grid grid-2">
+  ><section class='container section grid grid-2'>
     <GalleryImage
       src={page.data.portrait}
       alt={page.data.portraitAlt}
-      loading="eager"
+      loading='eager'
     /><div>
       <h1>{page.data.title}</h1><h3>
         {page.data.subtitle}
-      </h3><div class="prose"><Content /></div><p>
+      </h3><div class='prose'><Content /></div><p>
         <strong>{page.data.location}</strong>
       </p>
     </div>

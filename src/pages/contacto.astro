@@ -5,24 +5,24 @@ import Eyebrow from '../components/Eyebrow.astro';
 import GuestAgenda from '../components/GuestAgenda.astro';
 import SiteInfo from '../components/SiteInfo.astro';
 import { guests } from '../config/guests';
-import site from '../data/site.json';
+import { site } from '../data';
 ---
 
 <BaseLayout
   title={site.ui.contact.title}
   description={site.ui.contact.description}
   showFooter={false}
-  ><section class="container section contact-layout">
+  ><section class='container section contact-layout'>
     <div>
       <Eyebrow text={site.ui.contact.eyebrow} />
-      <h1>{site.ui.contact.heading}</h1><p class="lead">
+      <h1>{site.ui.contact.heading}</h1><p class='lead'>
         {site.ui.contact.intro}
       </p><ContactOptions />
-      <div class="contact-info"
-        ><SiteInfo showContactLink={false} showStudioInfo /></div
-      >
+      <div class='contact-info'>
+        <SiteInfo showContactLink={false} showStudioInfo />
+      </div>
     </div>
-    <div class="contact-agenda"><GuestAgenda config={guests} /></div>
+    <div class='contact-agenda'><GuestAgenda config={guests} /></div>
   </section></BaseLayout
 >
 

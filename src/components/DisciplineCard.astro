@@ -1,14 +1,8 @@
 ---
 import GalleryImage from './GalleryImage.astro';
+import { type HomeDiscipline } from '../data';
 
-interface Props {
-  title: string;
-  text: string;
-  href: string;
-  linkLabel: string;
-  image: string;
-  imageAlt: string;
-}
+type Props = Required<HomeDiscipline>;
 const { title, text, href, linkLabel, image, imageAlt } = Astro.props;
 ---
 

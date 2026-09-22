@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryImage from '../components/GalleryImage.astro';
 import DisciplineCard from '../components/DisciplineCard.astro';
-import site from '../data/site.json';
+import { site } from '../data';
 ---
 
 <BaseLayout
@@ -13,16 +13,16 @@ import site from '../data/site.json';
       <h1>{site.home.title}</h1><p class="lead">
         {site.home.intro}
       </p><div class="button-row">
-        <a class="button" href={site.home.primaryCta.href}
-          >{site.home.primaryCta.label}</a
-        ><a class="button secondary" href={site.home.secondaryCta.href}
-          >{site.home.secondaryCta.label}</a
+        <a class="button" href={site.home.primaryCta?.href}
+          >{site.home.primaryCta?.label}</a
+        ><a class="button secondary" href={site.home.secondaryCta?.href}
+          >{site.home.secondaryCta?.label}</a
         >
       </div>
       {
-        site.home.guestsCta.visible && (
-          <a class="home-guests-link" href={site.home.guestsCta.href}>
-            {site.home.guestsCta.label}
+        site.home.guestsCta?.visible && (
+          <a class="home-guests-link" href={site.home.guestsCta?.href}>
+            {site.home.guestsCta?.label}
           </a>
         )
       }
@@ -34,7 +34,7 @@ import site from '../data/site.json';
   </section><section id="trabajo" class="container section">
     <h2>{site.home.workHeading}</h2><div class="grid grid-3">
       {
-        site.home.disciplines.map((discipline) => (
+        site.home.disciplines?.map((discipline) => (
           <DisciplineCard {...discipline} />
         ))
       }

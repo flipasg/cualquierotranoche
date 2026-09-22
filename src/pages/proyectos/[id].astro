@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
-import site from '../../data/site.json';
+import { site } from '../../data';
 export async function getStaticPaths() {
   return (await getCollection('proyectos', ({ data }) => !data.draft)).map(
     (project) => ({ params: { id: project.id }, props: { project } }),

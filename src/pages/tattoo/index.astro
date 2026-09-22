@@ -6,7 +6,7 @@ import FlashCard from '../../components/FlashCard.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import TattooCard from '../../components/TattooCard.astro';
-import site from '../../data/site.json';
+import { site } from '../../data';
 const flash = await getCollection(
   'flash',
   ({ data }) => !data.draft && data.showInCarousel,
@@ -38,13 +38,14 @@ const tattoos = await getCollection(
       <h1>{site.ui.tattoo.heading}</h1><p class='lead'>
         {site.ui.tattoo.intro}
       </p><div class='button-row'>
-        <a class='button secondary' href='#tattoo-content'>{site.ui.tattoo.tattoos}</a
+        <a class='button secondary' href='#tattoo-content'
+          >{site.ui.tattoo.tattoos}</a
         ><a class='button secondary' href='#flash'>{site.ui.tattoo.flash}</a>
       </div>
     </div>
   </section>
 
-  <section id="tattoo-content" class="container section">
+  <section id='tattoo-content' class='container section'>
     <div id='tatuajes' class='container'>
       {
         tattoos.length ? (

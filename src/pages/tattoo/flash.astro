@@ -2,28 +2,28 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FlashCard from '../../components/FlashCard.astro';
-import flashCategories from '../../data/flash-categories.json';
-import site from '../../data/site.json';
+import { flashCategories } from '../../data';
+import { site } from '../../data';
 
 const flash = await getCollection('flash', ({ data }) => !data.draft);
 const categories = flashCategories.categories;
 const defaultCategory =
-  categories.find((category) => category.id === 'destacados')?.id ??
-  categories[0]?.id ??
+  categories?.find((category) => category.id === 'destacados')?.id ??
+  categories?.[0]?.id ??
   'all';
 ---
 
 <BaseLayout title={site.ui.flash.title} description={site.ui.flash.description}
-  ><section class="container section">
+  ><section class='container section'>
     <h1>{site.ui.flash.heading}</h1><div
-      class="filters"
+      class='filters'
       aria-label={site.ui.flash.filtersLabel}
-      role="group"
+      role='group'
     >
       {
-        categories.map((category) => (
+        categories?.map((category) => (
           <button
-            type="button"
+            type='button'
             data-flash-category={category.id}
             aria-pressed={category.id === defaultCategory ? 'true' : 'false'}
           >
@@ -31,15 +31,15 @@ const defaultCategory =
           </button>
         ))
       }<button
-        class="all-filter"
-        type="button"
-        data-flash-category="all"
+        class='all-filter'
+        type='button'
+        data-flash-category='all'
         aria-pressed={defaultCategory === 'all' ? 'true' : 'false'}
       >
         {site.ui.flash.all}
       </button>
     </div><p data-flash-empty hidden>{site.ui.flash.empty}</p><div
-      class="grid grid-3"
+      class='grid grid-3'
       data-flash-grid
     >
       {
@@ -52,16 +52,16 @@ const defaultCategory =
           </div>
         ))
       }
-    </div><div class="pagination-layout">
-      <label class="page-size" for="flash-page-size"
+    </div><div class='pagination-layout'>
+      <label class='page-size' for='flash-page-size'
         >{site.ui.flash.pageSizeBefore}<select
-          id="flash-page-size"
+          id='flash-page-size'
           data-flash-page-size
         >
-          <option value="6">6</option>
-          <option value="12">12</option>
-          <option value="18">18</option>
-          <option value="24">24</option>
+          <option value='6'>6</option>
+          <option value='12'>12</option>
+          <option value='18'>18</option>
+          <option value='24'>24</option>
         </select>{site.ui.flash.pageSizeAfter}</label
       ><nav
         data-flash-pagination
@@ -116,4 +116,4 @@ const defaultCategory =
   }
 </style>
 
-<script is:inline src="/scripts/flash-gallery.js"></script>
+<script is:inline src='/scripts/flash-gallery.js'></script>

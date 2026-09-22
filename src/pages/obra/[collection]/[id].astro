@@ -5,12 +5,15 @@ import GalleryImage from '../../../components/GalleryImage.astro';
 import Eyebrow from '../../../components/Eyebrow.astro';
 import TallyLink from '../../../components/TallyLink.astro';
 import { forms } from '../../../config/forms';
-import site from '../../../data/site.json';
+import { site } from '../../../data';
 import { getCollectionSlug } from '../../../lib/obra-collections';
 export async function getStaticPaths() {
   return (await getCollection('obras', ({ data }) => !data.draft)).map(
     (work) => ({
-      params: { collection: getCollectionSlug(work.data.collection), id: work.id },
+      params: {
+        collection: getCollectionSlug(work.data.collection),
+        id: work.id,
+      },
       props: { work },
     }),
   );

@@ -3,14 +3,14 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ImageViewer from '../components/ImageViewer.astro';
 import SocialMeta from '../components/SocialMeta.astro';
-import site from '../data/site.json';
+import { site } from '../data';
 import { social } from '../config/social';
 import { resolveSocial } from '../lib/social';
 import media from '../generated/media.json';
 import '../styles/global.css';
 interface Props {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   showFooter?: boolean;
   socialImage?: string;
   socialImageAlt?: string;
@@ -31,7 +31,7 @@ const metadata = resolveSocial(
   {
     pathname: Astro.url.pathname,
     title: `${title} · ${site.artisticName}`,
-    description,
+    description: `${description}`,
     image: socialImage,
     imageAlt: socialImageAlt,
   },
@@ -51,7 +51,7 @@ const metadata = resolveSocial(
     /><link rel="canonical" href={canonical} /><SocialMeta
       metadata={metadata}
       canonical={canonical}
-      siteName={site.artisticName}
+      siteName={`${site.artisticName}`}
     /><title>
       {title} · {site.artisticName}
     </title></head

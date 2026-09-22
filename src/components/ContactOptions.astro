@@ -1,6 +1,6 @@
 ---
 import { forms } from '../config/forms';
-import site from '../data/site.json';
+import { site } from '../data';
 import TallyLink from './TallyLink.astro';
 const options = [
   [site.ui.forms.tattoo, forms.tattoo],
@@ -10,14 +10,14 @@ const options = [
 ] as const;
 ---
 
-<div class="contact-options">
+<div class='contact-options'>
   {
     options.map(([label, url]) => (
       <TallyLink
         url={url}
         params={{ source: 'portfolio-contacto' }}
         secondary
-        className="contact-option"
+        className='contact-option'
       >
         {label}
       </TallyLink>

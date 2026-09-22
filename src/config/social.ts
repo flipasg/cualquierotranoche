@@ -1,4 +1,4 @@
-import data from '../data/social.json';
+import { social as data } from '../data';
 import media from '../generated/media.json';
 import { socialSchema, validateSocialImages } from '../lib/social';
 
