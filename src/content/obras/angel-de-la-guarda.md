@@ -7,7 +7,7 @@ widthCm: 36
 heightCm: 51
 status: vendida
 showPrice: false
-collection: "Esperando mi dia "
+collection: esperando-mi-dia
 cover: /uploads/web15-5.jpg
 coverAlt: "Obra original "
 gallery:
