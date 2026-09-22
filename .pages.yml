@@ -519,6 +519,11 @@ content:
                   type: string,
                 },
                 {
+                  name: card,
+                  label: Atributo sizes para tarjetas y carruseles,
+                  type: string,
+                },
+                {
                   name: maxWidth,
                   label: Ancho máximo visible,
                   type: object,

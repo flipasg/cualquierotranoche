@@ -6,6 +6,7 @@ interface Props {
   loading?: 'lazy' | 'eager';
   class?: string;
   zoomable?: boolean;
+  sizes?: string;
 }
 const {
   src,
@@ -13,6 +14,7 @@ const {
   loading = 'lazy',
   class: className,
   zoomable = false,
+  sizes,
 } = Astro.props;
 let width = 1200,
   height = 1500;
@@ -20,19 +22,29 @@ let mediaSrc = src;
 const imageSizing = site.ui.imageSizing ?? {};
 const defaultSizes = imageSizing.default || '100vw';
 const zoomableSizes = imageSizing.zoomable || defaultSizes;
+const resolvedSizes = sizes || (zoomable ? zoomableSizes : defaultSizes);
 const maxWidth = imageSizing.maxWidth ?? {};
 const imageStyle = `--gallery-max-mobile:${maxWidth.mobile || '100%'};--gallery-max-tablet:${maxWidth.tablet || maxWidth.mobile || '100%'};--gallery-max-desktop:${maxWidth.desktop || maxWidth.tablet || maxWidth.mobile || '100%'};`;
+let srcset: string | undefined;
 try {
   const media = await import('../generated/media.json');
   const items = media.default as Record<
     string,
-    { src: string; width: number; height: number }
+    {
+      src: string;
+      width: number;
+      height: number;
+      srcset?: { src: string; width: number }[];
+    }
   >;
   const item = items[src];
   if (item) {
     mediaSrc = item.src;
     width = item.width;
     height = item.height;
+    srcset = item.srcset
+      ?.map((variant) => `${variant.src} ${variant.width}w`)
+      .join(', ');
   }
 } catch {}
 ---
@@ -52,7 +64,8 @@ try {
         alt={alt}
         width={width}
         height={height}
-        sizes={zoomable ? zoomableSizes : defaultSizes}
+        srcset={srcset}
+        sizes={resolvedSizes}
         loading={loading}
         decoding="async"
         class:list={['gallery-image', className]}
@@ -65,7 +78,8 @@ try {
       alt={alt}
       width={width}
       height={height}
-      sizes={zoomable ? zoomableSizes : defaultSizes}
+      srcset={srcset}
+      sizes={resolvedSizes}
       loading={loading}
       decoding="async"
       class:list={['gallery-image', className]}

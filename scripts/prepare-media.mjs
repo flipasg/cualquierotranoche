@@ -9,6 +9,7 @@ import { join, extname, basename } from 'node:path';
 import sharp from 'sharp';
 const input = 'media/uploads',
   output = 'public/uploads';
+const responsiveWidths = [480, 768, 1024, 1440, 2000];
 await mkdir(output, { recursive: true });
 await mkdir('src/generated', { recursive: true });
 const drafts = new Set();
@@ -45,19 +46,45 @@ for (const name of await readdir(input)) {
       height: Number(view?.[2] || 1500),
     };
   } else if (['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
-    const out = `${basename(name, ext)}.webp`;
-    const image = sharp(source).rotate().resize({
-      width: 2000,
-      height: 2400,
-      fit: 'inside',
-      withoutEnlargement: true,
-    });
-    await image.webp({ quality: 84 }).toFile(join(output, out));
-    const meta = await sharp(join(output, out)).metadata();
+    const baseName = basename(name, ext);
+    const sourceMeta = await sharp(source).rotate().metadata();
+    const maxResponsiveWidth = sourceMeta.width
+      ? Math.min(sourceMeta.width, 2000)
+      : 2000;
+    const targetWidths = sourceMeta.width
+      ? responsiveWidths.filter((width) => width < maxResponsiveWidth)
+      : [];
+    const variantWidths = [...targetWidths, maxResponsiveWidth];
+    const variants = [];
+    for (const width of [...new Set(variantWidths)].sort((a, b) => a - b)) {
+      const out = `${baseName}-w${width}.webp`;
+      await sharp(source)
+        .rotate()
+        .resize({
+          width,
+          height: 2400,
+          fit: 'inside',
+          withoutEnlargement: true,
+        })
+        .webp({ quality: 84 })
+        .toFile(join(output, out));
+      const meta = await sharp(join(output, out)).metadata();
+      if (!meta.width || !meta.height) continue;
+      variants.push({
+        src: `/uploads/${out}`,
+        width: meta.width,
+        height: meta.height,
+      });
+    }
+    const largest = variants[variants.length - 1];
+    if (!largest) continue;
     manifest[`/uploads/${name}`] = {
-      src: `/uploads/${out}`,
-      width: meta.width,
-      height: meta.height,
+      src: largest.src,
+      width: largest.width,
+      height: largest.height,
+      ...(variants.length > 1
+        ? { srcset: variants.map(({ src, width }) => ({ src, width })) }
+        : {}),
     };
   }
 }
