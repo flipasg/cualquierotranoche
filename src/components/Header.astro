@@ -62,7 +62,7 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
       aria-label={site.ui.header.navigationLabel}
     >
       {
-        navigation.map((item) => {
+        navigation?.map((item) => {
           const isCurrentPage = pathname.startsWith(item.href);
 
           return (
