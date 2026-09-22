@@ -1,6 +1,5 @@
 ---
 import GalleryImage from './GalleryImage.astro';
-import site from '../data/site.json';
 interface Props {
   tattoo: any;
 }
@@ -12,7 +11,6 @@ const { tattoo } = Astro.props;
     src={tattoo.data.cover}
     alt={tattoo.data.coverAlt}
     zoomable
-    sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
   /><h3>
     {tattoo.data.title}
   </h3><p>{tattoo.data.description}</p>

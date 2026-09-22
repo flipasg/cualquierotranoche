@@ -13,12 +13,9 @@ const { work } = Astro.props;
   data-collection={work.data.collection}
   data-status={work.data.status}
 >
-  <GalleryImage
-    src={work.data.cover}
-    alt={work.data.coverAlt}
-    zoomable
-    sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
-  /><span class="status">{work.data.status}</span><h3>{work.data.title}</h3><p>
+  <GalleryImage src={work.data.cover} alt={work.data.coverAlt} zoomable /><span
+    class="status">{work.data.status}</span
+  ><h3>{work.data.title}</h3><p>
     {work.data.technique} · {work.data.dimensions}
   </p>{
     work.data.showPrice && work.data.priceEur ? (
