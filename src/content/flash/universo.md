@@ -1,7 +1,7 @@
 ---
 title: Universo
 description: Diseño disponible para ser tatuado
-cover: /uploads/flash1.jpg
+cover: /uploads/flash1-1.jpg
 coverAlt: "Diseño para tatuaje "
 draft: false
 code: "1"
