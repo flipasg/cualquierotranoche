@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { site } from '../../data';
+import RichText from '../../components/RichText.astro';
 const projects = await getCollection('proyectos', ({ data }) => !data.draft);
 ---
 
@@ -27,9 +28,11 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
   }
   <section class="container section section-intro section-intro--stacked">
     <div>
-      <h1>{site.ui.illustration.heading}</h1><p class="lead">
-        {site.ui.illustration.intro}
-      </p>
+      <h1>{site.ui.illustration.heading}</h1>
+      <RichText
+        content={site.ui.illustration.intro}
+        class='lead'  
+      />
     </div>
   </section><section class="container section">
     <div class="grid grid-2">

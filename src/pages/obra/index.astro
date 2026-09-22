@@ -5,6 +5,7 @@ import WorkCard from '../../components/WorkCard.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import { site } from '../../data';
+import RichText from '../../components/RichText.astro';
 const works = await getCollection('obras', ({ data }) => !data.draft);
 const collections = [
   ...new Set(works.map((work) => work.data.collection)),
@@ -31,7 +32,10 @@ const collections = [
     <div>
       <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
         {site.ui.artwork.heading}
-      </h1><p class='lead'>{site.ui.artwork.intro}</p><div
+      </h1><RichText
+        content={site.ui.artwork.intro}
+        class='lead'  
+      /><div
         class='filters'
         aria-label={site.ui.artwork.filtersLabel}
         role='group'

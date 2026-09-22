@@ -1,0 +1,27 @@
+---
+import { marked } from 'marked';
+
+interface Props {
+  content?: string | null;
+  class?: string;
+}
+
+const {
+  content,
+  class: className,
+} = Astro.props;
+
+const html = content
+  ? await marked.parse(content, {
+      gfm: true,
+      breaks: true,
+    })
+  : '';
+---
+
+{html && (
+  <div
+    class:list={['rich-text', className]}
+    set:html={html}
+  />
+)}

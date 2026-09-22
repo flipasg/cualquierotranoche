@@ -7,6 +7,8 @@ import Eyebrow from '../../components/Eyebrow.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import TattooCard from '../../components/TattooCard.astro';
 import { site } from '../../data';
+import RichText from '../../components/RichText.astro';
+
 const flash = await getCollection(
   'flash',
   ({ data }) => !data.draft && data.showInCarousel,
@@ -26,7 +28,7 @@ const tattoos = await getCollection(
       <section class='page-header' aria-label={site.ui.tattoo.heading}>
         <GalleryImage
           src={site.ui.tattoo.heroImage}
-          alt={site.ui.tattoo.heroImageAlt || site.ui.tattoo.heading}
+          alt={`${site.ui.tattoo.heroImageAlt || site.ui.tattoo.heading}`}
           loading='eager'
           class='page-header__image'
         />
@@ -35,9 +37,10 @@ const tattoos = await getCollection(
   }
   <section class='container section section-intro section-intro--stacked'>
     <div>
-      <h1>{site.ui.tattoo.heading}</h1><p class='lead'>
-        {site.ui.tattoo.intro}
-      </p><div class='button-row'>
+      <h1>{site.ui.tattoo.heading}</h1><RichText
+        content={site.ui.tattoo.intro}
+        class='lead'  
+      /><div class='button-row'>
         <a class='button secondary' href='#tattoo-content'
           >{site.ui.tattoo.tattoos}</a
         ><a class='button secondary' href='#flash'>{site.ui.tattoo.flash}</a>
@@ -51,9 +54,9 @@ const tattoos = await getCollection(
         tattoos.length ? (
           <ContentCarousel
             id='tattoo-carousel'
-            label={site.ui.tattoo.tattoos}
+            label={`${site.ui.tattoo.tattoos}`}
             viewAllHref='/tattoo/tatuajes/'
-            viewAllLabel={site.ui.tattoo.viewAll}
+            viewAllLabel={`${site.ui.tattoo.viewAll}`}
           >
             {tattoos.map((item) => (
               <div class='carousel-item'>
@@ -75,9 +78,9 @@ const tattoos = await getCollection(
         flash.length ? (
           <ContentCarousel
             id='flash-carousel'
-            label={site.ui.tattoo.flash}
+            label={`${site.ui.tattoo.flash}`}
             viewAllHref='/tattoo/flash/'
-            viewAllLabel={site.ui.tattoo.viewAll}
+            viewAllLabel={`${site.ui.tattoo.viewAll}`}
           >
             {flash.map((item) => (
               <div class='carousel-item'>
