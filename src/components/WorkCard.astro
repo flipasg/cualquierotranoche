@@ -13,11 +13,7 @@ const { work } = Astro.props;
   data-collection={work.data.collection}
   data-status={work.data.status}
 >
-  <a
-    class="card__link"
-    href={`/obra/${work.id}/`}
-    aria-label={`${site.ui.artwork.cardCta}: ${work.data.title}`}
-  >
+  <a class="card__link" href={`/obra/${work.id}/`}>
     <GalleryImage
       src={work.data.cover}
       alt=""
