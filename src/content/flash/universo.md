@@ -1,14 +1,15 @@
 ---
 title: Universo
-description: blabal
+description: Diseño disponible
 cover: /uploads/flash1.jpg
-coverAlt: flash 1 universo
+coverAlt: flash 1
 draft: false
 code: "1"
 status: disponible
-note: aaaa
+note: Diseño disponible para ser tatuado
 showInCarousel: true
 categories:
   - Figuras
+  - Destacado
 ---
-uuuu
+Tamaño mínimo 10cm
