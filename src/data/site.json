@@ -103,7 +103,7 @@
       "unavailable": "Formulario disponible próximamente.",
       "tattoo": "Tattoo",
       "artwork": "Obra",
-      "illustration": "Ilustración",
+      "illustration": "Proyecto",
       "general": "Otra consulta",
       "cityAlerts": "Avisos por ciudad"
     },
@@ -111,8 +111,7 @@
       "title": "Contacto",
       "description": "Consultas de tattoo, obra e ilustración.",
       "eyebrow": "Contacto · Consultas",
-      "heading": "Hablemos",
-      "intro": "Elige qué tienes en mente y cuéntame un poco más."
+      "heading": "Formularios"
     },
     "tattoo": {
       "title": "Tattoo",
@@ -156,7 +155,6 @@
       "shipping": "Envío a consultar",
       "interestCta": "Me interesa esta obra",
       "cardCta": "Ver la pieza",
-      "eyebrow": "Obra",
       "detailEyebrow": "Obra"
     },
     "illustration": {
