@@ -48,13 +48,12 @@ for (const name of await readdir(input)) {
   } else if (['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
     const baseName = basename(name, ext);
     const sourceMeta = await sharp(source).rotate().metadata();
-    const targetWidths = responsiveWidths.filter(
-      (width) => !sourceMeta.width || width < sourceMeta.width,
-    );
-    const variantWidths = [
-      ...targetWidths,
-      Math.min(sourceMeta.width || 2000, 2000),
-    ];
+    const targetWidths = sourceMeta.width
+      ? responsiveWidths.filter((width) => width < sourceMeta.width)
+      : [];
+    const variantWidths = sourceMeta.width
+      ? [...targetWidths, Math.min(sourceMeta.width, 2000)]
+      : [2000];
     const variants = [];
     for (const width of [...new Set(variantWidths)].sort((a, b) => a - b)) {
       const out = `${baseName}-w${width}.webp`;
@@ -69,18 +68,22 @@ for (const name of await readdir(input)) {
         .webp({ quality: 84 })
         .toFile(join(output, out));
       const meta = await sharp(join(output, out)).metadata();
+      if (!meta.width || !meta.height) continue;
       variants.push({
         src: `/uploads/${out}`,
-        width: meta.width || width,
-        height: meta.height || sourceMeta.height || 1500,
+        width: meta.width,
+        height: meta.height,
       });
     }
     const largest = variants[variants.length - 1];
+    if (!largest) continue;
     manifest[`/uploads/${name}`] = {
       src: largest.src,
       width: largest.width,
       height: largest.height,
-      srcset: variants.map(({ src, width }) => ({ src, width })),
+      ...(variants.length > 1
+        ? { srcset: variants.map(({ src, width }) => ({ src, width })) }
+        : {}),
     };
   }
 }
