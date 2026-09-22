@@ -1,5 +1,5 @@
 ---
-title: Flash 2
+title: Arpía Desalada
 description: Diseño disponible para ser tatuado.
 cover: /uploads/flash2.jpg
 coverAlt: "Diseño para tatuaje "
@@ -12,4 +12,4 @@ categories:
   - Híbrido humano animal
   - Pájaros
 ---
-Díselo para tatuaje 
+Diseño para tatuaje 
