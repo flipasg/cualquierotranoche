@@ -5,7 +5,6 @@ interface Props {
   work: any;
 }
 const { work } = Astro.props;
-const titleId = `work-card-title-${work.id}`;
 ---
 
 <article
@@ -19,7 +18,7 @@ const titleId = `work-card-title-${work.id}`;
       src={work.data.cover}
       alt={work.data.coverAlt}
       sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
-    /><span class="status">{work.data.status}</span><h3 id={titleId}>
+    /><span class="status">{work.data.status}</span><h3>
       {work.data.title}
     </h3><p>
       {work.data.technique} · {work.data.dimensions}
@@ -31,7 +30,7 @@ const titleId = `work-card-title-${work.id}`;
       ) : null
     }<span class="card__cta">{site.ui.artwork.cardCta}</span>
   </div>
-  <a class="card__link" href={`/obra/${work.id}/`} aria-labelledby={titleId}
+  <a class="card__link" href={`/obra/${work.id}/`}
     ><span class="sr-only">{work.data.title}</span></a
   >
 </article>
