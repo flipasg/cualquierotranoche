@@ -96,7 +96,15 @@ content:
             - { label: Vendida, name: vendida }
       - { name: priceEur, label: Precio en euros, type: number }
       - { name: showPrice, label: Mostrar precio, type: boolean }
-      - { name: collection, label: Colección, type: string }
+      - name: collection
+        label: Colección
+        type: reference
+        options:
+          collection: obra-collections
+          search: "id,title"
+          value: "{fields.id}"
+          label: "{fields.title}"
+
       - { name: cover, label: Portada, type: image, required: true }
       - {
           name: coverAlt,
@@ -742,33 +750,30 @@ content:
             { name: id, label: Identificador, type: string, required: true },
             { name: label, label: Nombre, type: string, required: true },
           ]
-
   - name: obra-collections
     label: Colecciones de obra
-    type: file
-    path: src/data/obra-collections.json
+    type: collection
+    path: src/data/obra-collections
     format: json
+    filename: "{id}.json"
+    view:
+      primary: title
+      fields: [title, id]
+      search: [title, id]
     fields:
-      - name: collections
-        label: Colecciones
-        type: object
-        list:
-          collapsible:
-            collapsed: true
-            summary: "{title}"
-        fields:
-          - name: id
-            label: Identificador
-            type: string
-            required: true
-            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-            description: Identificador estable en minúsculas, números y guiones.
-          - name: title
-            label: Título
-            type: rich-text
-            options: { format: markdown, media: false, switcher: false }
-            required: true
-          - name: description
-            label: Descripción
-            type: rich-text
-            options: { format: markdown, media: false, switcher: false }
+      - name: id
+        label: Identificador
+        type: string
+        required: true
+        pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+        description: Identificador estable. Usa minúsculas, números y guiones y no lo cambies después de asignarlo a obras.
+      - name: title
+        label: Título
+        type: rich-text
+        options: { format: markdown, media: false, switcher: false }
+        required: true
+      - name: description
+        label: Descripción
+        type: rich-text
+        options: { format: markdown, media: false, switcher: false }
+    operations: { create: true, rename: true, delete: true }
