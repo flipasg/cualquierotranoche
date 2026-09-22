@@ -8,15 +8,19 @@ const { work } = Astro.props;
 ---
 
 <article
-  class="card card--linked"
+  class="card"
   data-work-card
   data-collection={work.data.collection}
   data-status={work.data.status}
 >
-  <div class="card__content">
+  <a
+    class="card__link"
+    href={`/obra/${work.id}/`}
+    aria-label={`${site.ui.artwork.cardCta}: ${work.data.title}`}
+  >
     <GalleryImage
       src={work.data.cover}
-      alt={work.data.coverAlt}
+      alt=""
       sizes={site.ui.imageSizing.card || site.ui.imageSizing.zoomable}
     /><span class="status">{work.data.status}</span><h3>
       {work.data.title}
@@ -29,46 +33,21 @@ const { work } = Astro.props;
         </p>
       ) : null
     }<span class="card__cta">{site.ui.artwork.cardCta}</span>
-  </div>
-  <a class="card__link" href={`/obra/${work.id}/`}
-    ><span class="sr-only">{site.ui.artwork.cardCta}: {work.data.title}</span
-    ></a
-  >
+  </a>
 </article>
 
 <style>
-  .card--linked {
-    position: relative;
-  }
-  .card__content {
-    position: relative;
-    z-index: 0;
-  }
   .card__link {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+    display: block;
+    color: inherit;
+    text-decoration: none;
   }
   .card__cta {
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }
-  .card--linked:hover .card__cta {
+  .card__link:hover .card__cta,
+  .card__link:focus-visible .card__cta {
     text-decoration-thickness: 2px;
-  }
-  .card__link:focus-visible {
-    outline: 3px solid var(--color-accent);
-    outline-offset: 3px;
-  }
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
   }
 </style>
