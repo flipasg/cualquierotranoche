@@ -31,7 +31,8 @@ const { work } = Astro.props;
     }<span class="card__cta">{site.ui.artwork.cardCta}</span>
   </div>
   <a class="card__link" href={`/obra/${work.id}/`}
-    ><span class="sr-only">{work.data.title}</span></a
+    ><span class="sr-only">{site.ui.artwork.cardCta}: {work.data.title}</span
+    ></a
   >
 </article>
 
