@@ -1,16 +1,20 @@
 ---
 import GalleryImage from './GalleryImage.astro';
+import site from '../data/site.json';
 interface Props {
   tattoo: any;
 }
 const { tattoo } = Astro.props;
+const cardFrame = site.ui.imageSizing.cardFrame ?? {};
+const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
 
-<article class="card">
+<article class="card card--media-sized" style={cardStyle}>
   <GalleryImage
     src={tattoo.data.cover}
     alt={tattoo.data.coverAlt}
     zoomable
+    sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
   /><h3>
     {tattoo.data.title}
   </h3><p>{tattoo.data.description}</p>

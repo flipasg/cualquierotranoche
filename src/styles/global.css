@@ -122,6 +122,19 @@ p {
   background: var(--color-surface);
   margin-bottom: 1rem;
 }
+.card--media-sized {
+  width: min(100%, var(--card-media-width, 100%));
+}
+.card--media-sized .gallery-image-link,
+.card--media-sized .gallery-image,
+.card--media-sized img {
+  width: 100%;
+  max-width: 100%;
+}
+.card--media-sized img {
+  height: var(--card-media-height, auto);
+  object-fit: cover;
+}
 .status {
   display: inline-block;
   margin-bottom: 0.75rem;

@@ -524,6 +524,16 @@ content:
                   type: string,
                 },
                 {
+                  name: cardFrame,
+                  label: Tamaño visible de las tarjetas,
+                  type: object,
+                  fields:
+                    [
+                      { name: width, label: Ancho de tarjeta, type: string },
+                      { name: height, label: Alto de tarjeta, type: string },
+                    ],
+                },
+                {
                   name: maxWidth,
                   label: Ancho máximo visible,
                   type: object,

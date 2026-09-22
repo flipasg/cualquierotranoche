@@ -7,13 +7,16 @@ interface Props {
   flash: any;
 }
 const { flash } = Astro.props;
+const cardFrame = site.ui.imageSizing.cardFrame ?? {};
+const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
 
-<article class="card">
+<article class="card card--media-sized" style={cardStyle}>
   <GalleryImage
     src={flash.data.cover}
     alt={flash.data.coverAlt}
     zoomable
+    sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
   /><span class="status">{flash.data.status}</span><h3>{flash.data.title}</h3><p
   >
     {flash.data.code} · {flash.data.note}

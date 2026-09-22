@@ -5,19 +5,22 @@ interface Props {
   work: any;
 }
 const { work } = Astro.props;
+const cardFrame = site.ui.imageSizing.cardFrame ?? {};
+const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
 
 <article
-  class="card"
+  class="card card--media-sized"
   data-work-card
   data-collection={work.data.collection}
   data-status={work.data.status}
+  style={cardStyle}
 >
   <a class="card__link" href={`/obra/${work.id}/`}>
     <GalleryImage
       src={work.data.cover}
       alt=""
-      sizes={site.ui.imageSizing.zoomable || site.ui.imageSizing.default}
+      sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
     /><span class="status">{work.data.status}</span><h3>
       {work.data.title}
     </h3><p>
