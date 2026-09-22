@@ -389,7 +389,7 @@ export interface FlashCategoriesData {
 }
 
 /* -------------------------------------------------------------------------- */
-/* obra-collections.json                                                      */
+/* src/data/obra-collections/*.json                                           */
 /* -------------------------------------------------------------------------- */
 
 export interface ArtworkCollection {

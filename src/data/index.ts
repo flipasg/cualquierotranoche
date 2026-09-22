@@ -1,10 +1,9 @@
 /**
  * Typed data entrypoint.
  *
- * Import JSON-backed application data from this module instead of importing
- * JSON files directly. Explicitly widening each JSON value to its contract
- * means optional CMS properties remain visible to TypeScript as
- * `T | undefined` even when the property is not currently present in the file.
+ * Import application data from this module instead of importing the JSON files
+ * directly. Optional CMS properties remain visible to TypeScript even when
+ * they are not currently present in the underlying JSON.
  */
 
 import rawSite from './site.json';
@@ -12,10 +11,9 @@ import rawSocial from './social.json';
 import rawGuests from './guests.json';
 import rawCities from './ciudades.json';
 import rawFlashCategories from './flash-categories.json';
-import rawArtworkCollections from './obra-collections.json';
+import { artworkCollections } from './artwork-collections';
 
 import type {
-  ArtworkCollectionsData,
   CitiesData,
   FlashCategoriesData,
   GuestsData,
@@ -28,7 +26,7 @@ export const social: SocialData = rawSocial;
 export const guests: GuestsData = rawGuests;
 export const cities: CitiesData = rawCities;
 export const flashCategories: FlashCategoriesData = rawFlashCategories;
-export const artworkCollections: ArtworkCollectionsData = rawArtworkCollections;
+export { artworkCollections };
 
 export type {
   AboutPageData,

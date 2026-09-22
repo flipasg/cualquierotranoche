@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 
 const { collection } = Astro.props;
 const works = (await getCollection('obras', ({ data }) => !data.draft)).filter(
-  (work) => getCollectionSlug(work.data.collection) === collection.id,
+  (work) => work.data.collection === collection.id,
 );
 ---
 

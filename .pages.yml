@@ -502,6 +502,17 @@ content:
                   label: Antetítulo de aportación,
                   type: string,
                 },
+                {
+                  name: contactHeading,
+                  label: Título de contacto,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: contactCta,
+                  label: CTA de contacto,
+                  type: string,
+                },
               ]
           - name: imageSizing
             label: Tamaños de imagen
@@ -731,3 +742,33 @@ content:
             { name: id, label: Identificador, type: string, required: true },
             { name: label, label: Nombre, type: string, required: true },
           ]
+
+  - name: obra-collections
+    label: Colecciones de obra
+    type: file
+    path: src/data/obra-collections.json
+    format: json
+    fields:
+      - name: collections
+        label: Colecciones
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: id
+            label: Identificador
+            type: string
+            required: true
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+            description: Identificador estable en minúsculas, números y guiones.
+          - name: title
+            label: Título
+            type: rich-text
+            options: { format: markdown, media: false, switcher: false }
+            required: true
+          - name: description
+            label: Descripción
+            type: rich-text
+            options: { format: markdown, media: false, switcher: false }
