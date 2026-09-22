@@ -2,14 +2,14 @@
 title: Flash 2
 description: Diseño disponible para ser tatuado.
 cover: /uploads/flash2.jpg
-coverAlt: Flash 2 disponible
+coverAlt: "Diseño para tatuaje "
 draft: false
 code: "2"
 status: disponible
-note: blabla
+note: Tamaño mínimo 10cm
 showInCarousel: true
 categories:
-  - Hibrido humano animal
+  - Híbrido humano animal
   - Pájaros
 ---
-uuuu
+Díselo para tatuaje 
