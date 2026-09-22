@@ -97,20 +97,19 @@
       "contact": "Contacto",
       "email": "Email",
       "instagram": "Instagram",
-      "sampleNotice": "Obra original por Patricia Garcia Ramírez."
+      "sampleNotice": "Obra original por Patricia García Ramírez."
     },
     "forms": {
       "unavailable": "Formulario disponible próximamente.",
       "tattoo": "Tattoo",
       "artwork": "Obra",
-      "illustration": "Proyecto",
+      "illustration": "Proyectos",
       "general": "Otra consulta",
       "cityAlerts": "Avisos por ciudad"
     },
     "contact": {
       "title": "Contacto",
       "description": "Consultas de tattoo, obra e ilustración.",
-      "eyebrow": "Contacto · Consultas",
       "heading": "Formularios"
     },
     "tattoo": {
@@ -154,8 +153,7 @@
       "available": "Ver disponibles",
       "shipping": "Envío a consultar",
       "interestCta": "Me interesa esta obra",
-      "cardCta": "Ver la pieza",
-      "detailEyebrow": "Obra"
+      "cardCta": "Ver la pieza"
     },
     "illustration": {
       "title": "Proyectos",
@@ -164,10 +162,7 @@
       "intro": "Mi universo visual puesto al servicio de un proyecto. Diseño de cartelería, editorial… ",
       "heroImage": "/uploads/portada4-1.jpg",
       "heroImageAlt": "Cartel",
-      "projectEyebrow": "PROYECTO",
-      "projectCardEyebrow": "Proyecto",
       "projectCta": "Ver proyecto",
-      "contributionEyebrow": "MI APORTACIÓN",
       "contactHeading": "¿Tienes un proyecto en mente?",
       "contactCta": "Cuéntame tu proyecto"
     },
