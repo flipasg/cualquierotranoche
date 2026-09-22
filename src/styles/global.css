@@ -278,7 +278,7 @@ p {
   .page-header__image,
   .page-header__image.gallery-image {
     aspect-ratio: 21 / 9;
-    max-height: min(70svh, 40rem);
+    max-height: min(45svh, 26rem);
   }
   .editorial {
     grid-template-columns: repeat(3, 1fr);
