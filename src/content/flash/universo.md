@@ -1,15 +1,12 @@
 ---
 title: Universo
-description: Diseño disponible para ser tatuado
 cover: /uploads/flash1-1.jpg
-coverAlt: "Diseño para tatuaje "
+coverAlt: Dibujo figura mirando el universo en azul
 draft: false
 code: "1"
 status: disponible
-note: Tamaño mínimo 10cm
 showInCarousel: true
 categories:
   - Figuras
   - Destacado
 ---
-Diseño disponible 
