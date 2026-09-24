@@ -187,6 +187,9 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     font: inherit;
     cursor: pointer;
     padding: 0.75rem 1rem;
+    transition:
+      background-color var(--motion-fast) ease,
+      color var(--motion-fast) ease;
   }
   .gallery-filter-statuses button + button {
     margin-left: -1px;
@@ -240,6 +243,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
     transform: rotate(45deg) translateY(-0.15rem);
+    transition: transform var(--motion-fast) ease;
   }
   .gallery-filter-taxonomy details[open] > summary::after {
     transform: rotate(225deg) translate(-0.1rem, -0.1rem);
@@ -319,9 +323,17 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     line-height: 1.25;
     padding: 3px 8px;
     text-align: left;
+    transition:
+      background-color var(--motion-fast) ease,
+      border-color var(--motion-fast) ease,
+      transform var(--motion-fast) ease;
   }
   .gallery-featured__card[aria-pressed='true'] {
     border-color: var(--color-accent);
+  }
+  .gallery-featured__card:hover,
+  .gallery-featured__card:focus-visible {
+    background: var(--color-panel);
   }
   .gallery-featured__card:focus-visible {
     outline: 2px solid var(--color-accent);

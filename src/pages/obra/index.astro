@@ -60,7 +60,7 @@ const artworkStatuses = [
   }
   <div data-gallery data-gallery-taxonomy-param="collection">
     <section class="container section section-intro section-intro--stacked">
-      <div>
+      <div data-reveal>
         <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
           {site.ui.artwork.heading}
         </h1><RichText content={site.ui.artwork.intro} class="lead" />
@@ -79,7 +79,7 @@ const artworkStatuses = [
         />
       </div>
     </section><section class="container section gallery-results">
-      <div class="grid grid-3">
+      <div class="grid grid-3" data-reveal-group>
         {works.map((work) => <WorkCard work={work} />)}
       </div>
     </section>

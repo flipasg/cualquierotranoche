@@ -11,6 +11,9 @@
   --space: clamp(1rem, 3vw, 2.5rem);
   --radius: 4px;
   --max-width: 1200px;
+  --motion-fast: 160ms;
+  --motion-enter: 400ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
   font-family: var(--font-family);
   color: var(--color-text);
   background: var(--color-bg);
@@ -24,6 +27,17 @@ html {
 }
 @media (prefers-reduced-motion: reduce) {
   html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  .carousel-track {
     scroll-behavior: auto;
   }
 }
@@ -115,10 +129,22 @@ p {
   color: var(--color-bg);
   text-decoration: none;
   font-weight: 700;
+  transition:
+    background-color var(--motion-fast) ease,
+    color var(--motion-fast) ease,
+    transform var(--motion-fast) ease;
+}
+.button:hover,
+.button:focus-visible {
+  background: color-mix(in srgb, var(--color-accent), black 12%);
 }
 .button.secondary {
   background: transparent;
   color: var(--color-accent);
+}
+.button.secondary:hover,
+.button.secondary:focus-visible {
+  background: var(--color-panel);
 }
 .button-row {
   display: flex;
@@ -142,6 +168,40 @@ p {
   width: 100%;
   background: var(--color-surface);
   margin-bottom: 1rem;
+}
+.card__link img,
+.discipline-card__link img {
+  transition: transform var(--motion-enter) var(--motion-ease);
+}
+.card__link:hover img,
+.card__link:focus-visible img,
+.discipline-card__link:hover img,
+.discipline-card__link:focus-visible img {
+  transform: scale(1.015);
+}
+.card .gallery-image-link {
+  overflow: hidden;
+}
+.card .gallery-image-link .gallery-image {
+  transition: transform var(--motion-enter) var(--motion-ease);
+}
+.card .gallery-image-link:hover .gallery-image,
+.card .gallery-image-link:focus-visible .gallery-image {
+  transform: scale(1.015);
+}
+[data-reveal] {
+  --reveal-delay: 0ms;
+}
+html[data-motion-ready='true'] [data-reveal][data-reveal-state='pending'] {
+  opacity: 0;
+  transform: translateY(12px);
+}
+html[data-motion-ready='true'] [data-reveal][data-reveal-state='revealed'] {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--motion-enter) var(--motion-ease) var(--reveal-delay),
+    transform var(--motion-enter) var(--motion-ease) var(--reveal-delay);
 }
 .card--media-sized {
   width: min(100%, var(--card-media-width, 100%));

@@ -54,7 +54,7 @@ const flashStatuses = [
           },
         ]}
       />
-      <h1>{site.ui.flash.heading}</h1>
+      <h1 data-reveal>{site.ui.flash.heading}</h1>
       <GalleryFilters
         taxonomyLabel="Categoría"
         taxonomyAllLabel="Todas las categorías"
@@ -70,6 +70,7 @@ const flashStatuses = [
       />
       <div
         class="grid grid-3"
+        data-reveal-group
         data-flash-grid
         role="region"
         aria-label={site.ui.flash.heading}

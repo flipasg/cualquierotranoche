@@ -10,7 +10,7 @@ const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
 
-<article class="card card--media-sized" style={cardStyle}>
+<article class="card card--media-sized" style={cardStyle} data-reveal>
   <a class="card__link" href={projectHref} aria-label={project.data.title}>
     <GalleryImage
       src={project.data.cover}

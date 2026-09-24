@@ -61,6 +61,28 @@
   .image-viewer::backdrop {
     background: rgb(0 0 0 / 80%);
   }
+  .image-viewer[open] {
+    animation: image-viewer-open var(--motion-fast) ease-out;
+  }
+  .image-viewer[open]::backdrop {
+    animation: image-viewer-backdrop var(--motion-fast) ease-out;
+  }
+  @keyframes image-viewer-open {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes image-viewer-backdrop {
+    from {
+      background: rgb(0 0 0 / 0%);
+    }
+    to {
+      background: rgb(0 0 0 / 80%);
+    }
+  }
   .image-viewer__layout {
     display: grid;
     grid-template-rows: auto minmax(0, 1fr) auto;

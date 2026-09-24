@@ -9,15 +9,15 @@ const { Content } = await render(page);
 ---
 
 <BaseLayout title={site.ui.about.title} description={site.ui.about.description}
-  ><section class='container section grid grid-2'>
+  ><section class="container section grid grid-2">
     <GalleryImage
       src={page.data.portrait}
       alt={page.data.portraitAlt}
-      loading='eager'
-    /><div>
+      loading="eager"
+    /><div data-reveal>
       <h1>{page.data.title}</h1><h3>
         {page.data.subtitle}
-      </h3><div class='prose'><Content /></div><p>
+      </h3><div class="prose"><Content /></div><p>
         <strong>{page.data.location}</strong>
       </p>
     </div>

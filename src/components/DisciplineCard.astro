@@ -6,9 +6,13 @@ type Props = HomeDiscipline;
 const { title, text, href, linkLabel, image, imageAlt } = Astro.props;
 ---
 
-<article class="card discipline-card">
+<article class="card discipline-card" data-reveal>
   <a class="discipline-card__link" href={href} aria-label={linkLabel}>
-    <GalleryImage src={`${image}`} alt={`${imageAlt}`} class="discipline-card__image" /><h3>
+    <GalleryImage
+      src={`${image}`}
+      alt={`${imageAlt}`}
+      class="discipline-card__image"
+    /><h3>
       {title}
     </h3><p>{text}</p><span>{linkLabel}</span>
   </a>

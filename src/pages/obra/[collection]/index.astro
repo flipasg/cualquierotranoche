@@ -22,7 +22,7 @@ const works = (await getCollection('obras', ({ data }) => !data.draft)).filter(
 
 <BaseLayout title={collection.title} description={collection.description ?? ''}>
   <section class="container section section-intro section-intro--stacked">
-    <div>
+    <div data-reveal>
       <Breadcrumbs
         items={[
           { label: site.ui.artwork.title ?? 'Obra', href: '/obra/' },
@@ -35,7 +35,7 @@ const works = (await getCollection('obras', ({ data }) => !data.draft)).filter(
   </section>
 
   <section class="container section">
-    <div class="grid grid-3">
+    <div class="grid grid-3" data-reveal-group>
       {works.map((work) => <WorkCard work={work} />)}
     </div>
   </section>

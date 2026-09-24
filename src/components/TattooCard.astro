@@ -9,7 +9,7 @@ const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
 
-<article class="card card--media-sized" style={cardStyle}>
+<article class="card card--media-sized" style={cardStyle} data-reveal>
   <GalleryImage
     src={tattoo.data.cover}
     alt={tattoo.data.coverAlt}

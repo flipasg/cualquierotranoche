@@ -9,7 +9,7 @@ import { site } from '../data';
   title={site.ui.homePage.title}
   description={site.ui.homePage.description}
   ><section class="container section hero">
-    <div>
+    <div data-reveal>
       <h1>{site.home.title}</h1><p class="lead">
         {site.home.intro}
       </p><div class="button-row">
@@ -32,7 +32,10 @@ import { site } from '../data';
       loading="eager"
     />
   </section><section id="trabajo" class="container section">
-    <h2>{site.home.workHeading}</h2><div class="grid grid-3">
+    <h2 data-reveal>{site.home.workHeading}</h2><div
+      class="grid grid-3"
+      data-reveal-group
+    >
       {
         site.home.disciplines?.map((discipline) => (
           <DisciplineCard {...discipline} />

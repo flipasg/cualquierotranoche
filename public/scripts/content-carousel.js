@@ -1,6 +1,5 @@
-const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  ? 'auto'
-  : 'smooth';
+const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 document.querySelectorAll('[data-carousel]').forEach((carousel) => {
   if (carousel.dataset.carouselReady) return;
@@ -10,6 +9,9 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
   const previous = carousel.querySelector('[data-carousel-previous]');
   const next = carousel.querySelector('[data-carousel-next]');
   const controls = carousel.querySelector('[data-carousel-controls]');
+  let animationFrame;
+  let originalScrollBehavior;
+  let originalScrollSnapType;
 
   if (!track || !previous || !next || !controls) return;
 
@@ -17,11 +19,55 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
     controls.hidden = track.scrollWidth <= track.clientWidth + 1;
   };
 
+  const animateScroll = (target) => {
+    if (prefersReducedMotion()) {
+      track.scrollLeft = target;
+      return;
+    }
+
+    if (animationFrame !== undefined) cancelAnimationFrame(animationFrame);
+    const start = track.scrollLeft;
+    const distance = target - start;
+    const startedAt = performance.now();
+    const duration = 420;
+    if (animationFrame === undefined) {
+      originalScrollBehavior = track.style.scrollBehavior;
+      originalScrollSnapType = track.style.scrollSnapType;
+      track.style.scrollBehavior = 'auto';
+      track.style.scrollSnapType = 'none';
+    }
+    const tick = (now) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - (1 - progress) ** 3;
+      track.scrollLeft = start + distance * eased;
+      if (progress < 1) animationFrame = requestAnimationFrame(tick);
+      else {
+        animationFrame = undefined;
+        track.style.scrollBehavior = originalScrollBehavior;
+        track.style.scrollSnapType = originalScrollSnapType;
+      }
+    };
+    animationFrame = requestAnimationFrame(tick);
+  };
+
   const scroll = (direction) => {
-    track.scrollBy({
-      left: direction * track.clientWidth * 0.85,
-      behavior,
-    });
+    const items = [...track.querySelectorAll('.carousel-item')];
+    const positions = items.map((item) => item.offsetLeft);
+    if (positions.length === 0) return;
+    const current = positions.reduce(
+      (closest, position, index) =>
+        Math.abs(position - track.scrollLeft) <
+        Math.abs(positions[closest] - track.scrollLeft)
+          ? index
+          : closest,
+      0,
+    );
+    const targetIndex = Math.max(
+      0,
+      Math.min(positions.length - 1, current + direction),
+    );
+
+    animateScroll(positions[targetIndex] ?? track.scrollLeft);
   };
 
   previous.addEventListener('click', () => scroll(-1));

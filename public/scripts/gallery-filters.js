@@ -1,4 +1,35 @@
 const galleries = document.querySelectorAll('[data-gallery]');
+let pageScrollFrame;
+let originalPageScrollBehavior;
+
+const scrollPageTo = (top) => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.scrollTo({ top, behavior: 'auto' });
+    return;
+  }
+
+  if (pageScrollFrame !== undefined) cancelAnimationFrame(pageScrollFrame);
+  const scrollingElement = document.scrollingElement;
+  const start = scrollingElement.scrollTop;
+  const distance = top - start;
+  const startedAt = performance.now();
+  const duration = 420;
+  if (pageScrollFrame === undefined) {
+    originalPageScrollBehavior = scrollingElement.style.scrollBehavior;
+    scrollingElement.style.scrollBehavior = 'auto';
+  }
+  const tick = (now) => {
+    const progress = Math.min(1, (now - startedAt) / duration);
+    const eased = 1 - (1 - progress) ** 3;
+    scrollingElement.scrollTop = start + distance * eased;
+    if (progress < 1) pageScrollFrame = requestAnimationFrame(tick);
+    else {
+      pageScrollFrame = undefined;
+      scrollingElement.style.scrollBehavior = originalPageScrollBehavior;
+    }
+  };
+  pageScrollFrame = requestAnimationFrame(tick);
+};
 
 galleries.forEach((gallery) => {
   const cards = [...gallery.querySelectorAll('[data-gallery-card]')];
@@ -63,12 +94,7 @@ galleries.forEach((gallery) => {
       window.scrollY -
       headerHeight -
       16;
-    window.scrollTo({
-      top: Math.max(0, top),
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        ? 'auto'
-        : 'smooth',
-    });
+    scrollPageTo(Math.max(0, top));
   };
 
   const updateUrl = () => {
@@ -125,13 +151,18 @@ galleries.forEach((gallery) => {
     });
     const pageCount = Math.max(1, Math.ceil(visible.length / pageSize));
     currentPage = Math.min(currentPage, pageCount);
+    const newlyVisible = [];
     cards.forEach((card) => {
       const index = visible.indexOf(card);
-      card.hidden =
+      const hidden =
         index === -1 ||
         index < (currentPage - 1) * pageSize ||
         index >= currentPage * pageSize;
+      if (card.hidden && !hidden) newlyVisible.push(card);
+      card.hidden = hidden;
     });
+    if (newlyVisible.length)
+      window.refreshScrollReveal?.(newlyVisible, { restart: true });
     if (empty) empty.hidden = visible.length > 0;
     if (activeFilters && chips) {
       chips.replaceChildren();

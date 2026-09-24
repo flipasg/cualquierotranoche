@@ -10,29 +10,29 @@ interface Props {
 const { id, label, viewAllHref, viewAllLabel } = Astro.props;
 ---
 
-<div class='carousel' data-carousel>
-  <div class='carousel-heading'>
+<div class="carousel" data-carousel data-reveal>
+  <div class="carousel-heading">
     <h2>{label}</h2>
-    <div class='carousel-actions'>
+    <div class="carousel-actions">
       <a href={viewAllHref}>{viewAllLabel}</a>
       <div
-        class='carousel-controls'
+        class="carousel-controls"
         data-carousel-controls
         aria-label={`${site.ui.carousel.controlsPrefix} ${label}`}
         hidden
       >
-        <button type='button' data-carousel-previous aria-controls={id}>
+        <button type="button" data-carousel-previous aria-controls={id}>
           {site.ui.carousel.previous}
-        </button><button type='button' data-carousel-next aria-controls={id}>
+        </button><button type="button" data-carousel-next aria-controls={id}>
           {site.ui.carousel.next}
         </button>
       </div>
     </div>
   </div><div
     id={id}
-    class='carousel-track'
+    class="carousel-track"
     data-carousel-track
-    tabindex='0'
+    tabindex="0"
     aria-label={label}
   >
     <slot />
@@ -79,6 +79,14 @@ const { id, label, viewAllHref, viewAllLabel } = Astro.props;
     font: inherit;
     font-size: 0.875rem;
     cursor: pointer;
+    transition:
+      background-color var(--motion-fast) ease,
+      color var(--motion-fast) ease;
+  }
+  .carousel-controls button:hover,
+  .carousel-controls button:focus-visible {
+    background: var(--color-panel);
+    color: inherit;
   }
   .carousel-track {
     display: grid;
@@ -114,4 +122,4 @@ const { id, label, viewAllHref, viewAllLabel } = Astro.props;
   }
 </style>
 
-<script is:inline type='module' src='/scripts/content-carousel.js'></script>
+<script is:inline type="module" src="/scripts/content-carousel.js"></script>

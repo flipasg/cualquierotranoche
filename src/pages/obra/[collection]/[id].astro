@@ -49,7 +49,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
         zoomable
       />
 
-      <div>
+      <div data-reveal>
         <Breadcrumbs
           items={[
             { label: site.ui.artwork.title ?? 'Obra', href: '/obra/' },
@@ -99,10 +99,10 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
       </div>
     </div>
 
-    <section class="obra-gallery">
+    <section class="obra-gallery" data-reveal-group>
       {
         gallery.map((image: any) => (
-          <div class="card--media-sized" style={cardStyle}>
+          <div class="card--media-sized" style={cardStyle} data-reveal>
             <GalleryImage
               src={image.src}
               alt={image.alt}

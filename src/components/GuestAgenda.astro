@@ -26,7 +26,11 @@ const groups = groupGuestsByMonth(config.entries);
   {
     groups.length ? (
       groups.map((group) => (
-        <section class="guest-month" aria-labelledby={`month-${group.key}`}>
+        <section
+          class="guest-month"
+          aria-labelledby={`month-${group.key}`}
+          data-reveal
+        >
           <h3 id={`month-${group.key}`}>{group.label}</h3>
           <ul>
             {group.entries.map((guest) => (

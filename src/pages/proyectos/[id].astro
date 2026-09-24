@@ -24,7 +24,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   socialImageAlt={project.data.coverAlt}
   ><article class="container section">
     <div class="grid grid-2 proyecto-detail">
-      <div>
+      <div data-reveal>
         <Breadcrumbs
           items={[
             {
@@ -49,14 +49,14 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
         loading="eager"
         zoomable
       />
-    </div><section class="container section">
+    </div><section class="container section" data-reveal>
       <Eyebrow text={site.ui.illustration.contributionEyebrow} /><h2>
         {project.data.contribution}
       </h2><Content />
-    </section><section class="proyecto-gallery">
+    </section><section class="proyecto-gallery" data-reveal-group>
       {
         gallery.map((image: any) => (
-          <div class="card--media-sized" style={cardStyle}>
+          <div class="card--media-sized" style={cardStyle} data-reveal>
             <GalleryImage
               src={image.src}
               alt={image.alt}

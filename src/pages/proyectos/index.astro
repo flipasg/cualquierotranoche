@@ -17,9 +17,7 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
       <section class="page-header" aria-label={site.ui.illustration.heading}>
         <GalleryImage
           src={site.ui.illustration.heroImage}
-          alt={
-            `${site.ui.illustration.heroImageAlt || site.ui.illustration.heading}`
-          }
+          alt={`${site.ui.illustration.heroImageAlt || site.ui.illustration.heading}`}
           loading="eager"
           class="page-header__image"
         />
@@ -27,15 +25,12 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
     )
   }
   <section class="container section section-intro section-intro--stacked">
-    <div>
+    <div data-reveal>
       <h1>{site.ui.illustration.heading}</h1>
-      <RichText
-        content={site.ui.illustration.intro}
-        class='lead'  
-      />
+      <RichText content={site.ui.illustration.intro} class="lead" />
     </div>
   </section><section class="container section">
-    <div class="grid grid-2">
+    <div class="grid grid-2" data-reveal-group>
       {projects.map((project) => <ProjectCard project={project} />)}
     </div>
   </section>
