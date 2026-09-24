@@ -2,19 +2,44 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/WorkCard.astro';
+import GalleryFilters from '../../components/GalleryFilters.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import { artworkCollections, site } from '../../data';
 import RichText from '../../components/RichText.astro';
 const works = await getCollection('obras', ({ data }) => !data.draft);
 
-const usedCollectionIds = new Set(
-  works.flatMap((work) => (work.data.collection ? [work.data.collection] : [])),
-);
-
-const collections = artworkCollections.collections
-  ?.filter((collection) => usedCollectionIds.has(collection.id))
-  .sort((first, second) => first.title.localeCompare(second.title, 'es'));
+const collections = (artworkCollections.collections ?? []).map((collection) => {
+  const collectionWorks = works.filter(
+    (work) => work.data.collection === collection.id,
+  );
+  const source = collectionWorks.find(
+    (work) =>
+      work.id === collection.imageFrom ||
+      work.data.title === collection.imageFrom,
+  );
+  return {
+    id: collection.id,
+    label: collection.title,
+    count: collectionWorks.length,
+    featured: collection.featured,
+    image: collection.image ?? source?.data.cover,
+    imageAlt: collection.imageAlt ?? source?.data.coverAlt,
+  };
+});
+const artworkStatuses = [
+  {
+    id: 'disponible',
+    label: site.ui.artwork.available ?? 'Disponibles',
+    count: works.filter((work) => work.data.status === 'disponible').length,
+  },
+  { id: 'all', label: site.ui.artwork.all ?? 'Todas', count: works.length },
+  {
+    id: 'vendida',
+    label: 'Vendidas',
+    count: works.filter((work) => work.data.status === 'vendida').length,
+  },
+];
 ---
 
 <BaseLayout
@@ -23,47 +48,48 @@ const collections = artworkCollections.collections
 >
   {
     site.ui.artwork.heroImage && (
-      <section class='page-header' aria-label={site.ui.artwork.heading}>
+      <section class="page-header" aria-label={site.ui.artwork.heading}>
         <GalleryImage
           src={site.ui.artwork.heroImage}
           alt={`${site.ui.artwork.heroImageAlt || site.ui.artwork.heading}`}
-          loading='eager'
-          class='page-header__image'
+          loading="eager"
+          class="page-header__image"
         />
       </section>
     )
   }
-  <section class='container section section-intro section-intro--stacked'>
-    <div>
-      <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
-        {site.ui.artwork.heading}
-      </h1><RichText content={site.ui.artwork.intro} class='lead' /><div
-        class='filters'
-        aria-label={site.ui.artwork.filtersLabel}
-        role='group'
-      >
-        <button type='button' data-filter='all' aria-pressed='true'>
-          {site.ui.artwork.all}
-        </button>{
-          collections?.map((collection) => (
-            <button
-              type='button'
-              data-filter='collection'
-              data-collection={collection.id}
-            >
-              {collection.title}
-            </button>
-          ))
-        }<button type='button' data-filter='available'
-          >{site.ui.artwork.available}</button
-        >
+  <div data-gallery data-gallery-taxonomy-param="collection">
+    <section class="container section section-intro section-intro--stacked">
+      <div>
+        <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
+          {site.ui.artwork.heading}
+        </h1><RichText content={site.ui.artwork.intro} class="lead" />
+        <GalleryFilters
+          taxonomyLabel="Colección"
+          taxonomyAllLabel="Todas las colecciones"
+          featuredLabel="Colecciones destacadas"
+          activeLabel="Filtros activos:"
+          clearLabel="Limpiar filtros"
+          itemLabel="obras"
+          emptyLabel="No hay obras que coincidan con estos filtros."
+          urlParam="collection"
+          defaultStatus="disponible"
+          statuses={artworkStatuses}
+          taxonomies={collections}
+        />
       </div>
-    </div>
-  </section><section class='container section'>
-    <div class='grid grid-3'>
-      {works.map((work) => <WorkCard work={work} />)}
-    </div>
-  </section>
+    </section><section class="container section gallery-results">
+      <div class="grid grid-3">
+        {works.map((work) => <WorkCard work={work} />)}
+      </div>
+    </section>
+  </div>
 </BaseLayout>
 
-<script is:inline src='/scripts/obra-filters.js'></script>
+<script is:inline src="/scripts/gallery-filters.js"></script>
+
+<style>
+  .gallery-results {
+    padding-top: 0;
+  }
+</style>

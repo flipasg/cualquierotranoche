@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import { site } from '../../data';
@@ -21,33 +22,41 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   description={project.data.description}
   socialImage={project.data.cover}
   socialImageAlt={project.data.coverAlt}
-  ><article class='container section'>
-    <div class='grid grid-2 proyecto-detail'>
+  ><article class="container section">
+    <div class="grid grid-2 proyecto-detail">
       <div>
-        <Eyebrow
-          text={site.ui.illustration.projectEyebrow}
-          prefix={site.ui.illustration.title}
+        <Breadcrumbs
+          items={[
+            {
+              label: site.ui.illustration.title ?? 'Proyectos',
+              href: '/proyectos/',
+            },
+            {
+              label: project.data.title,
+              href: `/proyectos/${project.id}/`,
+            },
+          ]}
         /><h1>
           {project.data.title}
         </h1>
         <p>
           {project.data.client} · {project.data.services} · {project.data.year}
-        </p><p class='lead'>{project.data.description}</p>
+        </p><p class="lead">{project.data.description}</p>
       </div>
       <GalleryImage
         src={project.data.cover}
         alt={project.data.coverAlt}
-        loading='eager'
+        loading="eager"
         zoomable
       />
-    </div><section class='container section'>
+    </div><section class="container section">
       <Eyebrow text={site.ui.illustration.contributionEyebrow} /><h2>
         {project.data.contribution}
       </h2><Content />
-    </section><section class='proyecto-gallery'>
+    </section><section class="proyecto-gallery">
       {
         gallery.map((image: any) => (
-          <div class='card--media-sized' style={cardStyle}>
+          <div class="card--media-sized" style={cardStyle}>
             <GalleryImage
               src={image.src}
               alt={image.alt}

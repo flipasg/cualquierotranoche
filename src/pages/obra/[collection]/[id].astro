@@ -1,8 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import GalleryImage from '../../../components/GalleryImage.astro';
-import Eyebrow from '../../../components/Eyebrow.astro';
 import TallyLink from '../../../components/TallyLink.astro';
 import { forms } from '../../../config/forms';
 import { artworkCollections, site } from '../../../data';
@@ -40,24 +40,33 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   socialImage={work.data.cover}
   socialImageAlt={work.data.coverAlt}
 >
-  <article class='container section'>
-    <div class='grid grid-2 obra-detail'>
+  <article class="container section">
+    <div class="grid grid-2 obra-detail">
       <GalleryImage
         src={work.data.cover}
         alt={work.data.coverAlt}
-        loading='eager'
+        loading="eager"
         zoomable
       />
 
       <div>
-        <Eyebrow
-          text={site.ui.artwork.detailEyebrow}
-          suffix={collection?.title}
+        <Breadcrumbs
+          items={[
+            { label: site.ui.artwork.title ?? 'Obra', href: '/obra/' },
+            {
+              label: collection?.title ?? work.data.collection,
+              href: `/obra/${work.data.collection}/`,
+            },
+            {
+              label: work.data.title,
+              href: `/obra/${work.data.collection}/${work.id}/`,
+            },
+          ]}
         />
 
         <h1>{work.data.title}</h1>
 
-        <span class='status'>{work.data.status}</span>
+        <span class="status">{work.data.status}</span>
 
         <p>
           {work.data.technique}<br />
@@ -72,14 +81,14 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
 
         <p>{site.ui.artwork.shipping}</p>
 
-        <div class='prose'>
+        <div class="prose">
           <Content />
         </div>
 
         {
           work.data.status === 'disponible' && (
             <TallyLink
-              className='obra-interest'
+              className="obra-interest"
               url={forms.artwork}
               params={{ artworkId: work.id, source: 'portfolio-obra' }}
             >
@@ -90,10 +99,10 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
       </div>
     </div>
 
-    <section class='obra-gallery'>
+    <section class="obra-gallery">
       {
         gallery.map((image: any) => (
-          <div class='card--media-sized' style={cardStyle}>
+          <div class="card--media-sized" style={cardStyle}>
             <GalleryImage
               src={image.src}
               alt={image.alt}

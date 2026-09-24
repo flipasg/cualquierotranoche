@@ -1,87 +1,112 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FlashCard from '../../components/FlashCard.astro';
+import GalleryFilters from '../../components/GalleryFilters.astro';
 import { flashCategories } from '../../data';
 import { site } from '../../data';
 
 const flash = await getCollection('flash', ({ data }) => !data.draft);
-const categories = flashCategories.categories;
-const defaultCategory =
-  categories?.find((category) => category.id === 'destacados')?.id ??
-  categories?.[0]?.id ??
-  'all';
+const categories = [...(flashCategories.categories ?? [])]
+  .sort((first, second) => first.order - second.order)
+  .map((category) => {
+    const categoryFlash = flash.filter((item) =>
+      item.data.categories.includes(category.id),
+    );
+    const source = categoryFlash.find(
+      (item) =>
+        item.data.code === category.imageFrom || item.id === category.imageFrom,
+    );
+    return {
+      id: category.id,
+      label: category.label,
+      count: categoryFlash.length,
+      featured: category.featured,
+      image: category.image ?? source?.data.cover,
+      imageAlt: category.imageAlt ?? source?.data.coverAlt,
+    };
+  });
+const flashStatuses = [
+  {
+    id: 'disponible',
+    label: 'Disponibles',
+    count: flash.filter((item) => item.data.status === 'disponible').length,
+  },
+  { id: 'all', label: site.ui.flash.all ?? 'Todos', count: flash.length },
+  {
+    id: 'vendido',
+    label: 'Vendidos',
+    count: flash.filter((item) => item.data.status === 'vendido').length,
+  },
+];
 ---
 
 <BaseLayout title={site.ui.flash.title} description={site.ui.flash.description}
-  ><section class='container section'>
-    <h1>{site.ui.flash.heading}</h1><div
-      class='filters'
-      aria-label={site.ui.flash.filtersLabel}
-      role='group'
-    >
-      {
-        categories?.map((category) => (
-          <button
-            type='button'
-            data-flash-category={category.id}
-            aria-pressed={category.id === defaultCategory ? 'true' : 'false'}
+  ><div data-gallery data-gallery-taxonomy-param="category">
+    <section class="container section">
+      <Breadcrumbs
+        items={[
+          { label: site.ui.tattoo.title ?? 'Tattoo', href: '/tattoo/' },
+          {
+            label: site.ui.flash.eyebrow ?? site.ui.flash.heading ?? 'Flash',
+            href: '/tattoo/flash/',
+          },
+        ]}
+      />
+      <h1>{site.ui.flash.heading}</h1>
+      <GalleryFilters
+        taxonomyLabel="Categoría"
+        taxonomyAllLabel="Todas las categorías"
+        featuredLabel="Categorías destacadas"
+        activeLabel="Filtros activos:"
+        clearLabel="Limpiar filtros"
+        itemLabel="flash"
+        emptyLabel={site.ui.flash.empty ?? 'No hay flash en esta categoría.'}
+        urlParam="category"
+        defaultStatus="disponible"
+        statuses={flashStatuses}
+        taxonomies={categories}
+      />
+      <div class="grid grid-3" data-flash-grid>
+        {
+          flash.map((item) => (
+            <div
+              data-flash-card
+              data-gallery-card
+              data-gallery-status={item.data.status}
+              data-gallery-taxonomies={item.data.categories.join(' ')}
+              data-flash-categories={item.data.categories.join(' ')}
+            >
+              <FlashCard flash={item} />
+            </div>
+          ))
+        }
+      </div><div class="pagination-layout" data-gallery-pagination>
+        <label class="page-size" for="flash-page-size"
+          >{site.ui.flash.pageSizeBefore}<select
+            id="flash-page-size"
+            data-flash-page-size
           >
-            {category.label}
-          </button>
-        ))
-      }<button
-        class='all-filter'
-        type='button'
-        data-flash-category='all'
-        aria-pressed={defaultCategory === 'all' ? 'true' : 'false'}
-      >
-        {site.ui.flash.all}
-      </button>
-    </div><p data-flash-empty hidden>{site.ui.flash.empty}</p><div
-      class='grid grid-3'
-      data-flash-grid
-    >
-      {
-        flash.map((item) => (
-          <div
-            data-flash-card
-            data-flash-categories={item.data.categories.join(' ')}
-          >
-            <FlashCard flash={item} />
-          </div>
-        ))
-      }
-    </div><div class='pagination-layout'>
-      <label class='page-size' for='flash-page-size'
-        >{site.ui.flash.pageSizeBefore}<select
-          id='flash-page-size'
-          data-flash-page-size
+            <option value="6">6</option>
+            <option value="12">12</option>
+            <option value="18">18</option>
+            <option value="24">24</option>
+          </select>{site.ui.flash.pageSizeAfter}</label
+        ><nav
+          data-flash-pagination
+          aria-label={site.ui.flash.paginationLabel}
+          data-previous-label={site.ui.flash.previous}
+          data-next-label={site.ui.flash.next}
+          data-page-status={site.ui.flash.pageStatus}
         >
-          <option value='6'>6</option>
-          <option value='12'>12</option>
-          <option value='18'>18</option>
-          <option value='24'>24</option>
-        </select>{site.ui.flash.pageSizeAfter}</label
-      ><nav
-        data-flash-pagination
-        aria-label={site.ui.flash.paginationLabel}
-        data-previous-label={site.ui.flash.previous}
-        data-next-label={site.ui.flash.next}
-        data-page-status={site.ui.flash.pageStatus}
-      >
-      </nav>
-    </div>
-  </section></BaseLayout
+        </nav>
+      </div>
+    </section>
+  </div></BaseLayout
 >
 
 <style>
-  .all-filter {
-    opacity: 0.65;
-  }
-  .all-filter[aria-pressed='true'] {
-    opacity: 1;
-  }
   .pagination-layout,
   [data-flash-pagination] {
     display: flex;
@@ -92,6 +117,9 @@ const defaultCategory =
   .pagination-layout {
     flex-wrap: wrap;
     margin-top: 2rem;
+  }
+  .pagination-layout[hidden] {
+    display: none;
   }
   .page-size {
     display: inline-flex;
@@ -116,4 +144,4 @@ const defaultCategory =
   }
 </style>
 
-<script is:inline src='/scripts/flash-gallery.js'></script>
+<script is:inline src="/scripts/gallery-filters.js"></script>

@@ -16,8 +16,19 @@ content:
     filename: '{primary}.md'
     view: { fields: [title, code, status, draft] }
     fields: &common
-      - { name: title, label: Título, type: rich-text, options: { format: markdown, media: false, switcher: false }, required: true }
-      - { name: description, label: Descripción, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+      - {
+          name: title,
+          label: Título,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+          required: true,
+        }
+      - {
+          name: description,
+          label: Descripción,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - { name: cover, label: Imagen, type: image, required: true }
       - {
           name: coverAlt,
@@ -33,21 +44,28 @@ content:
         options:
           values:
             - { label: Disponible, name: disponible }
-            - { label: Reservado, name: reservado }
-            - { label: Tatuado, name: tatuado }
-      - { name: note, label: Nota, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+            - { label: Vendido, name: vendido }
+      - {
+          name: note,
+          label: Nota,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - {
           name: showInCarousel,
           label: Mostrar en el carrusel,
           type: boolean,
           default: true,
         }
-      - {
-          name: categories,
-          label: Categorías (usa los identificadores de Categorías de flash),
-          type: string,
-          list: true,
-        }
+      - name: categories
+        label: Categorías
+        type: reference
+        options:
+          collection: flash-categories
+          multiple: true
+          search: 'id,label'
+          value: '{fields.id}'
+          label: '{fields.label}'
       - { name: body, label: Contenido, type: rich-text }
     operations: { create: true, rename: true, delete: true }
   - name: tattoos
@@ -56,8 +74,19 @@ content:
     path: src/content/tattoos
     filename: '{primary}.md'
     fields:
-      - { name: title, label: Título, type: rich-text, options: { format: markdown, media: false, switcher: false }, required: true }
-      - { name: description, label: Descripción, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+      - {
+          name: title,
+          label: Título,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+          required: true,
+        }
+      - {
+          name: description,
+          label: Descripción,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - { name: cover, label: Fotografía, type: image, required: true }
       - {
           name: coverAlt,
@@ -80,8 +109,19 @@ content:
     path: src/content/obras
     filename: '{primary}.md'
     fields:
-      - { name: title, label: Título, type: rich-text, options: { format: markdown, media: false, switcher: false }, required: true }
-      - { name: description, label: Descripción, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+      - {
+          name: title,
+          label: Título,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+          required: true,
+        }
+      - {
+          name: description,
+          label: Descripción,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - { name: technique, label: Técnica, type: string }
       - { name: dimensions, label: Dimensiones, type: string }
       - { name: widthCm, label: Ancho en cm, type: number }
@@ -101,9 +141,9 @@ content:
         type: reference
         options:
           collection: obra-collections
-          search: "id,title"
-          value: "{fields.id}"
-          label: "{fields.title}"
+          search: 'id,title'
+          value: '{fields.id}'
+          label: '{fields.title}'
 
       - { name: cover, label: Portada, type: image, required: true }
       - {
@@ -130,12 +170,27 @@ content:
     path: src/content/proyectos
     filename: '{primary}.md'
     fields:
-      - { name: title, label: Título, type: rich-text, options: { format: markdown, media: false, switcher: false } }
-      - { name: description, label: Introducción, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+      - {
+          name: title,
+          label: Título,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
+      - {
+          name: description,
+          label: Introducción,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - { name: client, label: Cliente, type: string }
       - { name: services, label: Servicios, type: string }
       - { name: year, label: Año, type: string }
-      - { name: contribution, label: Mi aportación, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+      - {
+          name: contribution,
+          label: Mi aportación,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - { name: cover, label: Portada, type: image }
       - { name: coverAlt, label: Texto alternativo, type: string }
       - name: gallery
@@ -155,9 +210,24 @@ content:
     type: file
     path: src/content/paginas/sobre-mi.md
     fields:
-      - { name: title, label: Título, type: rich-text, options: { format: markdown, media: false, switcher: false } }
-      - { name: eyebrow, label: Antetítulo, type: rich-text, options: { format: markdown, media: false, switcher: false } }
-      - { name: subtitle, label: Subtítulo, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+      - {
+          name: title,
+          label: Título,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
+      - {
+          name: eyebrow,
+          label: Antetítulo,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
+      - {
+          name: subtitle,
+          label: Subtítulo,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - { name: location, label: Ubicación, type: string }
       - { name: portrait, label: Retrato, type: image }
       - { name: portraitAlt, label: Texto alternativo, type: string }
@@ -175,8 +245,20 @@ content:
         label: Portada
         type: object
         fields:
-          - { name: title, label: Titular, type: rich-text, options: { format: markdown, media: false, switcher: false }, required: true }
-          - { name: intro, label: Introducción, type: rich-text, options: { format: markdown, media: false, switcher: false }, required: true }
+          - {
+              name: title,
+              label: Titular,
+              type: rich-text,
+              options: { format: markdown, media: false, switcher: false },
+              required: true,
+            }
+          - {
+              name: intro,
+              label: Introducción,
+              type: rich-text,
+              options: { format: markdown, media: false, switcher: false },
+              required: true,
+            }
           - {
               name: heroImage,
               label: Imagen principal,
@@ -220,7 +302,8 @@ content:
           - {
               name: workHeading,
               label: Título de la sección de trabajo,
-              type: rich-text, options: { format: markdown, media: false, switcher: false },
+              type: rich-text,
+              options: { format: markdown, media: false, switcher: false },
             }
           - name: disciplines
             label: Disciplinas
@@ -228,8 +311,18 @@ content:
             list: true
             fields:
               [
-                { name: title, label: Título, type: rich-text, options: { format: markdown, media: false, switcher: false } },
-                { name: text, label: Texto, type: rich-text, options: { format: markdown, media: false, switcher: false } },
+                {
+                  name: title,
+                  label: Título,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: text,
+                  label: Texto,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
                 { name: href, label: Enlace, type: string },
                 { name: linkLabel, label: Texto del enlace, type: string },
                 { name: image, label: Imagen, type: image },
@@ -345,9 +438,24 @@ content:
               [
                 { name: title, label: Título SEO, type: string },
                 { name: description, label: Descripción SEO, type: text },
-                { name: eyebrow, label: Antetítulo, type: rich-text, options: { format: markdown, media: false, switcher: false } },
-                { name: heading, label: Titular, type: rich-text, options: { format: markdown, media: false, switcher: false } },
-                { name: intro, label: Introducción, type: rich-text, options: { format: markdown, media: false, switcher: false } },
+                {
+                  name: eyebrow,
+                  label: Antetítulo,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: heading,
+                  label: Titular,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: intro,
+                  label: Introducción,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
                 {
                   name: studio,
                   label: Estudio,
@@ -377,8 +485,18 @@ content:
               [
                 { name: title, label: Título SEO, type: string },
                 { name: description, label: Descripción SEO, type: text },
-                { name: heading, label: Titular, type: rich-text, options: { format: markdown, media: false, switcher: false } },
-                { name: intro, label: Introducción, type: rich-text, options: { format: markdown, media: false, switcher: false } },
+                {
+                  name: heading,
+                  label: Titular,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: intro,
+                  label: Introducción,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
                 {
                   name: heroImage,
                   label: Imagen de cabecera (horizontal),
@@ -400,6 +518,21 @@ content:
                 },
                 { name: noFlash, label: Sin flash, type: string },
               ]
+          - name: tattoos
+            label: Página de tatuajes
+            type: object
+            fields:
+              [
+                { name: title, label: Título SEO, type: string },
+                { name: description, label: Descripción SEO, type: text },
+                { name: eyebrow, label: Antetítulo, type: string },
+                {
+                  name: heading,
+                  label: Titular,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+              ]
           - name: flash
             label: Página de flash
             type: object
@@ -407,7 +540,13 @@ content:
               [
                 { name: title, label: Título SEO, type: string },
                 { name: description, label: Descripción SEO, type: text },
-                { name: heading, label: Titular, type: rich-text, options: { format: markdown, media: false, switcher: false } },
+                { name: eyebrow, label: Antetítulo, type: string },
+                {
+                  name: heading,
+                  label: Titular,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
                 {
                   name: filtersLabel,
                   label: Etiqueta de filtros,
@@ -442,9 +581,24 @@ content:
               [
                 { name: title, label: Título SEO, type: string },
                 { name: description, label: Descripción SEO, type: text },
-                { name: eyebrow, label: Antetítulo del catálogo, type: rich-text, options: { format: markdown, media: false, switcher: false } },
-                { name: heading, label: Titular, type: rich-text, options: { format: markdown, media: false, switcher: false } },
-                { name: intro, label: Introducción, type: rich-text, options: { format: markdown, media: false, switcher: false } },
+                {
+                  name: eyebrow,
+                  label: Antetítulo del catálogo,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: heading,
+                  label: Titular,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: intro,
+                  label: Introducción,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
                 {
                   name: heroImage,
                   label: Imagen de cabecera (horizontal),
@@ -482,8 +636,18 @@ content:
               [
                 { name: title, label: Título SEO, type: string },
                 { name: description, label: Descripción SEO, type: text },
-                { name: heading, label: Titular, type: rich-text, options: { format: markdown, media: false, switcher: false } },
-                { name: intro, label: Introducción, type: rich-text, options: { format: markdown, media: false, switcher: false } },
+                {
+                  name: heading,
+                  label: Titular,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: intro,
+                  label: Introducción,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
                 {
                   name: heroImage,
                   label: Imagen de cabecera (horizontal),
@@ -516,11 +680,7 @@ content:
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
                 },
-                {
-                  name: contactCta,
-                  label: CTA de contacto,
-                  type: string,
-                },
+                { name: contactCta, label: CTA de contacto, type: string },
               ]
           - name: imageSizing
             label: Tamaños de imagen
@@ -645,10 +805,16 @@ content:
       - {
           name: heading,
           label: Título de la agenda,
-          type: rich-text, options: { format: markdown, media: false, switcher: false },
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
           required: true,
         }
-      - { name: eyebrow, label: Antetítulo, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+      - {
+          name: eyebrow,
+          label: Antetítulo,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - {
           name: inquiryLabel,
           label: Texto para consultar cita,
@@ -670,13 +836,15 @@ content:
       - {
           name: emptyMessage,
           label: Mensaje sin fechas visibles,
-          type: rich-text, options: { format: markdown, media: false, switcher: false },
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
           required: true,
         }
       - {
           name: footerHeading,
           label: Título en el pie de página,
-          type: rich-text, options: { format: markdown, media: false, switcher: false },
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
           required: true,
         }
       - {
@@ -703,7 +871,12 @@ content:
             label: Enlace a Google Maps
             type: string
             description: Pega el enlace completo de Google Maps, incluido https://. Opcional e independiente de la dirección.
-          - { name: description, label: Descripción, type: rich-text, options: { format: markdown, media: false, switcher: false } }
+          - {
+              name: description,
+              label: Descripción,
+              type: rich-text,
+              options: { format: markdown, media: false, switcher: false },
+            }
           - name: startDate
             label: Fecha de inicio
             type: date
@@ -737,25 +910,49 @@ content:
       - { name: note, label: Nota, type: text }
   - name: flash-categories
     label: Categorías de flash
-    type: file
-    path: src/data/flash-categories.json
+    type: collection
+    path: src/data/flash-categories
     format: json
+    filename: '{id}.json'
+    view:
+      primary: label
+      fields: [label, id, order]
+      sort: [order, label]
+      default:
+        sort: order
+        order: asc
+      search: [label, id]
     fields:
-      - name: categories
-        label: Categorías
-        type: object
-        list: true
-        fields:
-          [
-            { name: id, label: Identificador, type: string, required: true },
-            { name: label, label: Nombre, type: string, required: true },
-          ]
+      - name: id
+        label: Identificador
+        type: string
+        required: true
+        pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+        description: Identificador estable. Usa minúsculas, números y guiones y no lo cambies después de asignarlo a flashes.
+      - { name: label, label: Nombre, type: string, required: true }
+      - name: order
+        label: Orden
+        type: number
+        required: true
+        description: Posición del filtro, usando números consecutivos del 1 al total de categorías. El 1 aparece primero.
+      - { name: featured, label: Destacada, type: boolean, default: false }
+      - { name: image, label: Imagen personalizada, type: image }
+      - { name: imageAlt, label: Texto alternativo de la imagen, type: string }
+      - name: imageFrom
+        label: Usar imagen de un flash
+        type: reference
+        options:
+          collection: flash
+          search: 'code,title'
+          value: '{fields.code}'
+          label: '{fields.code}'
+    operations: { create: true, rename: true, delete: true }
   - name: obra-collections
     label: Colecciones de obra
     type: collection
     path: src/data/obra-collections
     format: json
-    filename: "{id}.json"
+    filename: '{id}.json'
     view:
       primary: title
       fields: [title, id]
@@ -776,4 +973,15 @@ content:
         label: Descripción
         type: rich-text
         options: { format: markdown, media: false, switcher: false }
+      - { name: featured, label: Destacada, type: boolean, default: false }
+      - { name: image, label: Imagen personalizada, type: image }
+      - { name: imageAlt, label: Texto alternativo de la imagen, type: string }
+      - name: imageFrom
+        label: Usar imagen de una obra
+        type: reference
+        options:
+          collection: obras
+          search: 'title'
+          value: '{fields.title}'
+          label: '{fields.title}'
     operations: { create: true, rename: true, delete: true }

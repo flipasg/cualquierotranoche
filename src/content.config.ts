@@ -5,7 +5,7 @@ import { defineCollection } from 'astro/content/config';
 const upload = z.string().startsWith('/uploads/');
 const base = z.object({
   title: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   cover: upload,
   coverAlt: z.string().min(1),
   draft: z.boolean().default(false),
@@ -15,10 +15,8 @@ const flash = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/flash' }),
   schema: base.extend({
     code: z.string(),
-    status: z
-      .enum(['disponible', 'reservado', 'tatuado'])
-      .default('disponible'),
-    note: z.string(),
+    status: z.enum(['disponible', 'vendido']).default('disponible'),
+    note: z.string().optional(),
     showInCarousel: z.boolean().default(true),
     categories: z.array(z.string().min(1)).default([]),
   }),

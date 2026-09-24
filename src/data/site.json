@@ -123,12 +123,18 @@
       "flash": "Flash",
       "viewAll": "Ver todos",
       "noTattoos": "No hay tatuajes seleccionados para mostrar.",
-      "flashSampleNotice": "Diseños de muestra · no son obras reales",
       "noFlash": "No hay flash seleccionados para mostrar."
+    },
+    "tattoos": {
+      "title": "Tatuajes",
+      "description": "Tatuajes y flash",
+      "eyebrow": "Galería",
+      "heading": "Tatuajes"
     },
     "flash": {
       "title": "Flash",
       "description": "Diseños disponibles para ser tatuados.",
+      "eyebrow": "Flashbook",
       "heading": "Flash",
       "filtersLabel": "Filtrar flash",
       "all": "Todos",
@@ -150,7 +156,7 @@
       "heroImageAlt": "Collage",
       "filtersLabel": "Filtrar obras",
       "all": "Todas",
-      "available": "Ver disponibles",
+      "available": "Disponibles",
       "shipping": "Envío a consultar",
       "interestCta": "Me interesa esta obra",
       "cardCta": "Ver la pieza"

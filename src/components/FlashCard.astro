@@ -17,10 +17,11 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     alt={flash.data.coverAlt}
     zoomable
     sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-  /><span class="status">{flash.data.status}</span><h3>{flash.data.title}</h3><p
-  >
-    {flash.data.code} · {flash.data.note}
-  </p><TallyLink
+  /><span class="status">{flash.data.status}</span><h3>{flash.data.title}</h3>{
+    flash.data.description && <p>{flash.data.description}</p>
+  }<p>{flash.data.code}</p>{
+    flash.data.note && <p>{flash.data.note}</p>
+  }<TallyLink
     url={forms.tattoo}
     params={{ flashCode: flash.data.code, source: 'portfolio-flash' }}
     linkStyle>{site.ui.flash.requestCta}</TallyLink

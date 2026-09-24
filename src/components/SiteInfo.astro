@@ -15,7 +15,9 @@ interface StudioInfo {
 }
 
 const { showContactLink = true, showStudioInfo = false } = Astro.props;
-const contact = site.ui.contact as typeof site.ui.contact & { studio?: StudioInfo };
+const contact = site.ui.contact as typeof site.ui.contact & {
+  studio?: StudioInfo;
+};
 const studio = contact.studio ?? {};
 ---
 
@@ -30,9 +32,10 @@ const studio = contact.studio ?? {};
         </>
       )
     }
-    <a href={`mailto:${site.email}`}>{site.ui.footer.email}</a> · <a
-      href={site.instagram}
-      rel="me noreferrer">{site.ui.footer.instagram}</a
+    <a href={`mailto:${site.email}`} data-responsive-external
+      >{site.ui.footer.email}</a
+    > · <a href={site.instagram} rel="me noreferrer" data-responsive-external
+      >{site.ui.footer.instagram}</a
     >
   </div>
   {

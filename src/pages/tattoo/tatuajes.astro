@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import TattooCard from '../../components/TattooCard.astro';
 import { site } from '../../data';
 
@@ -8,10 +9,19 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
 ---
 
 <BaseLayout
-  title={site.ui.tattoo.tattoos}
-  description={site.ui.tattoo.description}
+  title={site.ui.tattoos.title}
+  description={site.ui.tattoos.description}
   ><section class="container section">
-    <h1>{site.ui.tattoo.tattoos}</h1><div class="grid grid-3">
+    <Breadcrumbs
+      items={[
+        { label: site.ui.tattoo.title ?? 'Tattoo', href: '/tattoo/' },
+        {
+          label: site.ui.tattoos.eyebrow ?? 'Tatuajes',
+          href: '/tattoo/tatuajes/',
+        },
+      ]}
+    />
+    <h1>{site.ui.tattoos.heading}</h1><div class="grid grid-3">
       {tattoos.map((item) => <TattooCard tattoo={item} />)}
     </div>
   </section></BaseLayout

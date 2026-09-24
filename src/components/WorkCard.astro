@@ -14,6 +14,9 @@ const collectionSlug = getCollectionSlug(work.data.collection);
 <article
   class="card card--media-sized"
   data-work-card
+  data-gallery-card
+  data-gallery-taxonomies={work.data.collection ?? ''}
+  data-gallery-status={work.data.status}
   data-collection={work.data.collection}
   data-status={work.data.status}
   style={cardStyle}

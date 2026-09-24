@@ -74,6 +74,28 @@ p {
   text-transform: uppercase;
   color: var(--color-accent);
 }
+.breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+.breadcrumbs__list li {
+  display: inline-flex;
+  align-items: center;
+}
+.breadcrumbs__list li + li::before {
+  content: '·';
+  margin-inline: 0.5rem;
+  color: var(--color-muted);
+}
+.breadcrumbs__list a {
+  color: inherit;
+  font-weight: 400;
+  text-decoration: underline;
+}
 .lead {
   font-size: clamp(1.1rem, 2.2vw, 1.45rem);
   max-width: 46rem;

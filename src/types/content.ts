@@ -41,7 +41,7 @@ export interface NavigationItem {
 /* Astro content collections                                                  */
 /* -------------------------------------------------------------------------- */
 
-export type FlashStatus = 'disponible' | 'reservado' | 'tatuado';
+export type FlashStatus = 'disponible' | 'vendido';
 
 export interface FlashData {
   title: RichText;
@@ -211,9 +211,17 @@ export interface TattooUi {
   noFlash?: string;
 }
 
+export interface TattoosUi {
+  title?: string;
+  description?: string;
+  eyebrow?: string;
+  heading?: RichText;
+}
+
 export interface FlashUi {
   title?: string;
   description?: string;
+  eyebrow?: string;
   heading?: RichText;
   filtersLabel?: string;
   all?: string;
@@ -298,6 +306,7 @@ export interface SiteUi {
   forms: FormsUi;
   contact: ContactUi;
   tattoo: TattooUi;
+  tattoos: TattoosUi;
   flash: FlashUi;
   artwork: ArtworkUi;
   illustration: IllustrationUi;
@@ -376,12 +385,17 @@ export interface CitiesData {
 }
 
 /* -------------------------------------------------------------------------- */
-/* flash-categories.json                                                      */
+/* src/data/flash-categories/*.json                                           */
 /* -------------------------------------------------------------------------- */
 
 export interface FlashCategory {
   id: string;
   label: string;
+  order: number;
+  featured?: boolean;
+  image?: ImagePath;
+  imageAlt?: string;
+  imageFrom?: string;
 }
 
 export interface FlashCategoriesData {
@@ -396,6 +410,10 @@ export interface ArtworkCollection {
   id: string;
   title: RichText;
   description?: RichText;
+  featured?: boolean;
+  image?: ImagePath;
+  imageAlt?: string;
+  imageFrom?: string;
 }
 
 export interface ArtworkCollectionsData {

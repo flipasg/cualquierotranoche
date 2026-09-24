@@ -10,12 +10,11 @@ import rawSite from './site.json';
 import rawSocial from './social.json';
 import rawGuests from './guests.json';
 import rawCities from './ciudades.json';
-import rawFlashCategories from './flash-categories.json';
+import { flashCategories } from './flash-categories';
 import { artworkCollections } from './artwork-collections';
 
 import type {
   CitiesData,
-  FlashCategoriesData,
   GuestsData,
   SiteData,
   SocialData,
@@ -25,8 +24,7 @@ export const site: SiteData = rawSite;
 export const social: SocialData = rawSocial;
 export const guests: GuestsData = rawGuests;
 export const cities: CitiesData = rawCities;
-export const flashCategories: FlashCategoriesData = rawFlashCategories;
-export { artworkCollections };
+export { artworkCollections, flashCategories };
 
 export type {
   AboutPageData,
@@ -41,7 +39,6 @@ export type {
   ContactStudioUi,
   ContactUi,
   Cta,
-  FlashCategoriesData,
   FlashCategory,
   FlashData,
   FlashStatus,
@@ -72,5 +69,8 @@ export type {
   SocialPageOverride,
   TattooData,
   TattooUi,
+  TattoosUi,
   Url,
 } from '../types/content';
+
+export type { FlashCategoriesData } from '../types/content';
