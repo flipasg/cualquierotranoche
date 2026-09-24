@@ -9,6 +9,7 @@ const { work } = Astro.props;
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 const collectionSlug = getCollectionSlug(work.data.collection);
+const hasVisiblePrice = work.data.showPrice && work.data.priceEur;
 ---
 
 <article
@@ -30,13 +31,9 @@ const collectionSlug = getCollectionSlug(work.data.collection);
       {work.data.title}
     </h3><p>
       {work.data.technique} · {work.data.dimensions}
-    </p>{
-      work.data.showPrice && work.data.priceEur ? (
-        <p>
-          <strong>{work.data.priceEur} €</strong>
-        </p>
-      ) : null
-    }<span class="card__cta">{site.ui.artwork.cardCta}</span>
+    </p><p class="card__price" aria-hidden={!hasVisiblePrice}>
+      {hasVisiblePrice && <strong>{work.data.priceEur} €</strong>}
+    </p><span class="card__cta">{site.ui.artwork.cardCta}</span>
   </a>
 </article>
 
@@ -45,6 +42,9 @@ const collectionSlug = getCollectionSlug(work.data.collection);
     display: block;
     color: inherit;
     text-decoration: none;
+  }
+  .card__price {
+    min-height: 1.6em;
   }
   .card__link:hover .card__cta,
   .card__link:focus-visible .card__cta {

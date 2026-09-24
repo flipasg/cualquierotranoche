@@ -135,8 +135,8 @@ p {
   grid-template-columns: 1fr;
 }
 .card {
-  border-top: 1px solid var(--color-border);
-  padding-top: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 1rem;
 }
 .card img {
   width: 100%;

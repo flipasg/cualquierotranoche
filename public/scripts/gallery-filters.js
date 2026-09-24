@@ -11,7 +11,7 @@ galleries.forEach((gallery) => {
   ];
   const allTaxonomies = gallery.querySelector('[data-gallery-taxonomy-all]');
   const taxonomySummary = gallery.querySelector(
-    '[data-gallery-taxonomy-summary]',
+    '[data-gallery-taxonomy-summary-label]',
   );
   const taxonomySelect = gallery.querySelector(
     '[data-gallery-taxonomy-select]',
