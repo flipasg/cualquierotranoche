@@ -3,7 +3,6 @@ title: Cartelería
 description: Una selección de carteles ilustrados realizados para distintos
   clientes y eventos a lo largo de los años. Cada pieza parte de un contexto
   diferente, pero todas comparten una aproximación gráfica expresiva y personal.
-client: Varios
 services: Diseño e ilustración para carteles
 contribution: |-
   Carteles ilustrados, creativos y con carácter.  
