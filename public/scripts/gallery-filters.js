@@ -33,8 +33,8 @@ galleries.forEach((gallery) => {
     : 'all';
   const pagination = gallery.querySelector('[data-flash-pagination]');
   const paginationLayout = gallery.querySelector('[data-gallery-pagination]');
-  const pageSizeSelect = gallery.querySelector('[data-flash-page-size]');
-  let pageSize = Number(pageSizeSelect?.value) || cards.length;
+  const resultsGrid = gallery.querySelector('[data-flash-grid]');
+  const pageSize = Number(pagination?.dataset.pageSize) || cards.length || 1;
   let currentPage = 1;
   const url = new URL(window.location.href);
   let status = url.searchParams.get('status') ?? defaultStatus;
@@ -52,6 +52,24 @@ galleries.forEach((gallery) => {
 
   const labelWithoutCount = (label) =>
     label?.replace(/\s*\(.*\)\s*$/, '').trim();
+
+  const scrollToResults = () => {
+    if (!resultsGrid) return;
+    resultsGrid.focus({ preventScroll: true });
+    const headerHeight =
+      document.querySelector('.header')?.getBoundingClientRect().height ?? 0;
+    const top =
+      resultsGrid.getBoundingClientRect().top +
+      window.scrollY -
+      headerHeight -
+      16;
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'auto'
+        : 'smooth',
+    });
+  };
 
   const updateUrl = () => {
     const nextUrl = new URL(window.location.href);
@@ -141,7 +159,7 @@ galleries.forEach((gallery) => {
       });
       activeFilters.hidden = status === defaultStatus && selected.size === 0;
     }
-    if (paginationLayout) paginationLayout.hidden = visible.length === 0;
+    if (paginationLayout) paginationLayout.hidden = pageCount === 1;
     if (pagination) {
       pagination.replaceChildren();
       pagination.hidden = pageCount === 1;
@@ -153,6 +171,7 @@ galleries.forEach((gallery) => {
         previous.addEventListener('click', () => {
           currentPage -= 1;
           render();
+          scrollToResults();
         });
         const pageStatus = document.createElement('span');
         pageStatus.textContent = (pagination.dataset.pageStatus ?? '')
@@ -165,6 +184,7 @@ galleries.forEach((gallery) => {
         next.addEventListener('click', () => {
           currentPage += 1;
           render();
+          scrollToResults();
         });
         pagination.append(previous, pageStatus, next);
       }
@@ -230,11 +250,6 @@ galleries.forEach((gallery) => {
     syncControls();
     render();
     updateUrl();
-  });
-  pageSizeSelect?.addEventListener('change', () => {
-    pageSize = Number(pageSizeSelect.value) || cards.length;
-    currentPage = 1;
-    render();
   });
   const compact = window.matchMedia('(max-width: 699px)');
   const syncPanel = () => {

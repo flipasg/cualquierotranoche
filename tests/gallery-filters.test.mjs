@@ -43,9 +43,12 @@ test('flash usa el motor compartido con categorías y parámetros compartibles',
   assert.match(script, /button\[data-gallery-status\]/);
   assert.match(script, /taxonomySelect\?\.open/);
   assert.match(page, /data-gallery-pagination/);
+  assert.match(page, /data-page-size="6"/);
+  assert.doesNotMatch(page, /data-flash-page-size/);
   assert.match(script, /querySelector\('\[data-gallery-pagination\]'\)/);
-  assert.match(script, /paginationLayout\.hidden = visible\.length === 0/);
+  assert.match(script, /paginationLayout\.hidden = pageCount === 1/);
   assert.match(page, /\.pagination-layout\[hidden\][\s\S]*display: none/);
+  assert.match(page, /:global\(\[data-flash-pagination\] button\)/);
 });
 
 test('el CMS permite destacar y elegir la imagen de cada taxonomía', async () => {

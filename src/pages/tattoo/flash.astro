@@ -68,7 +68,13 @@ const flashStatuses = [
         statuses={flashStatuses}
         taxonomies={categories}
       />
-      <div class="grid grid-3" data-flash-grid>
+      <div
+        class="grid grid-3"
+        data-flash-grid
+        role="region"
+        aria-label={site.ui.flash.heading}
+        tabindex="-1"
+      >
         {
           flash.map((item) => (
             <div
@@ -83,18 +89,9 @@ const flashStatuses = [
           ))
         }
       </div><div class="pagination-layout" data-gallery-pagination>
-        <label class="page-size" for="flash-page-size"
-          >{site.ui.flash.pageSizeBefore}<select
-            id="flash-page-size"
-            data-flash-page-size
-          >
-            <option value="6">6</option>
-            <option value="12">12</option>
-            <option value="18">18</option>
-            <option value="24">24</option>
-          </select>{site.ui.flash.pageSizeAfter}</label
-        ><nav
+        <nav
           data-flash-pagination
+          data-page-size="6"
           aria-label={site.ui.flash.paginationLabel}
           data-previous-label={site.ui.flash.previous}
           data-next-label={site.ui.flash.next}
@@ -107,6 +104,10 @@ const flashStatuses = [
 >
 
 <style>
+  [data-flash-grid]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
   .pagination-layout,
   [data-flash-pagination] {
     display: flex;
@@ -121,21 +122,18 @@ const flashStatuses = [
   .pagination-layout[hidden] {
     display: none;
   }
-  .page-size {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+  [data-flash-pagination][hidden] {
+    display: none;
   }
-  [data-flash-pagination] button,
-  [data-flash-page-size] {
-    min-height: 48px;
-    padding: 0.75rem 1.25rem;
+  :global([data-flash-pagination] button) {
+    min-height: 2rem;
+    padding: 0.2rem 0.5rem;
     border: 1px solid var(--color-accent);
     border-radius: var(--radius);
     background: transparent;
-    color: var(--color-accent);
+    color: inherit;
     font: inherit;
-    font-weight: 700;
+    font-size: 0.875rem;
     cursor: pointer;
   }
   :global([data-flash-pagination] button:disabled) {
