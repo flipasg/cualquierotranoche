@@ -29,6 +29,8 @@ gallery:
     alt: diseño de un cartel con la ilustración de una bestia verde perro con trazo
       nervioso en tonos rosa y rojo
 draft: false
+client: Varios
+year: varios
 ---
 Una selección de carteles realizados para distintos clientes y eventos. Son piezas ilustradas en las que la imagen tiene un fuerte componente expresivo y donde la tipografía puede integrarse como parte de la propia ilustración. Trabajo con formas definidas y una paleta de color acotada, buscando composiciones con carácter y personalidad.
 
