@@ -1,5 +1,5 @@
 ---
-title: En el baño I
+title: En el baño
 description: Obra original
 technique: Técnica mixta sobre papel rosaspina
 dimensions: "10,5 x 14,8 cm "
