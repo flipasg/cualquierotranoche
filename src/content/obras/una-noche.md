@@ -7,7 +7,7 @@ widthCm: 10.5
 heightCm: 14.8
 status: disponible
 priceEur: 120
-showPrice: false
+showPrice: true
 collection: collage
 cover: /uploads/collage-10.jpg
 coverAlt: Collage con papeles de color azul y lila que muestra una figura
