@@ -7,7 +7,7 @@ widthCm: 10.5
 heightCm: 14.8
 status: disponible
 priceEur: 120
-showPrice: false
+showPrice: true
 collection: collage
 cover: /uploads/collage-12.jpg
 coverAlt: Collage que ilustra mediante recortes de papel azul y rosa una figura
