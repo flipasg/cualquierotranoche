@@ -19,5 +19,6 @@ gallery:
   - src: /uploads/pintura-5.jpg
     alt: Detalle de las manos con un rosario
 draft: false
+collection: orantes
 ---
 Pintura en pequeño formato que explora el espacio como lugar de recogimiento, donde la arquitectura contiene al individuo y abre una distancia hacia lo espiritual.
