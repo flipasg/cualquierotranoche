@@ -11,7 +11,7 @@ gallery:
   - src: /uploads/collage-1.jpg
     alt: Detalle de Collage con papeles azules y rojos que representa una figura
       mirando al cielo
-draft: true
+draft: false
 technique: Técnica mixta sobre papel rosaspina
 priceEur: 150
 collection: collage
@@ -20,4 +20,4 @@ dimensions: 10,5 x 14,8cm
 widthCm: 10.5
 heightCm: 14.8
 ---
-Este es uno de varios pequeños collages construidos alrededor de un gesto sencillo: mirar al cielo. Una forma de asomarse a lo desconocido, al anhelo y al misterio, y recordar por un instante nuestra pequeñez. 
+Este es uno de varios pequeños collages construidos alrededor de un gesto sencillo: mirar al cielo. Una forma de asomarse a lo desconocido, al anhelo y al misterio, y recordar por un instante nuestra pequeñez.
