@@ -20,4 +20,4 @@ dimensions: 10,5 x 14,8cm
 widthCm: 10.5
 heightCm: 14.8
 ---
-Este es uno de varios pequeños collages construidos alrededor de un gesto sencillo: mirar al cielo. Una forma de asomarse a lo desconocido, al anhelo y al misterio, y recordar por un instante nuestra pequeñez.
+Este es uno de varios pequeños collages construidos alrededor de un gesto sencillo: mirar al cielo. Una forma de asomarse a lo desconocido, al anhelo y al misterio, y recordar por un instante nuestra pequeñez. 
