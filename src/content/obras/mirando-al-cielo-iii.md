@@ -7,7 +7,7 @@ widthCm: 10.5
 heightCm: 14.8
 status: disponible
 priceEur: 120
-showPrice: false
+showPrice: true
 collection: collage
 cover: /uploads/collage-7.jpg
 coverAlt: "Collage con recortes de papel azul y negro que ilustran un rostro
