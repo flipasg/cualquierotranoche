@@ -8,7 +8,7 @@ heightCm: 14.8
 status: disponible
 priceEur: 120
 showPrice: false
-collection: esperando-mi-dia
+collection: collage
 cover: /uploads/collage-4.jpg
 coverAlt: Collage con diferentes papeles negros que ilustran una figura mirando
   al cielo oscuro con estrellas
