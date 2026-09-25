@@ -16,7 +16,7 @@ technique: Técnica mixta sobre papel rosaspina
 priceEur: 150
 collection: collage
 description: Obra original
-dimensions: 10,5 x 14,8
+dimensions: 10,5 x 14,8cm
 widthCm: 10.5
 heightCm: 14.8
 ---
