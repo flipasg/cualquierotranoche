@@ -8,7 +8,7 @@ heightCm: 35
 status: disponible
 priceEur: 280
 showPrice: true
-collection: collage
+collection: orantes
 cover: /uploads/pintura-6.jpg
 coverAlt: Pintura que muestra un rostro y unas manos con un rosario en un
   espacio oscuro con muchas ventanas azules y una planta azul
