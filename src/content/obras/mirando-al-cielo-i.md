@@ -15,5 +15,6 @@ draft: true
 technique: Técnica mixta sobre papel rosaspina
 priceEur: 150
 collection: collage
+description: Obra original
 ---
 Este es uno de varios pequeños collages construidos alrededor de un gesto sencillo: mirar al cielo. Una forma de asomarse a lo desconocido, al anhelo y al misterio, y recordar por un instante nuestra pequeñez.
