@@ -7,7 +7,7 @@ widthCm: 10.5
 heightCm: 14.8
 status: disponible
 priceEur: 120
-showPrice: false
+showPrice: true
 collection: collage
 cover: /uploads/collage-4.jpg
 coverAlt: Collage con diferentes papeles negros que ilustran una figura mirando
