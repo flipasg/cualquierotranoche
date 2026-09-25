@@ -1,7 +1,7 @@
 ---
 title: Mirando al cielo I
 status: disponible
-showPrice: false
+showPrice: true
 cover: /uploads/collage-3.jpg
 coverAlt: Collage con papeles azules y rojos que representa una figura mirando al cielo
 gallery:
