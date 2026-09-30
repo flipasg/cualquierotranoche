@@ -1,5 +1,5 @@
 export const DESKTOP_LINK_QUERY =
-  '(min-width: 900px) and (hover: hover) and (pointer: fine)';
+  '(min-width: 1024px) and (hover: hover) and (pointer: fine)';
 
 const relTokens = (link) =>
   new Set((link.getAttribute('rel') ?? '').split(/\s+/).filter(Boolean));

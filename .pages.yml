@@ -552,6 +552,73 @@ content:
                   label: Etiqueta de filtros,
                   type: string,
                 },
+                { name: statusLabel, label: Etiqueta de estado, type: string },
+                {
+                  name: taxonomyLabel,
+                  label: Etiqueta de categoría,
+                  type: string,
+                },
+                {
+                  name: activeFiltersLabel,
+                  label: Etiqueta de filtros activos,
+                  type: string,
+                },
+                {
+                  name: clearFiltersLabel,
+                  label: Texto del botón para limpiar,
+                  type: string,
+                },
+                {
+                  name: showStatusCounts,
+                  label: Mostrar contadores en estados,
+                  type: boolean,
+                },
+                {
+                  name: showCategoryCounts,
+                  label: Mostrar contadores en categorías,
+                  type: boolean,
+                },
+                {
+                  name: showActiveFilters,
+                  label: Mostrar filtros activos,
+                  type: boolean,
+                },
+                {
+                  name: showClearButton,
+                  label: Mostrar botón limpiar,
+                  type: boolean,
+                },
+                {
+                  name: showTaxonomySearch,
+                  label: Mostrar búsqueda de categorías,
+                  type: boolean,
+                },
+                {
+                  name: taxonomySearchLabel,
+                  label: Etiqueta de búsqueda de categorías,
+                  type: string,
+                },
+                {
+                  name: showGlobalSearch,
+                  label: Mostrar búsqueda global,
+                  type: boolean,
+                },
+                {
+                  name: globalSearchLabel,
+                  label: Etiqueta de búsqueda global,
+                  type: string,
+                  default: '',
+                },
+                {
+                  name: globalSearchPlaceholder,
+                  label: Placeholder de búsqueda global,
+                  type: string,
+                },
+                {
+                  name: searchParam,
+                  label: Parámetro URL para búsqueda global,
+                  type: string,
+                },
                 { name: all, label: Todos, type: string },
                 { name: empty, label: Sin resultados, type: string },
                 {
@@ -612,6 +679,73 @@ content:
                 {
                   name: filtersLabel,
                   label: Etiqueta de filtros,
+                  type: string,
+                },
+                { name: statusLabel, label: Etiqueta de estado, type: string },
+                {
+                  name: taxonomyLabel,
+                  label: Etiqueta de colección,
+                  type: string,
+                },
+                {
+                  name: activeFiltersLabel,
+                  label: Etiqueta de filtros activos,
+                  type: string,
+                },
+                {
+                  name: clearFiltersLabel,
+                  label: Texto del botón para limpiar,
+                  type: string,
+                },
+                {
+                  name: showStatusCounts,
+                  label: Mostrar contadores en estados,
+                  type: boolean,
+                },
+                {
+                  name: showCategoryCounts,
+                  label: Mostrar contadores en colecciones,
+                  type: boolean,
+                },
+                {
+                  name: showActiveFilters,
+                  label: Mostrar filtros activos,
+                  type: boolean,
+                },
+                {
+                  name: showClearButton,
+                  label: Mostrar botón limpiar,
+                  type: boolean,
+                },
+                {
+                  name: showTaxonomySearch,
+                  label: Mostrar búsqueda de colecciones,
+                  type: boolean,
+                },
+                {
+                  name: taxonomySearchLabel,
+                  label: Etiqueta de búsqueda de colecciones,
+                  type: string,
+                },
+                {
+                  name: showGlobalSearch,
+                  label: Mostrar búsqueda global,
+                  type: boolean,
+                },
+                {
+                  name: globalSearchLabel,
+                  label: Etiqueta de búsqueda global,
+                  type: string,
+                  default: '',
+                },
+                {
+                  name: globalSearchPlaceholder,
+                  label: Placeholder de búsqueda global,
+                  type: string,
+                },
+                {
+                  name: searchParam,
+                  label: Parámetro URL para búsqueda global,
                   type: string,
                 },
                 { name: all, label: Todas, type: string },

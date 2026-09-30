@@ -28,10 +28,10 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
         hasLogo ? (
           <picture>
             {desktopLogo && (
-              <source media="(min-width: 900px)" srcset={desktopLogo} />
+              <source media="(min-width: 1024px)" srcset={desktopLogo} />
             )}
             {tabletLogo && (
-              <source media="(min-width: 700px)" srcset={tabletLogo} />
+              <source media="(min-width: 768px)" srcset={tabletLogo} />
             )}
             <img
               src={mobileLogo || desktopLogo || tabletLogo}
@@ -195,7 +195,7 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
   nav a[aria-current='page'] .nav-link-label {
     font-weight: 700;
   }
-  @media (max-width: 899px) {
+  @media (max-width: 1023px) {
     .header .header-inner {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto auto;
@@ -267,7 +267,7 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
       transition-delay: 0s;
     }
   }
-  @media (min-width: 900px) {
+  @media (min-width: 1024px) {
     .header-inner {
       flex-direction: row;
       align-items: center;

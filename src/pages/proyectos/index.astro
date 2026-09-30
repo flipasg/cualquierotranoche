@@ -30,7 +30,7 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
       <RichText content={site.ui.illustration.intro} class="lead" />
     </div>
   </section><section class="container section">
-    <div class="grid grid-2" data-reveal-group>
+    <div class="grid grid-2 gallery-card-grid" data-reveal-group>
       {projects.map((project) => <ProjectCard project={project} />)}
     </div>
   </section>

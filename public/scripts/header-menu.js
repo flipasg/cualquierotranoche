@@ -4,7 +4,7 @@ const menuLabel = menuToggle?.querySelector('.sr-only');
 
 if (header && menuToggle) {
   const updateHeader = () => {
-    const isCompact = window.innerWidth < 900;
+    const isCompact = window.innerWidth < 1024;
     header.classList.toggle('is-compact', isCompact);
 
     if (!isCompact) {

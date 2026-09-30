@@ -35,7 +35,7 @@ const works = (await getCollection('obras', ({ data }) => !data.draft)).filter(
   </section>
 
   <section class="container section">
-    <div class="grid grid-3" data-reveal-group>
+    <div class="grid grid-3 gallery-card-grid" data-reveal-group>
       {works.map((work) => <WorkCard work={work} />)}
     </div>
   </section>

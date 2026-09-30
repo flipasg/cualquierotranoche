@@ -137,6 +137,7 @@
       "eyebrow": "Flashbook",
       "heading": "Flash",
       "filtersLabel": "Filtrar flash",
+      "globalSearchLabel": "",
       "all": "Todos",
       "empty": "No hay flash en esta categoría.",
       "pageSizeBefore": "Mostrar",
@@ -155,6 +156,7 @@
       "heroImage": "/uploads/portada3.jpg",
       "heroImageAlt": "Collage",
       "filtersLabel": "Filtrar obras",
+      "globalSearchLabel": "",
       "all": "Todas",
       "available": "Disponibles",
       "shipping": "Envío a consultar",
@@ -174,7 +176,7 @@
     },
     "imageSizing": {
       "default": "100vw",
-      "zoomable": "(max-width: 699px) 100vw, (max-width: 1099px) 80vw, 64vw",
+      "zoomable": "(max-width: 767px) 100vw, (max-width: 1023px) 80vw, 64vw",
       "card": "(max-width: 359px) calc(100vw - 2rem), 320px",
       "cardFrame": {
         "width": "320px",

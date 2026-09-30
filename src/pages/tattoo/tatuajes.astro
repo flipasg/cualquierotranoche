@@ -22,7 +22,7 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
       ]}
     />
     <h1 data-reveal>{site.ui.tattoos.heading}</h1><div
-      class="grid grid-3"
+      class="grid grid-3 gallery-card-grid"
       data-reveal-group
     >
       {tattoos.map((item) => <TattooCard tattoo={item} />)}

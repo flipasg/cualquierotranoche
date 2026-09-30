@@ -44,6 +44,21 @@ galleries.forEach((gallery) => {
   const taxonomySummary = gallery.querySelector(
     '[data-gallery-taxonomy-summary-label]',
   );
+  const taxonomySearch = gallery.querySelector(
+    '[data-gallery-taxonomy-search]',
+  );
+  const selectedTaxonomies = gallery.querySelector(
+    '[data-gallery-taxonomy-selected]',
+  );
+  const unselectedTaxonomies = gallery.querySelector(
+    '[data-gallery-taxonomy-unselected]',
+  );
+  const selectedTaxonomySection = gallery.querySelector(
+    '[data-gallery-taxonomy-selected-section]',
+  );
+  const globalSearch = gallery.querySelector('[data-gallery-search]');
+  const searchParam = gallery.dataset.gallerySearchParam;
+  const compact = window.matchMedia('(max-width: 767px)');
   const taxonomySelect = gallery.querySelector(
     '[data-gallery-taxonomy-select]',
   );
@@ -53,7 +68,7 @@ galleries.forEach((gallery) => {
   const chips = gallery.querySelector('[data-gallery-filter-chips]');
   const activeFilters = gallery.querySelector('[data-gallery-active-filters]');
   const empty = gallery.querySelector('[data-gallery-empty]');
-  const clear = gallery.querySelector('[data-gallery-clear]');
+  const clearButtons = [...gallery.querySelectorAll('[data-gallery-clear]')];
   const filterPanel = gallery.querySelector('[data-gallery-filter-panel]');
   const configuredDefaultStatus =
     filterPanel?.dataset.galleryDefaultStatus ?? 'all';
@@ -74,6 +89,7 @@ galleries.forEach((gallery) => {
       .split(',')
       .filter((id) => taxonomyOptions.some((option) => option.value === id)),
   );
+  let searchTerm = searchParam ? (url.searchParams.get(searchParam) ?? '') : '';
 
   if (
     !statusButtons.some((button) => button.dataset.galleryStatus === status)
@@ -83,6 +99,22 @@ galleries.forEach((gallery) => {
 
   const labelWithoutCount = (label) =>
     label?.replace(/\s*\(.*\)\s*$/, '').trim();
+  const normalize = (value) =>
+    value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLocaleLowerCase();
+  const syncAppliedFilters = () => {
+    const appliedToggle = gallery.querySelector(
+      '[data-gallery-applied-toggle]',
+    );
+    if (!appliedToggle || !chips) return;
+    const expanded =
+      !compact.matches ||
+      appliedToggle.getAttribute('aria-expanded') === 'true';
+    appliedToggle.setAttribute('aria-expanded', String(expanded));
+    chips.hidden = !expanded;
+  };
 
   const scrollToResults = () => {
     if (!resultsGrid) return;
@@ -103,6 +135,9 @@ galleries.forEach((gallery) => {
     else nextUrl.searchParams.set('status', status);
     if (selected.size === 0) nextUrl.searchParams.delete(taxonomyParam);
     else nextUrl.searchParams.set(taxonomyParam, [...selected].join(','));
+    if (searchParam && searchTerm.trim())
+      nextUrl.searchParams.set(searchParam, searchTerm.trim());
+    else if (searchParam) nextUrl.searchParams.delete(searchParam);
     window.history.replaceState({}, '', nextUrl);
   };
 
@@ -137,6 +172,38 @@ galleries.forEach((gallery) => {
         String(selected.has(button.dataset.galleryFeatured)),
       );
     });
+    const taxonomyQuery = normalize(taxonomySearch?.value ?? '');
+    let visibleSelected = 0;
+    taxonomyOptions.forEach((option) => {
+      const row = option.closest('[data-gallery-taxonomy-row]');
+      if (!row) return;
+      const matches = normalize(row.textContent ?? '').includes(taxonomyQuery);
+      row.hidden = !matches;
+      if (selected.has(option.value)) {
+        selectedTaxonomies?.append(row);
+        if (matches) visibleSelected += 1;
+      } else {
+        unselectedTaxonomies?.append(row);
+      }
+    });
+    if (selectedTaxonomySection)
+      selectedTaxonomySection.hidden = visibleSelected === 0;
+    if (globalSearch) globalSearch.value = searchTerm;
+    const activeCount =
+      Number(status !== defaultStatus) +
+      selected.size +
+      Number(Boolean(searchTerm.trim()));
+    const filterSummary = gallery.querySelector(
+      '[data-gallery-filter-summary]',
+    );
+    if (filterSummary)
+      filterSummary.textContent = activeCount
+        ? `Filtros (${activeCount})`
+        : 'Filtros';
+    clearButtons.forEach((button) => {
+      button.hidden = activeCount === 0;
+    });
+    syncAppliedFilters();
   };
 
   const render = () => {
@@ -147,7 +214,11 @@ galleries.forEach((gallery) => {
       const taxonomyMatches =
         selected.size === 0 ||
         [...selected].some((id) => taxonomies.includes(id));
-      return statusMatches && taxonomyMatches;
+      const title = card.querySelector('h3')?.textContent ?? '';
+      const searchMatches =
+        !searchTerm.trim() ||
+        normalize(title).includes(normalize(searchTerm.trim()));
+      return statusMatches && taxonomyMatches && searchMatches;
     });
     const pageCount = Math.max(1, Math.ceil(visible.length / pageSize));
     currentPage = Math.min(currentPage, pageCount);
@@ -188,7 +259,17 @@ galleries.forEach((gallery) => {
           updateUrl();
         });
       });
-      activeFilters.hidden = status === defaultStatus && selected.size === 0;
+      if (searchTerm.trim()) {
+        addChip(`“${searchTerm.trim()}”`, () => {
+          searchTerm = '';
+          syncControls();
+          render();
+          updateUrl();
+        });
+      }
+      activeFilters.hidden =
+        status === defaultStatus && selected.size === 0 && !searchTerm.trim();
+      syncAppliedFilters();
     }
     if (paginationLayout) paginationLayout.hidden = pageCount === 1;
     if (pagination) {
@@ -250,6 +331,14 @@ galleries.forEach((gallery) => {
       updateUrl();
     });
   });
+  taxonomySearch?.addEventListener('input', () => syncControls());
+  globalSearch?.addEventListener('input', () => {
+    searchTerm = globalSearch.value;
+    currentPage = 1;
+    syncControls();
+    render();
+    updateUrl();
+  });
   allTaxonomies?.addEventListener('change', () => {
     selected = new Set();
     currentPage = 1;
@@ -274,17 +363,27 @@ galleries.forEach((gallery) => {
       updateUrl();
     });
   });
-  clear?.addEventListener('click', () => {
-    status = defaultStatus;
-    selected = new Set();
-    currentPage = 1;
-    syncControls();
-    render();
-    updateUrl();
+  clearButtons.forEach((button) =>
+    button.addEventListener('click', () => {
+      status = defaultStatus;
+      selected = new Set();
+      searchTerm = '';
+      if (taxonomySearch) taxonomySearch.value = '';
+      currentPage = 1;
+      syncControls();
+      render();
+      updateUrl();
+    }),
+  );
+  const appliedToggle = gallery.querySelector('[data-gallery-applied-toggle]');
+  appliedToggle?.addEventListener('click', () => {
+    const expanded = appliedToggle.getAttribute('aria-expanded') !== 'true';
+    appliedToggle.setAttribute('aria-expanded', String(expanded));
+    if (chips) chips.hidden = !expanded;
   });
-  const compact = window.matchMedia('(max-width: 699px)');
   const syncPanel = () => {
     if (filterPanel) filterPanel.open = !compact.matches;
+    syncAppliedFilters();
   };
   compact.addEventListener('change', syncPanel);
   syncPanel();

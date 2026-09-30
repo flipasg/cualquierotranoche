@@ -20,8 +20,19 @@ interface Props {
   taxonomyLabel: string;
   taxonomyAllLabel: string;
   featuredLabel: string;
-  activeLabel: string;
-  clearLabel: string;
+  statusLabel?: string;
+  activeLabel?: string;
+  clearLabel?: string;
+  showStatusCounts?: boolean;
+  showCategoryCounts?: boolean;
+  showActiveFilters?: boolean;
+  showClearButton?: boolean;
+  showTaxonomySearch?: boolean;
+  taxonomySearchLabel?: string;
+  showGlobalSearch?: boolean;
+  globalSearchLabel?: string;
+  globalSearchPlaceholder?: string;
+  searchParam?: string;
   itemLabel: string;
   emptyLabel: string;
   urlParam: string;
@@ -34,8 +45,19 @@ const {
   taxonomyLabel,
   taxonomyAllLabel,
   featuredLabel,
+  statusLabel = '',
   activeLabel,
-  clearLabel,
+  clearLabel = 'Limpiar',
+  showStatusCounts = false,
+  showCategoryCounts = false,
+  showActiveFilters = true,
+  showClearButton = true,
+  showTaxonomySearch = true,
+  taxonomySearchLabel = 'Buscar categorías',
+  showGlobalSearch = true,
+  globalSearchLabel = '',
+  globalSearchPlaceholder = 'Buscar por título',
+  searchParam = 'search',
   itemLabel,
   emptyLabel,
   urlParam,
@@ -46,67 +68,159 @@ const {
 const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
 ---
 
-<details
-  class="gallery-filters"
-  data-gallery-filter-panel
-  data-gallery-default-status={defaultStatus}
-  open
+<div
+  class="gallery-filter-root"
+  data-global-search-enabled={showGlobalSearch}
+  data-gallery-search-param={showGlobalSearch ? searchParam : ''}
 >
-  <summary data-gallery-filter-summary>Filtros</summary>
-  <div
-    class:list={[
-      'gallery-filter-controls',
-      { 'gallery-filter-controls--taxonomy': taxonomies.length > 0 },
-    ]}
-  >
-    <div class="gallery-filter-group" role="group" aria-label="Estado">
-      <strong class="gallery-filter-label">Estado</strong>
-      <div class="gallery-filter-statuses" role="group" aria-label="Estado">
+  {
+    showGlobalSearch && (
+      <label class="gallery-global-search">
+        {globalSearchLabel && <span>{globalSearchLabel}</span>}
+        <input
+          type="search"
+          data-gallery-search
+          placeholder={globalSearchPlaceholder}
+          aria-label={
+            globalSearchLabel || globalSearchPlaceholder || 'Buscar por título'
+          }
+        />
+      </label>
+    )
+  }
+  <div class="gallery-filter-actions">
+    <details
+      class="gallery-filters"
+      data-gallery-filter-panel
+      data-gallery-default-status={defaultStatus}
+      open
+    >
+      <summary data-gallery-filter-summary>Filtros</summary>
+      <div
+        class:list={[
+          'gallery-filter-controls',
+          { 'gallery-filter-controls--taxonomy': taxonomies.length > 0 },
+        ]}
+      >
+        <div
+          class="gallery-filter-group"
+          role="group"
+          aria-label={statusLabel || 'Estado'}
+        >
+          {
+            statusLabel && (
+              <strong class="gallery-filter-label">{statusLabel}</strong>
+            )
+          }
+          <div
+            class="gallery-filter-statuses"
+            role="group"
+            aria-label={statusLabel || 'Estado'}
+          >
+            {
+              statuses.map((status) => (
+                <button
+                  type="button"
+                  data-gallery-status={status.id}
+                  aria-pressed={status.id === defaultStatus ? 'true' : 'false'}
+                >
+                  {status.label}
+                  {showStatusCounts && (
+                    <>
+                      {' '}
+                      <span>({status.count})</span>
+                    </>
+                  )}
+                </button>
+              ))
+            }
+          </div>
+        </div>
         {
-          statuses.map((status) => (
+          taxonomies.length > 0 && (
+            <div class="gallery-filter-group gallery-filter-taxonomy">
+              {taxonomyLabel && (
+                <strong class="gallery-filter-label">{taxonomyLabel}</strong>
+              )}
+              <details data-gallery-taxonomy-select>
+                <summary data-gallery-taxonomy-summary>
+                  <span data-gallery-taxonomy-summary-label>
+                    {taxonomyAllLabel}
+                  </span>
+                </summary>
+                <div class="gallery-taxonomy-options">
+                  {showTaxonomySearch && (
+                    <label class="gallery-taxonomy-search">
+                      <input
+                        type="search"
+                        data-gallery-taxonomy-search
+                        placeholder={taxonomySearchLabel}
+                        aria-label={taxonomySearchLabel || 'Buscar categorías'}
+                      />
+                    </label>
+                  )}
+                  <label class="gallery-taxonomy-all">
+                    <input type="checkbox" data-gallery-taxonomy-all checked />
+                    {taxonomyAllLabel}
+                  </label>
+                  <fieldset data-gallery-taxonomy-selected-section hidden>
+                    <legend>Seleccionadas</legend>
+                    <div data-gallery-taxonomy-selected />
+                  </fieldset>
+                  <fieldset>
+                    <legend>Sin seleccionar</legend>
+                    <div data-gallery-taxonomy-unselected>
+                      {taxonomies.map((taxonomy) => (
+                        <label data-gallery-taxonomy-row>
+                          <input
+                            type="checkbox"
+                            value={taxonomy.id}
+                            data-gallery-taxonomy-option
+                          />
+                          {taxonomy.label}
+                          {showCategoryCounts && (
+                            <>
+                              {' '}
+                              <span>({taxonomy.count})</span>
+                            </>
+                          )}
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+                </div>
+              </details>
+            </div>
+          )
+        }
+        {
+          showClearButton && !showActiveFilters && (
             <button
               type="button"
-              data-gallery-status={status.id}
-              aria-pressed={status.id === defaultStatus ? 'true' : 'false'}
+              class="gallery-filter-clear gallery-filter-clear--desktop"
+              data-gallery-clear
+              hidden
             >
-              {status.label} <span>({status.count})</span>
+              {clearLabel}
             </button>
-          ))
+          )
         }
       </div>
-    </div>
+    </details>
     {
-      taxonomies.length > 0 && (
-        <div class="gallery-filter-group gallery-filter-taxonomy">
-          <strong class="gallery-filter-label">{taxonomyLabel}</strong>
-          <details data-gallery-taxonomy-select>
-            <summary data-gallery-taxonomy-summary>
-              <span data-gallery-taxonomy-summary-label>
-                {taxonomyAllLabel}
-              </span>
-            </summary>
-            <div class="gallery-taxonomy-options">
-              <label>
-                <input type="checkbox" data-gallery-taxonomy-all checked />
-                {taxonomyAllLabel}
-              </label>
-              {taxonomies.map((taxonomy) => (
-                <label>
-                  <input
-                    type="checkbox"
-                    value={taxonomy.id}
-                    data-gallery-taxonomy-option
-                  />
-                  {taxonomy.label} <span>({taxonomy.count})</span>
-                </label>
-              ))}
-            </div>
-          </details>
-        </div>
+      showClearButton && !showActiveFilters && (
+        <button
+          type="button"
+          class="gallery-filter-clear gallery-filter-clear--mobile"
+          data-gallery-clear
+          hidden
+        >
+          {clearLabel}
+        </button>
       )
     }
   </div>
-</details>
+</div>
 
 {
   featured.length > 0 && (
@@ -131,9 +245,11 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
             )}
             <span>
               <strong>{taxonomy.label}</strong>
-              <small>
-                {taxonomy.count} {itemLabel}
-              </small>
+              {showCategoryCounts && (
+                <small>
+                  {taxonomy.count} {itemLabel}
+                </small>
+              )}
             </span>
           </button>
         ))}
@@ -142,20 +258,114 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
   )
 }
 
-<div class="gallery-filter-summary" data-gallery-taxonomy-param={urlParam}>
-  <div data-gallery-active-filters hidden>
-    <strong>{activeLabel}</strong>
-    <span data-gallery-filter-chips></span>
-    <button type="button" class="link-button" data-gallery-clear
-      >{clearLabel}</button
-    >
-  </div>
-</div>
+{
+  showActiveFilters && (
+    <div class="gallery-filter-summary" data-gallery-taxonomy-param={urlParam}>
+      <div data-gallery-active-filters hidden>
+        {activeLabel && (
+          <strong class="gallery-active-label">{activeLabel}</strong>
+        )}
+        <button
+          type="button"
+          class="gallery-applied-toggle"
+          data-gallery-applied-toggle
+          aria-expanded="false"
+        >
+          <>
+            <span>{activeLabel || 'Filtros aplicados'}</span>
+            <span class="gallery-applied-chevron" aria-hidden="true" />
+          </>
+        </button>
+        {showClearButton && (
+          <button
+            type="button"
+            class="gallery-filter-clear gallery-filter-clear--mobile"
+            data-gallery-clear
+            hidden
+          >
+            {clearLabel}
+          </button>
+        )}
+        <span data-gallery-filter-chips />
+        {showClearButton && (
+          <button
+            type="button"
+            class="gallery-filter-clear gallery-filter-clear--desktop"
+            data-gallery-clear
+            hidden
+          >
+            {clearLabel}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
 <p data-gallery-empty hidden>{emptyLabel}</p>
 
 <style>
-  .gallery-filters {
-    margin-top: 2.5rem;
+  .gallery-filter-root {
+    --gallery-filter-divider-gap: clamp(1rem, 2vw, 2rem);
+    gap: var(--gallery-filter-divider-gap);
+    margin-top: 2rem;
+    width: 100%;
+  }
+  .gallery-global-search {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 28rem;
+    margin-bottom: 1.25rem;
+  }
+  .gallery-global-search input,
+  .gallery-taxonomy-search input {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 0.65rem 0.85rem;
+  }
+  .gallery-global-search input {
+    padding: 0.75rem 1rem;
+  }
+  .gallery-global-search input:focus-visible,
+  .gallery-taxonomy-search input:focus,
+  .gallery-taxonomy-search input:focus-visible {
+    outline: 0 !important;
+    outline-offset: 0;
+    box-shadow: none;
+  }
+  .gallery-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  @media (min-width: 1024px) {
+    .gallery-filter-root {
+      display: flex;
+      align-items: center;
+    }
+    .gallery-global-search {
+      flex: 1 1 0;
+      width: auto;
+      min-width: 0;
+      max-width: none;
+      margin: 0;
+    }
+    .gallery-filter-actions {
+      flex: 1.5 1 0;
+      border-left: 1px solid
+        color-mix(in srgb, var(--color-accent) 45%, transparent);
+      min-width: 0;
+      padding-left: var(--gallery-filter-divider-gap);
+    }
+    .gallery-filters {
+      flex: 1 1 0;
+      min-width: 0;
+    }
   }
   .gallery-filters > summary {
     display: none;
@@ -163,8 +373,8 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
   .gallery-filter-controls {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
+    flex-wrap: nowrap;
+    gap: var(--gallery-filter-divider-gap);
   }
   .gallery-filter-group {
     display: flex;
@@ -172,13 +382,20 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     gap: 1.25rem;
     min-width: 0;
   }
+  .gallery-filter-group[role='group'] {
+    flex: 0 1 auto;
+  }
   .gallery-filter-label {
     flex: 0 0 auto;
   }
   .gallery-filter-statuses {
     display: flex;
+    min-width: 0;
   }
   .gallery-filter-statuses button {
+    flex: 0 0 auto;
+    width: max-content;
+    min-width: max-content;
     min-height: 48px;
     border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
     border-radius: 0;
@@ -187,6 +404,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     font: inherit;
     cursor: pointer;
     padding: 0.75rem 1rem;
+    white-space: nowrap;
     transition:
       background-color var(--motion-fast) ease,
       color var(--motion-fast) ease;
@@ -202,14 +420,15 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     position: relative;
     flex: 1 1 16rem;
     min-width: 0;
-    max-width: 22rem;
+    max-width: none;
   }
   .gallery-filter-taxonomy {
-    flex: 1 1 25rem;
+    flex: 1 1 20rem;
+    min-width: 0;
     max-width: 100%;
     border-left: 1px solid
       color-mix(in srgb, var(--color-accent) 45%, transparent);
-    padding-left: 2.5rem;
+    padding-left: var(--gallery-filter-divider-gap);
   }
   .gallery-filter-taxonomy summary {
     display: flex;
@@ -256,6 +475,23 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     background: var(--color-bg);
     padding: 0.75rem 1rem;
   }
+  .gallery-taxonomy-options fieldset {
+    min-width: 0;
+    border: 0;
+    margin: 0.75rem 0 0;
+    padding: 0;
+  }
+  .gallery-taxonomy-options legend {
+    margin-bottom: 0.35rem;
+    font-weight: 700;
+  }
+  .gallery-taxonomy-options fieldset[hidden] {
+    display: none;
+  }
+  .gallery-taxonomy-search {
+    display: block !important;
+    margin-bottom: 0.75rem;
+  }
   .gallery-taxonomy-options label {
     display: flex;
     align-items: center;
@@ -263,6 +499,9 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     gap: 1rem;
     min-height: 2.4rem;
     cursor: pointer;
+  }
+  .gallery-taxonomy-options label[hidden] {
+    display: none;
   }
   .gallery-taxonomy-options label span {
     margin-left: auto;
@@ -304,8 +543,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
   }
   .gallery-featured__list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 592px;
+    grid-template-columns: 1fr;
     gap: 12px;
   }
   .gallery-featured__card {
@@ -324,7 +562,6 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     padding: 3px 8px;
     text-align: left;
     transition:
-      background-color var(--motion-fast) ease,
       border-color var(--motion-fast) ease,
       transform var(--motion-fast) ease;
   }
@@ -333,7 +570,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
   }
   .gallery-featured__card:hover,
   .gallery-featured__card:focus-visible {
-    background: var(--color-panel);
+    border-color: var(--color-accent);
   }
   .gallery-featured__card:focus-visible {
     outline: 2px solid var(--color-accent);
@@ -368,13 +605,19 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     color: var(--color-muted);
     font-size: 0.875rem;
   }
-  @media (min-width: 700px) {
+  @media (min-width: 1024px) {
     .gallery-featured__list {
       grid-template-columns: repeat(4, minmax(0, 1fr));
       max-width: 1196px;
     }
   }
-  @media (max-width: 999px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .gallery-featured__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 592px;
+    }
+  }
+  @media (max-width: 1023px) {
     .gallery-featured__card {
       font-size: 0.875rem;
     }
@@ -399,7 +642,22 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     align-items: center;
     gap: 0.75rem;
   }
+  .gallery-filter-summary > [data-gallery-active-filters] {
+    width: 100%;
+  }
+  .gallery-filter-clear--desktop {
+    margin-left: auto;
+  }
+  .gallery-filter-clear--mobile {
+    display: none;
+  }
+  [data-gallery-filter-chips][hidden] {
+    display: none;
+  }
   .gallery-filter-summary > div[hidden] {
+    display: none;
+  }
+  .gallery-applied-toggle {
     display: none;
   }
   :global([data-gallery-filter-chips] button) {
@@ -420,18 +678,88 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     font: inherit;
     text-decoration: underline;
   }
-  @media (max-width: 699px) {
+  .gallery-filter-clear {
+    min-height: 48px;
+    border: 1px solid var(--color-accent);
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-accent);
+    cursor: pointer;
+    font: inherit;
+    padding: 0.75rem 1rem;
+  }
+  .gallery-filter-clear[hidden] {
+    display: none;
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .gallery-filter-root {
+      --gallery-filter-divider-gap: 0.5rem;
+    }
+    .gallery-filter-controls {
+      gap: 0.5rem;
+    }
+    .gallery-filter-group {
+      gap: 0.5rem;
+    }
+    .gallery-filter-taxonomy {
+      flex-basis: 14rem;
+      padding-left: 0.5rem;
+    }
+    .gallery-filter-taxonomy summary {
+      gap: 1rem;
+      padding-inline: 0.75rem;
+    }
+    .gallery-filter-statuses button {
+      padding-inline: 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .gallery-filter-root {
+      width: 100%;
+      max-width: 100%;
+    }
+    .gallery-global-search,
+    .gallery-filter-actions {
+      width: 100%;
+      max-width: none;
+    }
     .gallery-filters {
-      margin-top: 0;
+      flex: 1 1 100%;
+      width: 100%;
+    }
+    .gallery-filter-controls {
+      width: 100%;
+    }
+  }
+  .gallery-global-search input,
+  .gallery-filter-statuses button,
+  .gallery-filter-taxonomy summary {
+    height: 48px;
+    min-height: 48px;
+    padding-block: 0;
+  }
+  @media (max-width: 767px) {
+    .gallery-global-search {
+      max-width: none;
+    }
+    .gallery-filters {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+    .gallery-filter-actions {
+      align-items: stretch;
+      justify-content: flex-start;
+      width: 100%;
     }
     .gallery-filters > summary {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 0.75rem;
-      width: max-content;
+      width: 100%;
       min-height: 48px;
-      margin-left: auto;
+      margin-left: 0;
       background: var(--color-accent);
       color: var(--color-bg);
       cursor: pointer;
@@ -453,17 +781,24 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
       transform: rotate(45deg) translateY(-0.15rem);
     }
     .gallery-filters[open] > summary {
-      width: max-content;
-      margin: 0 0 1.25rem auto;
+      width: 100%;
+      margin: 0 0 1.25rem;
     }
     .gallery-filters[open] > summary::after {
       transform: rotate(225deg) translate(-0.1rem, -0.1rem);
     }
     .gallery-filter-controls {
       display: block;
+      width: 100%;
     }
     .gallery-filter-group {
       display: block;
+      width: 100%;
+    }
+    .gallery-filter-statuses,
+    .gallery-filter-taxonomy,
+    .gallery-filter-taxonomy details {
+      width: 100%;
     }
     .gallery-filter-label {
       display: block;
@@ -482,6 +817,8 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     }
     .gallery-filter-statuses button {
       flex: 1 1 0;
+      width: auto;
+      min-width: 0;
       padding-inline: 0.45rem;
     }
     .gallery-filter-taxonomy summary {
@@ -498,6 +835,55 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     }
     .gallery-filter-summary > div {
       align-items: flex-start;
+    }
+    .gallery-filter-summary > [data-gallery-active-filters] {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+    .gallery-active-label {
+      display: none;
+    }
+    .gallery-applied-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: auto;
+      min-height: 2.75rem;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      padding: 0;
+      text-align: left;
+    }
+    [data-gallery-filter-chips] {
+      grid-column: 1 / -1;
+    }
+    .gallery-filter-clear--mobile {
+      grid-column: 2;
+    }
+    .gallery-applied-chevron {
+      width: 0.55rem;
+      height: 0.55rem;
+      flex: 0 0 0.55rem;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(225deg) translate(-0.1rem, -0.1rem);
+    }
+    .gallery-applied-toggle[aria-expanded='true'] .gallery-applied-chevron {
+      transform: rotate(45deg) translateY(-0.15rem);
+    }
+    .gallery-filter-clear {
+      padding-inline: 0.85rem;
+    }
+    .gallery-filter-clear--desktop {
+      display: none;
+    }
+    .gallery-filter-clear--mobile {
+      display: inline-block;
     }
   }
 </style>

@@ -56,11 +56,24 @@ const flashStatuses = [
       />
       <h1 data-reveal>{site.ui.flash.heading}</h1>
       <GalleryFilters
-        taxonomyLabel="Categoría"
+        taxonomyLabel={site.ui.flash.taxonomyLabel ?? ''}
         taxonomyAllLabel="Todas las categorías"
         featuredLabel="Categorías destacadas"
-        activeLabel="Filtros activos:"
-        clearLabel="Limpiar filtros"
+        statusLabel={site.ui.flash.statusLabel ?? ''}
+        activeLabel={site.ui.flash.activeFiltersLabel ?? ''}
+        clearLabel={site.ui.flash.clearFiltersLabel ?? 'Limpiar'}
+        showStatusCounts={site.ui.flash.showStatusCounts ?? false}
+        showCategoryCounts={site.ui.flash.showCategoryCounts ?? false}
+        showActiveFilters={site.ui.flash.showActiveFilters ?? true}
+        showClearButton={site.ui.flash.showClearButton ?? true}
+        showTaxonomySearch={site.ui.flash.showTaxonomySearch ?? true}
+        taxonomySearchLabel={site.ui.flash.taxonomySearchLabel ??
+          'Buscar categorías'}
+        showGlobalSearch={site.ui.flash.showGlobalSearch ?? true}
+        globalSearchLabel={site.ui.flash.globalSearchLabel ?? ''}
+        globalSearchPlaceholder={site.ui.flash.globalSearchPlaceholder ??
+          'Buscar por título'}
+        searchParam={site.ui.flash.searchParam ?? 'search'}
         itemLabel="flash"
         emptyLabel={site.ui.flash.empty ?? 'No hay flash en esta categoría.'}
         urlParam="category"
@@ -69,7 +82,7 @@ const flashStatuses = [
         taxonomies={categories}
       />
       <div
-        class="grid grid-3"
+        class="grid grid-3 gallery-card-grid"
         data-reveal-group
         data-flash-grid
         role="region"

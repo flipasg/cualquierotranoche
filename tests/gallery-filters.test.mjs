@@ -13,6 +13,25 @@ test('el componente compartido cubre selector múltiple, destacados y filtros ac
   assert.match(component, /data-gallery-active-filters/);
   assert.match(component, /data-gallery-clear/);
   assert.match(component, /data-gallery-default-status=\{defaultStatus\}/);
+  assert.match(component, /flex-wrap: nowrap/);
+  assert.match(component, /gap: var\(--gallery-filter-divider-gap\)/);
+  assert.match(component, /padding-left: var\(--gallery-filter-divider-gap\)/);
+  assert.match(
+    component,
+    /@media \(min-width: 1024px\)[\s\S]*\.gallery-filter-root[\s\S]*display: flex/,
+  );
+  assert.match(
+    component,
+    /flex: 0 0 auto;[\s\S]*width: max-content;[\s\S]*min-width: max-content;/,
+  );
+  assert.match(
+    component,
+    /@media \(min-width: 768px\) and \(max-width: 1023px\)/,
+  );
+  assert.match(
+    component,
+    /@media \(min-width: 768px\) and \(max-width: 1023px\)[\s\S]*width: fit-content;[\s\S]*gallery-global-search,[\s\S]*width: 100%/,
+  );
   assert.doesNotMatch(component, /data-gallery-result-count/);
   assert.match(component, /\.gallery-filter-summary > div\[hidden\]/);
   assert.match(component, /summary::after/);
@@ -21,6 +40,45 @@ test('el componente compartido cubre selector múltiple, destacados y filtros ac
   assert.match(component, /appearance: none/);
   assert.match(component, /input\[type='checkbox'\]:checked/);
   assert.match(component, /margin: 2rem 0 clamp\(1\.5rem, 4vw, 3rem\)/);
+});
+
+test('los filtros compartidos configuran búsquedas, secciones y controles opcionales', async () => {
+  const [component, script, artworkPage, flashPage, cms, types] =
+    await Promise.all([
+      read('src/components/GalleryFilters.astro'),
+      read('public/scripts/gallery-filters.js'),
+      read('src/pages/obra/index.astro'),
+      read('src/pages/tattoo/flash.astro'),
+      read('.pages.yml'),
+      read('src/types/content.ts'),
+    ]);
+
+  assert.match(component, /showActiveFilters\?: boolean/);
+  assert.match(component, /showClearButton\?: boolean/);
+  assert.match(component, /showTaxonomySearch\?: boolean/);
+  assert.match(component, /showGlobalSearch\?: boolean/);
+  assert.match(component, /data-gallery-taxonomy-selected/);
+  assert.match(component, /data-gallery-taxonomy-unselected/);
+  assert.match(component, /data-gallery-search/);
+  assert.match(component, /placeholder=\{taxonomySearchLabel\}/);
+  assert.match(component, /\.gallery-taxonomy-search input:focus-visible/);
+  assert.match(script, /searchParams\.get\(searchParam\)/);
+  assert.match(script, /searchParams\.set\(searchParam/);
+  assert.match(script, /searchParams\.delete\(searchParam\)/);
+  assert.match(
+    script,
+    /normalize\(title\)\.includes\(normalize\(searchTerm\.trim\(\)\)\)/,
+  );
+  assert.match(script, /activeCount[\s\S]*selected\.size[\s\S]*searchTerm/);
+  assert.match(
+    artworkPage,
+    /showClearButton=\{site\.ui\.artwork\.showClearButton/,
+  );
+  assert.match(flashPage, /showClearButton=\{site\.ui\.flash\.showClearButton/);
+  assert.match(cms, /name: showActiveFilters[\s\S]*type: boolean/);
+  assert.match(cms, /name: showGlobalSearch[\s\S]*type: boolean/);
+  assert.match(types, /showTaxonomySearch\?: boolean/);
+  assert.match(types, /searchParam\?: string/);
 });
 
 test('flash usa el motor compartido con categorías y parámetros compartibles', async () => {
