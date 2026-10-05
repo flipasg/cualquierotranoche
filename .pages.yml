@@ -228,6 +228,12 @@ content:
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
         }
+      - {
+          name: tagline,
+          label: Texto introductorio,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+        }
       - { name: location, label: Ubicación, type: string }
       - { name: portrait, label: Retrato, type: image }
       - { name: portraitAlt, label: Texto alternativo, type: string }
@@ -241,6 +247,70 @@ content:
     fields:
       - { name: name, label: Nombre, type: string }
       - { name: artisticName, label: Nombre artístico, type: string }
+      - name: theme
+        label: Tema visual
+        type: object
+        fields:
+          - {
+              name: background,
+              label: Fondo,
+              type: string,
+              default: '#F7F3EC',
+              pattern: '^#[0-9a-fA-F]{6}$',
+              description: 'Código hexadecimal de seis cifras. Reserva V1: #F7F3EC.',
+            }
+          - {
+              name: text,
+              label: Texto,
+              type: string,
+              default: '#252821',
+              pattern: '^#[0-9a-fA-F]{6}$',
+              description: 'Código hexadecimal de seis cifras. Reserva V1: #252821.',
+            }
+          - {
+              name: accent,
+              label: Acento,
+              type: string,
+              default: '#923E30',
+              pattern: '^#[0-9a-fA-F]{6}$',
+              description: 'Código hexadecimal de seis cifras. Reserva V1: #923E30.',
+            }
+          - {
+              name: surface,
+              label: Superficie,
+              type: string,
+              default: '#E6E9DF',
+              pattern: '^#[0-9a-fA-F]{6}$',
+              description: 'Código hexadecimal de seis cifras. Reserva V1: #E6E9DF.',
+            }
+          - {
+              name: decorative,
+              label: Acento decorativo,
+              type: string,
+              default: '#E4B54D',
+              pattern: '^#[0-9a-fA-F]{6}$',
+              description: 'Código hexadecimal de seis cifras. Reserva V1: #E4B54D.',
+            }
+          - name: headingFont
+            label: Tipografía de titulares
+            type: select
+            default: roboto
+            options:
+              values:
+                - { label: Roboto, name: roboto }
+                - { label: Georgia, name: georgia }
+                - { label: Arial, name: arial }
+                - { label: Helvetica Neue / Helvetica / Arial, name: system }
+          - name: bodyFont
+            label: Tipografía de cuerpo y controles
+            type: select
+            default: roboto
+            options:
+              values:
+                - { label: Roboto, name: roboto }
+                - { label: Georgia, name: georgia }
+                - { label: Arial, name: arial }
+                - { label: Helvetica Neue / Helvetica / Arial, name: system }
       - name: home
         label: Portada
         type: object
@@ -259,6 +329,8 @@ content:
               options: { format: markdown, media: false, switcher: false },
               required: true,
             }
+          - { name: eyebrow, label: Antetítulo, type: string }
+          - { name: titleEmphasis, label: Fragmento en cursiva, type: string }
           - {
               name: heroImage,
               label: Imagen principal,
@@ -270,6 +342,22 @@ content:
               label: Texto alternativo de la imagen,
               type: string,
               required: true,
+            }
+          - {
+              name: heroImageCaption,
+              label: Pie de imagen principal,
+              type: string,
+            }
+          - { name: secondaryImage, label: Imagen secundaria, type: image }
+          - {
+              name: secondaryImageAlt,
+              label: Texto alternativo secundario,
+              type: string,
+            }
+          - {
+              name: secondaryImageCaption,
+              label: Pie de imagen secundaria,
+              type: string,
             }
           - name: primaryCta
             label: Llamada a la acción principal
@@ -299,9 +387,31 @@ content:
                   type: boolean,
                   default: true,
                 }
+          - { name: agendaLabel, label: Etiqueta de agenda, type: string }
+          - {
+              name: agendaVisible,
+              label: Mostrar resumen de agenda,
+              type: boolean,
+              default: true,
+            }
+          - name: featuredWorks
+            label: Obras destacadas
+            type: reference
+            options:
+              collection: obras
+              multiple: true
+              search: 'title'
+              value: '{path}'
+              label: '{fields.title}'
           - {
               name: workHeading,
               label: Título de la sección de trabajo,
+              type: rich-text,
+              options: { format: markdown, media: false, switcher: false },
+            }
+          - {
+              name: featuredHeading,
+              label: Título de destacados,
               type: rich-text,
               options: { format: markdown, media: false, switcher: false },
             }
@@ -426,9 +536,29 @@ content:
                   type: string,
                 },
                 { name: tattoo, label: Tattoo, type: string },
+                {
+                  name: tattooDescription,
+                  label: Descripción de tattoo,
+                  type: string,
+                },
                 { name: artwork, label: Obra original, type: string },
+                {
+                  name: artworkDescription,
+                  label: Descripción de obra,
+                  type: string,
+                },
                 { name: illustration, label: Ilustración, type: string },
+                {
+                  name: illustrationDescription,
+                  label: Descripción de proyectos,
+                  type: string,
+                },
                 { name: general, label: Otra consulta, type: string },
+                {
+                  name: generalDescription,
+                  label: Descripción de otras consultas,
+                  type: string,
+                },
                 { name: cityAlerts, label: Avisos por ciudad, type: string },
               ]
           - name: contact
@@ -438,6 +568,8 @@ content:
               [
                 { name: title, label: Título SEO, type: string },
                 { name: description, label: Descripción SEO, type: text },
+                { name: actionLabel, label: Texto de acción, type: string },
+                { name: copyrightLabel, label: Firma del pie, type: string },
                 {
                   name: eyebrow,
                   label: Antetítulo,
@@ -491,6 +623,7 @@ content:
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
                 },
+                { name: eyebrow, label: Antetítulo, type: string },
                 {
                   name: intro,
                   label: Introducción,
@@ -509,7 +642,22 @@ content:
                 },
                 { name: tattoos, label: Tatuajes, type: string },
                 { name: flash, label: Flash, type: string },
-                { name: viewAll, label: Ver todos, type: string },
+                { name: flashCta, label: Acción de flash, type: string },
+                {
+                  name: ideaCta,
+                  label: Acción de diseño personalizado,
+                  type: string,
+                },
+                {
+                  name: tattoosViewAll,
+                  label: Enlace a la galería de tatuajes,
+                  type: string,
+                },
+                {
+                  name: flashViewAll,
+                  label: Enlace al Flashbook,
+                  type: string,
+                },
                 { name: noTattoos, label: Sin tatuajes, type: string },
                 {
                   name: flashSampleNotice,
@@ -532,6 +680,14 @@ content:
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
                 },
+                {
+                  name: paginationLabel,
+                  label: Etiqueta de paginación,
+                  type: string,
+                },
+                { name: previous, label: Anterior, type: string },
+                { name: next, label: Siguiente, type: string },
+                { name: pageStatus, label: Estado de página, type: string },
               ]
           - name: flash
             label: Página de flash
@@ -550,6 +706,16 @@ content:
                 {
                   name: filtersLabel,
                   label: Etiqueta de filtros,
+                  type: string,
+                },
+                {
+                  name: filterLabel,
+                  label: Texto del botón filtros,
+                  type: string,
+                },
+                {
+                  name: applyLabel,
+                  label: Texto aplicar filtros,
                   type: string,
                 },
                 { name: statusLabel, label: Etiqueta de estado, type: string },
@@ -620,6 +786,8 @@ content:
                   type: string,
                 },
                 { name: all, label: Todos, type: string },
+                { name: available, label: Disponibles, type: string },
+                { name: sold, label: Vendidos, type: string },
                 { name: empty, label: Sin resultados, type: string },
                 {
                   name: pageSizeBefore,
@@ -639,6 +807,11 @@ content:
                 { name: previous, label: Anterior, type: string },
                 { name: next, label: Siguiente, type: string },
                 { name: pageStatus, label: Estado de página, type: string },
+                {
+                  name: loadMoreLabel,
+                  label: Cargar más diseños,
+                  type: string,
+                },
                 { name: requestCta, label: Pedir este flash, type: string },
               ]
           - name: artwork
@@ -679,6 +852,16 @@ content:
                 {
                   name: filtersLabel,
                   label: Etiqueta de filtros,
+                  type: string,
+                },
+                {
+                  name: filterLabel,
+                  label: Texto del botón filtros,
+                  type: string,
+                },
+                {
+                  name: applyLabel,
+                  label: Texto aplicar filtros,
                   type: string,
                 },
                 { name: statusLabel, label: Etiqueta de estado, type: string },
@@ -748,14 +931,54 @@ content:
                   label: Parámetro URL para búsqueda global,
                   type: string,
                 },
+                {
+                  name: paginationLabel,
+                  label: Etiqueta de paginación,
+                  type: string,
+                },
+                { name: previous, label: Anterior, type: string },
+                { name: next, label: Siguiente, type: string },
+                { name: pageStatus, label: Estado de página, type: string },
                 { name: all, label: Todas, type: string },
-                { name: available, label: Ver disponibles, type: string },
+                { name: available, label: Disponibles, type: string },
+                {
+                  name: statusAvailable,
+                  label: Estado disponible,
+                  type: string,
+                },
+                { name: statusReserved, label: Estado reservado, type: string },
+                { name: statusSold, label: Estado vendida, type: string },
+                {
+                  name: itemTypeLabel,
+                  label: Etiqueta de tipo de obra,
+                  type: string,
+                },
+                {
+                  name: techniqueLabel,
+                  label: Etiqueta de técnica,
+                  type: string,
+                },
+                {
+                  name: dimensionsLabel,
+                  label: Etiqueta de medidas,
+                  type: string,
+                },
+                {
+                  name: detailStoryHeading,
+                  label: Título de relato de obra,
+                  type: string,
+                },
                 {
                   name: detailEyebrow,
                   label: Antetítulo de ficha,
                   type: string,
                 },
                 { name: shipping, label: Envío, type: string },
+                {
+                  name: purchaseNote,
+                  label: Nota de solicitud de compra,
+                  type: string,
+                },
                 {
                   name: interestCta,
                   label: Me interesa esta obra,
@@ -775,6 +998,29 @@ content:
                   label: Titular,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: listingEyebrow,
+                  label: Antetítulo de proyectos,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: contactDescription,
+                  label: Texto de contacto para proyectos,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: projectContactDescription,
+                  label: Texto de acceso a contacto en proyecto,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
+                {
+                  name: nextProjectLabel,
+                  label: Enlace a siguiente proyecto,
+                  type: string,
                 },
                 {
                   name: intro,

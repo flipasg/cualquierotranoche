@@ -66,6 +66,8 @@ const paginas = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/paginas' }),
   schema: z.object({
     title: z.string(),
+    eyebrow: z.string().optional(),
+    tagline: z.string().optional(),
     subtitle: z.string(),
     location: z.string(),
     portrait: upload,

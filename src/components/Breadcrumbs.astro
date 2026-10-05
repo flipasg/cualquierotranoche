@@ -6,20 +6,28 @@ interface BreadcrumbItem {
 
 interface Props {
   items: BreadcrumbItem[];
+  variant?: 'default' | 'eyebrow';
 }
 
-const { items } = Astro.props;
+const { items, variant = 'default' } = Astro.props;
 ---
 
 {
   items.length > 0 && (
-    <nav class="breadcrumbs" aria-label="Migas de pan">
-      <ol class="eyebrow breadcrumbs__list">
+    <nav
+      class={`breadcrumbs${variant === 'eyebrow' ? ' breadcrumbs--eyebrow' : ''}`}
+      aria-label="Migas de pan"
+    >
+      <ol class="breadcrumbs__list">
         {items.map((item, index) => (
           <li>
             <a
               href={item.href}
-              aria-current={index === items.length - 1 ? 'page' : undefined}
+              aria-current={
+                variant === 'default' && index === items.length - 1
+                  ? 'page'
+                  : undefined
+              }
             >
               {item.label}
             </a>

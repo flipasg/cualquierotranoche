@@ -1,56 +1,166 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryImage from '../components/GalleryImage.astro';
 import DisciplineCard from '../components/DisciplineCard.astro';
+import WorkCard from '../components/WorkCard.astro';
+import { guests } from '../config/guests';
 import { site } from '../data';
+import { guestDays, visibleGuests } from '../lib/guests';
+
+const works = await getCollection('obras', ({ data }) => !data.draft);
+const workById = new Map(works.map((work) => [work.id, work]));
+const featuredWorks = (site.home.featuredWorks ?? [])
+  .map((reference) => {
+    const id = reference.split('/').at(-1)?.replace(/\.md$/, '') ?? reference;
+    return workById.get(id);
+  })
+  .filter((work): work is (typeof works)[number] => Boolean(work));
+const nextGuests = visibleGuests(guests.entries).slice(0, 3);
+const title = site.home.title.trim();
+const emphasis = site.home.titleEmphasis?.trim();
+const emphasisIndex = emphasis ? title.indexOf(emphasis) : -1;
 ---
 
 <BaseLayout
   title={site.ui.homePage.title}
   description={site.ui.homePage.description}
-  ><section class="container section hero">
-    <div data-reveal>
-      <h1>{site.home.title}</h1><p class="lead">
-        {site.home.intro}
-      </p><div class="button-row">
-        <a class="button" href={site.home.primaryCta?.href}
-          >{site.home.primaryCta?.label}</a
-        ><a class="button secondary" href={site.home.secondaryCta?.href}
-          >{site.home.secondaryCta?.label}</a
-        >
-      </div>
+>
+  <section class="container hero" aria-labelledby="home-heading">
+    <div class="hero__copy">
       {
-        site.home.guestsCta?.visible && (
-          <a class="home-guests-link" href={site.home.guestsCta?.href}>
-            {site.home.guestsCta?.label}
-          </a>
+        site.home.eyebrow && (
+          <p class="eyebrow hero__eyebrow">{site.home.eyebrow}</p>
         )
       }
-    </div><GalleryImage
-      src={site.home.heroImage}
-      alt={site.home.heroImageAlt}
-      loading="eager"
-    />
-  </section><section id="trabajo" class="container section">
-    <h2 data-reveal>{site.home.workHeading}</h2><div
-      class="grid grid-3"
-      data-reveal-group
-    >
+      <h1 class="hero__title" id="home-heading">
+        {
+          emphasis && emphasisIndex >= 0 ? (
+            <>
+              {title.slice(0, emphasisIndex)}
+              <em>{emphasis}</em>
+              {title.slice(emphasisIndex + emphasis.length)}
+            </>
+          ) : (
+            title
+          )
+        }
+      </h1>
+      <p class="lead">{site.home.intro}</p>
+      <div class="button-row">
+        {
+          site.home.primaryCta?.label && site.home.primaryCta.href && (
+            <a class="button" href={site.home.primaryCta.href}>
+              {site.home.primaryCta.label}
+            </a>
+          )
+        }
+        {
+          site.home.secondaryCta?.label && site.home.secondaryCta.href && (
+            <a class="button secondary" href={site.home.secondaryCta.href}>
+              {site.home.secondaryCta.label}
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="hero__media">
+      <GalleryImage
+        src={site.home.heroImage}
+        alt={site.home.heroImageAlt}
+        loading="eager"
+        class="hero__main-image"
+      />
+      {
+        site.home.heroImageCaption && (
+          <p class="hero__caption">{site.home.heroImageCaption}</p>
+        )
+      }
+      {
+        site.home.secondaryImage && (
+          <figure class="hero__secondary">
+            <GalleryImage
+              src={site.home.secondaryImage}
+              alt={site.home.secondaryImageAlt ?? ''}
+              loading="eager"
+            />
+            {site.home.secondaryImageCaption && (
+              <figcaption class="hero__caption">
+                {site.home.secondaryImageCaption}
+              </figcaption>
+            )}
+          </figure>
+        )
+      }
+    </div>
+
+    {
+      site.home.agendaVisible !== false && nextGuests.length > 0 && (
+        <div
+          class="hero__agenda"
+          aria-label={site.home.agendaLabel ?? 'Próximos guests'}
+        >
+          <span class="hero__agenda-label">
+            {site.home.agendaLabel ?? 'Próximas fechas'}
+          </span>
+          <ul class="hero__agenda-list">
+            {nextGuests.map((guest) => (
+              <li>
+                {guest.city}{' '}
+                <time datetime={guest.startDate}>{guestDays(guest)}</time>
+              </li>
+            ))}
+          </ul>
+          {site.home.guestsCta?.visible !== false && (
+            <a
+              class="hero__agenda-link"
+              href={site.home.guestsCta?.href ?? '/contacto/#proximos-guests'}
+            >
+              {site.home.guestsCta?.label ?? 'Ver agenda'}
+            </a>
+          )}
+        </div>
+      )
+    }
+  </section>
+
+  {
+    featuredWorks.length > 0 && (
+      <section
+        class="container section featured-section"
+        aria-labelledby="featured-heading"
+      >
+        <h2 id="featured-heading">
+          {site.home.featuredHeading ?? 'Obras destacadas'}
+        </h2>
+        <div class="featured-grid" data-reveal-group>
+          {featuredWorks.map((work) => (
+            <WorkCard work={work} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section id="trabajo" class="container section disciplines-section">
+    <h2 data-reveal>{site.home.workHeading}</h2>
+    <div class="grid grid-3" data-reveal-group>
       {
         site.home.disciplines?.map((discipline) => (
           <DisciplineCard {...discipline} />
         ))
       }
     </div>
-  </section></BaseLayout
->
+  </section>
+</BaseLayout>
 
 <style>
-  .home-guests-link {
-    display: inline-block;
-    margin-top: 1rem;
-    padding-block: 0.6rem;
-    font-weight: 700;
-    text-underline-offset: 0.25em;
+  .disciplines-section h2,
+  .featured-section h2 {
+    margin-bottom: 2rem;
+  }
+  .featured-grid :global(.card) {
+    border-bottom: 0;
   }
 </style>

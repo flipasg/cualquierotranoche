@@ -24,6 +24,17 @@ const { Content } = await render(work);
 const gallery = work.data.gallery ?? [];
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
+const statusLabel =
+  work.data.status === 'disponible'
+    ? (site.ui.artwork.statusAvailable ?? 'Disponible')
+    : work.data.status === 'reservada'
+      ? (site.ui.artwork.statusReserved ?? 'Reservada')
+      : work.data.status === 'vendida'
+        ? (site.ui.artwork.statusSold ?? 'Vendida')
+        : undefined;
+const detailStoryHeading = (
+  site.ui.artwork.detailStoryHeading ?? 'La historia de {title}'
+).replace('{title}', work.data.title);
 ---
 
 <BaseLayout
@@ -34,41 +45,60 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
 >
   <article class="container section">
     <div class="grid grid-2 obra-detail">
-      <GalleryImage
-        src={work.data.cover}
-        alt={work.data.coverAlt}
-        loading="eager"
-        zoomable
-      />
-
-      <div data-reveal>
-        <Breadcrumbs
-          items={[
-            { label: site.ui.artwork.title ?? 'Obra', href: '/obra/' },
-            { label: work.data.title, href: `/obra/${work.id}/` },
-          ]}
+      <div class="obra-detail__image">
+        <GalleryImage
+          src={work.data.cover}
+          alt={work.data.coverAlt}
+          loading="eager"
+          zoomable
         />
+      </div>
 
+      <div class="obra-detail__summary" data-reveal>
+        <Breadcrumbs
+          variant="eyebrow"
+          items={[{ label: site.ui.artwork.title ?? 'Obra', href: '/obra/' }]}
+        />
         <h1>{work.data.title}</h1>
-
-        <span class="status">{work.data.status}</span>
-
-        <p>
-          {work.data.technique}<br />
-          {work.data.dimensions}
-        </p>
-
+        {
+          statusLabel && (
+            <p class="obra-status">
+              {statusLabel} · {site.ui.artwork.itemTypeLabel ?? 'Obra original'}
+            </p>
+          )
+        }
+        <dl class="obra-specs">
+          {
+            work.data.technique && (
+              <div>
+                <>
+                  <dt>{site.ui.artwork.techniqueLabel ?? 'Técnica'}</dt>
+                  <dd>{work.data.technique}</dd>
+                </>
+              </div>
+            )
+          }
+          {
+            work.data.dimensions && (
+              <div>
+                <>
+                  <dt>{site.ui.artwork.dimensionsLabel ?? 'Medidas'}</dt>
+                  <dd>{work.data.dimensions}</dd>
+                </>
+              </div>
+            )
+          }
+        </dl>
         {
           work.data.showPrice && work.data.priceEur ? (
-            <h3>{work.data.priceEur} €</h3>
+            <p class="obra-price">{work.data.priceEur} €</p>
           ) : null
         }
-
-        <p>{site.ui.artwork.shipping}</p>
-
-        <div class="prose">
-          <Content />
-        </div>
+        {
+          site.ui.artwork.shipping && (
+            <p class="obra-shipping">{site.ui.artwork.shipping}</p>
+          )
+        }
 
         {
           work.data.status === 'disponible' && (
@@ -81,8 +111,19 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
             </TallyLink>
           )
         }
+        <p class="obra-purchase-note">
+          {
+            site.ui.artwork.purchaseNote ??
+              'Consulta disponibilidad y envío. Enviar el formulario no confirma la compra.'
+          }
+        </p>
       </div>
     </div>
+
+    <section class="obra-story prose" data-reveal>
+      <h2>{detailStoryHeading}</h2>
+      <Content />
+    </section>
 
     <section class="obra-gallery" data-reveal-group>
       {
@@ -104,10 +145,79 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
 <style>
   .obra-detail {
     gap: clamp(1.25rem, 4vw, 3rem);
+    align-items: start;
+    margin-top: 1.5rem;
+    min-width: 0;
   }
-
-  .obra-interest {
+  .obra-detail__image,
+  .obra-detail__summary {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  .obra-detail__image :global(.gallery-image-link) {
+    width: 100%;
+    max-width: 100%;
+  }
+  .obra-detail__image :global(img) {
+    width: 100%;
+    max-height: 78svh;
+    object-fit: contain;
+  }
+  .obra-detail__summary {
+    max-width: 34rem;
+  }
+  @media (max-width: 767px) {
+    .obra-detail__summary {
+      order: -1;
+    }
+  }
+  .obra-detail__summary h1 {
+    margin: 0.75rem 0 1rem;
+  }
+  .obra-status {
+    color: var(--color-accent);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .obra-specs {
+    display: grid;
+    gap: 0.7rem;
+    margin: 1.5rem 0;
+  }
+  .obra-specs div {
+    display: grid;
+    grid-template-columns: minmax(6rem, 0.45fr) minmax(0, 1fr);
+    gap: 1rem;
+    border-top: 1px solid var(--color-border);
+    padding-top: 0.65rem;
+  }
+  .obra-specs dt {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+  .obra-specs dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  .obra-price {
+    margin: 0.75rem 0 0;
+    font: 700 clamp(1.8rem, 3vw, 2.5rem)/1.1 var(--font-body);
+  }
+  .obra-shipping {
+    margin: 0.45rem 0 1.25rem;
+    color: var(--color-muted);
+  }
+  .obra-purchase-note {
+    max-width: 30rem;
     margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+  .obra-story {
+    margin: clamp(3rem, 8vw, 6rem) 0 0;
+  }
+  .obra-story h2 {
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
   }
 
   .obra-gallery {

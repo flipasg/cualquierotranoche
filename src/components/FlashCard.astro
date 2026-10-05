@@ -17,13 +17,26 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     alt={flash.data.coverAlt}
     zoomable
     sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-  /><span class="status">{flash.data.status}</span><h3>{flash.data.title}</h3>{
-    flash.data.description && <p>{flash.data.description}</p>
-  }<p>{flash.data.code}</p>{
-    flash.data.note && <p>{flash.data.note}</p>
-  }<TallyLink
-    url={forms.tattoo}
-    params={{ flashCode: flash.data.code, source: 'portfolio-flash' }}
-    linkStyle>{site.ui.flash.requestCta}</TallyLink
-  >
+  /><h3>{flash.data.title}</h3><p class="flash-card-meta">
+    <span>{flash.data.code}</span>
+    <TallyLink
+      url={forms.tattoo}
+      params={{ flashCode: flash.data.code, source: 'portfolio-flash' }}
+      className="card-cta">{site.ui.flash.requestCta}</TallyLink
+    >
+  </p>
+  {flash.data.description && <p>{flash.data.description}</p>}
 </article>
+
+<style>
+  .flash-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-block: 0.35rem 0.25rem;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+</style>

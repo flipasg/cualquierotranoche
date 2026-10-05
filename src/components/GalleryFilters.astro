@@ -23,8 +23,11 @@ interface Props {
   statusLabel?: string;
   activeLabel?: string;
   clearLabel?: string;
+  filterLabel?: string;
+  applyLabel?: string;
   showStatusCounts?: boolean;
   showCategoryCounts?: boolean;
+  showResultCount?: boolean;
   showActiveFilters?: boolean;
   showClearButton?: boolean;
   showTaxonomySearch?: boolean;
@@ -48,8 +51,11 @@ const {
   statusLabel = '',
   activeLabel,
   clearLabel = 'Limpiar',
+  filterLabel = 'Filtros',
+  applyLabel = 'Ver resultados',
   showStatusCounts = false,
   showCategoryCounts = false,
+  showResultCount = true,
   showActiveFilters = true,
   showClearButton = true,
   showTaxonomySearch = true,
@@ -72,6 +78,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
   class="gallery-filter-root"
   data-global-search-enabled={showGlobalSearch}
   data-gallery-search-param={showGlobalSearch ? searchParam : ''}
+  data-gallery-item-label={itemLabel}
 >
   {
     showGlobalSearch && (
@@ -95,7 +102,9 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
       data-gallery-default-status={defaultStatus}
       open
     >
-      <summary data-gallery-filter-summary>Filtros</summary>
+      <summary data-gallery-filter-summary data-filter-label={filterLabel}
+        >{filterLabel}</summary
+      >
       <div
         class:list={[
           'gallery-filter-controls',
@@ -193,6 +202,9 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
             </div>
           )
         }
+        <button type="button" class="gallery-filter-apply" data-gallery-apply>
+          {applyLabel}
+        </button>
         {
           showClearButton && !showActiveFilters && (
             <button
@@ -301,7 +313,16 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     </div>
   )
 }
-<p data-gallery-empty hidden>{emptyLabel}</p>
+{
+  showResultCount && (
+    <p
+      class="gallery-result-count"
+      data-gallery-result-count
+      aria-live="polite"
+    />
+  )
+}
+<p data-gallery-empty data-empty-message={emptyLabel} hidden>{emptyLabel}</p>
 
 <style>
   .gallery-filter-root {
@@ -309,6 +330,11 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     gap: var(--gallery-filter-divider-gap);
     margin-top: 2rem;
     width: 100%;
+  }
+  .gallery-result-count {
+    margin: 1rem 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
   }
   .gallery-global-search {
     display: flex;
@@ -553,7 +579,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     min-height: 80px;
     gap: 10px;
     border: 2px solid transparent;
-    background: color-mix(in srgb, var(--color-bg) 30%, white);
+    background: var(--color-panel);
     color: inherit;
     cursor: pointer;
     font: inherit;
@@ -634,6 +660,9 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
       color-mix(in srgb, var(--color-accent) 30%, transparent);
     margin: 2rem 0 clamp(1.5rem, 4vw, 3rem);
     padding-top: 1.5rem;
+  }
+  .gallery-filter-apply {
+    display: none;
   }
   .gallery-filter-summary > div,
   [data-gallery-filter-chips] {
@@ -790,6 +819,20 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     .gallery-filter-controls {
       display: block;
       width: 100%;
+    }
+    .gallery-filter-apply {
+      display: block;
+      width: 100%;
+      min-height: 48px;
+      margin-top: 1.25rem;
+      padding: 0.75rem 1rem;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--color-accent);
+      color: var(--color-bg);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
     }
     .gallery-filter-group {
       display: block;

@@ -2,24 +2,92 @@
 import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryImage from '../components/GalleryImage.astro';
+import Eyebrow from '../components/Eyebrow.astro';
 import { site } from '../data';
+import { guests } from '../config/guests';
+import { visibleGuests } from '../lib/guests';
+
+const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
 const page = await getEntry('paginas', 'sobre-mi');
 if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible');
 const { Content } = await render(page);
 ---
 
 <BaseLayout title={site.ui.about.title} description={site.ui.about.description}
-  ><section class="container section grid grid-2">
-    <GalleryImage
-      src={page.data.portrait}
-      alt={page.data.portraitAlt}
-      loading="eager"
-    /><div data-reveal>
-      <h1>{page.data.title}</h1><h3>
+  ><section class="container section about-opening">
+    <div class="about-opening__media">
+      <GalleryImage
+        src={page.data.portrait}
+        alt={page.data.portraitAlt}
+        loading="eager"
+      />
+    </div><div class="about-opening__copy" data-reveal>
+      <Eyebrow text={page.data.eyebrow} />
+      <h1>{page.data.title}</h1><h2 class="about-subtitle">
         {page.data.subtitle}
-      </h3><div class="prose"><Content /></div><p>
+      </h2>
+      {page.data.tagline && <p class="about-tagline">{page.data.tagline}</p>}
+      <div class="prose"><Content /></div><p class="about-location">
         <strong>{page.data.location}</strong>
       </p>
+      <div class="button-row about-actions">
+        <a class="button" href="/obra/"
+          >{site.home.primaryCta?.label ?? 'Explorar mi trabajo'}</a
+        >
+        {
+          site.home.guestsCta?.visible !== false && hasVisibleGuests && (
+            <a
+              class="button secondary"
+              href={site.home.guestsCta?.href ?? '/contacto/#proximos-guests'}
+            >
+              {site.home.guestsCta?.label ?? 'Próximas ciudades'}
+            </a>
+          )
+        }
+      </div>
     </div>
   </section></BaseLayout
 >
+
+<style>
+  .about-opening {
+    display: grid;
+    gap: clamp(2rem, 7vw, 6rem);
+    align-items: start;
+  }
+  .about-opening__media {
+    position: relative;
+  }
+  .about-opening__media :global(img) {
+    width: 100%;
+    max-height: 78svh;
+    object-fit: cover;
+  }
+  .about-opening__copy {
+    max-width: 42rem;
+  }
+  .about-subtitle {
+    margin: 0.5rem 0 2rem;
+    color: var(--color-accent);
+    font-size: clamp(1.35rem, 2.7vw, 2rem);
+    font-style: italic;
+  }
+  .about-tagline {
+    max-width: 34rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+  .about-actions {
+    margin-top: 2rem;
+  }
+  .about-location {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+  @media (min-width: 768px) {
+    .about-opening {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+  }
+</style>

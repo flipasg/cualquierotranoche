@@ -8,6 +8,8 @@ import GalleryImage from '../../components/GalleryImage.astro';
 import TattooCard from '../../components/TattooCard.astro';
 import { site } from '../../data';
 import RichText from '../../components/RichText.astro';
+import TallyLink from '../../components/TallyLink.astro';
+import { forms } from '../../config/forms';
 
 const flash = await getCollection(
   'flash',
@@ -23,29 +25,35 @@ const tattoos = await getCollection(
   title={site.ui.tattoo.title}
   description={site.ui.tattoo.description}
 >
-  {
-    site.ui.tattoo.heroImage && (
-      <section class="page-header" aria-label={site.ui.tattoo.heading}>
-        <GalleryImage
-          src={site.ui.tattoo.heroImage}
-          alt={`${site.ui.tattoo.heroImageAlt || site.ui.tattoo.heading}`}
-          loading="eager"
-          class="page-header__image"
-        />
-      </section>
-    )
-  }
-  <section class="container section section-intro section-intro--stacked">
-    <div data-reveal>
-      <h1>{site.ui.tattoo.heading}</h1><RichText
-        content={site.ui.tattoo.intro}
-        class="lead"
-      /><div class="button-row">
-        <a class="button secondary" href="#tattoo-content"
-          >{site.ui.tattoo.tattoos}</a
-        ><a class="button secondary" href="#flash">{site.ui.tattoo.flash}</a>
+  <section class="container section page-opening tattoo-opening">
+    <div class="page-opening__copy" data-reveal>
+      <Eyebrow text={site.ui.tattoo.eyebrow ?? 'TATUAJE DE AUTORA'} />
+      <h1>{site.ui.tattoo.heading}</h1>
+      <RichText content={site.ui.tattoo.intro} class="lead" />
+      <div class="button-row">
+        <a class="button" href="#flash"
+          >{site.ui.tattoo.flashCta ?? 'Ver flash disponibles'}</a
+        >
+        <TallyLink
+          url={forms.tattoo}
+          params={{ source: 'portfolio-tattoo' }}
+          className="text-link"
+          linkStyle
+        >
+          {site.ui.tattoo.ideaCta ?? 'Tengo una idea'}
+        </TallyLink>
       </div>
     </div>
+    {
+      site.ui.tattoo.heroImage && (
+        <GalleryImage
+          src={site.ui.tattoo.heroImage}
+          alt={site.ui.tattoo.heroImageAlt || site.ui.tattoo.heading || ''}
+          loading="eager"
+          class="page-opening__image"
+        />
+      )
+    }
   </section>
 
   <section id="tattoo-content" class="container section">
@@ -56,7 +64,7 @@ const tattoos = await getCollection(
             id="tattoo-carousel"
             label={`${site.ui.tattoo.tattoos}`}
             viewAllHref="/tattoo/tatuajes/"
-            viewAllLabel={`${site.ui.tattoo.viewAll}`}
+            viewAllLabel={`${site.ui.tattoo.tattoosViewAll}`}
           >
             {tattoos.map((item) => (
               <div class="carousel-item">
@@ -80,7 +88,8 @@ const tattoos = await getCollection(
             id="flash-carousel"
             label={`${site.ui.tattoo.flash}`}
             viewAllHref="/tattoo/flash/"
-            viewAllLabel={`${site.ui.tattoo.viewAll}`}
+            viewAllLabel={`${site.ui.tattoo.flashViewAll}`}
+            stretchCards={false}
           >
             {flash.map((item) => (
               <div class="carousel-item">
@@ -103,6 +112,17 @@ const tattoos = await getCollection(
 
 <style>
   #tatuajes {
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
+  }
+  #flash {
+    margin-top: 2rem;
+  }
+  @media (max-width: 767px) {
+    .tattoo-opening :global(.page-opening__image) {
+      display: none;
+    }
+    #tattoo-content :global(.carousel-controls) {
+      display: none;
+    }
   }
 </style>

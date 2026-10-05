@@ -1,7 +1,8 @@
 ---
 title: Soy Patricia,
-subtitle: y no se por que dibujo.
-location: Vitoria-Gasteiz / No Limits Tattoo
+subtitle: y dibujo.
+tagline: Tatuaje, pintura e ilustración desde Vitoria-Gasteiz.
+location: No Limits Tattoo · Vitoria-Gasteiz
 portrait: /uploads/portada1-1.jpg
 portraitAlt: Foto Patricia
 draft: false

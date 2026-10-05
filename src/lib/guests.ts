@@ -123,7 +123,7 @@ export function guestDateRange(guest: Guest): string {
   );
 }
 
-export function guestDays(guest: Guest): string {
+export function guestDays(guest: Pick<Guest, 'startDate' | 'endDate'>): string {
   if (guest.startDate === guest.endDate) return guest.startDate.slice(8);
   if (guest.startDate.slice(0, 7) === guest.endDate.slice(0, 7)) {
     return `${guest.startDate.slice(8)}–${guest.endDate.slice(8)}`;

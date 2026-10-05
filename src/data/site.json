@@ -2,24 +2,27 @@
   "name": "Patricia",
   "artisticName": "Cualquier otra noche",
   "home": {
-    "title": "Tatuaje Pintura",
-    "intro": "Soy Patricia.",
+    "title": "Dibujos que encuentran su lugar.",
+    "intro": "En la piel, en el papel y en proyectos con una historia que contar.",
     "heroImage": "/uploads/portada1.jpg",
     "heroImageAlt": "Fotografía en el taller",
     "primaryCta": {
-      "label": "Ver mi trabajo",
+      "label": "Explorar mi trabajo",
       "href": "#trabajo"
     },
     "secondaryCta": {
-      "label": "Un poco sobre mí",
+      "label": "Conocer a Patricia",
       "href": "/sobre-mi/"
     },
     "guestsCta": {
-      "label": "Próximos Guests",
+      "label": "Ver agenda",
       "href": "/contacto/#proximos-guests",
       "visible": true
     },
     "workHeading": "Explora mi trabajo",
+    "eyebrow": "PATRICIA GARCÍA RAMÍREZ · VITORIA-GASTEIZ",
+    "titleEmphasis": "su lugar.",
+    "agendaLabel": "Próximas ciudades",
     "disciplines": [
       {
         "title": "Tattoo",
@@ -75,8 +78,8 @@
   "ui": {
     "skipLink": "Saltar al contenido",
     "homePage": {
-      "title": "Tattoo y arte ",
-      "description": "Portfolio de muestra de tattoo, obra original e ilustración."
+      "title": "Cualquier otra noche — Tattoo, obra e ilustración",
+      "description": "Tattoo, obra e ilustración de Patricia García Ramírez."
     },
     "about": {
       "title": "Sobre mí",
@@ -101,27 +104,37 @@
     },
     "forms": {
       "unavailable": "Formulario disponible próximamente.",
-      "tattoo": "Tattoo",
-      "artwork": "Obra",
-      "illustration": "Proyectos",
+      "tattoo": "Quiero tatuarme",
+      "tattooDescription": "Un flash o un diseño personalizado",
+      "artwork": "Me interesa una obra",
+      "artworkDescription": "Disponibilidad, detalles y envío",
+      "illustration": "Tengo un proyecto",
+      "illustrationDescription": "Ilustración e identidad visual",
       "general": "Otra consulta",
+      "generalDescription": "Colaboraciones y otras preguntas",
       "cityAlerts": "Avisos por ciudad"
     },
     "contact": {
-      "title": "Contacto",
-      "description": "Consultas de tattoo, obra e ilustración.",
-      "heading": "Formularios"
+      "title": "Hablemos.",
+      "description": "Cada idea empieza con una conversación.",
+      "eyebrow": "CONTACTO",
+      "heading": "Hablemos.",
+      "intro": "Cada idea empieza con una conversación.",
+      "actionLabel": "Escríbeme",
+      "copyrightLabel": "Patricia García Ramírez"
     },
     "tattoo": {
       "title": "Tattoo",
       "description": "Tatuajes y flash",
-      "heading": "Tattoo",
-      "intro": "Necesito conservar la frescura del gesto. En la trazada despeinada de mis piezas hay un anhelo por ser dibujo y no solo tatuaje. En el tattoo mi imaginario depura sus formas con una textura inusual.\n\nA continuación te invito a explorar esta selección de piezas frescas y curadas. Tambien podrás sumergirte en mi flashbook.",
+      "heading": "El dibujo, sobre la piel.",
+      "intro": "Necesito conservar la frescura del gesto. Piezas frescas y curadas, dibujos que encuentran su forma en cada cuerpo.",
       "heroImage": "/uploads/portada2.jpg",
       "heroImageAlt": "Tatuaje torso",
       "tattoos": "Tatuajes",
-      "flash": "Flash",
-      "viewAll": "Ver todos",
+      "flash": "Flashbook",
+      "flashCta": "Ver flash disponibles",
+      "tattoosViewAll": "Galería",
+      "flashViewAll": "Galería",
       "noTattoos": "No hay tatuajes seleccionados para mostrar.",
       "noFlash": "No hay flash seleccionados para mostrar."
     },
@@ -129,16 +142,22 @@
       "title": "Tatuajes",
       "description": "Tatuajes y flash",
       "eyebrow": "Galería",
-      "heading": "Tatuajes"
+      "heading": "Tatuajes",
+      "paginationLabel": "Paginación de tatuajes",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageStatus": "Página {currentPage} de {pageCount}"
     },
     "flash": {
-      "title": "Flash",
-      "description": "Diseños disponibles para ser tatuados.",
-      "eyebrow": "Flashbook",
-      "heading": "Flash",
+      "title": "Flashbook",
+      "description": "Diseños disponibles para tatuar. Abre una pieza para verla de cerca.",
+      "eyebrow": "TATTOO / FLASHBOOK",
+      "heading": "Encuentra tu dibujo.",
       "filtersLabel": "Filtrar flash",
       "globalSearchLabel": "",
       "all": "Todos",
+      "available": "Disponibles",
+      "sold": "Vendidos",
       "empty": "No hay flash en esta categoría.",
       "pageSizeBefore": "Mostrar",
       "pageSizeAfter": "por página",
@@ -146,19 +165,29 @@
       "previous": "Anterior",
       "next": "Siguiente",
       "pageStatus": "Página {currentPage} de {pageCount}",
+      "loadMoreLabel": "Cargar más diseños",
       "requestCta": "Pedir este flash"
     },
     "artwork": {
       "title": "Obra",
       "description": "Obra original y seriada ",
-      "heading": "Obra",
-      "intro": "Mis imágenes emergen entre brochazos de pintura, recortes bastos de papeles y trazos expresivos. Es una pelea entre lo gráfico y lo pictórico, lo íntimo y lo crudo.\n\nAquí encuentras diferentes colecciones de obra original y seriada. ",
+      "eyebrow": "OBRA ORIGINAL",
+      "heading": "Obra para habitar.",
+      "intro": "Originales y series de Patricia García Ramírez. Pintura, recortes y trazos expresivos.",
       "heroImage": "/uploads/portada3.jpg",
       "heroImageAlt": "Collage",
       "filtersLabel": "Filtrar obras",
       "globalSearchLabel": "",
+      "paginationLabel": "Paginación de obra",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageStatus": "Página {currentPage} de {pageCount}",
       "all": "Todas",
       "available": "Disponibles",
+      "detailEyebrow": "OBRA / {collection}",
+      "itemTypeLabel": "Obra original",
+      "purchaseNote": "Consulta disponibilidad y envío. Enviar el formulario no confirma la compra.",
+      "detailStoryHeading": "La historia de {title}",
       "shipping": "Envío a consultar",
       "interestCta": "Me interesa esta obra",
       "cardCta": "Ver la pieza"
@@ -166,12 +195,15 @@
     "illustration": {
       "title": "Proyectos",
       "description": "Proyectos visuales, cartelería e identidad.",
-      "heading": "Proyectos",
+      "heading": "Imágenes para proyectos con historia.",
       "intro": "Mi universo visual puesto al servicio de un proyecto. Diseño de cartelería, editorial… ",
       "heroImage": "/uploads/portada4-1.jpg",
       "heroImageAlt": "Cartel",
       "projectCta": "Ver proyecto",
       "contactHeading": "¿Tienes un proyecto en mente?",
+      "contactDescription": "Ilustración e identidad visual para ideas que necesitan una historia propia.",
+      "projectContactDescription": "¿Tienes un proyecto en mente? Hablemos de lo que quieres contar.",
+      "nextProjectLabel": "Siguiente proyecto",
       "contactCta": "Cuéntame tu proyecto"
     },
     "imageSizing": {

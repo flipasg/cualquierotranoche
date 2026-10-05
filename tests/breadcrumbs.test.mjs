@@ -14,15 +14,20 @@ test('las migas son una navegación semántica con todos los niveles enlazados',
     component,
     /<nav class="breadcrumbs" aria-label="Migas de pan">/,
   );
-  assert.match(component, /<ol class="eyebrow breadcrumbs__list">/);
+  assert.match(component, /<ol class="breadcrumbs__list">/);
+  assert.doesNotMatch(component, /class="eyebrow breadcrumbs__list"/);
   assert.match(component, /items\.map\(\(item, index\)/);
   assert.match(component, /<a\s+href=\{item\.href\}/);
   assert.match(component, /aria-current=\{index === items\.length - 1/);
   assert.match(styles, /\.breadcrumbs__list li \+ li::before \{/);
-  assert.match(styles, /content: '·';/);
+  assert.match(styles, /content: '\/';/);
   assert.match(
     styles,
-    /\.breadcrumbs__list a \{[^}]*font-weight: 400;[^}]*text-decoration: underline;/s,
+    /\.breadcrumbs__list \{[^}]*color: var\(--color-accent\);[^}]*font-size: 0\.75rem;[^}]*letter-spacing: 0\.14em;[^}]*font-weight: 700;[^}]*text-transform: uppercase;/s,
+  );
+  assert.match(
+    styles,
+    /\.breadcrumbs__list a \{[^}]*font-weight: inherit;[^}]*text-decoration: underline;/s,
   );
 });
 
@@ -49,7 +54,7 @@ test('obra, proyectos y tattoo integran las rutas de vuelta', async () => {
   assert.match(pages[4], /site\.ui\.tattoos\.eyebrow/);
   assert.match(pages[5], /href: '\/tattoo\/'/);
   assert.match(pages[5], /href: '\/tattoo\/flash\/'/);
-  assert.match(pages[5], /site\.ui\.flash\.eyebrow/);
+  assert.doesNotMatch(pages[5], /<Eyebrow/);
 });
 
 test('los antetítulos de Tatuajes y Flash son editables desde el CMS', async () => {
@@ -60,7 +65,6 @@ test('los antetítulos de Tatuajes y Flash son editables desde el CMS', async ()
 
   const data = JSON.parse(site);
   assert.equal(data.ui.tattoos.eyebrow, 'Galería');
-  assert.equal(data.ui.flash.eyebrow, 'Flashbook');
   assert.doesNotMatch(site, /tattoosEyebrow/);
   assert.doesNotMatch(cms, /tattoosEyebrow/);
   assert.match(cms, /name: tattoos[\s\S]*label: Página de tatuajes/);

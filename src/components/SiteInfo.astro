@@ -4,6 +4,7 @@ import { site } from '../data';
 interface Props {
   showContactLink?: boolean;
   showStudioInfo?: boolean;
+  variant?: 'default' | 'contact';
 }
 
 interface StudioInfo {
@@ -14,7 +15,11 @@ interface StudioInfo {
   mapUrl?: string;
 }
 
-const { showContactLink = true, showStudioInfo = false } = Astro.props;
+const {
+  showContactLink = true,
+  showStudioInfo = false,
+  variant = 'default',
+} = Astro.props;
 const contact = site.ui.contact as typeof site.ui.contact & {
   studio?: StudioInfo;
 };
@@ -22,42 +27,87 @@ const studio = contact.studio ?? {};
 ---
 
 <div class="site-info">
-  <strong>{site.artisticName}</strong>
-  <p>{site.ui.footer.disciplines}</p>
-  <div class="site-info-links">
-    {
-      showContactLink && (
-        <>
-          <a href="/contacto/">{site.ui.footer.contact}</a> ·{' '}
-        </>
-      )
-    }
-    <a href={`mailto:${site.email}`} data-responsive-external
-      >{site.ui.footer.email}</a
-    > · <a href={site.instagram} rel="me noreferrer" data-responsive-external
-      >{site.ui.footer.instagram}</a
-    >
-  </div>
   {
-    showStudioInfo && (
-      <div class="studio-info">
-        {studio.address && <p>{studio.address}</p>}
-        <div class="studio-links">
-          {studio.addressLinkText && studio.addressLinkUrl && (
-            <a href={studio.addressLinkUrl} target="_blank" rel="noreferrer">
-              {studio.addressLinkText}
-            </a>
-          )}
-          {studio.mapText && studio.mapUrl && (
-            <a href={studio.mapUrl} target="_blank" rel="noreferrer">
-              {studio.mapText}
-            </a>
-          )}
+    variant === 'contact' ? (
+      <>
+        <div class="contact-site-links">
+          <a href={`mailto:${site.email}`} data-responsive-external>
+            {site.email}
+          </a>
+          <a href={site.instagram} rel="me noreferrer" data-responsive-external>
+            {site.ui.footer.instagram}
+          </a>
         </div>
-      </div>
+        {showStudioInfo && studio.address && (
+          <div class="studio-info">
+            <p>{studio.address}</p>
+            <div class="studio-links">
+              {studio.addressLinkText && studio.addressLinkUrl && (
+                <a
+                  href={studio.addressLinkUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {studio.addressLinkText}
+                </a>
+              )}
+              {studio.mapText && studio.mapUrl && (
+                <a href={studio.mapUrl} target="_blank" rel="noreferrer">
+                  {studio.mapText}
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+        <p class="contact-copyright">
+          © {contact.copyrightLabel?.trim() || site.name}
+        </p>
+      </>
+    ) : (
+      <>
+        <strong>{site.artisticName}</strong>
+        <p>{site.ui.footer.disciplines}</p>
+        <div class="site-info-links">
+          {showContactLink && (
+            <>
+              <a href="/contacto/">{site.ui.footer.contact}</a> ·{' '}
+            </>
+          )}
+          <a href={`mailto:${site.email}`} data-responsive-external>
+            {site.ui.footer.email}
+          </a>{' '}
+          ·{' '}
+          <a href={site.instagram} rel="me noreferrer" data-responsive-external>
+            {site.ui.footer.instagram}
+          </a>
+        </div>
+        {showStudioInfo && (
+          <div class="studio-info">
+            {studio.address && <p>{studio.address}</p>}
+            <div class="studio-links">
+              {studio.addressLinkText && studio.addressLinkUrl && (
+                <a
+                  href={studio.addressLinkUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {studio.addressLinkText}
+                </a>
+              )}
+              {studio.mapText && studio.mapUrl && (
+                <a href={studio.mapUrl} target="_blank" rel="noreferrer">
+                  {studio.mapText}
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+        <p>
+          {site.ui.footer.sampleNotice} © {new Date().getFullYear()}
+        </p>
+      </>
     )
   }
-  <p>{site.ui.footer.sampleNotice} © {new Date().getFullYear()}</p>
 </div>
 
 <style>
@@ -71,6 +121,16 @@ const studio = contact.studio ?? {};
   }
   .site-info-links {
     margin-block: 1rem;
+  }
+  .contact-site-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .contact-copyright {
+    margin: 0;
+    color: var(--color-muted);
   }
   .studio-info {
     margin-bottom: 1rem;

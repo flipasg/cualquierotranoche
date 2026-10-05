@@ -11,21 +11,95 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
 <BaseLayout
   title={site.ui.tattoos.title}
   description={site.ui.tattoos.description}
-  ><section class="container section">
-    <Breadcrumbs
-      items={[
-        { label: site.ui.tattoo.title ?? 'Tattoo', href: '/tattoo/' },
+  showBackToTop
+  ><div data-gallery>
+    <section class="container section tattoo-gallery-page">
+      <Breadcrumbs
+        items={[
+          { label: site.ui.tattoo.title ?? 'Tattoo', href: '/tattoo/' },
+          {
+            label: site.ui.tattoos.eyebrow ?? 'Tatuajes',
+            href: '/tattoo/tatuajes/',
+          },
+        ]}
+      />
+      <h1 data-reveal>{site.ui.tattoos.heading}</h1>
+      <div
+        class="grid grid-3 gallery-card-grid"
+        data-reveal-group
+        data-gallery-results-grid
+        tabindex="-1"
+      >
         {
-          label: site.ui.tattoos.eyebrow ?? 'Tatuajes',
-          href: '/tattoo/tatuajes/',
-        },
-      ]}
-    />
-    <h1 data-reveal>{site.ui.tattoos.heading}</h1><div
-      class="grid grid-3 gallery-card-grid"
-      data-reveal-group
-    >
-      {tattoos.map((item) => <TattooCard tattoo={item} />)}
-    </div>
-  </section></BaseLayout
+          tattoos.map((item) => (
+            <div data-gallery-card>
+              <TattooCard tattoo={item} />
+            </div>
+          ))
+        }
+      </div>
+      <div class="pagination-layout" data-gallery-pagination>
+        <nav
+          data-gallery-pagination-controls
+          data-page-size="6"
+          data-page-size-tablet="6"
+          data-page-size-desktop="8"
+          aria-label={site.ui.tattoos.paginationLabel ??
+            'Paginación de tatuajes'}
+          data-previous-label={site.ui.tattoos.previous ?? 'Anterior'}
+          data-next-label={site.ui.tattoos.next ?? 'Siguiente'}
+          data-page-status={site.ui.tattoos.pageStatus ??
+            'Página {currentPage} de {pageCount}'}
+        >
+        </nav>
+      </div>
+    </section>
+  </div></BaseLayout
 >
+
+<style>
+  .tattoo-gallery-page {
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+  }
+  @media (min-width: 1024px) {
+    :global(.tattoo-gallery-page .gallery-card-grid) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  :global([data-gallery-results-grid]:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+  .pagination-layout,
+  [data-gallery-pagination-controls] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .pagination-layout {
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .pagination-layout[hidden],
+  [data-gallery-pagination-controls][hidden] {
+    display: none;
+  }
+  :global([data-gallery-pagination-controls] button) {
+    min-height: 2rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  :global([data-gallery-pagination-controls] button:disabled) {
+    cursor: default;
+    opacity: 0.5;
+  }
+</style>
+
+<script is:inline src="/scripts/gallery-filters.js"></script>

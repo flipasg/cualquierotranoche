@@ -104,6 +104,7 @@ export interface ProjectData {
 export interface AboutPageData {
   title?: RichText;
   eyebrow?: RichText;
+  tagline?: RichText;
   subtitle?: RichText;
   location?: string;
   portrait?: ImagePath;
@@ -134,11 +135,33 @@ export interface HomeData {
   intro: RichText;
   heroImage: ImagePath;
   heroImageAlt: string;
+  heroImageCaption?: string;
   primaryCta?: Cta;
   secondaryCta?: Cta;
   guestsCta?: HomeGuestsCta;
   workHeading?: RichText;
+  featuredHeading?: RichText;
+  eyebrow?: string;
+  titleEmphasis?: string;
+  secondaryImage?: ImagePath;
+  secondaryImageAlt?: string;
+  secondaryImageCaption?: string;
+  agendaLabel?: string;
+  agendaVisible?: boolean;
+  featuredWorks?: string[];
   disciplines?: HomeDiscipline[];
+}
+
+export type ThemeFont = 'roboto' | 'georgia' | 'arial' | 'system';
+
+export interface SiteTheme {
+  background?: string;
+  text?: string;
+  accent?: string;
+  surface?: string;
+  decorative?: string;
+  headingFont?: ThemeFont;
+  bodyFont?: ThemeFont;
 }
 
 export interface SeoUi {
@@ -173,9 +196,13 @@ export interface FooterUi {
 export interface FormsUi {
   unavailable?: string;
   tattoo?: string;
+  tattooDescription?: string;
   artwork?: string;
+  artworkDescription?: string;
   illustration?: string;
+  illustrationDescription?: string;
   general?: string;
+  generalDescription?: string;
   cityAlerts?: string;
 }
 
@@ -193,6 +220,8 @@ export interface ContactUi {
   eyebrow?: RichText;
   heading?: RichText;
   intro?: RichText;
+  actionLabel?: string;
+  copyrightLabel?: string;
   studio?: ContactStudioUi;
 }
 
@@ -200,12 +229,16 @@ export interface TattooUi {
   title?: string;
   description?: string;
   heading?: RichText;
+  eyebrow?: RichText;
   intro?: RichText;
+  flashCta?: string;
+  ideaCta?: string;
   heroImage?: ImagePath;
   heroImageAlt?: string;
   tattoos?: string;
   flash?: string;
-  viewAll?: string;
+  tattoosViewAll?: string;
+  flashViewAll?: string;
   noTattoos?: string;
   flashSampleNotice?: string;
   noFlash?: string;
@@ -216,6 +249,10 @@ export interface TattoosUi {
   description?: string;
   eyebrow?: string;
   heading?: RichText;
+  paginationLabel?: string;
+  previous?: string;
+  next?: string;
+  pageStatus?: string;
 }
 
 export interface FlashUi {
@@ -224,40 +261,8 @@ export interface FlashUi {
   eyebrow?: string;
   heading?: RichText;
   filtersLabel?: string;
-  statusLabel?: string;
-  taxonomyLabel?: string;
-  activeFiltersLabel?: string;
-  clearFiltersLabel?: string;
-  showStatusCounts?: boolean;
-  showCategoryCounts?: boolean;
-  showActiveFilters?: boolean;
-  showClearButton?: boolean;
-  showTaxonomySearch?: boolean;
-  taxonomySearchLabel?: string;
-  showGlobalSearch?: boolean;
-  globalSearchLabel?: string;
-  globalSearchPlaceholder?: string;
-  searchParam?: string;
-  all?: string;
-  empty?: string;
-  pageSizeBefore?: string;
-  pageSizeAfter?: string;
-  paginationLabel?: string;
-  previous?: string;
-  next?: string;
-  pageStatus?: string;
-  requestCta?: string;
-}
-
-export interface ArtworkUi {
-  title?: string;
-  description?: string;
-  eyebrow?: RichText;
-  heading?: RichText;
-  intro?: RichText;
-  heroImage?: ImagePath;
-  heroImageAlt?: string;
-  filtersLabel?: string;
+  filterLabel?: string;
+  applyLabel?: string;
   statusLabel?: string;
   taxonomyLabel?: string;
   activeFiltersLabel?: string;
@@ -274,6 +279,57 @@ export interface ArtworkUi {
   searchParam?: string;
   all?: string;
   available?: string;
+  sold?: string;
+  empty?: string;
+  pageSizeBefore?: string;
+  pageSizeAfter?: string;
+  paginationLabel?: string;
+  previous?: string;
+  next?: string;
+  pageStatus?: string;
+  loadMoreLabel?: string;
+  requestCta?: string;
+}
+
+export interface ArtworkUi {
+  title?: string;
+  description?: string;
+  eyebrow?: RichText;
+  heading?: RichText;
+  intro?: RichText;
+  heroImage?: ImagePath;
+  heroImageAlt?: string;
+  filtersLabel?: string;
+  filterLabel?: string;
+  applyLabel?: string;
+  statusLabel?: string;
+  taxonomyLabel?: string;
+  activeFiltersLabel?: string;
+  clearFiltersLabel?: string;
+  showStatusCounts?: boolean;
+  showCategoryCounts?: boolean;
+  showActiveFilters?: boolean;
+  showClearButton?: boolean;
+  showTaxonomySearch?: boolean;
+  taxonomySearchLabel?: string;
+  showGlobalSearch?: boolean;
+  globalSearchLabel?: string;
+  globalSearchPlaceholder?: string;
+  searchParam?: string;
+  paginationLabel?: string;
+  previous?: string;
+  next?: string;
+  pageStatus?: string;
+  all?: string;
+  available?: string;
+  statusAvailable?: string;
+  statusReserved?: string;
+  statusSold?: string;
+  techniqueLabel?: string;
+  dimensionsLabel?: string;
+  detailStoryHeading?: string;
+  purchaseNote?: string;
+  itemTypeLabel?: string;
   detailEyebrow?: string;
   shipping?: string;
   interestCta?: string;
@@ -291,6 +347,10 @@ export interface IllustrationUi {
   projectCardEyebrow?: string;
   projectCta?: string;
   contributionEyebrow?: string;
+  listingEyebrow?: RichText;
+  contactDescription?: RichText;
+  projectContactDescription?: RichText;
+  nextProjectLabel?: string;
 
   /**
    * Present in the current site.json even though they were missing from the
@@ -351,6 +411,7 @@ export interface SiteData {
   instagramLabel?: string;
   navigation?: NavigationItem[];
   ui: SiteUi;
+  theme?: SiteTheme;
 }
 
 /* -------------------------------------------------------------------------- */

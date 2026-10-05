@@ -30,31 +30,34 @@ const categories = [...(flashCategories.categories ?? [])]
 const flashStatuses = [
   {
     id: 'disponible',
-    label: 'Disponibles',
+    label: site.ui.flash.available ?? 'Disponibles',
     count: flash.filter((item) => item.data.status === 'disponible').length,
   },
   { id: 'all', label: site.ui.flash.all ?? 'Todos', count: flash.length },
   {
     id: 'vendido',
-    label: 'Vendidos',
+    label: site.ui.flash.sold ?? 'Vendidos',
     count: flash.filter((item) => item.data.status === 'vendido').length,
   },
 ];
 ---
 
-<BaseLayout title={site.ui.flash.title} description={site.ui.flash.description}
+<BaseLayout
+  title={site.ui.flash.title}
+  description={site.ui.flash.description}
+  showBackToTop
   ><div data-gallery data-gallery-taxonomy-param="category">
-    <section class="container section">
+    <section class="container section flash-page">
       <Breadcrumbs
         items={[
           { label: site.ui.tattoo.title ?? 'Tattoo', href: '/tattoo/' },
-          {
-            label: site.ui.flash.eyebrow ?? site.ui.flash.heading ?? 'Flash',
-            href: '/tattoo/flash/',
-          },
+          { label: site.ui.flash.title ?? 'Flashbook', href: '/tattoo/flash/' },
         ]}
       />
-      <h1 data-reveal>{site.ui.flash.heading}</h1>
+      <div class="flash-opening-copy" data-reveal>
+        <h1>{site.ui.flash.heading}</h1>
+        <p class="lead">{site.ui.flash.description}</p>
+      </div>
       <GalleryFilters
         taxonomyLabel={site.ui.flash.taxonomyLabel ?? ''}
         taxonomyAllLabel="Todas las categorías"
@@ -62,8 +65,11 @@ const flashStatuses = [
         statusLabel={site.ui.flash.statusLabel ?? ''}
         activeLabel={site.ui.flash.activeFiltersLabel ?? ''}
         clearLabel={site.ui.flash.clearFiltersLabel ?? 'Limpiar'}
+        filterLabel={site.ui.flash.filterLabel ?? 'Filtros'}
+        applyLabel={site.ui.flash.applyLabel ?? 'Ver resultados'}
         showStatusCounts={site.ui.flash.showStatusCounts ?? false}
         showCategoryCounts={site.ui.flash.showCategoryCounts ?? false}
+        showResultCount={false}
         showActiveFilters={site.ui.flash.showActiveFilters ?? true}
         showClearButton={site.ui.flash.showClearButton ?? true}
         showTaxonomySearch={site.ui.flash.showTaxonomySearch ?? true}
@@ -102,10 +108,14 @@ const flashStatuses = [
             </div>
           ))
         }
-      </div><div class="pagination-layout" data-gallery-pagination>
+      </div>
+      <div class="pagination-layout" data-gallery-pagination>
         <nav
           data-flash-pagination
+          data-gallery-pagination-controls
           data-page-size="6"
+          data-page-size-tablet="6"
+          data-page-size-desktop="8"
           aria-label={site.ui.flash.paginationLabel}
           data-previous-label={site.ui.flash.previous}
           data-next-label={site.ui.flash.next}
@@ -118,9 +128,40 @@ const flashStatuses = [
 >
 
 <style>
+  .flash-page {
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+  }
+  .flash-page h1 {
+    max-width: none;
+  }
+  .flash-opening-copy {
+    max-width: 54rem;
+    margin-bottom: 1.5rem;
+  }
+  .flash-opening-copy .lead {
+    font-size: 1rem;
+    max-width: 42rem;
+  }
   [data-flash-grid]:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
+  }
+  :global(.gallery-card-grid[data-flash-grid]) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :global(.gallery-card-grid[data-flash-grid] .card--media-sized img) {
+    height: auto;
+    object-fit: contain;
+  }
+  @media (min-width: 768px) {
+    :global(.gallery-card-grid[data-flash-grid]) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1280px) {
+    :global(.gallery-card-grid[data-flash-grid]) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
   .pagination-layout,
   [data-flash-pagination] {
@@ -133,9 +174,7 @@ const flashStatuses = [
     flex-wrap: wrap;
     margin-top: 2rem;
   }
-  .pagination-layout[hidden] {
-    display: none;
-  }
+  .pagination-layout[hidden],
   [data-flash-pagination][hidden] {
     display: none;
   }

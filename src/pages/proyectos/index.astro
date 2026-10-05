@@ -5,6 +5,9 @@ import GalleryImage from '../../components/GalleryImage.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { site } from '../../data';
 import RichText from '../../components/RichText.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import TallyLink from '../../components/TallyLink.astro';
+import { forms } from '../../config/forms';
 const projects = await getCollection('proyectos', ({ data }) => !data.draft);
 ---
 
@@ -12,26 +15,61 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
   title={site.ui.illustration.title}
   description={site.ui.illustration.description}
 >
-  {
-    site.ui.illustration.heroImage && (
-      <section class="page-header" aria-label={site.ui.illustration.heading}>
-        <GalleryImage
-          src={site.ui.illustration.heroImage}
-          alt={`${site.ui.illustration.heroImageAlt || site.ui.illustration.heading}`}
-          loading="eager"
-          class="page-header__image"
-        />
-      </section>
-    )
-  }
-  <section class="container section section-intro section-intro--stacked">
-    <div data-reveal>
+  <section class="container section page-opening project-listing-opening">
+    <div class="page-opening__copy" data-reveal>
+      <Eyebrow text={site.ui.illustration.listingEyebrow ?? 'PROYECTOS'} />
       <h1>{site.ui.illustration.heading}</h1>
       <RichText content={site.ui.illustration.intro} class="lead" />
     </div>
-  </section><section class="container section">
+    {
+      site.ui.illustration.heroImage && (
+        <GalleryImage
+          src={site.ui.illustration.heroImage}
+          alt={
+            site.ui.illustration.heroImageAlt ||
+            site.ui.illustration.heading ||
+            ''
+          }
+          loading="eager"
+          class="page-opening__image"
+        />
+      )
+    }
+  </section><section class="container section project-listing-results">
     <div class="grid grid-2 gallery-card-grid" data-reveal-group>
       {projects.map((project) => <ProjectCard project={project} />)}
     </div>
+  </section><section class="container section project-listing-contact">
+    <div>
+      <h2>{site.ui.illustration.contactHeading}</h2>
+      {
+        site.ui.illustration.contactDescription && (
+          <p>{site.ui.illustration.contactDescription}</p>
+        )
+      }
+      <TallyLink
+        url={forms.illustration}
+        params={{ source: 'portfolio-proyectos' }}
+      >
+        {site.ui.illustration.contactCta}
+      </TallyLink>
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  .project-listing-results {
+    padding-top: 0;
+  }
+  .project-listing-contact {
+    border-top: 1px solid var(--color-border);
+  }
+  .project-listing-contact > div {
+    max-width: 38rem;
+  }
+  @media (max-width: 767px) {
+    .project-listing-opening :global(.page-opening__image) {
+      display: none;
+    }
+  }
+</style>

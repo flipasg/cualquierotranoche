@@ -45,25 +45,26 @@ const artworkStatuses = [
 <BaseLayout
   title={site.ui.artwork.title}
   description={site.ui.artwork.description}
+  showBackToTop
 >
-  {
-    site.ui.artwork.heroImage && (
-      <section class="page-header" aria-label={site.ui.artwork.heading}>
-        <GalleryImage
-          src={site.ui.artwork.heroImage}
-          alt={`${site.ui.artwork.heroImageAlt || site.ui.artwork.heading}`}
-          loading="eager"
-          class="page-header__image"
-        />
-      </section>
-    )
-  }
   <div data-gallery data-gallery-taxonomy-param="collection">
-    <section class="container section section-intro section-intro--stacked">
-      <div data-reveal>
+    <section class="container section page-opening artwork-opening">
+      <div class="page-opening__copy" data-reveal>
         <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
           {site.ui.artwork.heading}
         </h1><RichText content={site.ui.artwork.intro} class="lead" />
+      </div>
+      {
+        site.ui.artwork.heroImage && (
+          <GalleryImage
+            src={site.ui.artwork.heroImage}
+            alt={site.ui.artwork.heroImageAlt || site.ui.artwork.heading || ''}
+            loading="eager"
+            class="page-opening__image"
+          />
+        )
+      }
+      <div class="artwork-filters">
         <GalleryFilters
           taxonomyLabel={site.ui.artwork.taxonomyLabel ?? ''}
           taxonomyAllLabel="Todas las colecciones"
@@ -71,8 +72,11 @@ const artworkStatuses = [
           statusLabel={site.ui.artwork.statusLabel ?? ''}
           activeLabel={site.ui.artwork.activeFiltersLabel ?? ''}
           clearLabel={site.ui.artwork.clearFiltersLabel ?? 'Limpiar'}
+          filterLabel={site.ui.artwork.filterLabel ?? 'Filtros'}
+          applyLabel={site.ui.artwork.applyLabel ?? 'Ver resultados'}
           showStatusCounts={site.ui.artwork.showStatusCounts ?? false}
           showCategoryCounts={site.ui.artwork.showCategoryCounts ?? false}
+          showResultCount={false}
           showActiveFilters={site.ui.artwork.showActiveFilters ?? true}
           showClearButton={site.ui.artwork.showClearButton ?? true}
           showTaxonomySearch={site.ui.artwork.showTaxonomySearch ?? true}
@@ -92,8 +96,27 @@ const artworkStatuses = [
         />
       </div>
     </section><section class="container section gallery-results">
-      <div class="grid grid-3 gallery-card-grid" data-reveal-group>
+      <div
+        class="grid grid-3 gallery-card-grid"
+        data-reveal-group
+        data-gallery-results-grid
+        tabindex="-1"
+      >
         {works.map((work) => <WorkCard work={work} />)}
+      </div>
+      <div class="pagination-layout" data-gallery-pagination>
+        <nav
+          data-gallery-pagination-controls
+          data-page-size="6"
+          data-page-size-tablet="6"
+          data-page-size-desktop="8"
+          aria-label={site.ui.artwork.paginationLabel ?? 'Paginación de obra'}
+          data-previous-label={site.ui.artwork.previous ?? 'Anterior'}
+          data-next-label={site.ui.artwork.next ?? 'Siguiente'}
+          data-page-status={site.ui.artwork.pageStatus ??
+            'Página {currentPage} de {pageCount}'}
+        >
+        </nav>
       </div>
     </section>
   </div>
@@ -102,7 +125,57 @@ const artworkStatuses = [
 <script is:inline src="/scripts/gallery-filters.js"></script>
 
 <style>
+  .artwork-opening {
+    align-items: center;
+  }
+  .artwork-filters {
+    grid-column: 1 / -1;
+  }
   .gallery-results {
     padding-top: 0;
+  }
+  :global([data-gallery-results-grid]:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+  .pagination-layout,
+  [data-gallery-pagination-controls] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .pagination-layout {
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .pagination-layout[hidden],
+  [data-gallery-pagination-controls][hidden] {
+    display: none;
+  }
+  :global([data-gallery-pagination-controls] button) {
+    min-height: 2rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  :global([data-gallery-pagination-controls] button:disabled) {
+    cursor: default;
+    opacity: 0.5;
+  }
+  @media (min-width: 1024px) {
+    :global(.gallery-results .gallery-card-grid) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 767px) {
+    .artwork-opening :global(.page-opening__image) {
+      display: none;
+    }
   }
 </style>

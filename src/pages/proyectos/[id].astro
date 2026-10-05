@@ -4,13 +4,23 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
+import TallyLink from '../../components/TallyLink.astro';
+import { forms } from '../../config/forms';
 import { site } from '../../data';
 export async function getStaticPaths() {
-  return (await getCollection('proyectos', ({ data }) => !data.draft)).map(
-    (project) => ({ params: { id: project.id }, props: { project } }),
-  );
+  const projects = await getCollection('proyectos', ({ data }) => !data.draft);
+  return projects.map((project, index) => ({
+    params: { id: project.id },
+    props: {
+      project,
+      nextProject:
+        projects.length > 1
+          ? projects[(index + 1) % projects.length]
+          : undefined,
+    },
+  }));
 }
-const { project } = Astro.props;
+const { project, nextProject } = Astro.props;
 const { Content } = await render(project);
 const gallery = project.data.gallery ?? [];
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
@@ -26,16 +36,17 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     <div class="grid grid-2 proyecto-detail">
       <div data-reveal>
         <Breadcrumbs
+          variant="eyebrow"
           items={[
             {
               label: site.ui.illustration.title ?? 'Proyectos',
               href: '/proyectos/',
             },
-            {
-              label: project.data.title,
-              href: `/proyectos/${project.id}/`,
-            },
+            { label: project.data.title, href: `/proyectos/${project.id}/` },
           ]}
+        />
+        <Eyebrow
+          text={site.ui.illustration.projectEyebrow ?? project.data.services}
         /><h1>
           {project.data.title}
         </h1>
@@ -49,7 +60,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
         loading="eager"
         zoomable
       />
-    </div><section class="container section" data-reveal>
+    </div><section class="container section proyecto-narrative" data-reveal>
       <Eyebrow text={site.ui.illustration.contributionEyebrow} /><h2>
         {project.data.contribution}
       </h2><Content />
@@ -66,6 +77,29 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
           </div>
         ))
       }
+    </section><section class="proyecto-contact" data-reveal>
+      <h2>{site.ui.illustration.contactHeading}</h2>
+      {
+        site.ui.illustration.projectContactDescription && (
+          <p>{site.ui.illustration.projectContactDescription}</p>
+        )
+      }
+      <TallyLink
+        url={forms.illustration}
+        params={{ source: 'portfolio-proyecto' }}
+      >
+        {site.ui.illustration.contactCta}
+      </TallyLink>
+      {
+        nextProject && (
+          <a class="next-project" href={`/proyectos/${nextProject.id}/`}>
+            <span>
+              {site.ui.illustration.nextProjectLabel ?? 'Siguiente proyecto'}
+            </span>
+            <strong>{nextProject.data.title}</strong>
+          </a>
+        )
+      }
     </section>
   </article></BaseLayout
 >
@@ -73,6 +107,46 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
 <style>
   .proyecto-detail {
     gap: clamp(1.25rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .proyecto-detail h1 {
+    margin-block: 0.75rem 1.25rem;
+  }
+  .proyecto-detail :global(img) {
+    max-height: 76svh;
+    object-fit: contain;
+  }
+  .proyecto-narrative {
+    max-width: 52rem;
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+  .proyecto-contact {
+    margin: clamp(3rem, 8vw, 6rem) auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+    max-width: 52rem;
+  }
+  .proyecto-contact p {
+    max-width: 38rem;
+  }
+  .next-project {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    text-decoration: none;
+  }
+  .next-project span {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+  .next-project strong {
+    color: var(--color-accent);
+    text-align: right;
   }
   .proyecto-gallery {
     display: grid;

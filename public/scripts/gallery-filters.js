@@ -68,8 +68,10 @@ galleries.forEach((gallery) => {
   const chips = gallery.querySelector('[data-gallery-filter-chips]');
   const activeFilters = gallery.querySelector('[data-gallery-active-filters]');
   const empty = gallery.querySelector('[data-gallery-empty]');
+  const resultCount = gallery.querySelector('[data-gallery-result-count]');
   const clearButtons = [...gallery.querySelectorAll('[data-gallery-clear]')];
   const filterPanel = gallery.querySelector('[data-gallery-filter-panel]');
+  const applyFiltersButton = gallery.querySelector('[data-gallery-apply]');
   const configuredDefaultStatus =
     filterPanel?.dataset.galleryDefaultStatus ?? 'all';
   const defaultStatus = statusButtons.some(
@@ -77,18 +79,36 @@ galleries.forEach((gallery) => {
   )
     ? configuredDefaultStatus
     : 'all';
-  const pagination = gallery.querySelector('[data-flash-pagination]');
+  const pagination = gallery.querySelector(
+    '[data-gallery-pagination-controls], [data-flash-pagination]',
+  );
   const paginationLayout = gallery.querySelector('[data-gallery-pagination]');
-  const resultsGrid = gallery.querySelector('[data-flash-grid]');
-  const pageSize = Number(pagination?.dataset.pageSize) || cards.length || 1;
+  const resultsGrid = gallery.querySelector(
+    '[data-gallery-results-grid], [data-flash-grid]',
+  );
+  const desktop = window.matchMedia('(min-width: 1024px)');
+  const getPageSize = () => {
+    if (compact.matches) return cards.length || 1;
+    const configuredPageSize = desktop.matches
+      ? pagination?.dataset.pageSizeDesktop
+      : pagination?.dataset.pageSizeTablet;
+    return (
+      Number(configuredPageSize ?? pagination?.dataset.pageSize) ||
+      cards.length ||
+      1
+    );
+  };
+  let pageSize = getPageSize();
   let currentPage = 1;
   const url = new URL(window.location.href);
   let status = url.searchParams.get('status') ?? defaultStatus;
   let selected = new Set(
-    (url.searchParams.get(taxonomyParam) ?? '')
+    (taxonomyParam ? (url.searchParams.get(taxonomyParam) ?? '') : '')
       .split(',')
       .filter((id) => taxonomyOptions.some((option) => option.value === id)),
   );
+  let pendingStatus = status;
+  let pendingSelected = new Set(selected);
   let searchTerm = searchParam ? (url.searchParams.get(searchParam) ?? '') : '';
 
   if (
@@ -104,6 +124,10 @@ galleries.forEach((gallery) => {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .toLocaleLowerCase();
+  const hasPendingSelection = () => compact.matches && filterPanel?.open;
+  const controlsStatus = () => (hasPendingSelection() ? pendingStatus : status);
+  const controlsSelected = () =>
+    hasPendingSelection() ? pendingSelected : selected;
   const syncAppliedFilters = () => {
     const appliedToggle = gallery.querySelector(
       '[data-gallery-applied-toggle]',
@@ -133,8 +157,10 @@ galleries.forEach((gallery) => {
     const nextUrl = new URL(window.location.href);
     if (status === defaultStatus) nextUrl.searchParams.delete('status');
     else nextUrl.searchParams.set('status', status);
-    if (selected.size === 0) nextUrl.searchParams.delete(taxonomyParam);
-    else nextUrl.searchParams.set(taxonomyParam, [...selected].join(','));
+    if (taxonomyParam) {
+      if (selected.size === 0) nextUrl.searchParams.delete(taxonomyParam);
+      else nextUrl.searchParams.set(taxonomyParam, [...selected].join(','));
+    }
     if (searchParam && searchTerm.trim())
       nextUrl.searchParams.set(searchParam, searchTerm.trim());
     else if (searchParam) nextUrl.searchParams.delete(searchParam);
@@ -142,21 +168,23 @@ galleries.forEach((gallery) => {
   };
 
   const syncControls = () => {
+    const visibleStatus = controlsStatus();
+    const selectedForControls = controlsSelected();
     statusButtons.forEach((button) => {
       button.setAttribute(
         'aria-pressed',
-        String(button.dataset.galleryStatus === status),
+        String(button.dataset.galleryStatus === visibleStatus),
       );
     });
     taxonomyOptions.forEach((option) => {
-      option.checked = selected.has(option.value);
+      option.checked = selectedForControls.has(option.value);
     });
-    if (allTaxonomies) allTaxonomies.checked = selected.size === 0;
+    if (allTaxonomies) allTaxonomies.checked = selectedForControls.size === 0;
     if (taxonomySummary) {
       taxonomySummary.textContent =
-        selected.size === 0
+        selectedForControls.size === 0
           ? (taxonomySummary.dataset.allLabel ?? taxonomySummary.textContent)
-          : [...selected]
+          : [...selectedForControls]
               .map((id) =>
                 labelWithoutCount(
                   taxonomyOptions.find((option) => option.value === id)
@@ -179,7 +207,7 @@ galleries.forEach((gallery) => {
       if (!row) return;
       const matches = normalize(row.textContent ?? '').includes(taxonomyQuery);
       row.hidden = !matches;
-      if (selected.has(option.value)) {
+      if (selectedForControls.has(option.value)) {
         selectedTaxonomies?.append(row);
         if (matches) visibleSelected += 1;
       } else {
@@ -198,8 +226,8 @@ galleries.forEach((gallery) => {
     );
     if (filterSummary)
       filterSummary.textContent = activeCount
-        ? `Filtros (${activeCount})`
-        : 'Filtros';
+        ? `${filterSummary.dataset.filterLabel ?? 'Filtros'} (${activeCount})`
+        : (filterSummary.dataset.filterLabel ?? 'Filtros');
     clearButtons.forEach((button) => {
       button.hidden = activeCount === 0;
     });
@@ -234,7 +262,37 @@ galleries.forEach((gallery) => {
     });
     if (newlyVisible.length)
       window.refreshScrollReveal?.(newlyVisible, { restart: true });
-    if (empty) empty.hidden = visible.length > 0;
+    if (empty) {
+      empty.hidden = visible.length > 0;
+      if (visible.length === 0) {
+        const activeContext = [];
+        if (status !== defaultStatus) {
+          activeContext.push(
+            labelWithoutCount(
+              statusButtons.find(
+                (button) => button.dataset.galleryStatus === status,
+              )?.textContent,
+            ),
+          );
+        }
+        selected.forEach((id) => {
+          const option = taxonomyOptions.find((item) => item.value === id);
+          activeContext.push(
+            labelWithoutCount(option?.parentElement?.textContent),
+          );
+        });
+        if (searchTerm.trim()) activeContext.push(`“${searchTerm.trim()}”`);
+        const baseMessage =
+          empty.dataset.emptyMessage ?? empty.textContent ?? '';
+        empty.textContent = activeContext.length
+          ? `${baseMessage} Filtros o búsqueda: ${activeContext.filter(Boolean).join(', ')}.`
+          : baseMessage;
+      }
+    }
+    if (resultCount) {
+      resultCount.textContent =
+        `${visible.length} ${gallery.querySelector('[data-gallery-item-label]')?.dataset.galleryItemLabel ?? ''}`.trim();
+    }
     if (activeFilters && chips) {
       chips.replaceChildren();
       if (status !== defaultStatus) {
@@ -271,34 +329,55 @@ galleries.forEach((gallery) => {
         status === defaultStatus && selected.size === 0 && !searchTerm.trim();
       syncAppliedFilters();
     }
-    if (paginationLayout) paginationLayout.hidden = pageCount === 1;
+    const paginationComplete =
+      pagination?.dataset.mode === 'load-more' && currentPage >= pageCount;
+    if (paginationLayout)
+      paginationLayout.hidden = pageCount === 1 || paginationComplete;
     if (pagination) {
       pagination.replaceChildren();
-      pagination.hidden = pageCount === 1;
-      if (pageCount > 1) {
-        const previous = document.createElement('button');
-        previous.type = 'button';
-        previous.textContent = pagination.dataset.previousLabel ?? '';
-        previous.disabled = currentPage === 1;
-        previous.addEventListener('click', () => {
-          currentPage -= 1;
-          render();
-          scrollToResults();
-        });
-        const pageStatus = document.createElement('span');
-        pageStatus.textContent = (pagination.dataset.pageStatus ?? '')
-          .replace('{currentPage}', String(currentPage))
-          .replace('{pageCount}', String(pageCount));
+      pagination.hidden = pageCount === 1 || paginationComplete;
+      if (pageCount > 1 && !paginationComplete) {
         const next = document.createElement('button');
         next.type = 'button';
-        next.textContent = pagination.dataset.nextLabel ?? '';
+        next.textContent =
+          pagination.dataset.mode === 'load-more'
+            ? (pagination.dataset.loadMoreLabel ?? 'Cargar más')
+            : (pagination.dataset.nextLabel ?? '');
         next.disabled = currentPage === pageCount;
         next.addEventListener('click', () => {
           currentPage += 1;
           render();
-          scrollToResults();
+          if (pagination.dataset.mode === 'load-more') {
+            const nextBatchButton = pagination.querySelector(
+              'button:not(:disabled)',
+            );
+            if (nextBatchButton) nextBatchButton.focus({ preventScroll: true });
+            else {
+              newlyVisible.at(-1)?.querySelector('a, button')?.focus({
+                preventScroll: true,
+              });
+            }
+          } else scrollToResults();
         });
-        pagination.append(previous, pageStatus, next);
+        if (pagination.dataset.mode === 'load-more') {
+          pagination.append(next);
+        } else {
+          const previous = document.createElement('button');
+          previous.type = 'button';
+          previous.textContent = pagination.dataset.previousLabel ?? '';
+          previous.disabled = currentPage === 1;
+          previous.addEventListener('click', () => {
+            currentPage -= 1;
+            render();
+            scrollToResults();
+          });
+          const pageStatus = document.createElement('span');
+          pageStatus.textContent = (pagination.dataset.pageStatus ?? '')
+            .replace('{currentPage}', String(currentPage))
+            .replace('{pageCount}', String(pageCount));
+          pagination.prepend(previous, pageStatus);
+          pagination.append(next);
+        }
       }
     }
   };
@@ -312,9 +391,23 @@ galleries.forEach((gallery) => {
     chips.append(chip);
   };
 
+  const syncPageSize = () => {
+    const nextPageSize = getPageSize();
+    if (nextPageSize === pageSize) return;
+    pageSize = nextPageSize;
+    currentPage = 1;
+    render();
+  };
+
   statusButtons.forEach((button) => {
     button.addEventListener('click', () => {
-      status = button.dataset.galleryStatus ?? defaultStatus;
+      const nextStatus = button.dataset.galleryStatus ?? defaultStatus;
+      if (hasPendingSelection()) {
+        pendingStatus = nextStatus;
+        syncControls();
+        return;
+      }
+      status = nextStatus;
       currentPage = 1;
       syncControls();
       render();
@@ -323,8 +416,13 @@ galleries.forEach((gallery) => {
   });
   taxonomyOptions.forEach((option) => {
     option.addEventListener('change', () => {
-      if (option.checked) selected.add(option.value);
-      else selected.delete(option.value);
+      const target = hasPendingSelection() ? pendingSelected : selected;
+      if (option.checked) target.add(option.value);
+      else target.delete(option.value);
+      if (hasPendingSelection()) {
+        syncControls();
+        return;
+      }
       currentPage = 1;
       syncControls();
       render();
@@ -340,6 +438,11 @@ galleries.forEach((gallery) => {
     updateUrl();
   });
   allTaxonomies?.addEventListener('change', () => {
+    if (hasPendingSelection()) {
+      pendingSelected = new Set();
+      syncControls();
+      return;
+    }
     selected = new Set();
     currentPage = 1;
     syncControls();
@@ -365,6 +468,8 @@ galleries.forEach((gallery) => {
   });
   clearButtons.forEach((button) =>
     button.addEventListener('click', () => {
+      pendingStatus = defaultStatus;
+      pendingSelected = new Set();
       status = defaultStatus;
       selected = new Set();
       searchTerm = '';
@@ -383,9 +488,34 @@ galleries.forEach((gallery) => {
   });
   const syncPanel = () => {
     if (filterPanel) filterPanel.open = !compact.matches;
+    pendingStatus = status;
+    pendingSelected = new Set(selected);
     syncAppliedFilters();
+    syncControls();
   };
-  compact.addEventListener('change', syncPanel);
+  applyFiltersButton?.addEventListener('click', () => {
+    status = pendingStatus;
+    selected = new Set(pendingSelected);
+    currentPage = 1;
+    filterPanel.open = false;
+    syncControls();
+    render();
+    updateUrl();
+    filterPanel.querySelector('[data-gallery-filter-summary]')?.focus();
+  });
+  filterPanel?.addEventListener('toggle', () => {
+    if (!compact.matches) return;
+    if (!filterPanel.open) {
+      pendingStatus = status;
+      pendingSelected = new Set(selected);
+    }
+    syncControls();
+  });
+  compact.addEventListener('change', () => {
+    syncPanel();
+    syncPageSize();
+  });
+  desktop.addEventListener('change', syncPageSize);
   syncPanel();
   if (taxonomySummary)
     taxonomySummary.dataset.allLabel = taxonomySummary.textContent;

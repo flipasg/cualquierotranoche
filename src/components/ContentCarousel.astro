@@ -5,28 +5,39 @@ interface Props {
   label: string;
   viewAllHref: string;
   viewAllLabel: string;
+  stretchCards?: boolean;
 }
 
-const { id, label, viewAllHref, viewAllLabel } = Astro.props;
+const {
+  id,
+  label,
+  viewAllHref,
+  viewAllLabel,
+  stretchCards = true,
+} = Astro.props;
 ---
 
-<div class="carousel" data-carousel data-reveal>
+<div
+  class:list={['carousel', { 'carousel--stretch-cards': stretchCards }]}
+  data-carousel
+  data-reveal
+>
   <div class="carousel-heading">
     <h2>{label}</h2>
     <div class="carousel-actions">
-      <a href={viewAllHref}>{viewAllLabel}</a>
-      <div
-        class="carousel-controls"
-        data-carousel-controls
-        aria-label={`${site.ui.carousel.controlsPrefix} ${label}`}
-        hidden
-      >
-        <button type="button" data-carousel-previous aria-controls={id}>
-          {site.ui.carousel.previous}
-        </button><button type="button" data-carousel-next aria-controls={id}>
-          {site.ui.carousel.next}
-        </button>
-      </div>
+      <a class="button" href={viewAllHref}>{viewAllLabel}</a>
+    </div>
+    <div
+      class="carousel-controls"
+      data-carousel-controls
+      aria-label={`${site.ui.carousel.controlsPrefix} ${label}`}
+      hidden
+    >
+      <button type="button" data-carousel-previous aria-controls={id}>
+        {site.ui.carousel.previous}
+      </button><button type="button" data-carousel-next aria-controls={id}>
+        {site.ui.carousel.next}
+      </button>
     </div>
   </div><div
     id={id}
@@ -46,28 +57,32 @@ const { id, label, viewAllHref, viewAllLabel } = Astro.props;
     gap: 1rem;
   }
   .carousel-heading {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
+    column-gap: 1rem;
+    row-gap: 0.75rem;
   }
   .carousel-heading h2 {
     margin: 0;
   }
   .carousel-actions {
-    display: grid;
-    justify-items: end;
-    gap: 0.375rem;
-    margin-left: auto;
+    justify-self: end;
+  }
+  .carousel-controls {
+    grid-column: 1 / -1;
+    justify-self: stretch;
   }
   .carousel-controls[hidden] {
     display: none;
   }
-  .carousel-controls {
+  .carousel-controls:not([hidden]) {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
     gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
   }
   .carousel-controls button {
     min-height: 2rem;
@@ -107,8 +122,16 @@ const { id, label, viewAllHref, viewAllLabel } = Astro.props;
     min-width: 0;
     scroll-snap-align: start;
   }
-  .carousel-track :global(.carousel-item > .card) {
+  .carousel-track :global(.carousel-item > .card .flash-card-meta) {
+    margin-bottom: 1.35rem;
+  }
+  .carousel--stretch-cards .carousel-track :global(.carousel-item > .card) {
     height: 100%;
+  }
+  .carousel:not(.carousel--stretch-cards)
+    .carousel-track
+    :global(.carousel-item > .card) {
+    padding-bottom: 0;
   }
   @media (min-width: 768px) {
     .carousel-track {

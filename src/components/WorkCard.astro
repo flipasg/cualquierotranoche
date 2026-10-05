@@ -10,6 +10,17 @@ const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 const collectionSlug = getCollectionSlug(work.data.collection);
 const hasVisiblePrice = work.data.showPrice && work.data.priceEur;
+const statusLabel =
+  work.data.status === 'disponible'
+    ? (site.ui.artwork.statusAvailable ?? 'Disponible')
+    : work.data.status === 'reservada'
+      ? (site.ui.artwork.statusReserved ?? 'Reservada')
+      : work.data.status === 'vendida'
+        ? (site.ui.artwork.statusSold ?? 'Vendida')
+        : undefined;
+const dimensions = [work.data.technique, work.data.dimensions]
+  .filter(Boolean)
+  .join(' · ');
 ---
 
 <article
@@ -28,28 +39,34 @@ const hasVisiblePrice = work.data.showPrice && work.data.priceEur;
       src={work.data.cover}
       alt=""
       sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-    /><span class="status">{work.data.status}</span><h3>
-      {work.data.title}
-    </h3><p>
-      {work.data.technique} · {work.data.dimensions}
-    </p><p class="card__price" aria-hidden={!hasVisiblePrice}>
-      {hasVisiblePrice && <strong>{work.data.priceEur} €</strong>}
-    </p><span class="card__cta">{site.ui.artwork.cardCta}</span>
+    /><h3>{work.data.title}</h3>{dimensions && <p>{dimensions}</p>}<div
+      class="card__meta"
+    >
+      {statusLabel && <span class="card-status">{statusLabel}</span>}
+      {
+        hasVisiblePrice && (
+          <strong class="card__price">{work.data.priceEur} €</strong>
+        )
+      }
+    </div><span class="card__cta">{site.ui.artwork.cardCta}</span>
   </a>
 </article>
 
 <style>
-  .card__link {
-    display: block;
-    color: inherit;
-    text-decoration: none;
+  .card__meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    min-height: 1.6em;
+    margin-bottom: 0.75rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+  .card-status {
+    font-weight: 600;
   }
   .card__price {
-    min-height: 1.6em;
-  }
-  .card__link:hover .card__cta,
-  .card__link:focus-visible .card__cta {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+    margin: 0;
+    font-size: inherit;
   }
 </style>

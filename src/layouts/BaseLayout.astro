@@ -2,10 +2,12 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ImageViewer from '../components/ImageViewer.astro';
+import BackToTop from '../components/BackToTop.astro';
 import SocialMeta from '../components/SocialMeta.astro';
 import { site } from '../data';
 import { social } from '../config/social';
 import { resolveSocial } from '../lib/social';
+import { themeStyle } from '../lib/theme';
 import media from '../generated/media.json';
 import '../styles/global.css';
 interface Props {
@@ -14,6 +16,7 @@ interface Props {
   showFooter?: boolean;
   socialImage?: string;
   socialImageAlt?: string;
+  showBackToTop?: boolean;
 }
 const {
   title,
@@ -21,6 +24,7 @@ const {
   showFooter = true,
   socialImage,
   socialImageAlt,
+  showBackToTop = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const mediaPath = (path: string) =>
@@ -40,11 +44,18 @@ const metadata = resolveSocial(
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" style={themeStyle(site.theme)}>
   <head
     ><meta charset="UTF-8" /><meta
       name="viewport"
-      content="width=device-width"
+      content="width=device-width, initial-scale=1"
+    /><link rel="preconnect" href="https://fonts.googleapis.com" /><link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    /><link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap"
     /><meta name="description" content={description} /><link
       rel="icon"
       href={favicon}
@@ -55,10 +66,10 @@ const metadata = resolveSocial(
     /><title>
       {title} · {site.artisticName}
     </title></head
-  ><body
+  ><body id="top"
     ><a class="skip-link" href="#contenido">{site.ui.skipLink}</a><Header
     /><main id="contenido"><slot /></main>{showFooter && <Footer />}<ImageViewer
-    /><script
+    />{showBackToTop && <BackToTop />}<script
       is:inline
       type="module"
       src="/scripts/responsive-external-links.js"></script><script

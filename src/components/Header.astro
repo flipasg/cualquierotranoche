@@ -12,13 +12,16 @@ type HeaderLogo = {
 
 const pathname = Astro.url.pathname;
 const navigation = site.navigation;
+const artisticName = site.artisticName?.trim() || 'Cualquier otra noche';
 const header = site.ui.header as typeof site.ui.header & { logo?: HeaderLogo };
 const headerLogo = header.logo ?? {};
 const desktopLogo = headerLogo.desktop || '';
 const tabletLogo = headerLogo.tablet || desktopLogo || '';
 const mobileLogo = headerLogo.mobile || tabletLogo || desktopLogo || '';
 const hasLogo = Boolean(desktopLogo || tabletLogo || mobileLogo);
-const logoAlt = headerLogo.alt?.trim() || site.artisticName;
+const logoAlt = headerLogo.alt?.trim() || artisticName;
+const brandWords = artisticName.split(/\s+/);
+const brandSplit = Math.max(1, Math.floor(brandWords.length / 2));
 ---
 
 <header class="header" data-header data-menu-open="false">
@@ -40,7 +43,12 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
             />
           </picture>
         ) : (
-          site.artisticName
+          <span class="brand-text">
+            <span>{brandWords.slice(0, brandSplit).join(' ')}</span>
+            {brandWords.length > 1 && (
+              <span>{brandWords.slice(brandSplit).join(' ')}</span>
+            )}
+          </span>
         )
       }
     </a><div class="header-actions">
@@ -98,7 +106,7 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
   .brand {
     display: inline-flex;
     align-items: center;
-    font-family: var(--font-family);
+    font-family: var(--font-heading);
     font-size: 1.35rem;
     text-decoration: none;
   }
@@ -109,6 +117,10 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
   .brand img {
     max-height: 3rem;
     width: auto;
+  }
+  .brand-text {
+    display: grid;
+    line-height: 0.98;
   }
   .sr-only {
     position: absolute;
@@ -131,9 +143,9 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
     justify-content: center;
     min-height: 2.25rem;
     padding: 0.4rem 0.65rem;
-    border: 1px solid var(--color-accent);
+    border: 1px solid var(--color-text);
     border-radius: var(--radius);
-    background: var(--color-accent);
+    background: var(--color-text);
     color: var(--color-bg);
     font-size: 0.9rem;
     font-weight: 700;
@@ -144,7 +156,7 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
   }
   .header :global(.header-cta:hover),
   .header :global(.header-cta:focus-visible) {
-    background: color-mix(in srgb, var(--color-accent), black 12%);
+    background: color-mix(in srgb, var(--color-text), black 12%);
   }
   nav {
     display: flex;
@@ -158,6 +170,7 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
     padding-inline: 0.5rem;
     border: 1px solid transparent;
     font-size: 0.9rem;
+    color: var(--color-text);
     text-decoration: none;
     transition:
       background-color var(--motion-fast) ease,
@@ -177,23 +190,19 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
   }
   nav a:hover,
   nav a:focus-visible {
-    border-color: var(--color-accent);
-    background: var(--color-accent);
-    color: var(--color-bg);
     font-weight: 700;
-    text-decoration: none;
   }
   nav a[aria-current='page'] {
-    border-color: var(--color-accent);
-    background: var(--color-accent);
-    color: var(--color-bg);
     font-weight: 700;
-    text-decoration: none;
   }
   nav a:hover .nav-link-label,
   nav a:focus-visible .nav-link-label,
   nav a[aria-current='page'] .nav-link-label {
     font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.45em;
   }
   @media (max-width: 1023px) {
     .header .header-inner {
@@ -206,9 +215,10 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
     }
     .header .brand {
       grid-column: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      min-width: 0;
+      overflow: visible;
+      white-space: normal;
+      font-size: 1.1rem;
     }
     .header .brand img {
       max-height: 2.25rem;
@@ -265,6 +275,32 @@ const logoAlt = headerLogo.alt?.trim() || site.artisticName;
       pointer-events: auto;
       visibility: visible;
       transition-delay: 0s;
+    }
+  }
+  @media (max-width: 479px) {
+    .header .header-inner {
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      column-gap: 0.35rem;
+    }
+    .header .brand {
+      grid-column: 1;
+      font-size: 0.95rem;
+    }
+    .header .brand img {
+      max-width: 100%;
+    }
+    .header :global(.header-cta) {
+      max-width: 8rem;
+      min-height: 2rem;
+      padding: 0.3rem 0.45rem;
+      font-size: 0.68rem;
+      line-height: 1.15;
+    }
+    .header .menu-toggle {
+      width: auto;
+      min-width: 2rem;
+      min-height: 2rem;
+      justify-self: end;
     }
   }
   @media (min-width: 1024px) {
