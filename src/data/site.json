@@ -48,7 +48,8 @@
         "image": "/uploads/portada4-4.jpg",
         "imageAlt": "Cartel"
       }
-    ]
+    ],
+    "agendaVisible": true
   },
   "email": "cualquierotranoche@gmail.com",
   "instagram": "https://instagram.com/cualquierotranoche",
@@ -154,7 +155,6 @@
       "eyebrow": "TATTOO / FLASHBOOK",
       "heading": "Encuentra tu dibujo.",
       "filtersLabel": "Filtrar flash",
-      "globalSearchLabel": "",
       "all": "Todos",
       "available": "Disponibles",
       "sold": "Vendidos",
@@ -166,7 +166,13 @@
       "next": "Siguiente",
       "pageStatus": "Página {currentPage} de {pageCount}",
       "loadMoreLabel": "Cargar más diseños",
-      "requestCta": "Pedir este flash"
+      "requestCta": "Pedir este flash",
+      "showStatusCounts": false,
+      "showCategoryCounts": false,
+      "showActiveFilters": false,
+      "showClearButton": false,
+      "showTaxonomySearch": false,
+      "showGlobalSearch": false
     },
     "artwork": {
       "title": "Obra",
@@ -177,7 +183,6 @@
       "heroImage": "/uploads/portada3.jpg",
       "heroImageAlt": "Collage",
       "filtersLabel": "Filtrar obras",
-      "globalSearchLabel": "",
       "paginationLabel": "Paginación de obra",
       "previous": "Anterior",
       "next": "Siguiente",
@@ -190,7 +195,13 @@
       "detailStoryHeading": "La historia de {title}",
       "shipping": "Envío a consultar",
       "interestCta": "Me interesa esta obra",
-      "cardCta": "Ver la pieza"
+      "cardCta": "Ver la pieza",
+      "showStatusCounts": false,
+      "showCategoryCounts": false,
+      "showActiveFilters": false,
+      "showClearButton": false,
+      "showTaxonomySearch": false,
+      "showGlobalSearch": false
     },
     "illustration": {
       "title": "Proyectos",
@@ -225,5 +236,14 @@
       "next": "Siguiente",
       "controlsPrefix": "Controles de"
     }
+  },
+  "theme": {
+    "background": "#F7F3EC",
+    "text": "#252821",
+    "accent": "#233A4B",
+    "surface": "#E6E9DF",
+    "decorative": "#E4B54D",
+    "headingFont": "roboto",
+    "bodyFont": "roboto"
   }
 }
