@@ -8,14 +8,6 @@
   "showInFooter": true,
   "entries": [
     {
-      "id": "barcelona-octubre",
-      "city": "Barcelona",
-      "startDate": "2026-10-08",
-      "endDate": "2026-10-10",
-      "color": "#deb9a0",
-      "visible": true
-    },
-    {
       "id": "bilbo-octubre",
       "city": "Bilbo",
       "startDate": "2026-10-15",
