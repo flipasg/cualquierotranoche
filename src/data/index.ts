@@ -20,7 +20,8 @@ import type {
   SocialData,
 } from '../types/content';
 
-export const site: SiteData = rawSite;
+// JSON imports widen enum-like values (such as theme fonts) to `string`.
+export const site = rawSite as SiteData;
 export const social: SocialData = rawSocial;
 export const guests: GuestsData = rawGuests;
 export const cities: CitiesData = rawCities;
