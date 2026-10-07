@@ -143,10 +143,10 @@ const brandSplit = Math.max(1, Math.floor(brandWords.length / 2));
     justify-content: center;
     min-height: 2.25rem;
     padding: 0.4rem 0.65rem;
-    border: 1px solid var(--color-text);
+    border: 1px solid var(--color-button-bg);
     border-radius: var(--radius);
-    background: var(--color-text);
-    color: var(--color-bg);
+    background: var(--color-button-bg);
+    color: var(--color-button-text);
     font-size: 0.9rem;
     font-weight: 700;
     text-decoration: none;
@@ -156,7 +156,7 @@ const brandSplit = Math.max(1, Math.floor(brandWords.length / 2));
   }
   .header :global(.header-cta:hover),
   .header :global(.header-cta:focus-visible) {
-    background: color-mix(in srgb, var(--color-text), black 12%);
+    background: color-mix(in srgb, var(--color-button-bg), black 12%);
   }
   nav {
     display: flex;

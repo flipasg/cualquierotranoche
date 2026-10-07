@@ -134,10 +134,10 @@ p {
   align-items: center;
   min-height: 48px;
   padding: 0.75rem 1.25rem;
-  border: 1px solid var(--color-text);
+  border: 1px solid var(--color-button-bg);
   border-radius: var(--radius);
-  background: var(--color-text);
-  color: var(--color-bg);
+  background: var(--color-button-bg);
+  color: var(--color-button-text);
   text-decoration: none;
   font-weight: 700;
   transition:
@@ -147,11 +147,12 @@ p {
 }
 .button:hover,
 .button:focus-visible {
-  background: color-mix(in srgb, var(--color-text), black 12%);
+  background: color-mix(in srgb, var(--color-button-bg), black 12%);
 }
 .button.secondary {
+  border-color: var(--color-accent);
   background: transparent;
-  color: var(--color-text);
+  color: var(--color-accent);
 }
 .button.secondary:hover,
 .button.secondary:focus-visible {
@@ -211,10 +212,10 @@ p {
   min-height: 36px;
   margin-top: auto;
   padding: 0.4rem 0.75rem;
-  border: 1px solid var(--color-text);
+  border: 1px solid var(--color-button-bg);
   border-radius: var(--radius);
-  background: var(--color-text);
-  color: var(--color-bg);
+  background: var(--color-button-bg);
+  color: var(--color-button-text);
   font-size: 0.85rem;
   font-weight: 700;
   line-height: 1.25;
@@ -226,7 +227,7 @@ p {
 .card__link:focus-visible .card__cta,
 .card .card-cta:hover,
 .card .card-cta:focus-visible {
-  background: color-mix(in srgb, var(--color-text), black 12%);
+  background: color-mix(in srgb, var(--color-button-bg), black 12%);
   text-decoration: none;
 }
 @media (max-width: 767px) {
@@ -486,21 +487,21 @@ html[data-motion-ready='true'] [data-reveal][data-reveal-state='revealed'] {
 .hero .button {
   min-height: 60px;
   padding: 0.95rem 2.1rem;
-  border-color: var(--color-text);
-  background: var(--color-text);
-  color: var(--color-bg);
+  border-color: var(--color-button-bg);
+  background: var(--color-button-bg);
+  color: var(--color-button-text);
   font-size: 1.05rem;
 }
 .hero .button:hover,
 .hero .button:focus-visible {
-  background: color-mix(in srgb, var(--color-text), black 12%);
+  background: color-mix(in srgb, var(--color-button-bg), black 12%);
 }
 .hero .button.secondary {
   min-height: 48px;
   padding-inline: 0.5rem;
   border-color: transparent;
   background: transparent;
-  color: var(--color-text);
+  color: var(--color-accent);
   text-decoration: underline;
   text-underline-offset: 0.3em;
   font-weight: 400;

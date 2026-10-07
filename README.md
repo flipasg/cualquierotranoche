@@ -90,6 +90,31 @@ Los textos alternativos son obligatorios. Si `showPrice` es `true`, `priceEur` d
 
 Las operaciones permiten crear, pero impiden renombrar o borrar fichas desde el CMS para evitar enlaces rotos. Los medios entran por `media/uploads/` y se publican en `/uploads/`.
 
+### Fuentes personalizadas
+
+En **Datos generales → Tema visual** puedes elegir una fuente de la lista o
+completar **Fuente personalizada para titulares** y/o **Fuente personalizada
+para textos y controles**. Cada apartado necesita dos datos:
+
+- **Nombre de la fuente**: el nombre exacto, sin comillas, por ejemplo `Playfair Display`.
+- **Enlace de la fuente**: la dirección de la hoja de estilos de Google Fonts,
+  por ejemplo `https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap`.
+  Copia solo el enlace del atributo `href` del código de inserción, no la etiqueta
+  HTML completa ni la dirección de la página donde se presenta la fuente.
+
+Puedes usar fuentes distintas o repetir los mismos datos en ambos apartados.
+Incluye los grosores 400, 600 y 700 si están disponibles. Borra ambos campos para
+volver a la lista. Si los datos están incompletos o no son válidos, se usa la
+selección de la lista. Si la fuente no carga, esa selección también sirve como
+alternativa. Los cambios se aplican al publicar el siguiente build.
+
+Para alojar fuentes propias, añade una hoja CSS en `public/fonts/` con sus reglas
+`@font-face`, `font-display: swap` y archivos de fuente locales; introduce su ruta
+como `/fonts/mi-fuente.css` y el nombre declarado en `font-family`. Este paso requiere
+preparar los archivos en el repositorio. Los enlaces externos admitidos se limitan
+a Google Fonts; otros proveedores necesitan integración y revisión de la política
+de contenido en `public/_headers`.
+
 ## Cloudflare Pages
 
 Conectar el repositorio y configurar:

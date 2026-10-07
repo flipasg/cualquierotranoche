@@ -250,6 +250,7 @@ content:
       - name: theme
         label: Tema visual
         type: object
+        description: 'Colores y tipografías de toda la web. Escribe los colores con # y seis cifras o letras, por ejemplo #233A4B. Elige colores de texto y fondo que se distingan bien para facilitar la lectura.'
         fields:
           - {
               name: background,
@@ -257,7 +258,7 @@ content:
               type: string,
               default: '#F7F3EC',
               pattern: '^#[0-9a-fA-F]{6}$',
-              description: 'Código hexadecimal de seis cifras. Reserva V1: #F7F3EC.',
+              description: 'Fondo general de las páginas y de la cabecera. También se usa para las letras de los filtros seleccionados y, si dejas vacío «Texto de botones», para las letras de los botones con relleno.',
             }
           - {
               name: text,
@@ -265,7 +266,7 @@ content:
               type: string,
               default: '#252821',
               pattern: '^#[0-9a-fA-F]{6}$',
-              description: 'Código hexadecimal de seis cifras. Reserva V1: #252821.',
+              description: 'Color de los títulos, párrafos y navegación principal. Las líneas divisorias y los textos secundarios usan versiones más suaves de este color.',
             }
           - {
               name: accent,
@@ -273,44 +274,76 @@ content:
               type: string,
               default: '#923E30',
               pattern: '^#[0-9a-fA-F]{6}$',
-              description: 'Código hexadecimal de seis cifras. Reserva V1: #923E30.',
+              description: 'Color de los enlaces de acción subrayados, como «Conocer a Patricia» o «Tengo una idea», y del texto y borde de los botones secundarios sin relleno. También se usa en los rótulos sobre los títulos, la ruta de navegación y los controles de las galerías. Rellena los filtros seleccionados y, si dejas vacío «Fondo de botones», los botones principales. Marca el elemento seleccionado al navegar con el teclado.',
             }
+          - name: buttonBackground
+            label: Fondo de botones
+            type: string
+            required: false
+            pattern: '^(#[0-9a-fA-F]{6})?$'
+            description: 'Fondo y borde de los botones con relleno de la cabecera, la portada y las tarjetas, y de los demás botones principales de la web. Déjalo vacío para usar «Acento». Al pasar el cursor o seleccionar con el teclado, el fondo se oscurece automáticamente. Los filtros de las galerías siguen usando «Acento».'
+          - name: buttonText
+            label: Texto de botones
+            type: string
+            required: false
+            pattern: '^(#[0-9a-fA-F]{6})?$'
+            description: 'Color de las letras de los botones con relleno indicados en «Fondo de botones». Déjalo vacío para usar «Fondo». Elige un color que se lea bien sobre el fondo del botón. Los botones secundarios sin relleno y los enlaces de acción usan «Acento».'
           - {
               name: surface,
               label: Superficie,
               type: string,
               default: '#E6E9DF',
               pattern: '^#[0-9a-fA-F]{6}$',
-              description: 'Código hexadecimal de seis cifras. Reserva V1: #E6E9DF.',
-            }
-          - {
-              name: decorative,
-              label: Acento decorativo,
-              type: string,
-              default: '#E4B54D',
-              pattern: '^#[0-9a-fA-F]{6}$',
-              description: 'Código hexadecimal de seis cifras. Reserva V1: #E4B54D.',
+              description: 'Fondo de bloques como la agenda de la página de contacto, los avisos y el espacio detrás de algunas imágenes. También se combina con «Fondo» para crear paneles suaves y resaltar algunos controles al pasar el cursor.',
             }
           - name: headingFont
             label: Tipografía de titulares
             type: select
             default: roboto
+            description: 'Fuente de los títulos. También se usa como alternativa si la fuente personalizada no carga.'
             options:
               values:
                 - { label: Roboto, name: roboto }
                 - { label: Georgia, name: georgia }
                 - { label: Arial, name: arial }
                 - { label: Helvetica Neue / Helvetica / Arial, name: system }
+          - name: headingCustomFont
+            label: Fuente personalizada para titulares (opcional)
+            type: object
+            description: 'Completa el nombre y el enlace para usar otra fuente en los títulos. Si falta alguno, se mantiene la selección anterior. Para volver a ella, borra estos dos campos.'
+            fields:
+              - name: family
+                label: Nombre de la fuente
+                type: string
+                description: 'Nombre exacto, por ejemplo Playfair Display. Escribe solo el nombre, sin comillas ni código.'
+              - name: stylesheetUrl
+                label: Enlace de la fuente
+                type: string
+                description: 'En Google Fonts, elige la fuente y abre «Get font» → «Get embed code». Copia solo el enlace que empieza por https://fonts.googleapis.com/ dentro de href, no el código completo ni la dirección de la ficha de la fuente. Ejemplo: https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap. También admite una fuente preparada en esta web, con una ruta como /fonts/mi-fuente.css. Otros proveedores requieren configuración adicional.'
           - name: bodyFont
             label: Tipografía de cuerpo y controles
             type: select
             default: roboto
+            description: 'Fuente de los párrafos, enlaces, botones y menús. También se usa como alternativa si la fuente personalizada no carga.'
             options:
               values:
                 - { label: Roboto, name: roboto }
                 - { label: Georgia, name: georgia }
                 - { label: Arial, name: arial }
                 - { label: Helvetica Neue / Helvetica / Arial, name: system }
+          - name: bodyCustomFont
+            label: Fuente personalizada para textos y controles (opcional)
+            type: object
+            description: 'Completa el nombre y el enlace para usar otra fuente en párrafos, enlaces, botones y menús. Si falta alguno, se mantiene la selección anterior. Puedes repetir la fuente de los títulos. Para volver a la selección, borra estos dos campos.'
+            fields:
+              - name: family
+                label: Nombre de la fuente
+                type: string
+                description: 'Nombre exacto, por ejemplo Lato. Escribe solo el nombre, sin comillas ni código.'
+              - name: stylesheetUrl
+                label: Enlace de la fuente
+                type: string
+                description: 'Pega el enlace de Google Fonts que empieza por https://fonts.googleapis.com/, no el código completo ni la dirección de la ficha de la fuente. Incluye los grosores 400, 600 y 700 si la fuente los ofrece, para texto normal y negritas. Ejemplo: https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap. También admite una ruta preparada en esta web como /fonts/mi-fuente.css. Otros proveedores requieren configuración adicional.'
       - name: home
         label: Portada
         type: object

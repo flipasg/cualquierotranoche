@@ -154,14 +154,22 @@ export interface HomeData {
 
 export type ThemeFont = 'roboto' | 'georgia' | 'arial' | 'system';
 
+export interface CustomThemeFont {
+  family?: string;
+  stylesheetUrl?: string;
+}
+
 export interface SiteTheme {
   background?: string;
   text?: string;
   accent?: string;
+  buttonBackground?: string;
+  buttonText?: string;
   surface?: string;
-  decorative?: string;
   headingFont?: ThemeFont;
   bodyFont?: ThemeFont;
+  headingCustomFont?: CustomThemeFont;
+  bodyCustomFont?: CustomThemeFont;
 }
 
 export interface SeoUi {

@@ -7,7 +7,7 @@ import SocialMeta from '../components/SocialMeta.astro';
 import { site } from '../data';
 import { social } from '../config/social';
 import { resolveSocial } from '../lib/social';
-import { themeStyle } from '../lib/theme';
+import { themeFontStylesheets, themeStyle } from '../lib/theme';
 import media from '../generated/media.json';
 import '../styles/global.css';
 interface Props {
@@ -53,10 +53,11 @@ const metadata = resolveSocial(
       rel="preconnect"
       href="https://fonts.gstatic.com"
       crossorigin
-    /><link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap"
-    /><meta name="description" content={description} /><link
+    />{
+      themeFontStylesheets(site.theme).map((href) => (
+        <link rel="stylesheet" href={href} referrerpolicy="no-referrer" />
+      ))
+    }<meta name="description" content={description} /><link
       rel="icon"
       href={favicon}
     /><link rel="canonical" href={canonical} /><SocialMeta
