@@ -238,13 +238,13 @@
     }
   },
   "theme": {
-    "background": "#F1EBE3",
+    "background": "#FFECE0",
     "text": "#233A4B",
     "accent": "#854B3D",
     "surface": "#F8F5F0",
     "headingFont": "roboto",
     "bodyFont": "roboto",
     "buttonBackground": "#233A4B",
-    "buttonText": "#F1EBE3"
+    "buttonText": "#FFECE0"
   }
 }
