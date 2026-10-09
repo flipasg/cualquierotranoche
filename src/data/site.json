@@ -240,8 +240,8 @@
   "theme": {
     "background": "#F1EBE3",
     "text": "#233A4B",
-    "accent": "#854B3D",
-    "surface": "#CEB7AA",
+    "accent": "#CEB7AA",
+    "surface": "#F8F5F0",
     "headingFont": "roboto",
     "bodyFont": "roboto",
     "buttonBackground": "#233A4B",
