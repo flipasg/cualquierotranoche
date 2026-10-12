@@ -6,7 +6,7 @@ dimensions: 36 × 51 cm
 widthCm: 36
 heightCm: 51
 status: disponible
-priceEur: 400
+priceEur: 450
 showPrice: true
 collection: esperando-mi-dia
 cover: /uploads/web15-8.jpg
