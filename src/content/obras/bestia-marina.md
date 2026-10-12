@@ -6,7 +6,7 @@ dimensions: 23 x 19 x 3,6 cm
 widthCm: 23
 heightCm: 19
 status: disponible
-priceEur: 80
+priceEur: 150
 showPrice: true
 collection: fauna
 cover: /uploads/pintura-21.jpg
