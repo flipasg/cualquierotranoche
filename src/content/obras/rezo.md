@@ -2,11 +2,11 @@
 title: Rezo
 description: "Obra original "
 technique: Técnica mixta sobre papel 100% algodón
-dimensions: 28 x 38 cm
-widthCm: 28
-heightCm: 38
+dimensions: 12,5 x 25 cm
+widthCm: 12.5
+heightCm: 25
 status: disponible
-priceEur: 250
+priceEur: 180
 showPrice: true
 collection: orantes
 cover: /uploads/pintura-10.jpg
