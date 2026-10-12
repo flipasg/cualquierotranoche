@@ -2,12 +2,12 @@
 title: A solas
 description: Obra original
 technique: Técnica mixta sobre papel 100% algodón
-dimensions: 00 x 00 cm
-widthCm: 0
-heightCm: 0
+dimensions: 15 x 40 cm
+widthCm: 15
+heightCm: 40
 status: disponible
 priceEur: 250
-showPrice: false
+showPrice: true
 collection: miscelanea
 cover: /uploads/pintura-40.jpg
 coverAlt: Pintura figura humana en colores rosas
