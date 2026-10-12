@@ -14,7 +14,7 @@ gallery:
   - src: /uploads/web1-2.jpg
     alt: Detalle
 draft: false
-priceEur: 300
+priceEur: 450
 ---
 **Esperando mi día** es una colección realizada a principios de 2024, nacida de un periodo de distancia forzada.
 
