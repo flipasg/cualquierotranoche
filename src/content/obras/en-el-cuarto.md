@@ -2,12 +2,12 @@
 title: En el cuarto
 description: Obra original
 technique: Técnica mixta sobre papel 100% algodón
-dimensions: 00 x 00 cm
-widthCm: 0
-heightCm: 0
+dimensions: 20 x 50 cm
+widthCm: 20
+heightCm: 50
 status: disponible
 priceEur: 300
-showPrice: false
+showPrice: true
 collection: miscelanea
 cover: /uploads/pintura-24.jpg
 coverAlt: figura tumbada en un fondo blanco
