@@ -2,9 +2,9 @@
 title: Rosario
 description: "Obra original "
 technique: Técnica mixta sobre papel 100% algodón
-dimensions: 22 x 35 cm
-widthCm: 22
-heightCm: 35
+dimensions: 21 x 29,5 cm
+widthCm: 21
+heightCm: 29.5
 status: disponible
 priceEur: 280
 showPrice: true
