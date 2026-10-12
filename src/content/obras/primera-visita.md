@@ -7,7 +7,7 @@ widthCm: 36
 heightCm: 51
 status: disponible
 priceEur: 450
-showPrice: false
+showPrice: true
 collection: esperando-mi-dia
 cover: /uploads/web15-10.jpg
 coverAlt: obra original
