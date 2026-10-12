@@ -2,9 +2,9 @@
 title: Mirando al cielo II
 description: "Obra original "
 technique: Técnica mixta sobre papel rosaspina
-dimensions: 10,5 x 14,8 cm
-widthCm: 10.5
-heightCm: 14.8
+dimensions: 12,5 x 17,5 cm
+widthCm: 12.5
+heightCm: 17.5
 status: disponible
 priceEur: 120
 showPrice: true
