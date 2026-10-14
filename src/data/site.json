@@ -93,9 +93,9 @@
       "navigationLabel": "Navegación principal",
       "logo": {
         "alt": "Cualquier otra noche",
-        "mobile": "/uploads/ilustracionsintitulo.png",
-        "tablet": "/uploads/ilustracionsintitulo-1.png",
-        "desktop": "/uploads/ilustracionsintitulo-2.png"
+        "mobile": "/uploads/logo.jpg",
+        "tablet": "/uploads/logo-1.jpg",
+        "desktop": "/uploads/logo-2.jpg"
       }
     },
     "footer": {
