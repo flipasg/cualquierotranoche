@@ -92,7 +92,10 @@
       "closeMenu": "Cerrar menú",
       "navigationLabel": "Navegación principal",
       "logo": {
-        "alt": "Cualquier otra noche"
+        "alt": "Cualquier otra noche",
+        "mobile": "/uploads/ilustracionsintitulo.png",
+        "tablet": "/uploads/ilustracionsintitulo-1.png",
+        "desktop": "/uploads/ilustracionsintitulo-2.png"
       }
     },
     "footer": {
