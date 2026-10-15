@@ -2,6 +2,7 @@
 import { site } from '../data';
 import TallyLink from './TallyLink.astro';
 import { forms } from '../config/forms';
+import media from '../generated/media.json';
 
 type HeaderLogo = {
   alt?: string;
@@ -15,9 +16,15 @@ const navigation = site.navigation;
 const artisticName = site.artisticName?.trim() || 'Cualquier otra noche';
 const header = site.ui.header as typeof site.ui.header & { logo?: HeaderLogo };
 const headerLogo = header.logo ?? {};
-const desktopLogo = headerLogo.desktop || '';
-const tabletLogo = headerLogo.tablet || desktopLogo || '';
-const mobileLogo = headerLogo.mobile || tabletLogo || desktopLogo || '';
+const mediaPath = (path: string) =>
+  media[path as keyof typeof media]?.src ?? path;
+const desktopLogo = headerLogo.desktop ? mediaPath(headerLogo.desktop) : '';
+const tabletLogo = headerLogo.tablet
+  ? mediaPath(headerLogo.tablet)
+  : desktopLogo;
+const mobileLogo = headerLogo.mobile
+  ? mediaPath(headerLogo.mobile)
+  : tabletLogo || desktopLogo;
 const hasLogo = Boolean(desktopLogo || tabletLogo || mobileLogo);
 const logoAlt = headerLogo.alt?.trim() || artisticName;
 const brandWords = artisticName.split(/\s+/);
