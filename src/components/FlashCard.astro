@@ -16,6 +16,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     src={flash.data.cover}
     alt={flash.data.coverAlt}
     zoomable
+    class="flash-card__image"
     sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
   /><h3>{flash.data.title}</h3><p class="flash-card-meta">
     <span>{flash.data.code}</span>

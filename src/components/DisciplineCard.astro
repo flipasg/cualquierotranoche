@@ -12,19 +12,31 @@ const { title, text, href, linkLabel, image, imageAlt } = Astro.props;
       src={`${image}`}
       alt={`${imageAlt}`}
       class="discipline-card__image"
-    /><h3>
-      {title}
-    </h3><p>{text}</p><span>{linkLabel}</span>
+    /><div class="discipline-card__body">
+      <h3>{title}</h3><p>{text}</p><span>{linkLabel}</span>
+    </div>
   </a>
 </article>
 
 <style>
+  .discipline-card {
+    padding-bottom: 0;
+    border-bottom-color: var(--color-button-bg);
+  }
   .discipline-card__link {
     display: grid;
     color: inherit;
     text-decoration: none;
-    gap: 0.25rem;
+    gap: 0;
     height: 100%;
+  }
+  .discipline-card__link :global(.discipline-card__image) {
+    margin-bottom: 0;
+  }
+  .discipline-card__body {
+    padding: 1rem;
+    border: 1px solid var(--color-button-bg);
+    border-bottom: 0;
   }
   .discipline-card__link:hover span {
     text-decoration: underline;
