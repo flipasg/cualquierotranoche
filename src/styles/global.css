@@ -252,6 +252,9 @@ p {
   background: var(--color-surface);
   margin-bottom: 1rem;
 }
+.flash-card__image {
+  border: 1px solid var(--color-button-bg);
+}
 .card__link img,
 .discipline-card__link img {
   transition: transform var(--motion-enter) var(--motion-ease);
