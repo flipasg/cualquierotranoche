@@ -317,7 +317,6 @@ const closeText = closeLabel?.trim() || 'Cerrar';
                 </small>
               )}
             </span>
-            <span class="gallery-featured__selection" aria-hidden="true" />
           </button>
         ))}
       </div>
@@ -473,6 +472,9 @@ const closeText = closeLabel?.trim() || 'Cerrar';
   .gallery-filters > summary {
     display: none;
   }
+  [data-gallery-dialog-title]:focus {
+    outline: none;
+  }
   .gallery-filter-controls {
     display: flex;
     align-items: center;
@@ -513,6 +515,16 @@ const closeText = closeLabel?.trim() || 'Cerrar';
     transition:
       background-color var(--motion-fast) ease,
       color var(--motion-fast) ease;
+  }
+  .gallery-filter-statuses button:not([aria-pressed='true']):hover {
+    background: color-mix(
+      in srgb,
+      var(--color-filter) 8%,
+      var(--color-surface)
+    );
+  }
+  .gallery-filter-statuses button[aria-pressed='true']:hover {
+    background: color-mix(in srgb, var(--color-filter) 92%, var(--color-text));
   }
   .gallery-filter-statuses button + button {
     margin-left: -1px;
@@ -666,25 +678,32 @@ const closeText = closeLabel?.trim() || 'Cerrar';
     min-width: 0;
     min-height: 88px;
     gap: 12px;
-    border: 1px solid var(--color-accent);
-    border-radius: var(--radius);
-    background: var(--color-accent);
-    color: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-filter) 45%, transparent);
+    border-radius: 0;
+    background: var(--color-surface);
+    color: var(--color-filter);
     cursor: pointer;
     font: inherit;
     font-size: 1rem;
     line-height: 1.25;
     padding: 11px 15px;
     text-align: left;
-    transition:
-      border-color var(--motion-fast) ease,
-      background-color var(--motion-fast) ease;
+    transition: background-color var(--motion-fast) ease;
   }
   .gallery-featured__card[aria-pressed='true'] {
-    box-shadow: inset 0 0 0 2px var(--color-surface);
+    border-color: var(--color-filter);
+    background: var(--color-filter);
+    color: var(--color-surface);
   }
   .gallery-featured__card:not([aria-pressed='true']):hover {
-    background: color-mix(in srgb, var(--color-accent) 92%, var(--color-text));
+    background: color-mix(
+      in srgb,
+      var(--color-filter) 8%,
+      var(--color-surface)
+    );
+  }
+  .gallery-featured__card[aria-pressed='true']:hover {
+    background: color-mix(in srgb, var(--color-filter) 92%, var(--color-text));
   }
   .gallery-featured__card:focus-visible {
     outline: 2px solid var(--color-filter);
@@ -712,27 +731,8 @@ const closeText = closeLabel?.trim() || 'Cerrar';
   .gallery-featured__copy {
     min-width: 0;
   }
-  .gallery-featured__selection {
-    display: grid;
-    width: 1.5rem;
-    height: 1.5rem;
-    flex: 0 0 1.5rem;
-    place-items: center;
-    margin-left: auto;
-    border: 1px solid currentColor;
-    border-radius: 50%;
-    opacity: 0;
-  }
-  .gallery-featured__selection::after {
-    content: '✓';
-    font-size: 0.8rem;
-    font-weight: 700;
-  }
-  .gallery-featured__card[aria-pressed='true'] .gallery-featured__selection {
-    opacity: 1;
-  }
   .gallery-featured__card strong {
-    font-weight: 600;
+    font-weight: 400;
   }
   .gallery-featured__card small {
     margin-top: 0.35rem;
@@ -872,7 +872,7 @@ const closeText = closeLabel?.trim() || 'Cerrar';
   }
   .gallery-filter-dialog__header h2 {
     margin: 0;
-    font-size: 1.75rem;
+    font-size: 1.25rem;
   }
   .gallery-filter-dialog__body {
     display: flex;
@@ -960,6 +960,15 @@ const closeText = closeLabel?.trim() || 'Cerrar';
     border: 0;
     box-shadow: none;
     padding: 0;
+  }
+  .gallery-filter-dialog
+    .gallery-taxonomy-options[data-taxonomy-search-hidden='true'] {
+    gap: 0;
+  }
+  .gallery-filter-dialog
+    .gallery-taxonomy-options[data-taxonomy-search-hidden='true']
+    .gallery-taxonomy-search {
+    display: none !important;
   }
   .gallery-filter-dialog .gallery-taxonomy-list {
     flex: 1 1 auto;

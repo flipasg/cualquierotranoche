@@ -109,6 +109,9 @@ const brandSplit = Math.max(1, Math.floor(brandWords.length / 2));
     flex-direction: column;
     padding-block: 1rem;
     gap: 1rem;
+    transition:
+      padding var(--motion-fast) ease,
+      gap var(--motion-fast) ease;
   }
   .brand {
     display: inline-flex;
@@ -124,6 +127,9 @@ const brandSplit = Math.max(1, Math.floor(brandWords.length / 2));
   .brand img {
     max-height: 3rem;
     width: auto;
+    transition:
+      width var(--motion-fast) ease,
+      max-height var(--motion-fast) ease;
   }
   .brand-text {
     display: grid;
@@ -347,6 +353,13 @@ const brandSplit = Math.max(1, Math.floor(brandWords.length / 2));
   @media (min-width: 768px) and (max-width: 1023px) {
     .header .brand img {
       width: 10rem;
+    }
+    .header.is-scrolled .header-inner {
+      gap: 0.25rem;
+      padding-block: 0.35rem;
+    }
+    .header.is-scrolled .brand img {
+      width: 8rem;
     }
   }
 </style>

@@ -1,23 +1,31 @@
 ---
 import GalleryImage from './GalleryImage.astro';
 import { site } from '../data';
+import ArrowIcon from './ArrowIcon.astro';
 interface Props {
   project: any;
 }
 const { project } = Astro.props;
 const projectHref = `/proyectos/${project.id}/`;
-const cardFrame = site.ui.imageSizing.cardFrame ?? {};
-const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
 
-<article class="card card--media-sized" style={cardStyle} data-reveal>
-  <a class="card__link" href={projectHref} aria-label={project.data.title}>
+<article class="card discipline-card" data-reveal>
+  <a
+    class="discipline-card__link"
+    href={projectHref}
+    aria-label={project.data.title}
+  >
     <GalleryImage
       src={project.data.cover}
       alt={project.data.coverAlt}
       sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-    /><h3>
-      {project.data.title}
-    </h3><span class="card__cta">{site.ui.illustration.projectCta}</span>
+      class="discipline-card__image"
+    /><div class="discipline-card__body">
+      <h3>{project.data.title}</h3>
+      {project.data.description && <p>{project.data.description}</p>}
+      <span class="discipline-card__cta">
+        {site.ui.illustration.projectCta}<ArrowIcon />
+      </span>
+    </div>
   </a>
 </article>

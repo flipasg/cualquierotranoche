@@ -47,6 +47,10 @@ galleries.forEach((gallery) => {
   const taxonomySearch = gallery.querySelector(
     '[data-gallery-taxonomy-search]',
   );
+  const taxonomySearchLabel = taxonomySearch?.closest('label');
+  const taxonomyOptionsPanel = taxonomySearch?.closest(
+    '.gallery-taxonomy-options',
+  );
   const taxonomyScroll = gallery.querySelector(
     '[data-gallery-taxonomy-scroll]',
   );
@@ -266,6 +270,20 @@ galleries.forEach((gallery) => {
     if (!taxonomyScroll) return;
     const maximum = taxonomyScroll.scrollHeight - taxonomyScroll.clientHeight;
     const canScroll = maximum > 2;
+    const searchHasQueryOrFocus = Boolean(
+      taxonomySearch?.value || taxonomySearch === document.activeElement,
+    );
+    const searchFitsWithout =
+      taxonomyScroll.scrollHeight <=
+      taxonomyScroll.clientHeight + (taxonomySearchLabel?.offsetHeight ?? 0);
+    if (taxonomySearchLabel && taxonomyOptionsPanel && filterDialog?.open) {
+      taxonomySearchLabel.hidden = searchFitsWithout && !searchHasQueryOrFocus;
+      taxonomyOptionsPanel.dataset.taxonomySearchHidden = String(
+        taxonomySearchLabel.hidden,
+      );
+    } else if (taxonomySearchLabel) {
+      taxonomySearchLabel.hidden = false;
+    }
     taxonomyScroll.dataset.canScroll = String(canScroll);
     taxonomyScroll.dataset.atBottom = String(
       !canScroll || taxonomyScroll.scrollTop >= maximum - 2,
@@ -563,11 +581,18 @@ galleries.forEach((gallery) => {
     if (!supportsModal || desktop.matches || filterDialog.open) return;
     resetPending();
     if (taxonomySearch) taxonomySearch.value = '';
+    if (taxonomySelect) taxonomySelect.open = true;
+    if (taxonomyScroll) taxonomyScroll.scrollTop = 0;
     previousOverflow = document.body.style.overflow;
     filterDialog.showModal();
     document.body.style.overflow = 'hidden';
     syncControls();
     dialogTitle.focus({ preventScroll: true });
+    requestAnimationFrame(() => {
+      syncTaxonomyScrollCue();
+      if (taxonomyScroll) taxonomyScroll.scrollTop = 0;
+      requestAnimationFrame(syncTaxonomyScrollCue);
+    });
   });
   closeFiltersButton?.addEventListener('click', () => filterDialog.close());
   filterDialog?.addEventListener('cancel', (event) => {
