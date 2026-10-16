@@ -1,6 +1,5 @@
 :root {
   --font-family: var(--font-body);
-  --color-coral: #a44942;
   --color-panel: color-mix(in srgb, var(--color-surface), var(--color-bg) 45%);
   --color-muted: color-mix(in srgb, var(--color-text), var(--color-bg) 25%);
   --color-action: var(--color-text);

@@ -1,10 +1,12 @@
 import type { CustomThemeFont, SiteTheme, ThemeFont } from '../types/content';
 
 const defaults = {
-  background: '#F7F3EC',
-  text: '#252821',
+  background: '#FFECE0',
+  text: '#233A4B',
   accent: '#75465D',
-  surface: '#E6E9DF',
+  buttonBackground: '#233A4B',
+  buttonText: '#FFECE0',
+  surface: '#FFF7F1',
 } as const;
 
 const fonts: Record<ThemeFont, string> = {
@@ -106,7 +108,10 @@ export function themeStyle(theme?: SiteTheme): string {
   const text = safeColor(theme?.text, defaults.text);
   const accent = safeColor(theme?.accent, defaults.accent);
   const surface = safeColor(theme?.surface, defaults.surface);
-  const buttonBackground = safeColor(theme?.buttonBackground, accent);
+  const buttonBackground = safeColor(
+    theme?.buttonBackground,
+    defaults.buttonBackground,
+  );
   const buttonText = safeColor(theme?.buttonText, background);
   if (
     !contrastWarningShown &&

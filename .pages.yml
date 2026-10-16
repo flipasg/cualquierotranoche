@@ -256,7 +256,7 @@ content:
               name: background,
               label: Fondo,
               type: string,
-              default: '#F7F3EC',
+              default: '#FFECE0',
               pattern: '^#[0-9a-fA-F]{6}$',
               description: 'Fondo general de las páginas y de la cabecera. También se usa para las letras de los filtros seleccionados y, si dejas vacío «Texto de botones», para las letras de los botones con relleno.',
             }
@@ -264,7 +264,7 @@ content:
               name: text,
               label: Texto,
               type: string,
-              default: '#252821',
+              default: '#233A4B',
               pattern: '^#[0-9a-fA-F]{6}$',
               description: 'Color de los títulos, párrafos y navegación principal. Las líneas divisorias y los textos secundarios usan versiones más suaves de este color.',
             }
@@ -274,17 +274,19 @@ content:
               type: string,
               default: '#75465D',
               pattern: '^#[0-9a-fA-F]{6}$',
-              description: 'Color de los enlaces subrayados, las rutas de navegación, los filtros y las categorías o colecciones. También se usa en antetítulos, fechas, contadores y copyright. Los textos descriptivos conservan una versión suave de «Texto».',
+              description: 'Color de los enlaces subrayados, las rutas de navegación, los filtros y las categorías o colecciones. También se usa en antetítulos, fechas, contadores, copyright y como color coral en los textos descriptivos de las opciones de formulario.',
             }
           - name: buttonBackground
             label: Fondo de botones
             type: string
+            default: '#233A4B'
             required: false
             pattern: '^(#[0-9a-fA-F]{6})?$'
-            description: 'Fondo y borde de los botones con relleno de la cabecera, la portada y las tarjetas, y de los demás botones principales de la web. Déjalo vacío para usar «Acento». Al pasar el cursor o seleccionar con el teclado, el fondo se oscurece automáticamente.'
+            description: 'Fondo y borde de los botones con relleno de la cabecera, la portada y las tarjetas, y de los demás botones principales de la web. Déjalo vacío para usar el azul actual del tema. Al pasar el cursor o seleccionar con el teclado, el fondo se oscurece automáticamente.'
           - name: buttonText
             label: Texto de botones
             type: string
+            default: '#FFECE0'
             required: false
             pattern: '^(#[0-9a-fA-F]{6})?$'
             description: 'Color de las letras de los botones con relleno indicados en «Fondo de botones». Déjalo vacío para usar «Fondo». Elige un color que se lea bien sobre el fondo del botón. Los enlaces y filtros usan «Acento». La navegación y los controles generales usan «Texto».'
@@ -292,7 +294,7 @@ content:
               name: surface,
               label: Superficie,
               type: string,
-              default: '#E6E9DF',
+              default: '#FFF7F1',
               pattern: '^#[0-9a-fA-F]{6}$',
               description: 'Fondo de las tarjetas de portada, el pie de página, los marcos de Flash, los buscadores, los desplegables, los filtros sin seleccionar y las ventanas de filtros y del visor. También se usa en avisos, agenda, fondos de imágenes y paneles suaves. Elige un tono que contraste bien con «Texto» y «Acento».',
             }
