@@ -272,29 +272,29 @@ content:
               name: accent,
               label: Acento,
               type: string,
-              default: '#923E30',
+              default: '#75465D',
               pattern: '^#[0-9a-fA-F]{6}$',
-              description: 'Color de los enlaces de acción subrayados, como «Conocer a Patricia» o «Tengo una idea», y del texto y borde de los botones secundarios sin relleno. También se usa en los rótulos sobre los títulos, la ruta de navegación y los controles de las galerías. Rellena los filtros seleccionados y, si dejas vacío «Fondo de botones», los botones principales. Marca el elemento seleccionado al navegar con el teclado.',
+              description: 'Color de los enlaces subrayados, las rutas de navegación, los filtros y las categorías o colecciones. También se usa en antetítulos, fechas, contadores y copyright. Los textos descriptivos conservan una versión suave de «Texto».',
             }
           - name: buttonBackground
             label: Fondo de botones
             type: string
             required: false
             pattern: '^(#[0-9a-fA-F]{6})?$'
-            description: 'Fondo y borde de los botones con relleno de la cabecera, la portada y las tarjetas, y de los demás botones principales de la web. Déjalo vacío para usar «Acento». Al pasar el cursor o seleccionar con el teclado, el fondo se oscurece automáticamente. Los filtros de las galerías siguen usando «Acento».'
+            description: 'Fondo y borde de los botones con relleno de la cabecera, la portada y las tarjetas, y de los demás botones principales de la web. Déjalo vacío para usar «Acento». Al pasar el cursor o seleccionar con el teclado, el fondo se oscurece automáticamente.'
           - name: buttonText
             label: Texto de botones
             type: string
             required: false
             pattern: '^(#[0-9a-fA-F]{6})?$'
-            description: 'Color de las letras de los botones con relleno indicados en «Fondo de botones». Déjalo vacío para usar «Fondo». Elige un color que se lea bien sobre el fondo del botón. Los botones secundarios sin relleno y los enlaces de acción usan «Acento».'
+            description: 'Color de las letras de los botones con relleno indicados en «Fondo de botones». Déjalo vacío para usar «Fondo». Elige un color que se lea bien sobre el fondo del botón. Los enlaces y filtros usan «Acento». La navegación y los controles generales usan «Texto».'
           - {
               name: surface,
               label: Superficie,
               type: string,
               default: '#E6E9DF',
               pattern: '^#[0-9a-fA-F]{6}$',
-              description: 'Fondo de bloques como la agenda de la página de contacto, los avisos y el espacio detrás de algunas imágenes. También se combina con «Fondo» para crear paneles suaves y resaltar algunos controles al pasar el cursor.',
+              description: 'Fondo de las tarjetas de portada, el pie de página, los marcos de Flash, los buscadores, los desplegables, los filtros sin seleccionar y las ventanas de filtros y del visor. También se usa en avisos, agenda, fondos de imágenes y paneles suaves. Elige un tono que contraste bien con «Texto» y «Acento».',
             }
           - name: headingFont
             label: Tipografía de titulares
@@ -751,6 +751,12 @@ content:
                   label: Texto aplicar filtros,
                   type: string,
                 },
+                {
+                  name: closeLabel,
+                  label: Texto cerrar filtros,
+                  type: string,
+                  description: 'Texto del botón que cierra los filtros sin aplicar los cambios en móvil y tablet. Si está vacío, se muestra «Cerrar».',
+                },
                 { name: statusLabel, label: Etiqueta de estado, type: string },
                 {
                   name: taxonomyLabel,
@@ -896,6 +902,12 @@ content:
                   name: applyLabel,
                   label: Texto aplicar filtros,
                   type: string,
+                },
+                {
+                  name: closeLabel,
+                  label: Texto cerrar filtros,
+                  type: string,
+                  description: 'Texto del botón que cierra los filtros sin aplicar los cambios en móvil y tablet. Si está vacío, se muestra «Cerrar».',
                 },
                 { name: statusLabel, label: Etiqueta de estado, type: string },
                 {
@@ -1069,11 +1081,6 @@ content:
                 {
                   name: heroImageAlt,
                   label: Texto alternativo de la cabecera,
-                  type: string,
-                },
-                {
-                  name: projectEyebrow,
-                  label: Antetítulo de ficha,
                   type: string,
                 },
                 {

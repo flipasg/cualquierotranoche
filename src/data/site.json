@@ -174,8 +174,8 @@
       "showCategoryCounts": false,
       "showActiveFilters": false,
       "showClearButton": false,
-      "showTaxonomySearch": false,
-      "showGlobalSearch": false
+      "showTaxonomySearch": true,
+      "showGlobalSearch": true
     },
     "artwork": {
       "title": "Obra",
@@ -203,8 +203,8 @@
       "showCategoryCounts": false,
       "showActiveFilters": false,
       "showClearButton": false,
-      "showTaxonomySearch": false,
-      "showGlobalSearch": false
+      "showTaxonomySearch": true,
+      "showGlobalSearch": true
     },
     "illustration": {
       "title": "Proyectos",
@@ -243,8 +243,8 @@
   "theme": {
     "background": "#FFECE0",
     "text": "#233A4B",
-    "accent": "#854B3D",
-    "surface": "#FFECE0",
+    "accent": "#75465D",
+    "surface": "#FFF7F1",
     "headingFont": "roboto",
     "bodyFont": "roboto",
     "buttonBackground": "#233A4B",

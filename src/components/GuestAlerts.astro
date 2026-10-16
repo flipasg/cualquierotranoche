@@ -1,0 +1,24 @@
+---
+import { forms } from '../config/forms';
+import TallyLink from './TallyLink.astro';
+
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<TallyLink
+  url={forms.cityAlerts}
+  params={{ source: 'portfolio-guests-alerts' }}
+  className="guest-alert-link"
+  linkStyle>{label}</TallyLink
+>
+
+<style>
+  :global(.guest-alert-link) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>

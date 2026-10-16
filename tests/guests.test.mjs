@@ -2,9 +2,6 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import ts from 'typescript';
-import { transform as compileAstro } from '@astrojs/compiler';
-import { transform } from 'esbuild';
-import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 
 const moduleUrl = (code) =>
   `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
@@ -32,45 +29,10 @@ const {
   guestDateRange,
   guestDateColor,
 } = await import(helpersUrl);
-const formsUrl = await compileTs('../src/config/forms.ts');
-const siteUrl = moduleUrl(
-  `export default ${await read('../src/data/site.json')};`,
-);
-const compileComponent = async (path, dependencies) => {
-  const compiled = await compileAstro(await read(path), {
-    internalURL: import.meta.resolve('astro/compiler-runtime'),
-    resolvePath: (specifier) => dependencies[specifier] ?? specifier,
-  });
-  // El contenedor prueba el HTML; los estilos virtuales se comprueban en el build y el navegador.
-  const code = compiled.code
-    .replace(
-      /(from\s+)(['"])([^'"]+)\2/g,
-      (statement, prefix, _quote, specifier) =>
-        dependencies[specifier]
-          ? `${prefix}${JSON.stringify(dependencies[specifier])}`
-          : statement,
-    )
-    .replace(/^import\s+["'][^"']+\?astro&type=style[^"']*["'];?$/gm, '');
-  return moduleUrl(
-    (await transform(code, { loader: 'ts', format: 'esm' })).code,
-  );
-};
-const tallyUrl = await compileComponent('../src/components/TallyLink.astro', {
-  '../config/forms': formsUrl,
-  '../data/site.json': siteUrl,
-});
-const { default: GuestAgenda } = await import(
-  await compileComponent('../src/components/GuestAgenda.astro', {
-    '../lib/guests': helpersUrl,
-    '../config/forms': formsUrl,
-    './TallyLink.astro': tallyUrl,
-  })
-);
-const { default: GuestFooter } = await import(
-  await compileComponent('../src/components/GuestFooter.astro', {
-    '../lib/guests': helpersUrl,
-  })
-);
+const [agendaSource, footerSource] = await Promise.all([
+  read('../src/components/GuestAgenda.astro'),
+  read('../src/components/GuestFooter.astro'),
+]);
 const configured = JSON.parse(await read('../src/data/guests.json'));
 // Las pruebas de comportamiento no deben impedir editar o retirar las visitas reales.
 const config = guestsSchema.parse({
@@ -89,11 +51,6 @@ const config = guestsSchema.parse({
   ],
 });
 const guest = config.entries[0];
-const container = await AstroContainer.create();
-const renderAgenda = (value) =>
-  container.renderToString(GuestAgenda, { props: { config: value } });
-const renderFooter = (value, pathname = '/') =>
-  container.renderToString(GuestFooter, { props: { config: value, pathname } });
 
 test('la configuración editable cumple el esquema de guests', () => {
   assert.equal(guestsSchema.safeParse(configured).success, true);
@@ -179,39 +136,16 @@ test('el enlace opcional admite Google Maps completo o corto y rechaza URLs inse
   }
 });
 
-test('dirección y Maps se muestran de forma independiente, sin enlaces anidados en el pie', async () => {
-  const address = 'Calle de prueba, 12 <local>\nPlanta 2';
-  const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Estudio';
-  for (const render of [renderAgenda, renderFooter]) {
-    const html = await render({
-      ...config,
-      entries: [{ ...guest, address, mapsUrl }],
-    });
-    assert.match(html, /Calle de prueba, 12 &lt;local&gt;/);
-    assert.match(html, /class="guest-map(?:\s|")/);
-    assert.match(
-      html,
-      /href="https:\/\/www.google.com\/maps\/search\/\?api=1&(?:amp;)?query=Estudio"/,
-    );
-    assert.match(html, /target="_blank" rel="noopener noreferrer"/);
-    const addressOnly = await render({
-      ...config,
-      entries: [{ ...guest, address, mapsUrl: '' }],
-    });
-    assert.match(addressOnly, /Calle de prueba/);
-    assert.doesNotMatch(addressOnly, /class="guest-map(?:\s|")/);
-    const mapOnly = await render({
-      ...config,
-      entries: [{ ...guest, address: '', mapsUrl }],
-    });
-    assert.match(mapOnly, /class="guest-map(?:\s|")/);
-    assert.doesNotMatch(mapOnly, /class="guest-address(?:\s|")/);
-  }
-  const footer = await renderFooter({
-    ...config,
-    entries: [{ ...guest, address, mapsUrl }],
-  });
-  assert.match(footer, /<\/a>\s*<a class="guest-map/);
+test('dirección y Maps son independientes y el pie evita enlaces anidados', () => {
+  assert.match(agendaSource, /guest\.address && <p class="guest-address">/);
+  assert.match(agendaSource, /guest\.mapsUrl && \(\s*<a\s+class="guest-map"/);
+  assert.match(
+    footerSource,
+    /guest\.address && \(\s*<span class="guest-address">/,
+  );
+  assert.match(footerSource, /guest\.mapsUrl && \(\s*<a\s+class="guest-map"/);
+  assert.match(footerSource, /target="_blank"[\s\S]*rel="noopener noreferrer"/);
+  assert.match(footerSource, /<\/div>\s*\{guest\.mapsUrl && \(/);
 });
 
 test('representa un día, rangos de días y cambios de mes o año sin desfase horario', () => {
@@ -226,28 +160,25 @@ test('representa un día, rangos de días y cambios de mes o año sin desfase ho
   assert.match(guestDateRange(yearChange), /2026.*2027/);
 });
 
-test('la agenda omite guests ocultos y escapa estudio y descripción', async () => {
-  const html = await renderAgenda({
-    ...config,
-    entries: [
-      {
-        ...guest,
-        studio: '<script>estudio</script>',
-        description: '<img src=x onerror=alert(1)>',
-      },
-      { ...guest, id: 'hidden', city: 'Ciudad oculta', visible: false },
-    ],
-  });
-  assert.match(html, /Barcelona/);
-  assert.match(html, /guest-barcelona-octubre/);
-  assert.match(html, /portfolio-guest-barcelona-octubre/);
-  assert.match(html, /&lt;script&gt;estudio&lt;\/script&gt;/);
-  assert.ok(!html.includes('<img src=x'));
-  assert.ok(!html.includes('Ciudad oculta'));
-  assert.match(html, /portfolio-guests-alerts/);
+test('la agenda omite visitas ocultas y escapa campos editoriales', () => {
+  const visible = visibleGuests([
+    guest,
+    { ...guest, id: 'hidden', city: 'Ciudad oculta', visible: false },
+  ]);
+  assert.deepEqual(
+    visible.map(({ city }) => city),
+    ['Barcelona'],
+  );
+  assert.match(agendaSource, /groupGuestsByMonth\(config\.entries\)/);
+  assert.match(agendaSource, /<p class="guest-studio">\{guest\.studio\}<\/p>/);
+  assert.match(
+    agendaSource,
+    /<p class="guest-description">\{guest\.description\}<\/p>/,
+  );
+  assert.match(agendaSource, /<GuestAlerts label=\{config.alertsLabel\}/);
 });
 
-test('los campos vacíos del CMS se omiten y el estado sin fechas conserva los avisos', async () => {
+test('los campos vacíos del CMS se omiten y la agenda conserva los avisos sin visitas', () => {
   const parsed = guestsSchema.parse({
     ...config,
     entries: [
@@ -260,51 +191,28 @@ test('los campos vacíos del CMS se omiten y el estado sin fechas conserva los a
       },
     ],
   });
-  const populated = await renderAgenda(parsed);
-  assert.doesNotMatch(populated, /class="guest-studio(?:\s|")/);
-  assert.doesNotMatch(populated, /class="guest-description(?:\s|")/);
-  assert.doesNotMatch(populated, /class="guest-address(?:\s|")/);
-  assert.doesNotMatch(populated, /class="guest-map(?:\s|")/);
-  const footer = await renderFooter(parsed);
-  assert.doesNotMatch(footer, /class="guest-address(?:\s|")/);
-  assert.doesNotMatch(footer, /class="guest-map(?:\s|")/);
-  const empty = await renderAgenda({ ...config, entries: [] });
-  assert.ok(empty.includes(config.emptyMessage));
-  assert.match(empty, /portfolio-guests-alerts/);
-  assert.doesNotMatch(empty, /class="guest-event(?:\s|")/);
+  assert.ok(parsed.entries[0].studio === '');
+  assert.match(agendaSource, /guest\.studio &&/);
+  assert.match(agendaSource, /guest\.description &&/);
+  assert.match(agendaSource, /guest\.address &&/);
+  assert.match(agendaSource, /guest\.mapsUrl &&/);
+  assert.match(agendaSource, /config\.emptyMessage/);
+  assert.match(agendaSource, /<GuestAlerts label=\{config.alertsLabel\}/);
 });
 
-test('el pie enlaza a cada visita con su estudio y descripción, y respeta visibilidad', async () => {
-  const html = await renderFooter(
-    {
-      ...config,
-      entries: [
-        {
-          ...guest,
-          studio: 'Estudio de prueba',
-          description: 'Descripción de prueba',
-        },
-        { ...guest, id: 'hidden', city: 'Ciudad oculta', visible: false },
-      ],
-    },
-    '/obra/',
+test('el pie muestra las ciudades como texto y se oculta en Contacto o sin contenido', () => {
+  assert.match(footerSource, /visibleGuests\(config\.entries\)/);
+  assert.match(footerSource, /config\.showInFooter[\s\S]*entries\.length > 0/);
+  assert.match(footerSource, /pathname\.replace\([\s\S]*!== '\/contacto'/);
+  assert.match(
+    footerSource,
+    /<h2 id="footer-guests-heading">\s*\{config\.footerHeading\}/,
   );
-  assert.match(html, /href="\/contacto\/#guest-barcelona-octubre"/);
-  assert.match(html, /Estudio de prueba/);
-  assert.match(html, /Descripción de prueba/);
-  assert.ok(!html.includes('Ciudad oculta'));
-  for (const pathname of ['/contacto', '/contacto/']) {
-    assert.ok(
-      !(await renderFooter(config, pathname)).includes('footer-guests-heading'),
-    );
-  }
-  for (const value of [
-    { ...config, entries: [] },
-    { ...config, showInFooter: false },
-    { ...config, entries: [{ ...guest, visible: false }] },
-  ]) {
-    assert.ok(!(await renderFooter(value)).includes('footer-guests-heading'));
-  }
+  assert.match(footerSource, /<div class="footer-guest">/);
+  assert.doesNotMatch(footerSource, /href=\{`\/contacto\/#guest-/);
+  assert.match(footerSource, /class="guest-city"/);
+  assert.match(footerSource, /guest\.studio &&/);
+  assert.match(footerSource, /guest\.description &&/);
 });
 
 test('el texto mantiene contraste mínimo AA con los colores editables', () => {

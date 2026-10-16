@@ -1,4 +1,6 @@
 ---
+import { eyebrowContent } from '../lib/eyebrow';
+
 interface Props {
   text?: string | null;
   prefix?: string | null;
@@ -6,8 +8,7 @@ interface Props {
 }
 
 const { text, prefix, suffix } = Astro.props;
-const label = text?.trim();
-const parts = [prefix?.trim(), label, suffix?.trim()].filter(Boolean);
+const eyebrow = eyebrowContent(text, prefix, suffix);
 ---
 
-{label && <p class="eyebrow">{parts.join(' / ')}</p>}
+{eyebrow && <p class="eyebrow">{eyebrow.content}</p>}

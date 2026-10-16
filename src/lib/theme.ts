@@ -3,7 +3,7 @@ import type { CustomThemeFont, SiteTheme, ThemeFont } from '../types/content';
 const defaults = {
   background: '#F7F3EC',
   text: '#252821',
-  accent: '#923E30',
+  accent: '#75465D',
   surface: '#E6E9DF',
 } as const;
 

@@ -65,7 +65,8 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
     border-top: 1px solid var(--color-border);
   }
   .project-listing-contact > div {
-    max-width: 38rem;
+    width: 100%;
+    max-width: none;
   }
   @media (max-width: 767px) {
     .project-listing-opening :global(.page-opening__image) {

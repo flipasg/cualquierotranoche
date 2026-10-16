@@ -75,7 +75,7 @@ test('todos los flashes usan identificadores de categorías existentes', async (
   }
 });
 
-test('cada ficha importada usa el código como título y no incluye descripción ni nota', async () => {
+test('cada ficha conserva un título editorial y una referencia única a su código', async () => {
   const flashDirectory = new URL('src/content/flash/', root);
   const flashFiles = (await readdir(flashDirectory)).filter((name) =>
     /^f-\d{3}\.md$/.test(name),
@@ -89,11 +89,12 @@ test('cada ficha importada usa el código como título y no incluye descripción
 
     assert.match(name, /^f-\d{3}\.md$/);
     assert.equal(frontmatter.code, expectedCode);
-    assert.equal(frontmatter.title, expectedCode);
+    assert.equal(typeof frontmatter.title, 'string');
+    assert.ok(frontmatter.title.trim().length > 0);
     assert.equal(frontmatter.description, undefined);
     assert.equal(frontmatter.note, undefined);
     assert.equal(frontmatter.coverAlt, expectedCode);
-    const image = name.replace(/^f-(\d{3})\.md$/, 'flash-$1.jpg');
+    const image = name.replace(/^f-(\d{3})\.md$/, 'flash-$1.png');
     assert.equal(frontmatter.cover, `/uploads/${image}`);
     assert.equal(
       codes.has(frontmatter.code),

@@ -1,5 +1,9 @@
+---
+import ArrowIcon from './ArrowIcon.astro';
+---
+
 <a class="back-to-top" href="#top" aria-label="Volver arriba">
-  <span aria-hidden="true">↑</span>
+  <ArrowIcon direction="up" />
 </a>
 
 <style>
@@ -29,7 +33,7 @@
   }
 
   .back-to-top:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-action);
     outline-offset: 3px;
   }
 

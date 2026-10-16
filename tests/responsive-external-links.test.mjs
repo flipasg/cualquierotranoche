@@ -93,6 +93,7 @@ test('solo se marcan los enlaces solicitados y el script se carga globalmente', 
 
   assert.match(tally, /data-responsive-external/);
   assert.doesNotMatch(tally, /target="_blank"/);
-  assert.equal((siteInfo.match(/data-responsive-external/g) ?? []).length, 2);
+  // Cada variante del pie (contacto y general) marca email e Instagram.
+  assert.equal((siteInfo.match(/data-responsive-external/g) ?? []).length, 4);
   assert.match(layout, /src="\/scripts\/responsive-external-links\.js"/);
 });

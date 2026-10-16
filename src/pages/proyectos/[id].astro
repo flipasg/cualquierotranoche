@@ -45,12 +45,9 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
             { label: project.data.title, href: `/proyectos/${project.id}/` },
           ]}
         />
-        <Eyebrow
-          text={site.ui.illustration.projectEyebrow ?? project.data.services}
-        /><h1>
+        <h1>
           {project.data.title}
-        </h1>
-        <p>
+        </h1><p class="project-meta">
           {project.data.client} · {project.data.services} · {project.data.year}
         </p><p class="lead">{project.data.description}</p>
       </div>
@@ -111,6 +108,9 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   }
   .proyecto-detail h1 {
     margin-block: 0.75rem 1.25rem;
+  }
+  .project-meta {
+    color: var(--color-accent);
   }
   .proyecto-detail :global(img) {
     max-height: 76svh;

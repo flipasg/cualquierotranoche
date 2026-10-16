@@ -38,6 +38,15 @@ test('las secciones y tarjetas reutilizables marcan entradas explícitas', async
   assert.match(agenda, /guest-month[\s\S]*data-reveal/);
 });
 
+test('Flash no amplía sus imágenes al pasar el cursor ni al enfocar el visor', async () => {
+  const css = await read('src/styles/global.css');
+
+  assert.match(
+    css,
+    /\.flash-page \.card \.gallery-image-link[\s\S]*transform: none;/,
+  );
+});
+
 test('los filtros animan únicamente las fichas que vuelven a ser visibles', async () => {
   const script = await read('public/scripts/gallery-filters.js');
 
@@ -55,7 +64,7 @@ test('la navegación reserva el ancho de la etiqueta activa antes del hover', as
   assert.match(header, /data-nav-label=\{item\.label\}/);
   assert.match(header, /content: attr\(data-nav-label\)/);
   assert.match(header, /nav a::before,[\s\S]*\.nav-link-label/);
-  assert.match(header, /nav a:hover \.nav-link-label,[\s\S]*font-weight: 700/);
+  assert.match(header, /nav a:hover,[\s\S]*font-weight: 700/);
 });
 
 test('los controles de carrusel y paginación desplazan suavemente salvo con movimiento reducido', async () => {

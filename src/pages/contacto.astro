@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactOptions from '../components/ContactOptions.astro';
 import GuestAgenda from '../components/GuestAgenda.astro';
+import GuestAlerts from '../components/GuestAlerts.astro';
 import SiteInfo from '../components/SiteInfo.astro';
 import { guests } from '../config/guests';
 import { site } from '../data';
@@ -28,6 +29,13 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
           <p class="lead">{site.ui.contact.intro}</p>
         </header>
         <ContactOptions />
+        {
+          !hasVisibleGuests && (
+            <div id="proximos-guests" class="contact-city-alerts">
+              <GuestAlerts label={guests.alertsLabel} />
+            </div>
+          )
+        }
       </div>
       {
         hasVisibleGuests && (
@@ -35,15 +43,16 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
         )
       }
     </div>
-    <footer class="contact-footer">
+  </section><footer class="contact-footer">
+    <div class="container">
       <SiteInfo showStudioInfo variant="contact" />
-    </footer>
-  </section>
+    </div>
+  </footer>
 </BaseLayout>
 
 <style>
   .contact-page {
-    padding-block: clamp(2.5rem, 6vw, 5rem);
+    padding-block: clamp(2.5rem, 6vw, 5rem) 0;
   }
   .contact-intro h1 {
     margin-bottom: 0.6rem;
@@ -65,10 +74,15 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
   .contact-content--without-agenda {
     max-width: 52rem;
   }
+  .contact-city-alerts {
+    margin-top: 24px;
+    scroll-margin-top: 8rem;
+  }
   .contact-footer {
     margin-top: clamp(2.5rem, 5vw, 4rem);
-    padding-top: 1.25rem;
+    padding-block: 1.25rem;
     border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
   }
   @media (min-width: 900px) {
     .contact-content {

@@ -59,7 +59,7 @@ const studio = contact.studio ?? {};
             </div>
           </div>
         )}
-        <p class="contact-copyright">
+        <p class="site-copyright contact-copyright">
           © {contact.copyrightLabel?.trim() || site.name}
         </p>
       </>
@@ -102,7 +102,7 @@ const studio = contact.studio ?? {};
             </div>
           </div>
         )}
-        <p>
+        <p class="site-copyright">
           {site.ui.footer.sampleNotice} © {new Date().getFullYear()}
         </p>
       </>
@@ -128,9 +128,11 @@ const studio = contact.studio ?? {};
     gap: 1rem;
     flex-wrap: wrap;
   }
+  .site-copyright {
+    color: var(--color-accent);
+  }
   .contact-copyright {
     margin: 0;
-    color: var(--color-muted);
   }
   .studio-info {
     margin-bottom: 1rem;
@@ -143,5 +145,8 @@ const studio = contact.studio ?? {};
   a {
     display: inline-block;
     padding-block: 0.5rem;
+    color: var(--color-link);
+    text-decoration-line: underline;
+    text-underline-offset: 0.25em;
   }
 </style>

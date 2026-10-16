@@ -1,6 +1,14 @@
-<dialog id="image-viewer" class="image-viewer" aria-label="Visor de imágenes">
-  <div class="image-viewer__layout">
-    <div class="image-viewer__toolbar">
+---
+import ModalCloseButton from './ModalCloseButton.astro';
+---
+
+<dialog
+  id="image-viewer"
+  class="image-viewer modal-shell"
+  aria-label="Visor de imágenes"
+>
+  <div class="image-viewer__layout modal-shell__layout">
+    <div class="image-viewer__toolbar modal-shell__header">
       <div
         class="image-viewer__zoom"
         role="group"
@@ -23,7 +31,7 @@
         >
         <button type="button" data-viewer-reset disabled>Ajustar</button>
       </div>
-      <button type="button" data-viewer-close autofocus>Cerrar ×</button>
+      <ModalCloseButton viewer label="Cerrar" autofocus />
     </div>
     <div
       class="image-viewer__viewport"
@@ -52,20 +60,10 @@
     height: calc(100dvh - 2rem);
     max-height: none;
     padding: 0;
-    border: 1px solid var(--color-border-strong);
-    border-radius: var(--radius);
-    background: var(--color-bg);
-    color: var(--color-text);
     overflow: hidden;
-  }
-  .image-viewer::backdrop {
-    background: rgb(0 0 0 / 80%);
   }
   .image-viewer[open] {
     animation: image-viewer-open var(--motion-fast) ease-out;
-  }
-  .image-viewer[open]::backdrop {
-    animation: image-viewer-backdrop var(--motion-fast) ease-out;
   }
   @keyframes image-viewer-open {
     from {
@@ -73,14 +71,6 @@
     }
     to {
       opacity: 1;
-    }
-  }
-  @keyframes image-viewer-backdrop {
-    from {
-      background: rgb(0 0 0 / 0%);
-    }
-    to {
-      background: rgb(0 0 0 / 80%);
     }
   }
   .image-viewer__layout {
@@ -97,20 +87,19 @@
   }
   .image-viewer__toolbar {
     justify-content: space-between;
-    padding: 0.75rem;
   }
-  .image-viewer button {
+  .image-viewer__zoom button:not(.modal-close-button) {
     min-width: 44px;
     min-height: 44px;
     padding: 0.35rem 0.65rem;
-    border: 1px solid var(--color-accent);
+    border: 1px solid currentColor;
     border-radius: var(--radius);
     background: transparent;
     color: inherit;
     font: inherit;
     cursor: pointer;
   }
-  .image-viewer button:disabled {
+  .image-viewer__zoom button:disabled {
     opacity: 0.45;
     cursor: default;
   }
@@ -125,14 +114,14 @@
     min-height: 0;
     overflow: hidden;
     position: relative;
-    background: var(--color-text);
-    color: var(--color-bg);
+    background: var(--color-surface);
+    color: var(--color-text);
     touch-action: none;
     user-select: none;
     cursor: zoom-in;
   }
   .image-viewer__viewport:focus-visible {
-    outline-color: var(--color-bg);
+    outline-color: var(--color-action);
     outline-offset: -4px;
   }
   .image-viewer__viewport[data-zoomed='true'] {

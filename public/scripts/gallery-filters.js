@@ -47,6 +47,9 @@ galleries.forEach((gallery) => {
   const taxonomySearch = gallery.querySelector(
     '[data-gallery-taxonomy-search]',
   );
+  const taxonomyScroll = gallery.querySelector(
+    '[data-gallery-taxonomy-scroll]',
+  );
   const selectedTaxonomies = gallery.querySelector(
     '[data-gallery-taxonomy-selected]',
   );
@@ -71,6 +74,18 @@ galleries.forEach((gallery) => {
   const resultCount = gallery.querySelector('[data-gallery-result-count]');
   const clearButtons = [...gallery.querySelectorAll('[data-gallery-clear]')];
   const filterPanel = gallery.querySelector('[data-gallery-filter-panel]');
+  const filterControls = gallery.querySelector(
+    '[data-gallery-filter-controls]',
+  );
+  const filterTrigger = gallery.querySelector('[data-gallery-filter-summary]');
+  const filterDialog = gallery.querySelector('[data-gallery-filter-dialog]');
+  const dialogBody = gallery.querySelector('[data-gallery-dialog-body]');
+  const dialogTitle = gallery.querySelector('[data-gallery-dialog-title]');
+  const closeFiltersButton = gallery.querySelector('[data-gallery-close]');
+  const supportsModal = Boolean(
+    filterDialog && typeof filterDialog.showModal === 'function',
+  );
+  let previousOverflow;
   const applyFiltersButton = gallery.querySelector('[data-gallery-apply]');
   const configuredDefaultStatus =
     filterPanel?.dataset.galleryDefaultStatus ?? 'all';
@@ -110,6 +125,7 @@ galleries.forEach((gallery) => {
   let pendingStatus = status;
   let pendingSelected = new Set(selected);
   let searchTerm = searchParam ? (url.searchParams.get(searchParam) ?? '') : '';
+  let pendingSearchTerm = searchTerm;
 
   if (
     !statusButtons.some((button) => button.dataset.galleryStatus === status)
@@ -124,7 +140,7 @@ galleries.forEach((gallery) => {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .toLocaleLowerCase();
-  const hasPendingSelection = () => compact.matches && filterPanel?.open;
+  const hasPendingSelection = () => Boolean(filterDialog?.open);
   const controlsStatus = () => (hasPendingSelection() ? pendingStatus : status);
   const controlsSelected = () =>
     hasPendingSelection() ? pendingSelected : selected;
@@ -168,6 +184,9 @@ galleries.forEach((gallery) => {
   };
 
   const syncControls = () => {
+    const focusedOption = taxonomyOptions.find(
+      (option) => option === document.activeElement,
+    );
     const visibleStatus = controlsStatus();
     const selectedForControls = controlsSelected();
     statusButtons.forEach((button) => {
@@ -229,9 +248,28 @@ galleries.forEach((gallery) => {
         ? `${filterSummary.dataset.filterLabel ?? 'Filtros'} (${activeCount})`
         : (filterSummary.dataset.filterLabel ?? 'Filtros');
     clearButtons.forEach((button) => {
-      button.hidden = activeCount === 0;
+      const count =
+        hasPendingSelection() && filterDialog.contains(button)
+          ? Number(pendingStatus !== defaultStatus) +
+            pendingSelected.size +
+            Number(Boolean(pendingSearchTerm.trim()))
+          : activeCount;
+      button.hidden = count === 0;
     });
+    // Moving a checkbox between the selected/unselected groups must not lose keyboard focus.
+    focusedOption?.focus({ preventScroll: true });
+    syncTaxonomyScrollCue();
     syncAppliedFilters();
+  };
+
+  const syncTaxonomyScrollCue = () => {
+    if (!taxonomyScroll) return;
+    const maximum = taxonomyScroll.scrollHeight - taxonomyScroll.clientHeight;
+    const canScroll = maximum > 2;
+    taxonomyScroll.dataset.canScroll = String(canScroll);
+    taxonomyScroll.dataset.atBottom = String(
+      !canScroll || taxonomyScroll.scrollTop >= maximum - 2,
+    );
   };
 
   const render = () => {
@@ -429,7 +467,14 @@ galleries.forEach((gallery) => {
       updateUrl();
     });
   });
-  taxonomySearch?.addEventListener('input', () => syncControls());
+  taxonomySearch?.addEventListener('input', () => {
+    if (taxonomyScroll) taxonomyScroll.scrollTop = 0;
+    syncControls();
+  });
+  taxonomyScroll?.addEventListener('scroll', syncTaxonomyScrollCue, {
+    passive: true,
+  });
+  window.addEventListener?.('resize', syncTaxonomyScrollCue);
   globalSearch?.addEventListener('input', () => {
     searchTerm = globalSearch.value;
     currentPage = 1;
@@ -450,7 +495,11 @@ galleries.forEach((gallery) => {
     updateUrl();
   });
   document.addEventListener('click', (event) => {
-    if (taxonomySelect?.open && !taxonomySelect.contains(event.target)) {
+    if (
+      !hasPendingSelection() &&
+      taxonomySelect?.open &&
+      !taxonomySelect.contains(event.target)
+    ) {
       taxonomySelect.open = false;
     }
   });
@@ -470,10 +519,15 @@ galleries.forEach((gallery) => {
     button.addEventListener('click', () => {
       pendingStatus = defaultStatus;
       pendingSelected = new Set();
+      pendingSearchTerm = '';
+      if (taxonomySearch) taxonomySearch.value = '';
+      if (hasPendingSelection()) {
+        syncControls();
+        return;
+      }
       status = defaultStatus;
       selected = new Set();
       searchTerm = '';
-      if (taxonomySearch) taxonomySearch.value = '';
       currentPage = 1;
       syncControls();
       render();
@@ -486,39 +540,113 @@ galleries.forEach((gallery) => {
     appliedToggle.setAttribute('aria-expanded', String(expanded));
     if (chips) chips.hidden = !expanded;
   });
-  const syncPanel = () => {
-    if (filterPanel) filterPanel.open = !compact.matches;
+  const resetPending = () => {
     pendingStatus = status;
     pendingSelected = new Set(selected);
+    pendingSearchTerm = searchTerm;
+  };
+  const syncPanel = () => {
+    if (supportsModal) {
+      if (desktop.matches && filterDialog.open) filterDialog.close();
+      filterPanel.dataset.modalReady = '';
+      filterTrigger.hidden = desktop.matches;
+      // Move the original controls: listeners and checked state have one owner.
+      (desktop.matches ? filterPanel : dialogBody).append(filterControls);
+      filterPanel.open = true;
+      if (taxonomySelect) taxonomySelect.open = !desktop.matches;
+    }
+    resetPending();
     syncAppliedFilters();
     syncControls();
   };
+  filterTrigger?.addEventListener('click', () => {
+    if (!supportsModal || desktop.matches || filterDialog.open) return;
+    resetPending();
+    if (taxonomySearch) taxonomySearch.value = '';
+    previousOverflow = document.body.style.overflow;
+    filterDialog.showModal();
+    document.body.style.overflow = 'hidden';
+    syncControls();
+    dialogTitle.focus({ preventScroll: true });
+  });
+  closeFiltersButton?.addEventListener('click', () => filterDialog.close());
+  filterDialog?.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    filterDialog.close();
+  });
+  filterDialog?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab') return;
+    const controls = [
+      ...filterDialog.querySelectorAll(
+        'button, input, select, textarea, a[href], [tabindex]',
+      ),
+    ].filter(
+      (control) =>
+        !control.disabled &&
+        control.tabIndex >= 0 &&
+        control.getClientRects().length > 0,
+    );
+    const first = controls[0];
+    const last = controls.at(-1);
+    // Keep cycling inside the dialog rather than tabbing into browser chrome.
+    if (
+      event.shiftKey &&
+      (document.activeElement === first ||
+        document.activeElement === dialogTitle)
+    ) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
+  });
+  filterDialog?.addEventListener('click', (event) => {
+    if (event.target !== filterDialog) return;
+    const bounds = filterDialog.getBoundingClientRect();
+    if (
+      event.clientX < bounds.left ||
+      event.clientX > bounds.right ||
+      event.clientY < bounds.top ||
+      event.clientY > bounds.bottom
+    )
+      filterDialog.close();
+  });
+  filterDialog?.addEventListener('close', () => {
+    if (filterDialog.open) return;
+    resetPending();
+    if (previousOverflow !== undefined) {
+      document.body.style.overflow = previousOverflow;
+      previousOverflow = undefined;
+    }
+    syncControls();
+    const focusTarget = filterTrigger.hidden
+      ? statusButtons.find((button) => button.dataset.galleryStatus === status)
+      : filterTrigger;
+    focusTarget?.focus({ preventScroll: true });
+  });
   applyFiltersButton?.addEventListener('click', () => {
+    if (!hasPendingSelection()) return;
     status = pendingStatus;
     selected = new Set(pendingSelected);
+    searchTerm = pendingSearchTerm;
     currentPage = 1;
-    filterPanel.open = false;
+    filterDialog.close();
     syncControls();
     render();
     updateUrl();
-    filterPanel.querySelector('[data-gallery-filter-summary]')?.focus();
-  });
-  filterPanel?.addEventListener('toggle', () => {
-    if (!compact.matches) return;
-    if (!filterPanel.open) {
-      pendingStatus = status;
-      pendingSelected = new Set(selected);
-    }
-    syncControls();
   });
   compact.addEventListener('change', () => {
+    syncAppliedFilters();
+    syncPageSize();
+  });
+  desktop.addEventListener('change', () => {
     syncPanel();
     syncPageSize();
   });
-  desktop.addEventListener('change', syncPageSize);
-  syncPanel();
   if (taxonomySummary)
     taxonomySummary.dataset.allLabel = taxonomySummary.textContent;
+  syncPanel();
   syncControls();
   render();
 });

@@ -194,7 +194,7 @@ test('el tema admite valores válidos y reserva valores seguros ante datos invá
     });
     assert.match(invalid, /--color-bg:#F7F3EC/);
     assert.match(invalid, /--color-text:#252821/);
-    assert.match(invalid, /--color-accent:#923E30/);
+    assert.match(invalid, /--color-accent:#75465D/);
     assert.match(invalid, /--color-surface:#E6E9DF/);
     assert.match(
       invalid,
@@ -219,6 +219,31 @@ test('el tema admite valores válidos y reserva valores seguros ante datos invá
   }
 });
 
+test('el tema separa enlaces y filtros ciruela de los controles azules y textos secundarios', async () => {
+  const [css, cms] = await Promise.all([
+    readFile(resolve(root, 'src/styles/global.css'), 'utf8'),
+    readFile(resolve(root, '.pages.yml'), 'utf8'),
+  ]);
+  const site = JSON.parse(
+    await readFile(resolve(root, 'src/data/site.json'), 'utf8'),
+  );
+
+  assert.equal(site.theme.text, '#233A4B');
+  assert.equal(site.theme.background, '#FFECE0');
+  assert.equal(site.theme.accent, '#75465D');
+  assert.match(themeModule.themeStyle(site.theme), /--color-accent:#75465D/);
+  assert.match(css, /--color-action: var\(--color-text\)/);
+  assert.match(css, /--color-muted:[^;]*var\(--color-bg\) 25%/);
+  assert.match(cms, /default: '#75465D'/);
+  assert.match(css, /--color-link: var\(--color-accent\)/);
+  assert.match(css, /--color-filter: var\(--color-accent\)/);
+  assert.match(
+    cms,
+    /Color de los enlaces subrayados[\s\S]*textos descriptivos/,
+  );
+  assert.doesNotMatch(css, /text-decoration-thickness: 2px/);
+});
+
 test('los botones heredan acento y fondo cuando sus colores faltan, están vacíos o son inválidos', () => {
   for (const value of [
     undefined,
@@ -237,7 +262,7 @@ test('los botones heredan acento y fondo cuando sus colores faltan, están vací
     assert.match(style, /--color-button-text:#F7F3EC;/);
   }
   const defaults = themeModule.themeStyle();
-  assert.match(defaults, /--color-button-bg:#923E30;/);
+  assert.match(defaults, /--color-button-bg:#75465D;/);
   assert.match(defaults, /--color-button-text:#F7F3EC;/);
 });
 

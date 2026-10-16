@@ -271,6 +271,7 @@ export interface FlashUi {
   filtersLabel?: string;
   filterLabel?: string;
   applyLabel?: string;
+  closeLabel?: string;
   statusLabel?: string;
   taxonomyLabel?: string;
   activeFiltersLabel?: string;
@@ -310,6 +311,7 @@ export interface ArtworkUi {
   filtersLabel?: string;
   filterLabel?: string;
   applyLabel?: string;
+  closeLabel?: string;
   statusLabel?: string;
   taxonomyLabel?: string;
   activeFiltersLabel?: string;
@@ -351,7 +353,6 @@ export interface IllustrationUi {
   intro?: RichText;
   heroImage?: ImagePath;
   heroImageAlt?: string;
-  projectEyebrow?: string;
   projectCardEyebrow?: string;
   projectCta?: string;
   contributionEyebrow?: string;

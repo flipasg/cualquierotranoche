@@ -1,5 +1,6 @@
 ---
 import GalleryImage from './GalleryImage.astro';
+import ModalCloseButton from './ModalCloseButton.astro';
 
 interface Taxonomy {
   id: string;
@@ -25,6 +26,7 @@ interface Props {
   clearLabel?: string;
   filterLabel?: string;
   applyLabel?: string;
+  closeLabel?: string;
   showStatusCounts?: boolean;
   showCategoryCounts?: boolean;
   showResultCount?: boolean;
@@ -52,7 +54,8 @@ const {
   activeLabel,
   clearLabel = 'Limpiar',
   filterLabel = 'Filtros',
-  applyLabel = 'Ver resultados',
+  applyLabel = 'Aplicar',
+  closeLabel = 'Cerrar',
   showStatusCounts = false,
   showCategoryCounts = false,
   showResultCount = true,
@@ -72,6 +75,10 @@ const {
   taxonomies,
 } = Astro.props;
 const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
+const dialogId = `gallery-filters-${urlParam}`;
+const filterText = filterLabel?.trim() || 'Filtros';
+const applyText = applyLabel?.trim() || 'Aplicar';
+const closeText = closeLabel?.trim() || 'Cerrar';
 ---
 
 <div
@@ -96,16 +103,24 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     )
   }
   <div class="gallery-filter-actions">
+    <button
+      type="button"
+      class="gallery-filter-open"
+      data-gallery-filter-summary
+      data-filter-label={filterText}
+      aria-haspopup="dialog"
+      aria-controls={dialogId}
+      hidden>{filterText}</button
+    >
     <details
       class="gallery-filters"
       data-gallery-filter-panel
       data-gallery-default-status={defaultStatus}
       open
     >
-      <summary data-gallery-filter-summary data-filter-label={filterLabel}
-        >{filterLabel}</summary
-      >
+      <summary>{filterText}</summary>
       <div
+        data-gallery-filter-controls
         class:list={[
           'gallery-filter-controls',
           { 'gallery-filter-controls--taxonomy': taxonomies.length > 0 },
@@ -172,39 +187,41 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
                     <input type="checkbox" data-gallery-taxonomy-all checked />
                     {taxonomyAllLabel}
                   </label>
-                  <fieldset data-gallery-taxonomy-selected-section hidden>
-                    <legend>Seleccionadas</legend>
-                    <div data-gallery-taxonomy-selected />
-                  </fieldset>
-                  <fieldset>
-                    <legend>Sin seleccionar</legend>
-                    <div data-gallery-taxonomy-unselected>
-                      {taxonomies.map((taxonomy) => (
-                        <label data-gallery-taxonomy-row>
-                          <input
-                            type="checkbox"
-                            value={taxonomy.id}
-                            data-gallery-taxonomy-option
-                          />
-                          {taxonomy.label}
-                          {showCategoryCounts && (
-                            <>
-                              {' '}
-                              <span>({taxonomy.count})</span>
-                            </>
-                          )}
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
+                  <div
+                    class="gallery-taxonomy-list"
+                    data-gallery-taxonomy-scroll
+                  >
+                    <fieldset data-gallery-taxonomy-selected-section hidden>
+                      <legend>Seleccionadas</legend>
+                      <div data-gallery-taxonomy-selected />
+                    </fieldset>
+                    <fieldset>
+                      <legend>Sin seleccionar</legend>
+                      <div data-gallery-taxonomy-unselected>
+                        {taxonomies.map((taxonomy) => (
+                          <label data-gallery-taxonomy-row>
+                            <input
+                              type="checkbox"
+                              value={taxonomy.id}
+                              data-gallery-taxonomy-option
+                            />
+                            {taxonomy.label}
+                            {showCategoryCounts && (
+                              <>
+                                {' '}
+                                <span>({taxonomy.count})</span>
+                              </>
+                            )}
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  </div>
                 </div>
               </details>
             </div>
           )
         }
-        <button type="button" class="gallery-filter-apply" data-gallery-apply>
-          {applyLabel}
-        </button>
         {
           showClearButton && !showActiveFilters && (
             <button
@@ -219,6 +236,43 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
         }
       </div>
     </details>
+    <dialog
+      id={dialogId}
+      class="gallery-filter-dialog modal-shell"
+      data-gallery-filter-dialog
+      aria-labelledby={`${dialogId}-title`}
+    >
+      <div class="gallery-filter-dialog__layout modal-shell__layout">
+        <header class="gallery-filter-dialog__header modal-shell__header">
+          <h2 id={`${dialogId}-title`} data-gallery-dialog-title tabindex="-1">
+            {filterText}
+          </h2>
+          <ModalCloseButton
+            gallery
+            className="gallery-filter-close"
+            label={closeText}
+          />
+        </header>
+        <div class="gallery-filter-dialog__body" data-gallery-dialog-body></div>
+        <footer class="gallery-filter-dialog__footer modal-shell__footer">
+          {
+            showClearButton && (
+              <button
+                type="button"
+                class="gallery-filter-clear"
+                data-gallery-clear
+                hidden
+              >
+                {clearLabel}
+              </button>
+            )
+          }
+          <button type="button" class="gallery-filter-apply" data-gallery-apply
+            >{applyText}</button
+          >
+        </footer>
+      </div>
+    </dialog>
     {
       showClearButton && !showActiveFilters && (
         <button
@@ -250,12 +304,12 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
                 <GalleryImage
                   src={taxonomy.image}
                   alt={taxonomy.imageAlt ?? ''}
-                  sizes="96px"
+                  sizes="64px"
                   class="gallery-featured__image"
                 />
               </span>
             )}
-            <span>
+            <span class="gallery-featured__copy">
               <strong>{taxonomy.label}</strong>
               {showCategoryCounts && (
                 <small>
@@ -263,6 +317,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
                 </small>
               )}
             </span>
+            <span class="gallery-featured__selection" aria-hidden="true" />
           </button>
         ))}
       </div>
@@ -331,10 +386,30 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     margin-top: 2rem;
     width: 100%;
   }
+  .gallery-taxonomy-list[data-can-scroll='true']::after {
+    position: sticky;
+    bottom: 0;
+    display: block;
+    height: 1.75rem;
+    margin-top: -1.75rem;
+    background: linear-gradient(transparent, var(--color-surface) 78%);
+    color: var(--color-filter);
+    content: '⌄';
+    font-size: 1.1rem;
+    line-height: 1.35rem;
+    text-align: center;
+    pointer-events: none;
+  }
+  .gallery-taxonomy-list[data-at-bottom='true']::after {
+    display: none;
+  }
   .gallery-result-count {
     margin: 1rem 0;
-    color: var(--color-muted);
+    color: var(--color-accent);
     font-size: 0.85rem;
+  }
+  [data-gallery-empty] {
+    margin-top: clamp(2rem, 4vw, 3rem);
   }
   .gallery-global-search {
     display: flex;
@@ -347,22 +422,24 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
   .gallery-global-search input,
   .gallery-taxonomy-search input {
     width: 100%;
-    min-height: 48px;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
-    background: transparent;
+    min-height: var(--control-min-height);
+    border: 1px solid color-mix(in srgb, var(--color-filter) 45%, transparent);
+    background: var(--color-surface);
     color: inherit;
     font: inherit;
     padding: 0.65rem 0.85rem;
   }
+  .gallery-global-search > span {
+    color: var(--color-filter);
+  }
   .gallery-global-search input {
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: var(--control-font-size);
   }
   .gallery-global-search input:focus-visible,
   .gallery-taxonomy-search input:focus,
   .gallery-taxonomy-search input:focus-visible {
-    outline: 0 !important;
-    outline-offset: 0;
-    box-shadow: none;
+    outline: none;
   }
   .gallery-filter-actions {
     display: flex;
@@ -384,7 +461,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     .gallery-filter-actions {
       flex: 1.5 1 0;
       border-left: 1px solid
-        color-mix(in srgb, var(--color-accent) 45%, transparent);
+        color-mix(in srgb, var(--color-filter) 45%, transparent);
       min-width: 0;
       padding-left: var(--gallery-filter-divider-gap);
     }
@@ -412,6 +489,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     flex: 0 1 auto;
   }
   .gallery-filter-label {
+    color: var(--color-filter);
     flex: 0 0 auto;
   }
   .gallery-filter-statuses {
@@ -422,14 +500,15 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     flex: 0 0 auto;
     width: max-content;
     min-width: max-content;
-    min-height: 48px;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    min-height: var(--control-min-height);
+    border: 1px solid color-mix(in srgb, var(--color-filter) 45%, transparent);
     border-radius: 0;
-    background: transparent;
-    color: var(--color-accent);
+    background: var(--color-surface);
+    color: var(--color-filter);
     font: inherit;
     cursor: pointer;
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: var(--control-font-size);
     white-space: nowrap;
     transition:
       background-color var(--motion-fast) ease,
@@ -439,7 +518,7 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     margin-left: -1px;
   }
   .gallery-filter-statuses button[aria-pressed='true'] {
-    background: var(--color-accent);
+    background: var(--color-filter);
     color: var(--color-bg);
   }
   .gallery-filter-taxonomy details {
@@ -453,20 +532,23 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     min-width: 0;
     max-width: 100%;
     border-left: 1px solid
-      color-mix(in srgb, var(--color-accent) 45%, transparent);
+      color-mix(in srgb, var(--color-filter) 45%, transparent);
     padding-left: var(--gallery-filter-divider-gap);
   }
   .gallery-filter-taxonomy summary {
+    color: var(--color-filter);
+    background: var(--color-surface);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
     width: 100%;
     min-width: 0;
-    min-height: 48px;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    min-height: var(--control-min-height);
+    border: 1px solid color-mix(in srgb, var(--color-filter) 45%, transparent);
     cursor: pointer;
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: var(--control-font-size);
   }
   .gallery-filter-taxonomy summary span {
     min-width: 0;
@@ -494,12 +576,17 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     transform: rotate(225deg) translate(-0.1rem, -0.1rem);
   }
   .gallery-taxonomy-options {
+    color: var(--color-filter);
     position: absolute;
     z-index: 2;
     width: 100%;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
-    background: var(--color-bg);
+    border: 1px solid color-mix(in srgb, var(--color-filter) 45%, transparent);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-overlay);
     padding: 0.75rem 1rem;
+  }
+  .gallery-taxonomy-list {
+    min-height: 0;
   }
   .gallery-taxonomy-options fieldset {
     min-width: 0;
@@ -539,9 +626,9 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     height: 1.55rem;
     flex: 0 0 1.55rem;
     place-content: center;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 65%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-filter) 65%, transparent);
     border-radius: 0.2rem;
-    background: var(--color-bg);
+    background: var(--color-surface);
     cursor: pointer;
   }
   .gallery-taxonomy-options input[type='checkbox']::after {
@@ -554,18 +641,19 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     opacity: 0;
   }
   .gallery-taxonomy-options input[type='checkbox']:checked {
-    border-color: var(--color-accent);
-    background: var(--color-accent);
+    border-color: var(--color-filter);
+    background: var(--color-filter);
   }
   .gallery-taxonomy-options input[type='checkbox']:checked::after {
     opacity: 1;
   }
   .gallery-taxonomy-options input[type='checkbox']:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-filter);
     outline-offset: 2px;
   }
   .gallery-featured {
-    margin-top: 2.25rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
   .gallery-featured__list {
     display: grid;
@@ -576,65 +664,88 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
     display: flex;
     align-items: center;
     min-width: 0;
-    min-height: 80px;
-    gap: 10px;
-    border: 2px solid transparent;
-    background: var(--color-panel);
-    color: inherit;
+    min-height: 88px;
+    gap: 12px;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: var(--color-accent);
+    color: var(--color-surface);
     cursor: pointer;
     font: inherit;
     font-size: 1rem;
     line-height: 1.25;
-    padding: 3px 8px;
+    padding: 11px 15px;
     text-align: left;
     transition:
       border-color var(--motion-fast) ease,
-      transform var(--motion-fast) ease;
+      background-color var(--motion-fast) ease;
   }
   .gallery-featured__card[aria-pressed='true'] {
-    border-color: var(--color-accent);
+    box-shadow: inset 0 0 0 2px var(--color-surface);
   }
-  .gallery-featured__card:hover,
-  .gallery-featured__card:focus-visible {
-    border-color: var(--color-accent);
+  .gallery-featured__card:not([aria-pressed='true']):hover {
+    background: color-mix(in srgb, var(--color-accent) 92%, var(--color-text));
   }
   .gallery-featured__card:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
+    outline: 2px solid var(--color-filter);
+    outline-offset: 4px;
   }
   .gallery-featured__media {
-    width: min(75px, 38%);
-    flex: 0 0 min(75px, 38%);
-    aspect-ratio: 15 / 14;
+    display: grid;
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    place-items: center;
     overflow: hidden;
+    border-radius: calc(var(--radius) / 2);
+    background: var(--color-panel);
   }
   .gallery-featured__card :global(.gallery-featured__image) {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center 20%;
-    transform: scale(1.25);
-    transform-origin: center 20%;
+    object-fit: contain;
   }
-  .gallery-featured__card span,
+  .gallery-featured__copy,
   .gallery-featured__card small {
     display: block;
   }
-  .gallery-featured__card span {
+  .gallery-featured__copy {
     min-width: 0;
+  }
+  .gallery-featured__selection {
+    display: grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex: 0 0 1.5rem;
+    place-items: center;
+    margin-left: auto;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0;
+  }
+  .gallery-featured__selection::after {
+    content: '✓';
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .gallery-featured__card[aria-pressed='true'] .gallery-featured__selection {
+    opacity: 1;
   }
   .gallery-featured__card strong {
     font-weight: 600;
   }
   .gallery-featured__card small {
     margin-top: 0.35rem;
-    color: var(--color-muted);
+    color: inherit;
     font-size: 0.875rem;
   }
   @media (min-width: 1024px) {
     .gallery-featured__list {
       grid-template-columns: repeat(4, minmax(0, 1fr));
       max-width: 1196px;
+    }
+    .gallery-featured {
+      margin-bottom: 3rem;
     }
   }
   @media (min-width: 768px) and (max-width: 1023px) {
@@ -651,13 +762,17 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
       font-size: 0.75rem;
     }
   }
+  .gallery-featured + .gallery-filter-summary {
+    margin-top: 0;
+  }
   .gallery-filter-summary {
+    color: var(--color-filter);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
     border-top: 1px solid
-      color-mix(in srgb, var(--color-accent) 30%, transparent);
+      color-mix(in srgb, var(--color-filter) 30%, transparent);
     margin: 2rem 0 clamp(1.5rem, 4vw, 3rem);
     padding-top: 1.5rem;
   }
@@ -691,10 +806,10 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
   }
   :global([data-gallery-filter-chips] button) {
     min-height: 2.5rem;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-filter) 45%, transparent);
     border-radius: 999px;
     background: transparent;
-    color: inherit;
+    color: var(--color-filter);
     cursor: pointer;
     font: inherit;
     padding: 0.5rem 1rem;
@@ -702,174 +817,175 @@ const featured = taxonomies.filter((taxonomy) => taxonomy.featured);
   .link-button {
     border: 0;
     background: transparent;
-    color: inherit;
+    color: var(--color-filter);
     cursor: pointer;
     font: inherit;
-    text-decoration: underline;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
   }
   .gallery-filter-clear {
-    min-height: 48px;
-    border: 1px solid var(--color-accent);
+    min-height: 44px;
+    border: 1px solid var(--color-filter);
     border-radius: 0;
     background: transparent;
-    color: var(--color-accent);
+    color: var(--color-filter);
     cursor: pointer;
     font: inherit;
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
   }
   .gallery-filter-clear[hidden] {
     display: none;
   }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .gallery-filter-root {
-      --gallery-filter-divider-gap: 0.5rem;
-    }
-    .gallery-filter-controls {
-      gap: 0.5rem;
-    }
-    .gallery-filter-group {
-      gap: 0.5rem;
-    }
-    .gallery-filter-taxonomy {
-      flex-basis: 14rem;
-      padding-left: 0.5rem;
-    }
-    .gallery-filter-taxonomy summary {
-      gap: 1rem;
-      padding-inline: 0.75rem;
-    }
-    .gallery-filter-statuses button {
-      padding-inline: 0.5rem;
-      font-size: 0.9rem;
-    }
+  .gallery-filter-open,
+  .gallery-filter-apply {
+    min-height: 44px;
+    border: 1px solid var(--color-filter);
+    border-radius: var(--radius);
+    padding: 0.5rem 0.75rem;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    background: var(--color-filter);
+    color: var(--color-bg);
   }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .gallery-filter-root {
-      width: 100%;
-      max-width: 100%;
-    }
-    .gallery-global-search,
-    .gallery-filter-actions {
-      width: 100%;
-      max-width: none;
-    }
-    .gallery-filters {
-      flex: 1 1 100%;
-      width: 100%;
-    }
-    .gallery-filter-controls {
-      width: 100%;
-    }
+  .gallery-filter-open {
+    width: auto;
+    text-align: center;
   }
-  .gallery-global-search input,
-  .gallery-filter-statuses button,
-  .gallery-filter-taxonomy summary {
-    height: 48px;
-    min-height: 48px;
-    padding-block: 0;
+  .gallery-filter-open[hidden] {
+    display: none;
   }
-  @media (max-width: 767px) {
+  .gallery-filter-dialog {
+    width: calc(100% - 32px);
+    max-width: 36rem;
+    height: calc(100dvh - 32px);
+    max-height: calc(100dvh - 32px);
+    padding: 0;
+    overflow: hidden;
+  }
+  .gallery-filter-dialog__layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .gallery-filter-dialog__header h2 {
+    margin: 0;
+    font-size: 1.75rem;
+  }
+  .gallery-filter-dialog__body {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 1rem;
+    overflow: hidden;
+    overscroll-behavior: contain;
+  }
+  .gallery-filter-dialog__footer {
+    display: flex;
+  }
+  .gallery-filter-dialog .gallery-filter-apply {
+    display: block;
+    flex: 1;
+  }
+  .gallery-filter-dialog .gallery-filter-controls,
+  .gallery-filter-dialog .gallery-filter-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+  }
+  .gallery-filter-dialog .gallery-filter-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: stretch;
+    flex: 1 1 auto;
+    gap: 0.75rem;
+  }
+  .gallery-filter-dialog .gallery-filter-group[role='group'] {
+    grid-column: 1;
+    width: 100%;
+  }
+  .gallery-filter-dialog .gallery-filter-label {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  .gallery-filter-dialog .gallery-filter-group + .gallery-filter-group {
+    margin-top: 0;
+  }
+  .gallery-filter-dialog .gallery-filter-statuses {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .gallery-filter-dialog .gallery-filter-statuses button {
+    flex: 1 1 auto;
+    white-space: normal;
+    min-width: 0;
+    margin: 0;
+  }
+  .gallery-filter-dialog .gallery-filter-taxonomy {
+    grid-column: 1;
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    padding: 0;
+  }
+  .gallery-filter-dialog .gallery-filter-taxonomy details,
+  .gallery-filter-dialog .gallery-taxonomy-options,
+  .gallery-filter-dialog .gallery-taxonomy-list {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+  }
+  .gallery-filter-dialog .gallery-filter-taxonomy details {
+    align-self: stretch;
+    flex: 1 1 0;
+    height: 100%;
+    min-height: 0;
+  }
+  .gallery-filter-dialog .gallery-filter-taxonomy summary,
+  .gallery-filter-dialog .gallery-filter-clear--desktop {
+    display: none;
+  }
+  .gallery-filter-dialog .gallery-taxonomy-options {
+    position: absolute;
+    inset: 0;
+    flex: 1 1 0;
+    height: auto;
+    overflow: hidden;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+  .gallery-filter-dialog .gallery-taxonomy-list {
+    flex: 1 1 auto;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--color-filter)
+      color-mix(in srgb, var(--color-filter) 12%, var(--color-surface));
+    scrollbar-width: thin;
+  }
+  .gallery-filter-dialog .gallery-taxonomy-options label {
+    min-height: 44px;
+  }
+  @media (max-width: 1023px) {
+    .gallery-filter-actions,
     .gallery-global-search {
+      width: 100%;
       max-width: none;
     }
-    .gallery-filters {
-      flex: 1 1 100%;
-      width: 100%;
-    }
-    .gallery-filter-actions {
-      align-items: stretch;
-      justify-content: flex-start;
-      width: 100%;
-    }
-    .gallery-filters > summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      width: 100%;
-      min-height: 48px;
-      margin-left: 0;
-      background: var(--color-accent);
-      color: var(--color-bg);
-      cursor: pointer;
-      padding: 0.75rem 1.25rem;
-      font-weight: 700;
-    }
-    .gallery-filters > summary::-webkit-details-marker {
+    .gallery-filters[data-modal-ready] {
       display: none;
     }
-    .gallery-filters > summary::marker {
-      content: '';
-    }
-    .gallery-filters > summary::after {
-      content: '';
-      width: 0.55rem;
-      height: 0.55rem;
-      border-right: 2px solid currentColor;
-      border-bottom: 2px solid currentColor;
-      transform: rotate(45deg) translateY(-0.15rem);
-    }
-    .gallery-filters[open] > summary {
-      width: 100%;
-      margin: 0 0 1.25rem;
-    }
-    .gallery-filters[open] > summary::after {
-      transform: rotate(225deg) translate(-0.1rem, -0.1rem);
-    }
     .gallery-filter-controls {
-      display: block;
-      width: 100%;
+      flex-wrap: wrap;
     }
-    .gallery-filter-apply {
-      display: block;
-      width: 100%;
-      min-height: 48px;
-      margin-top: 1.25rem;
-      padding: 0.75rem 1rem;
-      border: 0;
-      border-radius: var(--radius);
-      background: var(--color-accent);
-      color: var(--color-bg);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .gallery-filter-group {
-      display: block;
-      width: 100%;
-    }
-    .gallery-filter-statuses,
-    .gallery-filter-taxonomy,
-    .gallery-filter-taxonomy details {
-      width: 100%;
-    }
-    .gallery-filter-label {
-      display: block;
-      margin-bottom: 0.65rem;
-    }
-    .gallery-filter-taxonomy {
-      border-left: 0;
-      padding-left: 0;
-    }
-    .gallery-filter-taxonomy details {
-      width: 100%;
-      max-width: none;
-    }
-    .gallery-filter-group + .gallery-filter-group {
-      margin-top: 1.25rem;
-    }
-    .gallery-filter-statuses button {
-      flex: 1 1 0;
-      width: auto;
-      min-width: 0;
-      padding-inline: 0.45rem;
-    }
-    .gallery-filter-taxonomy summary {
-      min-width: 0;
-    }
-    .gallery-taxonomy-options {
-      position: static;
-    }
+  }
+  @media (max-width: 767px) {
     .gallery-filter-summary {
       border-top: 0;
       flex-wrap: wrap;

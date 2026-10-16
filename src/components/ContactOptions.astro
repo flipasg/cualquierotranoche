@@ -1,6 +1,7 @@
 ---
 import { forms } from '../config/forms';
 import { site } from '../data';
+import ArrowIcon from './ArrowIcon.astro';
 import TallyLink from './TallyLink.astro';
 
 const options = [
@@ -31,8 +32,8 @@ const options = [
               <span class="contact-option-description">{description}</span>
             )}
           </span>
-          <span class="contact-option-arrow" aria-hidden="true">
-            →
+          <span class="contact-option-arrow">
+            <ArrowIcon />
           </span>
           <span class="sr-only">
             {site.ui.contact.actionLabel ?? 'Escríbeme'}
@@ -63,9 +64,13 @@ const options = [
     justify-content: space-between;
     gap: 1.5rem;
     padding: 1rem 0;
-    color: var(--color-text);
+    color: var(--color-link);
     font-weight: 400;
     text-decoration: none;
+  }
+  .contact-options :global(.contact-option-link:hover),
+  .contact-options :global(.contact-option-link:focus-visible) {
+    color: var(--color-link);
   }
   .contact-option-copy {
     display: grid;
@@ -83,9 +88,11 @@ const options = [
     font-weight: 400;
   }
   .contact-option-arrow {
-    flex: 0 0 auto;
-    font-size: 1.7rem;
-    line-height: 1;
+    display: grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex: 0 0 1.5rem;
+    place-items: center;
     transition: transform var(--motion-fast) ease;
   }
   .contact-options :global(.contact-option-link:hover .contact-option-arrow),
@@ -94,8 +101,18 @@ const options = [
     transform: translateX(0.25rem);
   }
   .contact-options :global(.contact-option-link:focus-visible) {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-action);
     outline-offset: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .contact-option-arrow {
+      transition: none;
+    }
+    .contact-options :global(.contact-option-link:hover .contact-option-arrow),
+    .contact-options
+      :global(.contact-option-link:focus-visible .contact-option-arrow) {
+      transform: none;
+    }
   }
   .contact-options :global(.unavailable) {
     padding: 1rem 0;

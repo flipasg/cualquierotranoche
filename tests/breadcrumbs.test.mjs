@@ -12,22 +12,25 @@ test('las migas son una navegación semántica con todos los niveles enlazados',
 
   assert.match(
     component,
-    /<nav class="breadcrumbs" aria-label="Migas de pan">/,
+    /<nav\s+class=\{`breadcrumbs[\s\S]*?aria-label="Migas de pan"/,
   );
   assert.match(component, /<ol class="breadcrumbs__list">/);
   assert.doesNotMatch(component, /class="eyebrow breadcrumbs__list"/);
   assert.match(component, /items\.map\(\(item, index\)/);
   assert.match(component, /<a\s+href=\{item\.href\}/);
-  assert.match(component, /aria-current=\{index === items\.length - 1/);
+  assert.match(
+    component,
+    /variant === 'default' && index === items\.length - 1/,
+  );
   assert.match(styles, /\.breadcrumbs__list li \+ li::before \{/);
   assert.match(styles, /content: '\/';/);
   assert.match(
     styles,
-    /\.breadcrumbs__list \{[^}]*color: var\(--color-accent\);[^}]*font-size: 0\.75rem;[^}]*letter-spacing: 0\.14em;[^}]*font-weight: 700;[^}]*text-transform: uppercase;/s,
+    /\.breadcrumbs__list \{[^}]*color: var\(--color-link\);[^}]*font-size: 0\.75rem;[^}]*letter-spacing: 0\.14em;[^}]*font-weight: 700;[^}]*text-transform: uppercase;/s,
   );
   assert.match(
     styles,
-    /\.breadcrumbs__list a \{[^}]*font-weight: inherit;[^}]*text-decoration: underline;/s,
+    /\.breadcrumbs__list a \{[^}]*font-weight: inherit;[^}]*text-decoration-line: underline;/s,
   );
 });
 
