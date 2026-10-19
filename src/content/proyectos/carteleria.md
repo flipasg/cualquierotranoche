@@ -1,8 +1,8 @@
 ---
 title: Cartelería
 description: Una selección de carteles ilustrados realizados para distintos
-  clientes y eventos a lo largo de los años. Cada pieza parte de un contexto
-  diferente, pero todas comparten una aproximación gráfica expresiva y personal.
+  clientes y eventos. Cada pieza parte de un contexto diferente, pero todas
+  comparten una aproximación gráfica expresiva y personal.
 services: Diseño e ilustración para carteles
 contribution: |-
   Carteles ilustrados, creativos y con carácter.  
