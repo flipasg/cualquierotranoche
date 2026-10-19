@@ -140,7 +140,8 @@
       "tattoosViewAll": "Galería",
       "flashViewAll": "Galería",
       "noTattoos": "No hay tatuajes seleccionados para mostrar.",
-      "noFlash": "No hay flash seleccionados para mostrar."
+      "noFlash": "No hay flash seleccionados para mostrar.",
+      "eyebrow": "TATTOO / FLASHBOOK"
     },
     "tattoos": {
       "title": "Tatuajes",
@@ -180,9 +181,9 @@
     "artwork": {
       "title": "Obra",
       "description": "Obra original y seriada ",
-      "eyebrow": "OBRA ORIGINAL",
+      "eyebrow": "OBRA ORIGINAL Y SERIADA",
       "heading": "La cuna, el papel.",
-      "intro": "Papel. Figuras. Error. Imaginario. Trazo aniñado. Rastro. Bestias. Color dormido.\n\nObra original y seriada.",
+      "intro": "Collage. Figuras. Error. Imaginario. Trazo aniñado. Rastro. Bestias. Color dormido.\n\nObra original y seriada.",
       "heroImage": "/uploads/portada3.jpg",
       "heroImageAlt": "Collage",
       "filtersLabel": "Filtrar obras",
@@ -218,7 +219,8 @@
       "contactDescription": "Mi universo visual al servicio de tu idea.",
       "projectContactDescription": "¿Tienes un proyecto en mente? Hablemos",
       "nextProjectLabel": "Siguiente proyecto",
-      "contactCta": "Cuéntame tu proyecto"
+      "contactCta": "Cuéntame tu proyecto",
+      "listingEyebrow": "PROYECTOS ILUSTRACIÓN"
     },
     "imageSizing": {
       "default": "100vw",
