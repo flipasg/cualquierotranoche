@@ -1,13 +1,10 @@
 ---
 title: Cartelería
-description: Una selección de carteles ilustrados realizados para distintos
-  clientes y eventos. Cada pieza parte de un contexto diferente, pero todas
-  comparten una aproximación gráfica expresiva y personal.
+description: "Una selección de carteles ilustrados realizados para distintos
+  clientes y eventos. "
 services: Diseño e ilustración para carteles
-contribution: |-
-  Carteles ilustrados, creativos y con carácter.  
-  Poner un universo gráfico propio al servicio de cada proyecto.
-cover: /uploads/carteleria-0.jpg
+contribution: Carteles ilustrados, creativos y con carácter.
+cover: /uploads/carteleria-5-1.png
 coverAlt: Cartel en la pared con ilustración verde y amarilla
 gallery:
   - src: /uploads/carteleria-3.png
