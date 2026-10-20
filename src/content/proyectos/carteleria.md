@@ -1,7 +1,7 @@
 ---
 title: Cartelería
 description: "{{accent}}Una selección de carteles ilustrados realizados para distintos
-  clientes y eventos. "
+  clientes y eventos.{{/accent}}"
 services: Diseño e ilustración para carteles
 contribution: Carteles ilustrados, creativos y con carácter.
 cover: /uploads/carteleria-5-1.png
