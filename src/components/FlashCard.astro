@@ -3,6 +3,7 @@ import GalleryImage from './GalleryImage.astro';
 import TallyLink from './TallyLink.astro';
 import { forms } from '../config/forms';
 import { site } from '../data';
+import RichText from './RichText.astro';
 interface Props {
   flash: any;
 }
@@ -18,7 +19,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     zoomable
     class="flash-card__image"
     sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-  /><h3>{flash.data.title}</h3><p class="flash-card-meta">
+  /><h3><RichText content={flash.data.title} inline /></h3><p class="flash-card-meta">
     <span>{flash.data.code}</span>
     <TallyLink
       url={forms.tattoo}
@@ -26,7 +27,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
       className="card-cta">{site.ui.flash.requestCta}</TallyLink
     >
   </p>
-  {flash.data.description && <p>{flash.data.description}</p>}
+  {flash.data.description && <RichText content={flash.data.description} inline />}
 </article>
 
 <style>

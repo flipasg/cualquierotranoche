@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { resolve, dirname } from 'node:path';
+import { resolve, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import ts from 'typescript';
@@ -62,9 +62,11 @@ async function renderContact(entries) {
       else if (specifier.startsWith('.')) {
         const dependency = resolve(dirname(path), specifier);
         replacement = await compile(
-          dependency.endsWith('.astro') ? dependency : `${dependency}.ts`,
+          extname(dependency) ? dependency : `${dependency}.ts`,
         );
       } else if (specifier === 'astro/zod')
+        replacement = import.meta.resolve(specifier);
+      else if (specifier === 'marked')
         replacement = import.meta.resolve(specifier);
       if (replacement)
         code = code.replace(match[0], `from ${JSON.stringify(replacement)}`);

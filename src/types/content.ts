@@ -142,7 +142,6 @@ export interface HomeData {
   workHeading?: RichText;
   featuredHeading?: RichText;
   eyebrow?: string;
-  titleEmphasis?: string;
   secondaryImage?: ImagePath;
   secondaryImageAlt?: string;
   secondaryImageCaption?: string;

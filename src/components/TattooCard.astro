@@ -1,6 +1,7 @@
 ---
 import GalleryImage from './GalleryImage.astro';
 import { site } from '../data';
+import RichText from './RichText.astro';
 interface Props {
   tattoo: any;
 }
@@ -15,7 +16,6 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     alt={tattoo.data.coverAlt}
     zoomable
     sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-  /><h3>
-    {tattoo.data.title}
-  </h3><p>{tattoo.data.description}</p>
+  /><h3><RichText content={tattoo.data.title} inline /></h3>
+  <RichText content={tattoo.data.description} inline />
 </article>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import RichText from '../components/RichText.astro';
 import ContactOptions from '../components/ContactOptions.astro';
 import GuestAgenda from '../components/GuestAgenda.astro';
 import GuestAlerts from '../components/GuestAlerts.astro';
@@ -25,8 +26,8 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
     >
       <div class="contact-copy">
         <header class="contact-intro">
-          <h1>{site.ui.contact.heading}</h1>
-          <p class="lead">{site.ui.contact.intro}</p>
+          <h1><RichText content={site.ui.contact.heading} inline /></h1>
+          <RichText content={site.ui.contact.intro} class="lead" />
         </header>
         <ContactOptions />
         {

@@ -1,6 +1,7 @@
 ---
 import GalleryImage from './GalleryImage.astro';
 import { site } from '../data';
+import RichText from './RichText.astro';
 import { getCollectionSlug } from '../lib/obra-collections';
 interface Props {
   work: any;
@@ -39,7 +40,7 @@ const dimensions = [work.data.technique, work.data.dimensions]
       src={work.data.cover}
       alt=""
       sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-    /><h3>{work.data.title}</h3>{dimensions && <p>{dimensions}</p>}<div
+    /><h3><RichText content={work.data.title} inline /></h3>{dimensions && <p>{dimensions}</p>}<div
       class="card__meta"
     >
       {statusLabel && <span class="card-status">{statusLabel}</span>}
@@ -63,10 +64,12 @@ const dimensions = [work.data.technique, work.data.dimensions]
     font-size: 0.85rem;
   }
   .card-status {
+    color: var(--color-accent);
     font-weight: 600;
   }
   .card__price {
     margin: 0;
+    color: var(--color-accent);
     font-size: inherit;
   }
 </style>

@@ -21,6 +21,7 @@ content:
           label: Título,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
           required: true,
         }
       - {
@@ -28,6 +29,7 @@ content:
           label: Descripción,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
       - { name: cover, label: Imagen, type: image, required: true }
       - {
@@ -66,7 +68,12 @@ content:
           search: 'id,label'
           value: '{fields.id}'
           label: '{fields.label}'
-      - { name: body, label: Contenido, type: rich-text }
+      - {
+          name: body,
+          label: Contenido,
+          type: rich-text,
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
+        }
     operations: { create: true, rename: true, delete: true }
   - name: tattoos
     label: Tatuajes
@@ -79,6 +86,7 @@ content:
           label: Título,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
           required: true,
         }
       - {
@@ -86,6 +94,7 @@ content:
           label: Descripción,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
       - { name: cover, label: Fotografía, type: image, required: true }
       - {
@@ -101,7 +110,12 @@ content:
           default: true,
         }
       - { name: draft, label: Borrador, type: boolean, default: false }
-      - { name: body, label: Contenido, type: rich-text }
+      - {
+          name: body,
+          label: Contenido,
+          type: rich-text,
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
+        }
     operations: { create: true, rename: true, delete: true }
   - name: obras
     label: Obras
@@ -114,6 +128,7 @@ content:
           label: Título,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
           required: true,
         }
       - {
@@ -121,6 +136,7 @@ content:
           label: Descripción,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
       - { name: technique, label: Técnica, type: string }
       - { name: dimensions, label: Dimensiones, type: string }
@@ -162,7 +178,12 @@ content:
             { name: alt, label: Texto alternativo, type: string },
           ]
       - { name: draft, label: Borrador, type: boolean, default: false }
-      - { name: body, label: Contenido, type: rich-text }
+      - {
+          name: body,
+          label: Contenido,
+          type: rich-text,
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
+        }
     operations: { create: true, rename: true, delete: true }
   - name: proyectos
     label: Proyectos
@@ -175,12 +196,14 @@ content:
           label: Título,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
       - {
           name: description,
           label: Introducción,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
       - { name: client, label: Cliente, type: string }
       - { name: services, label: Servicios, type: string }
@@ -190,6 +213,7 @@ content:
           label: Mi aportación,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
       - { name: cover, label: Portada, type: image }
       - { name: coverAlt, label: Texto alternativo, type: string }
@@ -203,7 +227,12 @@ content:
             { name: alt, label: Texto alternativo, type: string },
           ]
       - { name: draft, label: Borrador, type: boolean, default: false }
-      - { name: body, label: Contenido, type: rich-text }
+      - {
+          name: body,
+          label: Contenido,
+          type: rich-text,
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
+        }
     operations: { create: true, rename: true, delete: true }
   - name: sobre-mi
     label: Página Sobre mí
@@ -215,6 +244,7 @@ content:
           label: Título,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
         }
       - {
           name: eyebrow,
@@ -227,18 +257,25 @@ content:
           label: Subtítulo,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
         }
       - {
           name: tagline,
           label: Texto introductorio,
           type: rich-text,
           options: { format: markdown, media: false, switcher: false },
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
       - { name: location, label: Ubicación, type: string }
       - { name: portrait, label: Retrato, type: image }
       - { name: portraitAlt, label: Texto alternativo, type: string }
       - { name: draft, label: Borrador, type: boolean, default: false }
-      - { name: body, label: Presentación, type: rich-text }
+      - {
+          name: body,
+          label: Presentación,
+          type: rich-text,
+          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
+        }
   - name: site
     label: Datos generales
     type: file
@@ -355,6 +392,7 @@ content:
               label: Titular,
               type: rich-text,
               options: { format: markdown, media: false, switcher: false },
+              description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
               required: true,
             }
           - {
@@ -362,10 +400,10 @@ content:
               label: Introducción,
               type: rich-text,
               options: { format: markdown, media: false, switcher: false },
+              description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
               required: true,
             }
           - { name: eyebrow, label: Antetítulo, type: string }
-          - { name: titleEmphasis, label: Fragmento en cursiva, type: string }
           - {
               name: heroImage,
               label: Imagen principal,
@@ -443,12 +481,14 @@ content:
               label: Título de la sección de trabajo,
               type: rich-text,
               options: { format: markdown, media: false, switcher: false },
+              description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
             }
           - {
               name: featuredHeading,
               label: Título de destacados,
               type: rich-text,
               options: { format: markdown, media: false, switcher: false },
+              description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
             }
           - name: disciplines
             label: Disciplinas
@@ -461,12 +501,14 @@ content:
                   label: Título,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                  description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
                 },
                 {
                   name: text,
                   label: Texto,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                  description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
                 },
                 { name: href, label: Enlace, type: string },
                 { name: linkLabel, label: Texto del enlace, type: string },
@@ -616,12 +658,14 @@ content:
                   label: Titular,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                  description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
                 },
                 {
                   name: intro,
                   label: Introducción,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                  description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
                 },
                 {
                   name: studio,
@@ -657,6 +701,7 @@ content:
                   label: Titular,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                  description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
                 },
                 { name: eyebrow, label: Antetítulo, type: string },
                 {
@@ -664,6 +709,7 @@ content:
                   label: Introducción,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                  description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
                 },
                 {
                   name: heroImage,
@@ -714,6 +760,7 @@ content:
                   label: Titular,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                  description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas.',
                 },
                 {
                   name: paginationLabel,
@@ -879,6 +926,7 @@ content:
                   label: Introducción,
                   type: rich-text,
                   options: { format: markdown, media: false, switcher: false },
+                  description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
                 },
                 {
                   name: heroImage,

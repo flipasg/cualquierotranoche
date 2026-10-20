@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryImage from '../components/GalleryImage.astro';
 import DisciplineCard from '../components/DisciplineCard.astro';
 import WorkCard from '../components/WorkCard.astro';
+import RichText from '../components/RichText.astro';
 import { guests } from '../config/guests';
 import { site } from '../data';
 import { guestDays, visibleGuests } from '../lib/guests';
@@ -17,9 +18,6 @@ const featuredWorks = (site.home.featuredWorks ?? [])
   })
   .filter((work): work is (typeof works)[number] => Boolean(work));
 const nextGuests = visibleGuests(guests.entries).slice(0, 3);
-const title = site.home.title.trim();
-const emphasis = site.home.titleEmphasis?.trim();
-const emphasisIndex = emphasis ? title.indexOf(emphasis) : -1;
 ---
 
 <BaseLayout
@@ -34,19 +32,9 @@ const emphasisIndex = emphasis ? title.indexOf(emphasis) : -1;
         )
       }
       <h1 class="hero__title" id="home-heading">
-        {
-          emphasis && emphasisIndex >= 0 ? (
-            <>
-              {title.slice(0, emphasisIndex)}
-              <em>{emphasis}</em>
-              {title.slice(emphasisIndex + emphasis.length)}
-            </>
-          ) : (
-            title
-          )
-        }
+        <RichText content={site.home.title} inline />
       </h1>
-      <p class="lead">{site.home.intro}</p>
+      <RichText content={site.home.intro} class="lead" />
       <div class="button-row">
         {
           site.home.primaryCta?.label && site.home.primaryCta.href && (
@@ -132,7 +120,7 @@ const emphasisIndex = emphasis ? title.indexOf(emphasis) : -1;
         aria-labelledby="featured-heading"
       >
         <h2 id="featured-heading">
-          {site.home.featuredHeading ?? 'Obras destacadas'}
+          <RichText content={site.home.featuredHeading ?? 'Obras destacadas'} inline />
         </h2>
         <div class="featured-grid" data-reveal-group>
           {featuredWorks.map((work) => (
@@ -144,7 +132,7 @@ const emphasisIndex = emphasis ? title.indexOf(emphasis) : -1;
   }
 
   <section id="trabajo" class="container section disciplines-section">
-    <h2 data-reveal>{site.home.workHeading}</h2>
+    <h2 data-reveal><RichText content={site.home.workHeading} inline /></h2>
     <div class="grid grid-3" data-reveal-group>
       {
         site.home.disciplines?.map((discipline) => (

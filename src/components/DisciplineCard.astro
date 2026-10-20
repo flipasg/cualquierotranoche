@@ -1,6 +1,7 @@
 ---
 import GalleryImage from './GalleryImage.astro';
 import ArrowIcon from './ArrowIcon.astro';
+import RichText from './RichText.astro';
 import { type HomeDiscipline } from '../data';
 
 type Props = HomeDiscipline;
@@ -14,7 +15,8 @@ const { title, text, href, linkLabel, image, imageAlt } = Astro.props;
       alt={`${imageAlt}`}
       class="discipline-card__image"
     /><div class="discipline-card__body">
-      <h3>{title}</h3><p>{text}</p><span class="discipline-card__cta">
+      <h3><RichText content={title} inline /></h3><RichText content={text} inline />
+      <span class="discipline-card__cta">
         {linkLabel}<ArrowIcon />
       </span>
     </div>

@@ -1,27 +1,23 @@
 ---
-import { marked } from 'marked';
+import { renderRichText } from '../lib/rich-text.mjs';
 
 interface Props {
   content?: string | null;
   class?: string;
+  inline?: boolean;
 }
 
 const {
   content,
   class: className,
+  inline = false,
 } = Astro.props;
 
-const html = content
-  ? await marked.parse(content, {
-      gfm: true,
-      breaks: true,
-    })
-  : '';
+const html = renderRichText(content, inline);
 ---
 
-{html && (
-  <div
-    class:list={['rich-text', className]}
-    set:html={html}
-  />
-)}
+{html && inline ? (
+  <span class:list={['rich-text', className]} set:html={html} />
+) : html ? (
+  <div class:list={['rich-text', className]} set:html={html} />
+) : null}

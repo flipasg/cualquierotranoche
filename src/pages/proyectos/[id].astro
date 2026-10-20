@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
@@ -7,6 +7,7 @@ import Eyebrow from '../../components/Eyebrow.astro';
 import TallyLink from '../../components/TallyLink.astro';
 import { forms } from '../../config/forms';
 import { site } from '../../data';
+import RichText from '../../components/RichText.astro';
 export async function getStaticPaths() {
   const projects = await getCollection('proyectos', ({ data }) => !data.draft);
   return projects.map((project, index) => ({
@@ -21,7 +22,6 @@ export async function getStaticPaths() {
   }));
 }
 const { project, nextProject } = Astro.props;
-const { Content } = await render(project);
 const gallery = project.data.gallery ?? [];
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
@@ -45,11 +45,9 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
             { label: project.data.title, href: `/proyectos/${project.id}/` },
           ]}
         />
-        <h1>
-          {project.data.title}
-        </h1><p class="project-meta">
+        <h1><RichText content={project.data.title} inline /></h1><p class="project-meta">
           {project.data.client} · {project.data.services} · {project.data.year}
-        </p><p class="lead">{project.data.description}</p>
+        </p><RichText content={project.data.description} class="lead" />
       </div>
       <GalleryImage
         src={project.data.cover}
@@ -59,8 +57,8 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
       />
     </div><section class="container section proyecto-narrative" data-reveal>
       <Eyebrow text={site.ui.illustration.contributionEyebrow} /><h2>
-        {project.data.contribution}
-      </h2><Content />
+        <RichText content={project.data.contribution} inline />
+      </h2><RichText content={project.body} class="prose" />
     </section><section class="proyecto-gallery" data-reveal-group>
       {
         gallery.map((image: any) => (

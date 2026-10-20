@@ -1,11 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import GalleryImage from '../../../components/GalleryImage.astro';
 import TallyLink from '../../../components/TallyLink.astro';
 import { forms } from '../../../config/forms';
 import { artworkCollections, site } from '../../../data';
+import RichText from '../../../components/RichText.astro';
 
 export async function getStaticPaths() {
   return (
@@ -28,7 +29,6 @@ const collection = artworkCollections.collections?.find(
   (collection) => collection.id === work.data.collection,
 );
 
-const { Content } = await render(work);
 const gallery = work.data.gallery ?? [];
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
@@ -73,7 +73,7 @@ const detailStoryHeading = (
             },
           ]}
         />
-        <h1>{work.data.title}</h1>
+        <h1><RichText content={work.data.title} inline /></h1>
         {
           statusLabel && (
             <p class="obra-status">
@@ -136,7 +136,7 @@ const detailStoryHeading = (
 
     <section class="obra-story prose" data-reveal>
       <h2>{detailStoryHeading}</h2>
-      <Content />
+      <RichText content={work.body} />
     </section>
 
     <section class="obra-gallery" data-reveal-group>
@@ -216,6 +216,7 @@ const detailStoryHeading = (
   }
   .obra-price {
     margin: 0.75rem 0 0;
+    color: var(--color-accent);
     font: 700 clamp(1.8rem, 3vw, 2.5rem)/1.1 var(--font-body);
   }
   .obra-shipping {

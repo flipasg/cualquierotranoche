@@ -2,7 +2,7 @@
   "name": "Patricia",
   "artisticName": "Cualquier otra noche",
   "home": {
-    "title": "Dibujar. Pintar. Tatuar.",
+    "title": "Dibujar. Pintar. {{accent}}Tatuar.{{/accent}}",
     "intro": "Mancha. Tatuajes. Papel rasgado. Trazo despeinado. Libretas. Piel. Color tenue. Texturas.",
     "heroImage": "/uploads/portada1.jpg",
     "heroImageAlt": "Fotografía en el taller",
@@ -21,12 +21,11 @@
     },
     "workHeading": "Explora mi trabajo",
     "eyebrow": "PATRICIA GARCÍA RAMÍREZ · VITORIA-GASTEIZ",
-    "titleEmphasis": "Tatuar.",
     "agendaLabel": "Próximas ciudades",
     "disciplines": [
       {
         "title": "Tattoo",
-        "text": "Tatuajes realizados y diseños disponibles",
+        "text": "{{accent}}Tatuajes realizados y diseños disponibles{{/accent}}",
         "href": "/tattoo/",
         "linkLabel": "Explorar tattoo",
         "image": "/uploads/portada2.jpg",
@@ -34,7 +33,7 @@
       },
       {
         "title": "Obra",
-        "text": "Obra original y seriada",
+        "text": "{{accent}}Obra original y seriada{{/accent}}",
         "href": "/obra/",
         "linkLabel": "Explorar obra",
         "image": "/uploads/portada3.jpg",
@@ -42,7 +41,7 @@
       },
       {
         "title": "Proyectos",
-        "text": "Imágenes para proyectos y marcas",
+        "text": "{{accent}}Imágenes para proyectos y marcas{{/accent}}",
         "href": "/proyectos/",
         "linkLabel": "Explorar proyectos",
         "image": "/uploads/portada4-4.jpg",
@@ -130,8 +129,8 @@
     "tattoo": {
       "title": "Tattoo",
       "description": "Tatuajes y flash",
-      "heading": "El dibujo, sobre la piel.",
-      "intro": "Textura cruda. Trazo orgánico. Imágenes que irrumpen en el cuerpo.\n\nPiezas recién hechas y curadas. Flashbook.",
+      "heading": "El dibujo, {{accent}}sobre la piel.{{/accent}}",
+      "intro": "Textura cruda. Trazo orgánico. Imágenes que irrumpen en el cuerpo.\n\n{{accent}}Piezas recién hechas y curadas. Flashbook.{{/accent}}",
       "heroImage": "/uploads/portada2.jpg",
       "heroImageAlt": "Tatuaje torso",
       "tattoos": "Tatuajes",
@@ -182,8 +181,8 @@
       "title": "Obra",
       "description": "Obra original y seriada ",
       "eyebrow": "OBRA ORIGINAL Y SERIADA",
-      "heading": "La cuna, el papel.",
-      "intro": "Collage. Figuras. Error. Imaginario. Trazo aniñado. Rastro. Bestias. Color dormido.\n\nObra original y seriada.",
+      "heading": "La cuna, {{accent}}el papel.{{/accent}}",
+      "intro": "Collage. Figuras. Error. Imaginario. Trazo aniñado. Rastro. Bestias. Color dormido.\n\n{{accent}}Obra original y seriada.{{/accent}}",
       "heroImage": "/uploads/portada3.jpg",
       "heroImageAlt": "Collage",
       "filtersLabel": "Filtrar obras",
@@ -210,8 +209,8 @@
     "illustration": {
       "title": "Proyectos",
       "description": "Proyectos visuales, cartelería e identidad.",
-      "heading": "Tu idea, mi dibujo.",
-      "intro": "Colaboración. Juego. Creatividad. Carácter. Gesto. Identidad. Dibujo.\n\nDiseño de carteleria. Editorial. Imagen de marca. Proyectos ilustrados.",
+      "heading": "Tu idea, {{accent}}mi dibujo.{{/accent}}",
+      "intro": "Colaboración. Juego. Creatividad. Carácter. Gesto. Identidad. Dibujo.\n\n{{accent}}Diseño de carteleria. Editorial. Imagen de marca. Proyectos ilustrados.{{/accent}}",
       "heroImage": "/uploads/portada4-1.jpg",
       "heroImageAlt": "Cartel",
       "projectCta": "Ver proyecto",

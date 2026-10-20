@@ -2,6 +2,7 @@
 import GalleryImage from './GalleryImage.astro';
 import { site } from '../data';
 import ArrowIcon from './ArrowIcon.astro';
+import RichText from './RichText.astro';
 interface Props {
   project: any;
 }
@@ -21,8 +22,8 @@ const projectHref = `/proyectos/${project.id}/`;
       sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
       class="discipline-card__image"
     /><div class="discipline-card__body">
-      <h3>{project.data.title}</h3>
-      {project.data.description && <p>{project.data.description}</p>}
+      <h3><RichText content={project.data.title} inline /></h3>
+      {project.data.description && <RichText content={project.data.description} inline />}
       <span class="discipline-card__cta">
         {site.ui.illustration.projectCta}<ArrowIcon />
       </span>

@@ -51,7 +51,7 @@ const artworkStatuses = [
     <section class="container section page-opening artwork-opening">
       <div class="page-opening__copy" data-reveal>
         <Eyebrow text={site.ui.artwork.eyebrow} /><h1>
-          {site.ui.artwork.heading}
+          <RichText content={site.ui.artwork.heading} inline />
         </h1><RichText content={site.ui.artwork.intro} class="lead" />
       </div>
       {

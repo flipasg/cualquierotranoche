@@ -18,7 +18,7 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
   <section class="container section page-opening project-listing-opening">
     <div class="page-opening__copy" data-reveal>
       <Eyebrow text={site.ui.illustration.listingEyebrow ?? 'PROYECTOS'} />
-      <h1>{site.ui.illustration.heading}</h1>
+      <h1><RichText content={site.ui.illustration.heading} inline /></h1>
       <RichText content={site.ui.illustration.intro} class="lead" />
     </div>
     {

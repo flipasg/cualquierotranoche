@@ -1,16 +1,16 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryImage from '../components/GalleryImage.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import { site } from '../data';
 import { guests } from '../config/guests';
 import { visibleGuests } from '../lib/guests';
+import RichText from '../components/RichText.astro';
 
 const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
 const page = await getEntry('paginas', 'sobre-mi');
 if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible');
-const { Content } = await render(page);
 ---
 
 <BaseLayout title={site.ui.about.title} description={site.ui.about.description}
@@ -23,11 +23,11 @@ const { Content } = await render(page);
       />
     </div><div class="about-opening__copy" data-reveal>
       <Eyebrow text={page.data.eyebrow} />
-      <h1>{page.data.title}</h1><h2 class="about-subtitle">
-        {page.data.subtitle}
+      <h1><RichText content={page.data.title} inline /></h1><h2 class="about-subtitle">
+        <RichText content={page.data.subtitle} inline />
       </h2>
-      {page.data.tagline && <p class="about-tagline">{page.data.tagline}</p>}
-      <div class="prose"><Content /></div><p class="about-location">
+      {page.data.tagline && <RichText content={page.data.tagline} class="about-tagline" inline />}
+      <RichText content={page.body} class="prose" /><p class="about-location">
         <strong>{page.data.location}</strong>
       </p>
       <div class="button-row about-actions">
@@ -68,9 +68,7 @@ const { Content } = await render(page);
   }
   .about-subtitle {
     margin: 0.5rem 0 2rem;
-    color: var(--color-accent);
     font-size: clamp(1.35rem, 2.7vw, 2rem);
-    font-style: italic;
   }
   .about-tagline {
     max-width: 34rem;

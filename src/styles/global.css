@@ -170,6 +170,9 @@ p {
 .muted {
   color: var(--color-muted);
 }
+.text-accent {
+  color: var(--color-accent);
+}
 .button {
   display: inline-flex;
   justify-content: center;
@@ -426,6 +429,10 @@ html[data-motion-ready='true'] [data-reveal][data-reveal-state='revealed'] {
 }
 .discipline-card__body p {
   color: var(--color-muted);
+}
+.discipline-card__body > .rich-text {
+  display: block;
+  color: var(--color-accent);
 }
 .discipline-card__cta {
   display: inline-flex;

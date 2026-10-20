@@ -1,6 +1,6 @@
 ---
 title: Cartelería
-description: "Una selección de carteles ilustrados realizados para distintos
+description: "{{accent}}Una selección de carteles ilustrados realizados para distintos
   clientes y eventos. "
 services: Diseño e ilustración para carteles
 contribution: Carteles ilustrados, creativos y con carácter.

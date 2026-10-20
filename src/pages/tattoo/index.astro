@@ -28,7 +28,7 @@ const tattoos = await getCollection(
   <section class="container section page-opening tattoo-opening">
     <div class="page-opening__copy" data-reveal>
       <Eyebrow text={site.ui.tattoo.eyebrow ?? 'TATUAJE DE AUTORA'} />
-      <h1>{site.ui.tattoo.heading}</h1>
+      <h1><RichText content={site.ui.tattoo.heading} inline /></h1>
       <RichText content={site.ui.tattoo.intro} class="lead" />
       <div class="button-row">
         <a class="button" href="#flash"
