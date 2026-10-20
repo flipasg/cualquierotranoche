@@ -128,6 +128,9 @@ p {
 .section {
   padding-block: clamp(4rem, 10vw, 8rem);
 }
+.detail-page {
+  padding-block-start: clamp(2rem, 5vw, 4rem);
+}
 .eyebrow {
   font-size: 0.75rem;
   letter-spacing: 0.14em;
@@ -917,6 +920,12 @@ html[data-motion-ready='true'] [data-reveal][data-reveal-state='revealed'] {
 :focus-visible {
   outline: 3px solid var(--color-action);
   outline-offset: 3px;
+}
+input:focus,
+textarea:focus,
+select:focus,
+.gallery-image-link:focus-visible {
+  outline: none;
 }
 footer {
   background: var(--color-surface);

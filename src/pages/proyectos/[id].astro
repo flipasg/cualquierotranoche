@@ -32,7 +32,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   description={project.data.description}
   socialImage={project.data.cover}
   socialImageAlt={project.data.coverAlt}
-  ><article class="container section">
+  ><article class="container section detail-page">
     <div class="grid grid-2 proyecto-detail">
       <div data-reveal>
         <Breadcrumbs
@@ -45,7 +45,9 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
             { label: project.data.title, href: `/proyectos/${project.id}/` },
           ]}
         />
-        <h1><RichText content={project.data.title} inline /></h1><p class="project-meta">
+        <h1><RichText content={project.data.title} inline /></h1><p
+          class="project-meta"
+        >
           {project.data.client} · {project.data.services} · {project.data.year}
         </p><RichText content={project.data.description} class="lead" />
       </div>
@@ -150,6 +152,15 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  @media (max-width: 767px) {
+    .proyecto-gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .proyecto-gallery .card--media-sized :global(img) {
+      height: auto;
+      aspect-ratio: 4 / 5;
+    }
   }
   @media (min-width: 768px) {
     .proyecto-gallery {

@@ -51,7 +51,7 @@ const detailStoryHeading = (
   socialImage={work.data.cover}
   socialImageAlt={work.data.coverAlt}
 >
-  <article class="container section">
+  <article class="container section detail-page">
     <div class="grid grid-2 obra-detail">
       <div class="obra-detail__image">
         <GalleryImage
@@ -160,7 +160,6 @@ const detailStoryHeading = (
   .obra-detail {
     gap: clamp(1.25rem, 4vw, 3rem);
     align-items: start;
-    margin-top: 1.5rem;
     min-width: 0;
   }
   .obra-detail__image,
@@ -240,6 +239,16 @@ const detailStoryHeading = (
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  @media (max-width: 767px) {
+    .obra-gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .obra-gallery .card--media-sized :global(img) {
+      height: auto;
+      aspect-ratio: 4 / 5;
+    }
   }
 
   @media (min-width: 768px) {
