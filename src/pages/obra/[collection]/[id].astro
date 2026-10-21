@@ -48,7 +48,7 @@ const statusLabel =
       : work.data.status === 'vendida'
         ? (site.ui.artwork.statusSold ?? 'Vendida')
         : undefined;
-      const canShowPurchaseInfo = work.data.status !== 'vendida';
+const canShowPurchaseInfo = work.data.status !== 'vendida';
 const imageItems = [
   { src: work.data.cover, alt: work.data.coverAlt },
   ...gallery,
@@ -89,10 +89,7 @@ const imageItems = [
               </a>
             ))
           }
-          <div
-            class="obra-image-controls"
-            aria-label="Navegación de imágenes"
-          >
+          <div class="obra-image-controls" aria-label="Navegación de imágenes">
             <button
               type="button"
               class="obra-image-control--previous"
@@ -124,11 +121,7 @@ const imageItems = [
                   aria-label={`Ver imagen ${index + 1}`}
                   aria-pressed={index === 0 ? 'true' : 'false'}
                 >
-                  <GalleryImage
-                    src={image.src}
-                    alt={image.alt}
-                    sizes="96px"
-                  />
+                  <GalleryImage src={image.src} alt={image.alt} sizes="96px" />
                 </button>
               ))
             }
@@ -251,96 +244,18 @@ const imageItems = [
         {
           canShowPurchaseInfo && (
             <p class="obra-purchase-note">
-              {
-                site.ui.artwork.purchaseNote ??
-                  'Consulta disponibilidad y envío. Enviar el formulario no confirma la compra.'
-              }
+              {site.ui.artwork.purchaseNote ??
+                'Consulta disponibilidad y envío. Enviar el formulario no confirma la compra.'}
             </p>
           )
         }
       </div>
     </div>
-
   </article>
 </BaseLayout>
 
-<script>
-  document.querySelectorAll('[data-obra-gallery]').forEach((gallery) => {
-    const mainLink = gallery.querySelector<HTMLAnchorElement>(
-      '[data-image-viewer-trigger]',
-    );
-    const mainImage = mainLink?.querySelector<HTMLImageElement>('img');
-    const media = gallery.querySelector<HTMLElement>('.obra-detail__media');
-    const thumbnails = [
-      ...gallery.querySelectorAll<HTMLButtonElement>(
-        '[data-obra-image-thumbnail]',
-      ),
-    ];
-    const previous = gallery.querySelector<HTMLButtonElement>(
-      '[data-obra-image-previous]',
-    );
-    const next = gallery.querySelector<HTMLButtonElement>(
-      '[data-obra-image-next]',
-    );
-    const count = gallery.querySelector<HTMLElement>('[data-obra-image-count]');
-    if (
-      !mainLink ||
-      !mainImage ||
-      !media ||
-      !previous ||
-      !next ||
-      !count ||
-      !thumbnails.length
-    )
-      return;
-
-    const syncMediaWidth = () => {
-      const imageWidth = Number(mainImage.getAttribute('width'));
-      const imageHeight = Number(mainImage.getAttribute('height'));
-      const maxHeight = Number.parseFloat(
-        getComputedStyle(mainImage).maxHeight,
-      );
-      if (!imageWidth || !imageHeight || !maxHeight) return;
-      const scale = Math.min(
-        1,
-        gallery.clientWidth / imageWidth,
-        maxHeight / imageHeight,
-      );
-      media.style.width = `${imageWidth * scale}px`;
-    };
-    syncMediaWidth();
-    new ResizeObserver(syncMediaWidth).observe(mainImage);
-    window.addEventListener('resize', syncMediaWidth);
-
-    let activeIndex = 0;
-
-    const activate = (index: number) => {
-      const thumbnail = thumbnails[index];
-      if (!thumbnail) return;
-      activeIndex = index;
-      const image = thumbnail.querySelector<HTMLImageElement>('img');
-      if (!image) return;
-      const source = image.getAttribute('src') || image.src;
-      mainLink.href = source;
-      mainImage.src = source;
-      mainImage.removeAttribute('srcset');
-      mainImage.alt = image.alt;
-      mainLink.setAttribute('aria-label', `Ampliar imagen: ${image.alt}`);
-      thumbnails.forEach((thumbnail, thumbnailIndex) => {
-        thumbnail.setAttribute('aria-pressed', String(thumbnailIndex === index));
-      });
-      previous.disabled = index === 0;
-      next.disabled = index === thumbnails.length - 1;
-      count.textContent = `${index + 1} / ${thumbnails.length}`;
-    };
-
-    thumbnails.forEach((thumbnail, index) => {
-      thumbnail.addEventListener('click', () => activate(index));
-    });
-    previous.addEventListener('click', () => activate(activeIndex - 1));
-    next.addEventListener('click', () => activate(activeIndex + 1));
-  });
-</script>
+<!-- Keep the controller external: the site CSP blocks inline scripts. -->
+<script is:inline type="module" src="/scripts/obra-gallery.js"></script>
 
 <style>
   .detail-navigation {
