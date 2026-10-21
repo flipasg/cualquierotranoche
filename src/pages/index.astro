@@ -17,7 +17,7 @@ const featuredWorks = (site.home.featuredWorks ?? [])
     return workById.get(id);
   })
   .filter((work): work is (typeof works)[number] => Boolean(work));
-const nextGuests = visibleGuests(guests.entries).slice(0, 3);
+const nextGuests = visibleGuests(guests.entries);
 ---
 
 <BaseLayout
@@ -87,14 +87,16 @@ const nextGuests = visibleGuests(guests.entries).slice(0, 3);
       site.home.agendaVisible !== false && nextGuests.length > 0 && (
         <div
           class="hero__agenda"
+          data-guest-list
+          data-guest-limit="3"
           aria-label={site.home.agendaLabel ?? 'Próximos guests'}
         >
           <span class="hero__agenda-label">
             {site.home.agendaLabel ?? 'Próximas fechas'}
           </span>
           <ul class="hero__agenda-list">
-            {nextGuests.map((guest) => (
-              <li>
+            {nextGuests.map((guest, index) => (
+              <li data-guest-end={guest.endDate} hidden={index >= 3}>
                 {guest.city}{' '}
                 <time datetime={guest.startDate}>{guestDays(guest)}</time>
               </li>
@@ -120,7 +122,10 @@ const nextGuests = visibleGuests(guests.entries).slice(0, 3);
         aria-labelledby="featured-heading"
       >
         <h2 id="featured-heading">
-          <RichText content={site.home.featuredHeading ?? 'Obras destacadas'} inline />
+          <RichText
+            content={site.home.featuredHeading ?? 'Obras destacadas'}
+            inline
+          />
         </h2>
         <div class="featured-grid" data-reveal-group>
           {featuredWorks.map((work) => (

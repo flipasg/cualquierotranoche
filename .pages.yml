@@ -1366,7 +1366,7 @@ content:
             label: Fecha de fin
             type: date
             required: true
-            description: Para una sola jornada, repite la fecha de inicio. Incluye el año correspondiente a esta visita.
+            description: Para una sola jornada, repite la fecha de inicio. La visita deja de mostrarse al día siguiente de esta fecha, según la hora de Madrid, aunque siga activa.
             options: { format: yyyy-MM-dd, time: false }
           - name: color
             label: Color
@@ -1379,7 +1379,7 @@ content:
             label: Visible
             type: boolean
             default: true
-            description: Activa la visita en la agenda y en el pie. Desactívala cuando ya no quieras anunciarla.
+            description: Activa la visita en la web mientras no haya pasado su fecha de fin. Desactívala para retirarla antes.
   - name: ciudades
     label: Ciudades
     type: file

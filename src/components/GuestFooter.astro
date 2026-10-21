@@ -19,11 +19,15 @@ const show =
 
 {
   show && (
-    <section class="footer-guests" aria-labelledby="footer-guests-heading">
+    <section
+      class="footer-guests"
+      aria-labelledby="footer-guests-heading"
+      data-guest-list
+    >
       <h2 id="footer-guests-heading">{config.footerHeading}</h2>
       <ul>
         {entries.map((guest) => (
-          <li>
+          <li data-guest-end={guest.endDate}>
             <div class="footer-guest">
               <span class="footer-guest-title">
                 <span

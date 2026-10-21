@@ -8,7 +8,10 @@ import { guests } from '../config/guests';
 import { visibleGuests } from '../lib/guests';
 import RichText from '../components/RichText.astro';
 
-const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
+const lastGuestDate = visibleGuests(guests.entries)
+  .map((guest) => guest.endDate)
+  .sort()
+  .at(-1);
 const page = await getEntry('paginas', 'sobre-mi');
 if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible');
 ---
@@ -23,10 +26,16 @@ if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible')
       />
     </div><div class="about-opening__copy" data-reveal>
       <Eyebrow text={page.data.eyebrow} />
-      <h1><RichText content={page.data.title} inline /></h1><h2 class="about-subtitle">
+      <h1><RichText content={page.data.title} inline /></h1><h2
+        class="about-subtitle"
+      >
         <RichText content={page.data.subtitle} inline />
       </h2>
-      {page.data.tagline && <RichText content={page.data.tagline} class="about-tagline" inline />}
+      {
+        page.data.tagline && (
+          <RichText content={page.data.tagline} class="about-tagline" inline />
+        )
+      }
       <RichText content={page.body} class="prose" /><p class="about-location">
         <strong>{page.data.location}</strong>
       </p>
@@ -35,9 +44,10 @@ if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible')
           >{site.home.primaryCta?.label ?? 'Explorar mi trabajo'}</a
         >
         {
-          site.home.guestsCta?.visible !== false && hasVisibleGuests && (
+          site.home.guestsCta?.visible !== false && lastGuestDate && (
             <a
               class="button secondary"
+              data-guest-end={lastGuestDate}
               href={site.home.guestsCta?.href ?? '/contacto/#proximos-guests'}
             >
               {site.home.guestsCta?.label ?? 'Próximas ciudades'}

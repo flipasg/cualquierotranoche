@@ -19,12 +19,13 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
 >
   <section class="container contact-page">
     <div
+      data-guest-contact
       class:list={[
         'contact-content',
         { 'contact-content--without-agenda': !hasVisibleGuests },
       ]}
     >
-      <div class="contact-copy">
+      <div class="contact-copy" data-guest-contact-copy>
         <header class="contact-intro">
           <h1><RichText content={site.ui.contact.heading} inline /></h1>
           <RichText content={site.ui.contact.intro} class="lead" />
@@ -75,7 +76,7 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
   .contact-content--without-agenda {
     max-width: 52rem;
   }
-  .contact-city-alerts {
+  .contact-copy :global(.contact-city-alerts) {
     margin-top: 24px;
     scroll-margin-top: 8rem;
   }

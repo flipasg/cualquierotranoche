@@ -22,6 +22,13 @@ const guest = {
   visible: true,
 };
 
+test.beforeEach((context) => {
+  context.mock.timers.enable({
+    apis: ['Date'],
+    now: new Date('2026-10-02T12:00:00Z'),
+  });
+});
+
 async function renderContact(entries) {
   const config = { ...configured, entries };
   const cache = new Map();
@@ -92,6 +99,10 @@ async function renderContact(entries) {
 for (const [name, entries] of [
   ['sin visitas', []],
   ['con todas las visitas ocultas', [{ ...guest, visible: false }]],
+  [
+    'con todas las visitas terminadas pero activas',
+    [{ ...guest, endDate: '2026-10-01' }],
+  ],
 ]) {
   test(`Contacto ${name} muestra un solo aviso después de los formularios`, async () => {
     const html = await renderContact(entries);
@@ -115,11 +126,13 @@ test('Contacto con visitas conserva el aviso en la agenda, sin duplicarlo bajo l
   const html = await renderContact([
     guest,
     { ...guest, id: 'oculta', city: 'Ciudad oculta', visible: false },
+    { ...guest, id: 'pasada', city: 'Ciudad pasada', endDate: '2026-10-01' },
   ]);
   assert.equal((html.match(/portfolio-guests-alerts/g) ?? []).length, 1);
   assert.match(html, /id="guests-heading"/);
   assert.match(html, /Ciudad de prueba/);
   assert.doesNotMatch(html, /Ciudad oculta/);
+  assert.doesNotMatch(html, /Ciudad pasada/);
   assert.doesNotMatch(html, /class="contact-city-alerts(?:\s|")/);
   assert.ok(
     html.indexOf('class="guest-event') <

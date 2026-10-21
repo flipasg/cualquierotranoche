@@ -669,6 +669,9 @@ html[data-motion-ready='true'] [data-reveal][data-reveal-state='revealed'] {
 .hero__agenda-list li {
   min-width: 0;
 }
+.hero__agenda-list [hidden] {
+  display: none;
+}
 .hero__agenda-label {
   color: var(--color-text);
   font-size: 0.72rem;

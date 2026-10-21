@@ -21,29 +21,31 @@ const groups = groupGuestsByMonth(config.entries);
 <section
   id="proximos-guests"
   class="guest-agenda"
+  data-guest-agenda
   data-presentation={presentation}
   aria-labelledby="guests-heading"
 >
   {config.eyebrow && <p class="eyebrow">{config.eyebrow}</p>}
   <h2 id="guests-heading">{config.heading}</h2>
-  {
-    groups.length === 0 && (
-      <p class="guest-empty" data-reveal>
-        {config.emptyMessage}
-      </p>
-    )
-  }
+  <p class="guest-empty" data-guest-empty hidden={groups.length > 0}>
+    {config.emptyMessage}
+  </p>
   {
     groups.map((group) => (
       <section
         class="guest-month"
+        data-guest-list
         aria-labelledby={`month-${group.key}`}
         data-reveal
       >
         <h3 id={`month-${group.key}`}>{group.label}</h3>
         <ul>
           {group.entries.map((guest) => (
-            <li id={`guest-${guest.id}`} class="guest-event">
+            <li
+              id={`guest-${guest.id}`}
+              class="guest-event"
+              data-guest-end={guest.endDate}
+            >
               <time
                 datetime={guest.startDate}
                 class:list={[
@@ -106,7 +108,7 @@ const groups = groupGuestsByMonth(config.entries);
       </section>
     ))
   }
-  <div class="guest-alerts">
+  <div class="guest-alerts" data-guest-alerts>
     <GuestAlerts label={config.alertsLabel} />
   </div>
 </section>

@@ -66,11 +66,15 @@ pendientes de formato.
   Las fechas incluyen el año, permiten visitas de distintos años y se ordenan y
   agrupan por mes y año. El identificador debe ser único y estable para conservar
   el enlace directo a la visita. El build valida fechas, rangos, colores e identificadores.
-  La visibilidad es editorial: desactiva las visitas que ya no quieras anunciar;
-  no desaparecen automáticamente al pasar la fecha. Los cambios se publican con
-  el siguiente build. El resumen nunca aparece en Contacto y también puede
-  desactivarse globalmente. Si no hay visitas visibles, la agenda conserva un
-  mensaje y el enlace de avisos; el resumen del pie se omite.
+  Solo se anuncian visitas activas cuya fecha final no haya pasado. Permanecen
+  visibles durante todo el último día, según la zona horaria Europe/Madrid.
+  El build excluye las visitas terminadas y el navegador vuelve a comprobar las
+  fechas al abrir o recuperar la página y cada minuto, sin necesitar otro despliegue.
+  Las entradas se conservan en el CMS; los cambios editoriales se publican con el
+  siguiente build. Sin JavaScript, se aplica el filtro del último build.
+  El resumen nunca aparece en Contacto y también puede desactivarse globalmente.
+  Si no quedan visitas, Contacto conserva un único enlace de avisos bajo sus
+  formularios y se ocultan los resúmenes de portada y pie.
   En **Datos generales → Portada → Enlace a próximos guests** se editan el texto,
   destino y visibilidad del enlace de la home. Los enlaces «Consultar cita» usan
   el formulario de tattoo existente; su parámetro `source` identifica el guest,

@@ -1,4 +1,5 @@
 import { z } from 'astro/zod';
+import { guestToday } from '../../public/scripts/guest-dates.js';
 
 const optionalText = z
   .string()
@@ -75,10 +76,13 @@ export const guestsSchema = z
 export type Guest = z.infer<typeof guestSchema>;
 export type GuestsConfig = z.infer<typeof guestsSchema>;
 
-// La visibilidad es editorial: no depende de la fecha de compilación del sitio estático.
-export function visibleGuests(entries: readonly Guest[]): Guest[] {
+export function visibleGuests(
+  entries: readonly Guest[],
+  now = new Date(),
+): Guest[] {
+  const today = guestToday(now);
   return entries
-    .filter((guest) => guest.visible)
+    .filter((guest) => guest.visible && guest.endDate >= today)
     .sort((a, b) => a.startDate.localeCompare(b.startDate));
 }
 
@@ -95,12 +99,15 @@ const rangeFormat = new Intl.DateTimeFormat('es-ES', {
   timeZone: 'UTC',
 });
 
-export function groupGuestsByMonth(entries: readonly Guest[]) {
+export function groupGuestsByMonth(
+  entries: readonly Guest[],
+  now = new Date(),
+) {
   const groups = new Map<
     string,
     { key: string; label: string; entries: Guest[] }
   >();
-  for (const guest of visibleGuests(entries)) {
+  for (const guest of visibleGuests(entries, now)) {
     const key = guest.startDate.slice(0, 7);
     let group = groups.get(key);
     if (!group) {

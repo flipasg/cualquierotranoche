@@ -2,15 +2,20 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import ts from 'typescript';
+import { guestToday } from '../public/scripts/guest-dates.js';
 
 const moduleUrl = (code) =>
   `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
 const read = (path) => readFile(new URL(path, import.meta.url), 'utf8');
 const compileTs = async (path) => {
-  const source = (await read(path)).replace(
-    "'astro/zod'",
-    JSON.stringify(import.meta.resolve('astro/zod')),
-  );
+  const source = (await read(path))
+    .replace("'astro/zod'", JSON.stringify(import.meta.resolve('astro/zod')))
+    .replace(
+      "'../../public/scripts/guest-dates.js'",
+      JSON.stringify(
+        new URL('../public/scripts/guest-dates.js', import.meta.url).href,
+      ),
+    );
   return moduleUrl(
     ts.transpileModule(source, {
       compilerOptions: {
@@ -51,6 +56,7 @@ const config = guestsSchema.parse({
   ],
 });
 const guest = config.entries[0];
+const now = new Date('2026-10-09T12:00:00Z');
 
 test('la configuración editable cumple el esquema de guests', () => {
   assert.equal(guestsSchema.safeParse(configured).success, true);
@@ -92,14 +98,14 @@ test('ordena sin mutar los datos y separa el mismo mes de distintos años', () =
     { ...guest, id: 'earlier' },
   ];
   assert.deepEqual(
-    visibleGuests(entries).map((item) => item.id),
+    visibleGuests(entries, now).map((item) => item.id),
     ['earlier', 'later'],
   );
   assert.deepEqual(
     entries.map((item) => item.id),
     ['later', 'hidden', 'earlier'],
   );
-  const groups = groupGuestsByMonth(entries);
+  const groups = groupGuestsByMonth(entries, now);
   assert.deepEqual(
     groups.map((group) => group.key),
     ['2026-10', '2027-10'],
@@ -161,10 +167,10 @@ test('representa un día, rangos de días y cambios de mes o año sin desfase ho
 });
 
 test('la agenda omite visitas ocultas y escapa campos editoriales', () => {
-  const visible = visibleGuests([
-    guest,
-    { ...guest, id: 'hidden', city: 'Ciudad oculta', visible: false },
-  ]);
+  const visible = visibleGuests(
+    [guest, { ...guest, id: 'hidden', city: 'Ciudad oculta', visible: false }],
+    now,
+  );
   assert.deepEqual(
     visible.map(({ city }) => city),
     ['Barcelona'],
@@ -238,5 +244,40 @@ test('el texto mantiene contraste mínimo AA con los colores editables', () => {
       (a, b) => b - a,
     );
     assert.ok((values[0] + 0.05) / (values[1] + 0.05) >= 4.5, color);
+  }
+});
+
+test('retira visitas terminadas aunque estén activas, conserva las de hoy y futuras', () => {
+  const entries = [
+    { ...guest, id: 'past', endDate: '2026-10-08' },
+    { ...guest, id: 'today', endDate: '2026-10-09' },
+    { ...guest, id: 'ongoing' },
+    { ...guest, id: 'future', startDate: '2026-11-01', endDate: '2026-11-03' },
+    { ...guest, id: 'hidden', visible: false },
+  ];
+  assert.deepEqual(
+    visibleGuests(entries, now).map(({ id }) => id),
+    ['today', 'ongoing', 'future'],
+  );
+  assert.deepEqual(
+    groupGuestsByMonth(entries, now).map(({ key }) => key),
+    ['2026-10', '2026-11'],
+  );
+  assert.deepEqual(
+    groupGuestsByMonth(entries, new Date('2026-11-04T00:00:00Z')),
+    [],
+  );
+});
+
+test('caduca después del último día completo en Madrid, en verano e invierno', () => {
+  for (const [endDate, before, after] of [
+    ['2026-10-10', '2026-10-10T21:59:59Z', '2026-10-10T22:00:00Z'],
+    ['2026-12-31', '2026-12-31T22:59:59Z', '2026-12-31T23:00:00Z'],
+    ['2028-02-29', '2028-02-29T22:59:59Z', '2028-02-29T23:00:00Z'],
+  ]) {
+    const entries = [{ ...guest, startDate: endDate, endDate }];
+    assert.equal(guestToday(new Date(before)), endDate);
+    assert.equal(visibleGuests(entries, new Date(before)).length, 1);
+    assert.equal(visibleGuests(entries, new Date(after)).length, 0);
   }
 });
