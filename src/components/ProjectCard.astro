@@ -10,9 +10,9 @@ const { project } = Astro.props;
 const projectHref = `/proyectos/${project.id}/`;
 ---
 
-<article class="card discipline-card" data-reveal>
+<article class="card discipline-card project-card" data-reveal>
   <a
-    class="discipline-card__link"
+    class="discipline-card__link project-card__link"
     href={projectHref}
     aria-label={project.data.title}
   >
@@ -23,7 +23,6 @@ const projectHref = `/proyectos/${project.id}/`;
       class="discipline-card__image"
     /><div class="discipline-card__body">
       <h3><RichText content={project.data.title} inline /></h3>
-      {project.data.description && <RichText content={project.data.description} inline />}
       <span class="discipline-card__cta">
         {site.ui.illustration.projectCta}<ArrowIcon />
       </span>

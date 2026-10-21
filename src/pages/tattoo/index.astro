@@ -68,7 +68,7 @@ const tattoos = await getCollection(
           >
             {tattoos.map((item) => (
               <div class="carousel-item">
-                <TattooCard tattoo={item} />
+                <TattooCard tattoo={item} viewerGroup="tattoo-home-carousel" />
               </div>
             ))}
           </ContentCarousel>
@@ -93,7 +93,7 @@ const tattoos = await getCollection(
           >
             {flash.map((item) => (
               <div class="carousel-item">
-                <FlashCard flash={item} />
+                <FlashCard flash={item} viewerGroup="flash-home-carousel" />
               </div>
             ))}
           </ContentCarousel>

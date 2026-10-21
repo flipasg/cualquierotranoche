@@ -7,6 +7,9 @@ interface Props {
   class?: string;
   zoomable?: boolean;
   sizes?: string;
+  viewerTitle?: string;
+  viewerDescription?: string;
+  viewerGroup?: string;
 }
 const {
   src,
@@ -15,6 +18,9 @@ const {
   class: className,
   zoomable = false,
   sizes,
+  viewerTitle,
+  viewerDescription,
+  viewerGroup,
 } = Astro.props;
 let width = 1200,
   height = 1500;
@@ -55,6 +61,9 @@ try {
       class="gallery-image-link"
       href={mediaSrc}
       data-image-viewer-trigger
+      data-viewer-title={viewerTitle || alt}
+      data-viewer-description={viewerDescription}
+      data-viewer-group={viewerGroup}
       aria-label={`Ampliar imagen: ${alt}`}
       aria-haspopup="dialog"
       aria-controls="image-viewer"

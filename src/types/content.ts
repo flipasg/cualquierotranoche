@@ -338,6 +338,8 @@ export interface ArtworkUi {
   dimensionsLabel?: string;
   detailStoryHeading?: string;
   purchaseNote?: string;
+  soldInterestCta?: string;
+  soldInterestNote?: string;
   itemTypeLabel?: string;
   detailEyebrow?: string;
   shipping?: string;

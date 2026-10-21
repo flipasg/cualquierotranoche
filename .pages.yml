@@ -1075,6 +1075,16 @@ content:
                   type: string,
                 },
                 {
+                  name: soldInterestCta,
+                  label: Botón para obra vendida,
+                  type: string,
+                },
+                {
+                  name: soldInterestNote,
+                  label: Nota para obra vendida,
+                  type: text,
+                },
+                {
                   name: interestCta,
                   label: Me interesa esta obra,
                   type: string,

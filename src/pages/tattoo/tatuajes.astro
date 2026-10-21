@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import TattooCard from '../../components/TattooCard.astro';
+import RichText from '../../components/RichText.astro';
 import { site } from '../../data';
 
 const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
@@ -24,6 +25,7 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
         ]}
       />
       <h1 data-reveal>{site.ui.tattoos.heading}</h1>
+      <RichText content={site.ui.tattoos.description} class="lead tattoo-gallery-description" />
       <div
         class="grid grid-3 gallery-card-grid"
         data-reveal-group
@@ -33,7 +35,7 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
         {
           tattoos.map((item) => (
             <div data-gallery-card>
-              <TattooCard tattoo={item} />
+              <TattooCard tattoo={item} viewerGroup="tattoo-page-gallery" />
             </div>
           ))
         }
@@ -60,6 +62,15 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
 <style>
   .tattoo-gallery-page {
     padding-top: clamp(1.5rem, 4vw, 3rem);
+  }
+  .tattoo-gallery-page h1 {
+    margin-bottom: 0.5rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  .tattoo-gallery-description {
+    max-width: 48rem;
+    margin-bottom: 1.75rem;
+    font-size: 1rem;
   }
   @media (min-width: 1024px) {
     :global(.tattoo-gallery-page .gallery-card-grid) {

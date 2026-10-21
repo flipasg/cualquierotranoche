@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import GalleryImage from '../../components/GalleryImage.astro';
+import ArrowIcon from '../../components/ArrowIcon.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import TallyLink from '../../components/TallyLink.astro';
 import { forms } from '../../config/forms';
@@ -14,6 +15,10 @@ export async function getStaticPaths() {
     params: { id: project.id },
     props: {
       project,
+        previousProject:
+          projects.length > 1
+            ? projects[(index - 1 + projects.length) % projects.length]
+            : undefined,
       nextProject:
         projects.length > 1
           ? projects[(index + 1) % projects.length]
@@ -21,7 +26,7 @@ export async function getStaticPaths() {
     },
   }));
 }
-const { project, nextProject } = Astro.props;
+const { project, previousProject, nextProject } = Astro.props;
 const gallery = project.data.gallery ?? [];
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
@@ -35,16 +40,44 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   ><article class="container section detail-page">
     <div class="grid grid-2 proyecto-detail">
       <div data-reveal>
-        <Breadcrumbs
-          variant="eyebrow"
-          items={[
+        <div class="detail-navigation">
+          <Breadcrumbs
+            variant="eyebrow"
+            items={[
+              {
+                label: site.ui.illustration.title ?? 'Proyectos',
+                href: '/proyectos/',
+              },
+              { label: project.data.title, href: `/proyectos/${project.id}/` },
+            ]}
+          />
+          <nav aria-label="Navegación de proyectos">
             {
-              label: site.ui.illustration.title ?? 'Proyectos',
-              href: '/proyectos/',
-            },
-            { label: project.data.title, href: `/proyectos/${project.id}/` },
-          ]}
-        />
+              previousProject && (
+                <a
+                  href={`/proyectos/${previousProject.id}/`}
+                  aria-label="Anterior"
+                >
+                  <span class="detail-navigation__icon detail-navigation__icon--previous">
+                    <ArrowIcon direction="up" />
+                  </span>
+                </a>
+              )
+            }
+            {
+              nextProject && (
+                <a
+                  href={`/proyectos/${nextProject.id}/`}
+                  aria-label="Siguiente"
+                >
+                  <span class="detail-navigation__icon detail-navigation__icon--next">
+                    <ArrowIcon direction="up" />
+                  </span>
+                </a>
+              )
+            }
+          </nav>
+        </div>
         <h1><RichText content={project.data.title} inline /></h1><p
           class="project-meta"
         >
@@ -56,6 +89,9 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
         alt={project.data.coverAlt}
         loading="eager"
         zoomable
+        viewerTitle={project.data.title}
+        viewerDescription={project.data.description}
+        viewerGroup={`project-${project.id}`}
       />
     </div><section class="container section proyecto-narrative" data-reveal>
       <Eyebrow text={site.ui.illustration.contributionEyebrow} /><h2>
@@ -70,6 +106,9 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
               alt={image.alt}
               sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
               zoomable
+              viewerTitle={project.data.title}
+              viewerDescription={project.data.description}
+              viewerGroup={`project-${project.id}`}
             />
           </div>
         ))
@@ -87,16 +126,6 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
       >
         {site.ui.illustration.contactCta}
       </TallyLink>
-      {
-        nextProject && (
-          <a class="next-project" href={`/proyectos/${nextProject.id}/`}>
-            <span>
-              {site.ui.illustration.nextProjectLabel ?? 'Siguiente proyecto'}
-            </span>
-            <strong>{nextProject.data.title}</strong>
-          </a>
-        )
-      }
     </section>
   </article></BaseLayout
 >
@@ -104,12 +133,100 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
 <style>
   .proyecto-detail {
     gap: clamp(1.25rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .detail-navigation {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0;
+  }
+  .detail-navigation :global(.breadcrumbs__list) {
+    margin-bottom: 0;
+  }
+  .detail-navigation nav {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+  }
+  .detail-navigation__icon {
+    display: inline-flex;
+  }
+  .detail-navigation__icon--previous {
+    transform: rotate(-90deg);
+  }
+  .detail-navigation__icon--next {
+    transform: rotate(90deg);
+  }
+  .detail-navigation > nav[aria-label='Navegación de proyectos'] {
+    flex: 0 0 auto;
+    gap: 0.25rem;
+  }
+  .detail-navigation > nav[aria-label='Navegación de proyectos'] a {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .proyecto-detail .detail-navigation {
+      flex-wrap: nowrap;
+      gap: 0.5rem;
+    }
+    .proyecto-detail .detail-navigation :global(.breadcrumbs) {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .proyecto-detail .detail-navigation :global(.breadcrumbs__list) {
+      flex-wrap: nowrap;
+      font-size: 0.6875rem;
+      letter-spacing: 0.06em;
+    }
+    .proyecto-detail
+      .detail-navigation
+      :global(.breadcrumbs__list li + li::before) {
+      margin-inline: 0.35rem;
+    }
+    .proyecto-detail > [data-reveal] > .detail-navigation > nav {
+      flex: 0 0 auto;
+      gap: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    .detail-navigation {
+      flex-wrap: nowrap;
+      gap: 0.5rem;
+    }
+  }
+  @media (max-width: 359px) {
+    .detail-navigation {
+      flex-wrap: nowrap;
+      gap: 0.4rem;
+    }
+    .detail-navigation :global(.breadcrumbs) {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .detail-navigation :global(.breadcrumbs__list) {
+      flex-wrap: nowrap;
+      min-width: 0;
+      gap: 0;
+      font-size: 0.625rem;
+      letter-spacing: 0.06em;
+    }
+    .detail-navigation > nav[aria-label='Navegación de proyectos'] {
+      flex: 0 0 auto;
+      gap: 0.25rem;
+    }
   }
   .proyecto-detail h1 {
-    margin-block: 0.75rem 1.25rem;
+    margin-block: 0.75rem 0.5rem;
+    font-size: clamp(1.75rem, 4.5vw, 4rem);
   }
   .project-meta {
+    margin: 0.5rem 0;
     color: var(--color-accent);
   }
   .proyecto-detail :global(img) {
@@ -130,24 +247,6 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   .proyecto-contact p {
     max-width: 38rem;
   }
-  .next-project {
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5rem;
-    align-items: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border);
-    text-decoration: none;
-  }
-  .next-project span {
-    color: var(--color-muted);
-    font-size: 0.9rem;
-  }
-  .next-project strong {
-    color: var(--color-accent);
-    text-align: right;
-  }
   .proyecto-gallery {
     display: grid;
     grid-template-columns: 1fr;
@@ -155,7 +254,7 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
   }
   @media (max-width: 767px) {
     .proyecto-gallery {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
     }
     .proyecto-gallery .card--media-sized :global(img) {
       height: auto;
@@ -163,13 +262,16 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     }
   }
   @media (min-width: 768px) {
+    .proyecto-detail :global(img) {
+      max-height: min(62svh, 30rem);
+    }
     .proyecto-gallery {
       grid-template-columns: repeat(2, 1fr);
     }
   }
   @media (min-width: 1024px) {
     .proyecto-gallery {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 </style>

@@ -21,8 +21,8 @@ const works = (await getCollection('obras', ({ data }) => !data.draft)).filter(
 ---
 
 <BaseLayout title={collection.title} description={collection.description ?? ''}>
-  <section class="container section section-intro section-intro--stacked">
-    <div data-reveal>
+  <section class="container section collection-gallery-page">
+    <div class="collection-gallery-heading" data-reveal>
       <Breadcrumbs
         items={[
           { label: site.ui.artwork.title ?? 'Obra', href: '/obra/' },
@@ -32,11 +32,40 @@ const works = (await getCollection('obras', ({ data }) => !data.draft)).filter(
       <h1>{collection.title}</h1>
       <RichText content={collection.description} class="lead" />
     </div>
-  </section>
-
-  <section class="container section">
     <div class="grid grid-3 gallery-card-grid" data-reveal-group>
       {works.map((work) => <WorkCard work={work} />)}
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .collection-gallery-page {
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+  }
+  .collection-gallery-heading {
+    max-width: 54rem;
+    margin-bottom: 1.75rem;
+  }
+  .collection-gallery-heading h1 {
+    margin-bottom: 0.5rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  .collection-gallery-heading .lead {
+    font-size: 1rem;
+  }
+  @media (max-width: 767px) {
+    :global(.collection-gallery-page .gallery-card-grid) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    :global(.collection-gallery-page .gallery-card-grid) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    :global(.collection-gallery-page .gallery-card-grid) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -4,8 +4,9 @@ import { site } from '../data';
 import RichText from './RichText.astro';
 interface Props {
   tattoo: any;
+  viewerGroup?: string;
 }
-const { tattoo } = Astro.props;
+const { tattoo, viewerGroup = `tattoo-${tattoo.id}` } = Astro.props;
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
@@ -15,7 +16,33 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     src={tattoo.data.cover}
     alt={tattoo.data.coverAlt}
     zoomable
+    viewerTitle={tattoo.data.title}
+    viewerDescription={tattoo.data.description}
+    viewerGroup={viewerGroup}
     sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-  /><h3><RichText content={tattoo.data.title} inline /></h3>
-  <RichText content={tattoo.data.description} inline />
+  />
+  <div class="tattoo-card__body">
+    <h3><RichText content={tattoo.data.title} inline /></h3>
+    <RichText
+      content={tattoo.data.description}
+      inline
+      class="tattoo-card__description"
+    />
+  </div>
 </article>
+
+<style>
+  .tattoo-card__body {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem;
+  }
+  .tattoo-card__body h3 {
+    margin: 0;
+  }
+  .tattoo-card__description {
+    display: block;
+    margin: 0;
+    color: var(--color-muted);
+  }
+</style>

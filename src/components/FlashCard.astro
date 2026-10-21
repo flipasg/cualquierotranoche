@@ -6,8 +6,9 @@ import { site } from '../data';
 import RichText from './RichText.astro';
 interface Props {
   flash: any;
+  viewerGroup?: string;
 }
-const { flash } = Astro.props;
+const { flash, viewerGroup = `flash-${flash.id}` } = Astro.props;
 const cardFrame = site.ui.imageSizing.cardFrame ?? {};
 const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-height:${cardFrame.height || 'auto'};`;
 ---
@@ -17,28 +18,67 @@ const cardStyle = `--card-media-width:${cardFrame.width || '100%'};--card-media-
     src={flash.data.cover}
     alt={flash.data.coverAlt}
     zoomable
+    viewerTitle={flash.data.title}
+    viewerDescription={flash.data.description}
+    viewerGroup={viewerGroup}
     class="flash-card__image"
     sizes={site.ui.imageSizing.card || site.ui.imageSizing.default}
-  /><h3><RichText content={flash.data.title} inline /></h3><p class="flash-card-meta">
-    <span>{flash.data.code}</span>
-    <TallyLink
-      url={forms.tattoo}
-      params={{ flashCode: flash.data.code, source: 'portfolio-flash' }}
-      className="card-cta">{site.ui.flash.requestCta}</TallyLink
-    >
-  </p>
-  {flash.data.description && <RichText content={flash.data.description} inline />}
+  />
+  <div class="flash-card__body">
+    <h3><RichText content={flash.data.title} inline /></h3>
+    {flash.data.description && <RichText content={flash.data.description} inline />}
+    <p class="flash-card-meta">
+      <span class:list={['flash-card-status', { 'is-sold': flash.data.status === 'vendido' }]}>
+        {flash.data.status === 'disponible' ? 'Disponible' : 'Vendido'}
+      </span>
+      <TallyLink
+        url={forms.tattoo}
+        params={{ flashCode: flash.data.code, source: 'portfolio-flash' }}
+        className="card-cta">{site.ui.flash.requestCta}</TallyLink
+      >
+    </p>
+  </div>
 </article>
 
 <style>
+  .flash-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 0.9rem 1rem 1rem;
+  }
+  .flash-card__body h3 {
+    margin: 0.9rem 0 0.35rem;
+  }
+  .flash-card__body :global(p) {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
   .flash-card-meta {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    gap: 0.75rem;
-    margin-block: 0.35rem 0.25rem;
+    align-items: center;
+    gap: 0.5rem;
+    margin: auto 0 0;
     color: var(--color-muted);
     font-size: 0.78rem;
-    letter-spacing: 0.04em;
+  }
+  .flash-card-status {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .flash-card-status.is-sold {
+    opacity: 0.72;
+  }
+  .flash-card-meta :global(.card-cta) {
+    align-self: center;
+    width: auto;
+    margin-top: 0;
+  }
+  @media (max-width: 767px) {
+    .flash-card-meta :global(.card-cta) {
+      align-self: center;
+      width: auto;
+    }
   }
 </style>
