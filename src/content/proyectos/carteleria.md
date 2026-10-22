@@ -1,10 +1,10 @@
 ---
 title: Cartelería
-description: "{{accent}}Una selección de carteles ilustrados realizados para distintos
-  clientes y eventos.{{/accent}}"
+description: "{{accent}}Una selección de carteles ilustrados realizados para
+  distintos clientes y eventos.{{/accent}}"
 services: Diseño e ilustración para carteles
 contribution: Carteles ilustrados, creativos y con carácter.
-cover: /uploads/carteleria-5-1.png
+cover: /uploads/carteleria-0-1.jpg
 coverAlt: Cartel en la pared con ilustración verde y amarilla
 gallery:
   - src: /uploads/carteleria-3.png
@@ -25,6 +25,8 @@ gallery:
   - src: /uploads/carteleria-6.png
     alt: diseño de un cartel con la ilustración de una bestia verde perro con trazo
       nervioso en tonos rosa y rojo
+  - src: /uploads/carteleria-7.png
+    alt: "Diseño cartel con figura y ventana "
 draft: false
 client: Varios
 year: varios
