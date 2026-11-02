@@ -2,7 +2,7 @@
 title: Soy {{accent}}Patricia,{{/accent}}
 subtitle: "*{{accent}}Y solo soy un animalillo.{{/accent}}*"
 location: No Limits Tattoo · Vitoria-Gasteiz
-portrait: /uploads/sobremi.jpg
+portrait: /uploads/ilustracionsintitulo.jpg
 portraitAlt: Foto Patricia yo
 draft: false
 eyebrow: Sobre mi
