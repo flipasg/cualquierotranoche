@@ -7,12 +7,16 @@ import SocialMeta from '../components/SocialMeta.astro';
 import { site } from '../data';
 import { social } from '../config/social';
 import { resolveSocial } from '../lib/social';
+import { resolveSeo, serializeJsonLd } from '../lib/seo.mjs';
+import { richTextToPlainText } from '../lib/rich-text.mjs';
 import { themeFontStylesheets, themeStyle } from '../lib/theme';
 import media from '../generated/media.json';
 import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  seoTitle?: string;
+  seoDescription?: string;
   showFooter?: boolean;
   socialImage?: string;
   socialImageAlt?: string;
@@ -21,12 +25,28 @@ interface Props {
 const {
   title,
   description,
+  seoTitle,
+  seoDescription,
   showFooter = true,
   socialImage,
   socialImageAlt,
   showBackToTop = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const seo = resolveSeo(
+  { title, description, seoTitle, seoDescription },
+  site.artisticName,
+);
+const siteName = richTextToPlainText(site.artisticName);
+const website =
+  Astro.url.pathname === '/' && siteName
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteName,
+        url: canonical.href,
+      }
+    : undefined;
 const mediaPath = (path: string) =>
   media[path as keyof typeof media]?.src ?? path;
 const favicon = mediaPath(social.favicon);
@@ -34,8 +54,8 @@ const metadata = resolveSocial(
   social,
   {
     pathname: Astro.url.pathname,
-    title: `${title} · ${site.artisticName}`,
-    description: `${description}`,
+    title: seo.title,
+    description: seo.description,
     image: socialImage,
     imageAlt: socialImageAlt,
   },
@@ -57,16 +77,24 @@ const metadata = resolveSocial(
       themeFontStylesheets(site.theme).map((href) => (
         <link rel="stylesheet" href={href} referrerpolicy="no-referrer" />
       ))
-    }<meta name="description" content={description} /><link
-      rel="icon"
-      href={favicon}
-    /><link rel="canonical" href={canonical} /><SocialMeta
+    }{
+      seo.description && <meta name="description" content={seo.description} />
+    }<link rel="icon" href={favicon} /><link
+      rel="canonical"
+      href={canonical}
+    /><SocialMeta
       metadata={metadata}
       canonical={canonical}
-      siteName={`${site.artisticName}`}
-    /><title>
-      {title} · {site.artisticName}
-    </title></head
+      siteName={siteName}
+    /><title>{seo.title}</title>{
+      website && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={serializeJsonLd(website)}
+        />
+      )
+    }</head
   ><body id="top"
     ><a class="skip-link" href="#contenido">{site.ui.skipLink}</a><Header
     /><main id="contenido"><slot /></main>{showFooter && <Footer />}<ImageViewer

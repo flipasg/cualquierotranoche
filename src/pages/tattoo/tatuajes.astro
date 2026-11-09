@@ -12,6 +12,8 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
 <BaseLayout
   title={site.ui.tattoos.title}
   description={site.ui.tattoos.description}
+  seoTitle={site.ui.tattoos.seoTitle}
+  seoDescription={site.ui.tattoos.seoDescription}
   showBackToTop
   ><div data-gallery>
     <section class="container section tattoo-gallery-page">
@@ -25,7 +27,10 @@ const tattoos = await getCollection('tattoos', ({ data }) => !data.draft);
         ]}
       />
       <h1 data-reveal>{site.ui.tattoos.heading}</h1>
-      <RichText content={site.ui.tattoos.description} class="lead tattoo-gallery-description" />
+      <RichText
+        content={site.ui.tattoos.description}
+        class="lead tattoo-gallery-description"
+      />
       <div
         class="grid grid-3 gallery-card-grid"
         data-reveal-group

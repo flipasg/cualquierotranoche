@@ -172,6 +172,8 @@ export interface SiteTheme {
 }
 
 export interface SeoUi {
+  seoTitle?: string;
+  seoDescription?: string;
   title?: string;
   description?: string;
 }
@@ -221,9 +223,7 @@ export interface ContactStudioUi {
   mapUrl?: Url;
 }
 
-export interface ContactUi {
-  title?: string;
-  description?: string;
+export interface ContactUi extends SeoUi {
   eyebrow?: RichText;
   heading?: RichText;
   intro?: RichText;
@@ -232,9 +232,7 @@ export interface ContactUi {
   studio?: ContactStudioUi;
 }
 
-export interface TattooUi {
-  title?: string;
-  description?: string;
+export interface TattooUi extends SeoUi {
   heading?: RichText;
   eyebrow?: RichText;
   intro?: RichText;
@@ -251,9 +249,7 @@ export interface TattooUi {
   noFlash?: string;
 }
 
-export interface TattoosUi {
-  title?: string;
-  description?: string;
+export interface TattoosUi extends SeoUi {
   eyebrow?: string;
   heading?: RichText;
   paginationLabel?: string;
@@ -262,9 +258,7 @@ export interface TattoosUi {
   pageStatus?: string;
 }
 
-export interface FlashUi {
-  title?: string;
-  description?: string;
+export interface FlashUi extends SeoUi {
   eyebrow?: string;
   heading?: RichText;
   filtersLabel?: string;
@@ -299,9 +293,7 @@ export interface FlashUi {
   requestCta?: string;
 }
 
-export interface ArtworkUi {
-  title?: string;
-  description?: string;
+export interface ArtworkUi extends SeoUi {
   eyebrow?: RichText;
   heading?: RichText;
   intro?: RichText;
@@ -347,9 +339,7 @@ export interface ArtworkUi {
   cardCta?: string;
 }
 
-export interface IllustrationUi {
-  title?: string;
-  description?: string;
+export interface IllustrationUi extends SeoUi {
   heading?: RichText;
   intro?: RichText;
   heroImage?: ImagePath;

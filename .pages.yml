@@ -541,16 +541,56 @@ content:
             type: object
             fields:
               [
-                { name: title, label: Título SEO, type: string },
-                { name: description, label: Descripción SEO, type: text },
+                {
+                  name: title,
+                  label: Título de respaldo y navegación,
+                  type: string,
+                },
+                {
+                  name: description,
+                  label: Descripción de respaldo y contenido,
+                  type: text,
+                },
+                {
+                  name: seoTitle,
+                  label: Título SEO,
+                  type: string,
+                  description: 'Solo para buscadores. La marca se añade automáticamente. Vacío utiliza el título de respaldo.',
+                },
+                {
+                  name: seoDescription,
+                  label: Descripción SEO,
+                  type: text,
+                  description: 'Solo para buscadores. Vacío utiliza la descripción de respaldo. No modifica los textos visibles.',
+                },
               ]
           - name: about
             label: Metadatos de Sobre mí
             type: object
             fields:
               [
-                { name: title, label: Título SEO, type: string },
-                { name: description, label: Descripción SEO, type: text },
+                {
+                  name: title,
+                  label: Título de respaldo y navegación,
+                  type: string,
+                },
+                {
+                  name: description,
+                  label: Descripción de respaldo y contenido,
+                  type: text,
+                },
+                {
+                  name: seoTitle,
+                  label: Título SEO,
+                  type: string,
+                  description: 'Solo para buscadores. La marca se añade automáticamente. Vacío utiliza el título de respaldo.',
+                },
+                {
+                  name: seoDescription,
+                  label: Descripción SEO,
+                  type: text,
+                  description: 'Solo para buscadores. Vacío utiliza la descripción de respaldo. No modifica los textos visibles.',
+                },
               ]
           - name: header
             label: Cabecera
@@ -643,8 +683,28 @@ content:
             type: object
             fields:
               [
-                { name: title, label: Título SEO, type: string },
-                { name: description, label: Descripción SEO, type: text },
+                {
+                  name: title,
+                  label: Título de respaldo y navegación,
+                  type: string,
+                },
+                {
+                  name: description,
+                  label: Descripción de respaldo y contenido,
+                  type: text,
+                },
+                {
+                  name: seoTitle,
+                  label: Título SEO,
+                  type: string,
+                  description: 'Solo para buscadores. La marca se añade automáticamente. Vacío utiliza el título de respaldo.',
+                },
+                {
+                  name: seoDescription,
+                  label: Descripción SEO,
+                  type: text,
+                  description: 'Solo para buscadores. Vacío utiliza la descripción de respaldo. No modifica los textos visibles.',
+                },
                 { name: actionLabel, label: Texto de acción, type: string },
                 { name: copyrightLabel, label: Firma del pie, type: string },
                 {
@@ -694,8 +754,28 @@ content:
             type: object
             fields:
               [
-                { name: title, label: Título SEO, type: string },
-                { name: description, label: Descripción SEO, type: text },
+                {
+                  name: title,
+                  label: Título de respaldo y navegación,
+                  type: string,
+                },
+                {
+                  name: description,
+                  label: Descripción de respaldo y contenido,
+                  type: text,
+                },
+                {
+                  name: seoTitle,
+                  label: Título SEO,
+                  type: string,
+                  description: 'Solo para buscadores. La marca se añade automáticamente. Vacío utiliza el título de respaldo.',
+                },
+                {
+                  name: seoDescription,
+                  label: Descripción SEO,
+                  type: text,
+                  description: 'Solo para buscadores. Vacío utiliza la descripción de respaldo. No modifica los textos visibles.',
+                },
                 {
                   name: heading,
                   label: Titular,
@@ -752,8 +832,28 @@ content:
             type: object
             fields:
               [
-                { name: title, label: Título SEO, type: string },
-                { name: description, label: Descripción SEO, type: text },
+                {
+                  name: title,
+                  label: Título de respaldo y navegación,
+                  type: string,
+                },
+                {
+                  name: description,
+                  label: Descripción de respaldo y contenido,
+                  type: text,
+                },
+                {
+                  name: seoTitle,
+                  label: Título SEO,
+                  type: string,
+                  description: 'Solo para buscadores. La marca se añade automáticamente. Vacío utiliza el título de respaldo.',
+                },
+                {
+                  name: seoDescription,
+                  label: Descripción SEO,
+                  type: text,
+                  description: 'Solo para buscadores. Vacío utiliza la descripción de respaldo. No modifica los textos visibles.',
+                },
                 { name: eyebrow, label: Antetítulo, type: string },
                 {
                   name: heading,
@@ -776,8 +876,28 @@ content:
             type: object
             fields:
               [
-                { name: title, label: Título SEO, type: string },
-                { name: description, label: Descripción SEO, type: text },
+                {
+                  name: title,
+                  label: Título de respaldo y navegación,
+                  type: string,
+                },
+                {
+                  name: description,
+                  label: Descripción de respaldo y contenido,
+                  type: text,
+                },
+                {
+                  name: seoTitle,
+                  label: Título SEO,
+                  type: string,
+                  description: 'Solo para buscadores. La marca se añade automáticamente. Vacío utiliza el título de respaldo.',
+                },
+                {
+                  name: seoDescription,
+                  label: Descripción SEO,
+                  type: text,
+                  description: 'Solo para buscadores. Vacío utiliza la descripción de respaldo. No modifica los textos visibles.',
+                },
                 { name: eyebrow, label: Antetítulo, type: string },
                 {
                   name: heading,
@@ -907,8 +1027,28 @@ content:
             type: object
             fields:
               [
-                { name: title, label: Título SEO, type: string },
-                { name: description, label: Descripción SEO, type: text },
+                {
+                  name: title,
+                  label: Título de respaldo y navegación,
+                  type: string,
+                },
+                {
+                  name: description,
+                  label: Descripción de respaldo y contenido,
+                  type: text,
+                },
+                {
+                  name: seoTitle,
+                  label: Título SEO,
+                  type: string,
+                  description: 'Solo para buscadores. La marca se añade automáticamente. Vacío utiliza el título de respaldo.',
+                },
+                {
+                  name: seoDescription,
+                  label: Descripción SEO,
+                  type: text,
+                  description: 'Solo para buscadores. Vacío utiliza la descripción de respaldo. No modifica los textos visibles.',
+                },
                 {
                   name: eyebrow,
                   label: Antetítulo del catálogo,
@@ -1096,8 +1236,28 @@ content:
             type: object
             fields:
               [
-                { name: title, label: Título SEO, type: string },
-                { name: description, label: Descripción SEO, type: text },
+                {
+                  name: title,
+                  label: Título de respaldo y navegación,
+                  type: string,
+                },
+                {
+                  name: description,
+                  label: Descripción de respaldo y contenido,
+                  type: text,
+                },
+                {
+                  name: seoTitle,
+                  label: Título SEO,
+                  type: string,
+                  description: 'Solo para buscadores. La marca se añade automáticamente. Vacío utiliza el título de respaldo.',
+                },
+                {
+                  name: seoDescription,
+                  label: Descripción SEO,
+                  type: text,
+                  description: 'Solo para buscadores. Vacío utiliza la descripción de respaldo. No modifica los textos visibles.',
+                },
                 {
                   name: heading,
                   label: Titular,

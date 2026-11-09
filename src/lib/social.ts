@@ -1,4 +1,5 @@
 import { z } from 'astro/zod';
+import { richTextToPlainText } from './rich-text.mjs';
 
 const optionalText = z
   .string()
@@ -70,6 +71,7 @@ export type MediaManifest = Record<
 >;
 interface PageSocial {
   pathname: string;
+  // Already normalized by resolveSeo; do not interpret literal Markdown twice.
   title: string;
   description: string;
   image?: string;
@@ -119,12 +121,16 @@ export function resolveSocial(
       : config;
   const selected = override?.image ? override : cover;
   return {
-    title: override?.title || (pathname === '/' ? config.title : page.title),
+    title:
+      richTextToPlainText(override?.title) ||
+      (pathname === '/' ? richTextToPlainText(config.title) : page.title),
     description:
-      override?.description ||
-      (pathname === '/' ? config.description : page.description),
+      richTextToPlainText(override?.description) ||
+      (pathname === '/'
+        ? richTextToPlainText(config.description)
+        : page.description),
     image: getImage(selected.image, media),
-    imageAlt: selected.imageAlt,
+    imageAlt: richTextToPlainText(selected.imageAlt),
   };
 }
 

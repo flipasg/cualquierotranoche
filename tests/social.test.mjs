@@ -9,14 +9,17 @@ import test from 'node:test';
 import { transform } from 'esbuild';
 import sharp from 'sharp';
 import { parse as parseYaml } from 'yaml';
+import { resolveSeo } from '../src/lib/seo.mjs';
 
 const read = (path) => readFile(new URL(path, import.meta.url), 'utf8');
 const moduleUrl = (code) =>
   `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
-const helperSource = (await read('../src/lib/social.ts')).replace(
-  "'astro/zod'",
-  JSON.stringify(import.meta.resolve('astro/zod')),
-);
+const helperSource = (await read('../src/lib/social.ts'))
+  .replace("'astro/zod'", JSON.stringify(import.meta.resolve('astro/zod')))
+  .replace(
+    "'./rich-text.mjs'",
+    JSON.stringify(new URL('../src/lib/rich-text.mjs', import.meta.url).href),
+  );
 const { socialSchema, resolveSocial, validateSocialImages } = await import(
   moduleUrl(
     (await transform(helperSource, { loader: 'ts', format: 'esm' })).code,
@@ -151,6 +154,58 @@ test('los campos vacíos o nulos recuperan los valores automáticos', () => {
   assert.equal(resolved.title, page.title);
   assert.equal(resolved.description, page.description);
   assert.equal(resolved.image.src, '/uploads/obra.webp');
+});
+
+test('normaliza los textos sociales sin perder la prioridad de las personalizaciones', () => {
+  const config = socialSchema.parse({
+    ...defaults,
+    title: '**Inicio**',
+    description: '{{accent}}Presentación{{/accent}}',
+    pages: [
+      {
+        path: page.pathname,
+        title: '**Especial**',
+        description: '<p>Arte &amp; papel</p>',
+      },
+    ],
+  });
+  const custom = resolveSocial(config, page, media);
+  assert.equal(custom.title, 'Especial');
+  assert.equal(custom.description, 'Arte & papel');
+  assert.equal(
+    resolveSocial(config, { ...page, pathname: '/' }, media).title,
+    'Inicio',
+  );
+  const fallback = resolveSocial(
+    config,
+    {
+      ...page,
+      pathname: '/proyectos/carteleria/',
+      ...resolveSeo(
+        {
+          title: '**Cartelería**',
+          description: '{{accent}}Carteles ilustrados{{/accent}}',
+        },
+        'Artista',
+      ),
+      imageAlt: '**Portada**',
+    },
+    media,
+  );
+  assert.equal(fallback.title, 'Cartelería · Artista');
+  assert.equal(fallback.description, 'Carteles ilustrados');
+  assert.equal(fallback.imageAlt, 'Portada');
+  const literal = resolveSeo(
+    { title: '\\*\\*Papel\\*\\*', description: '`<papel>` &amp; tinta' },
+    'Artista',
+  );
+  const literalSocial = resolveSocial(
+    config,
+    { ...page, ...literal, pathname: '/otra/' },
+    media,
+  );
+  assert.equal(literalSocial.title, '**Papel** · Artista');
+  assert.equal(literalSocial.description, '<papel> & tinta');
 });
 
 test('rechaza rutas duplicadas, URLs externas, formatos no válidos y alternativas sin pareja', () => {

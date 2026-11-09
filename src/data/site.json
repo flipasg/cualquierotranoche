@@ -79,11 +79,15 @@
     "skipLink": "Saltar al contenido",
     "homePage": {
       "title": "Cualquier otra noche — Tattoo, obra e ilustración",
-      "description": "Tattoo, obra e ilustración de Patricia García Ramírez."
+      "description": "Tattoo, obra e ilustración de Patricia García Ramírez.",
+      "seoTitle": "Tatuadora e ilustradora en Vitoria",
+      "seoDescription": "Patricia García Ramírez, Cualquier otra noche: tatuadora e ilustradora en Vitoria-Gasteiz. Tatuaje de autor, ilustrativo y contemporáneo."
     },
     "about": {
       "title": "Sobre mí",
-      "description": "Presentación de la artista y su práctica."
+      "description": "Presentación de la artista y su práctica.",
+      "seoTitle": "Patricia García Ramírez, tatuadora e ilustradora",
+      "seoDescription": "Conoce a Patricia García Ramírez, Cualquier otra noche: tatuadora e ilustradora en Vitoria-Gasteiz y su manera de entender el dibujo y la creación."
     },
     "header": {
       "tattooCta": "Quiero tatuarme",
@@ -124,7 +128,9 @@
       "heading": "Hablemos.",
       "intro": "Cada idea empieza con una conversación.",
       "actionLabel": "Escríbeme",
-      "copyrightLabel": "Patricia García Ramírez"
+      "copyrightLabel": "Patricia García Ramírez",
+      "seoTitle": "Contacto y citas en Vitoria",
+      "seoDescription": "Contacta con Patricia para tatuarte en No Limits Tattoo, calle Fueros 24, Vitoria-Gasteiz, o consultar un proyecto de ilustración."
     },
     "tattoo": {
       "title": "Tattoo",
@@ -140,7 +146,9 @@
       "flashViewAll": "Galería",
       "noTattoos": "No hay tatuajes seleccionados para mostrar.",
       "noFlash": "No hay flash seleccionados para mostrar.",
-      "eyebrow": "TATTOO / FLASHBOOK"
+      "eyebrow": "TATTOO / FLASHBOOK",
+      "seoTitle": "Tatuadora en Vitoria",
+      "seoDescription": "Tatuaje de autor, ilustrativo y contemporáneo con Patricia García Ramírez en No Limits Tattoo, calle Fueros 24, Vitoria-Gasteiz."
     },
     "tattoos": {
       "title": "Tatuajes",
@@ -150,7 +158,9 @@
       "paginationLabel": "Paginación de tatuajes",
       "previous": "Anterior",
       "next": "Siguiente",
-      "pageStatus": "Página {currentPage} de {pageCount}"
+      "pageStatus": "Página {currentPage} de {pageCount}",
+      "seoTitle": "Tatuajes de autor e ilustrativos",
+      "seoDescription": "Galería de tatuajes de Patricia García Ramírez, Cualquier otra noche. Conoce su trabajo de autor, ilustrativo y contemporáneo en Vitoria-Gasteiz."
     },
     "flash": {
       "title": "Flashbook",
@@ -175,7 +185,9 @@
       "showActiveFilters": false,
       "showClearButton": false,
       "showTaxonomySearch": true,
-      "showGlobalSearch": true
+      "showGlobalSearch": true,
+      "seoTitle": "Flash de tatuaje en Vitoria",
+      "seoDescription": "Explora los flashes de Cualquier otra noche y consulta los diseños disponibles para tatuarte con Patricia en No Limits Tattoo, Vitoria-Gasteiz."
     },
     "artwork": {
       "title": "Obra",
@@ -206,7 +218,9 @@
       "showActiveFilters": false,
       "showClearButton": false,
       "showTaxonomySearch": true,
-      "showGlobalSearch": true
+      "showGlobalSearch": true,
+      "seoTitle": "Obra original y seriada",
+      "seoDescription": "Obra original y seriada de Patricia García Ramírez, Cualquier otra noche. Descubre sus piezas, técnicas y colecciones."
     },
     "illustration": {
       "title": "Proyectos",
@@ -221,7 +235,9 @@
       "projectContactDescription": "¿Tienes un proyecto en mente? Hablemos",
       "nextProjectLabel": "Siguiente proyecto",
       "contactCta": "Cuéntame tu proyecto",
-      "listingEyebrow": "PROYECTOS ILUSTRACIÓN"
+      "listingEyebrow": "PROYECTOS ILUSTRACIÓN",
+      "seoTitle": "Ilustradora en Vitoria",
+      "seoDescription": "Patricia García Ramírez, ilustradora en Vitoria-Gasteiz. Proyectos de ilustración, cartelería e identidad visual bajo el nombre Cualquier otra noche."
     },
     "imageSizing": {
       "default": "100vw",

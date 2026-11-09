@@ -16,7 +16,11 @@ const page = await getEntry('paginas', 'sobre-mi');
 if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible');
 ---
 
-<BaseLayout title={site.ui.about.title} description={site.ui.about.description}
+<BaseLayout
+  title={site.ui.about.title}
+  description={site.ui.about.description}
+  seoTitle={site.ui.about.seoTitle}
+  seoDescription={site.ui.about.seoDescription}
   ><section class="container section about-opening">
     <div class="about-opening__media">
       <GalleryImage

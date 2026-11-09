@@ -1,9 +1,9 @@
 {
   "favicon": "/uploads/favicon.svg",
-  "title": "Cualquier otra noche",
-  "description": "Tattoo, obra y proyectos.",
+  "title": "Tatuadora e ilustradora en Vitoria · Cualquier otra noche",
+  "description": "Patricia García Ramírez, Cualquier otra noche: tatuadora e ilustradora en Vitoria-Gasteiz. Tatuaje de autor, ilustrativo y contemporáneo.",
   "image": "/uploads/portada2.jpg",
-  "imageAlt": "Imagen para compartir del portfolio de Nombre artístico",
+  "imageAlt": "Imagen de portada de Cualquier otra noche, Patricia García Ramírez",
   "pages": [
     {
       "path": "/"

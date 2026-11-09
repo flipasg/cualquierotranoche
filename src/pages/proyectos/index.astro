@@ -14,6 +14,8 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
 <BaseLayout
   title={site.ui.illustration.title}
   description={site.ui.illustration.description}
+  seoTitle={site.ui.illustration.seoTitle}
+  seoDescription={site.ui.illustration.seoDescription}
 >
   <section class="container section page-opening project-listing-opening">
     <div class="page-opening__copy" data-reveal>
