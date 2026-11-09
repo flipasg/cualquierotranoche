@@ -2,9 +2,9 @@
 title: Soy {{accent}}Patricia,{{/accent}}
 subtitle: '*{{accent}}Y solo soy un animalillo.{{/accent}}*'
 location: |-
-  **Patricia García Ramírez · Cualquier otra noche
-  Tatuadora e ilustradora en Vitoria-Gasteiz**
-  No Limits Tattoo · **Calle Fueros 24**
+  Patricia García Ramírez · Cualquier otra noche
+  Tatuadora e ilustradora en Vitoria-Gasteiz
+  No Limits Tattoo · Calle Fueros 24
 portrait: /uploads/ilustracionsintitulo.jpg
 portraitAlt: Foto Patricia
 draft: false
@@ -21,6 +21,6 @@ Hay una extraña dualidad que lo tensa todo, es nube pero es carne, es dibujo pe
 
 Mis libretas son la guarida, el germen de una intimidad que se expande por toda esta noche cualquiera. Porque soy juego con vocación de caída. Cuando me atrevo a pintar afuera, el papel se desgarra en trazos aniñados y la violencia del color.
 
-**Estas** figuras rotas y liminales también se deshacen en la piel, quedan grabadas con texturas inusuales. Recorren los cuerpos orgánicamente, al acecho de nuevos significados que no se agoten. Tatuar me hizo comprender que mis imágenes no son mías, son de todas.
+Estas figuras rotas y liminales también se deshacen en la piel, quedan grabadas con texturas inusuales. Recorren los cuerpos orgánicamente, al acecho de nuevos significados que no se agoten. Tatuar me hizo comprender que mis imágenes no son mías, son de todas.
 
 Y quizás en este tiempo que tampoco es mío, hay quien necesite un refugio con nombre de noche, con psicopompos azules que nos guíen donde la ternura y el dolor son lo mismo, donde no necesitemos ser una sola cosa.
