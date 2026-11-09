@@ -1405,6 +1405,46 @@ content:
                   type: string,
                 },
               ]
+  - name: analytics
+    label: Google Analytics
+    type: file
+    path: src/data/analytics.json
+    format: json
+    fields:
+      - name: enabled
+        label: Activar Google Analytics
+        type: boolean
+        default: false
+        description: 'Actívalo después de completar el ID. Solo mide en el dominio principal y tras aceptar la analítica. Los cambios requieren publicar la web.'
+      - name: measurementId
+        label: ID de medición GA4
+        type: string
+        description: 'Empieza por G-. Está en Analytics → Administrar → Flujos de datos → flujo web. No es una contraseña ni una clave API. Desactiva Medición mejorada en ese flujo para empezar solo con visitas.'
+      - { name: title, label: Título del aviso, type: string, required: true }
+      - {
+          name: description,
+          label: Texto del aviso,
+          type: text,
+          required: true,
+        }
+      - {
+          name: acceptLabel,
+          label: Botón para aceptar,
+          type: string,
+          required: true,
+        }
+      - {
+          name: rejectLabel,
+          label: Botón para rechazar,
+          type: string,
+          required: true,
+        }
+      - {
+          name: settingsLabel,
+          label: Enlace de preferencias,
+          type: string,
+          required: true,
+        }
   - name: social
     label: Compartir en redes y favicon
     type: file

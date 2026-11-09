@@ -3,6 +3,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ImageViewer from '../components/ImageViewer.astro';
 import BackToTop from '../components/BackToTop.astro';
+import AnalyticsConsent from '../components/AnalyticsConsent.astro';
+import { analytics } from '../config/analytics';
 import SocialMeta from '../components/SocialMeta.astro';
 import { site } from '../data';
 import { social } from '../config/social';
@@ -98,7 +100,12 @@ const metadata = resolveSocial(
   ><body id="top"
     ><a class="skip-link" href="#contenido">{site.ui.skipLink}</a><Header
     /><main id="contenido"><slot /></main>{showFooter && <Footer />}<ImageViewer
-    />{showBackToTop && <BackToTop />}<script
+    />{showBackToTop && <BackToTop />}<AnalyticsConsent
+      config={analytics}
+      origin={new URL(Astro.site ?? canonical).origin}
+      owner={site.ui.contact.copyrightLabel || site.name}
+      email={site.email}
+    /><script
       is:inline
       type="module"
       src="/scripts/responsive-external-links.js"></script><script

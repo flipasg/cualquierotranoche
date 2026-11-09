@@ -149,7 +149,10 @@ test('la política de publicación permite únicamente los servicios de fuentes 
     /style-src 'self' 'unsafe-inline' https:\/\/fonts.googleapis.com;/,
   );
   assert.match(headers, /font-src 'self' https:\/\/fonts.gstatic.com;/);
-  assert.match(headers, /script-src 'self';/);
+  assert.match(
+    headers,
+    /script-src 'self' https:\/\/www.googletagmanager.com;/,
+  );
 });
 
 test('el tema admite valores válidos y reserva valores seguros ante datos inválidos', () => {

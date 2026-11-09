@@ -1,0 +1,162 @@
+---
+import type { AnalyticsConfig } from '../lib/analytics';
+
+interface Props {
+  config: AnalyticsConfig;
+  origin: string;
+  owner?: string;
+  email?: string;
+}
+
+const { config, origin, owner, email } = Astro.props;
+---
+
+{
+  config.enabled && (
+    <div
+      data-analytics
+      data-measurement-id={config.measurementId}
+      data-site-origin={origin}
+    >
+      <div class="container privacy-preferences" data-analytics-controls hidden>
+        <button
+          type="button"
+          class="privacy-settings"
+          data-analytics-settings
+          aria-controls="analytics-consent"
+          aria-expanded="false"
+        >
+          {config.settingsLabel}
+        </button>
+        <span data-analytics-status role="status" />
+      </div>
+      <section
+        id="analytics-consent"
+        class="analytics-consent"
+        data-analytics-panel
+        aria-labelledby="analytics-title"
+        hidden
+      >
+        <h2 id="analytics-title" tabindex="-1">
+          {config.title}
+        </h2>
+        <p>{config.description}</p>
+        <details>
+          <summary>Más información</summary>
+          <p>
+            Para conocer las visitas uso Google Analytics. Si aceptas, Google
+            recibe información sobre las páginas que visitas, tu navegador y tu
+            dispositivo. Estas cookies (_ga y _ga_…) no se utilizan para
+            publicidad.
+          </p>
+          <p>
+            Tu elección se guarda en este navegador durante 180 días. Estas
+            cookies caducan como máximo al terminar ese plazo. Puedes cambiar de
+            idea desde «{config.settingsLabel}». Si las rechazas, se dejarán de
+            registrar tus visitas y se borrarán estas cookies.
+          </p>
+          <p>
+            {owner && <>Responsable de esta web: {owner}. </>}
+            {email && (
+              <>
+                Contacto: <a href={`mailto:${email}`}>{email}</a>.{' '}
+              </>
+            )}
+            <a
+              href="https://policies.google.com/technologies/partner-sites?hl=es"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Cómo utiliza Google los datos de los sitios web
+            </a>
+            .
+          </p>
+        </details>
+        <div class="consent-actions">
+          <button type="button" class="button" data-analytics-reject>
+            {config.rejectLabel}
+          </button>
+          <button type="button" class="button" data-analytics-accept>
+            {config.acceptLabel}
+          </button>
+        </div>
+      </section>
+      <script is:inline type="module" src="/scripts/analytics.js" />
+    </div>
+  )
+}
+
+<style>
+  .privacy-preferences {
+    padding-block: 0.75rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    font-size: 0.875rem;
+  }
+  .privacy-settings {
+    min-height: 44px;
+    padding: 0.5rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-link);
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    cursor: pointer;
+  }
+  .analytics-consent {
+    position: fixed;
+    z-index: 80;
+    inset: auto 1rem max(1rem, env(safe-area-inset-bottom));
+    width: min(42rem, calc(100% - 2rem));
+    max-height: 80svh;
+    margin-inline: auto;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    overflow-y: auto;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-overlay);
+    color: var(--color-text);
+  }
+  [hidden] {
+    display: none;
+  }
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.25rem;
+  }
+  p {
+    margin-block: 0.75rem;
+    font-size: 1rem;
+  }
+  a,
+  summary {
+    color: var(--color-link);
+  }
+  a {
+    overflow-wrap: anywhere;
+  }
+  summary {
+    padding-block: 0.5rem;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .consent-actions button {
+    flex: 1 1 12rem;
+  }
+  button:focus-visible,
+  summary:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+</style>

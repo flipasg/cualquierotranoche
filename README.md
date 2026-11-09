@@ -80,6 +80,7 @@ pendientes de formato.
   el formulario de tattoo existente; su parámetro `source` identifica el guest,
   sin añadir campos nuevos al formulario.
 - Formularios Tally: seguir [la guía de creación y conexión](docs/tally.md) y sustituir cada URL `REEMPLAZAR` en `src/config/forms.ts`. Mientras falte una URL válida, se muestra el estado pendiente sin un enlace roto. `npm test` comprueba las referencias y los parámetros permitidos.
+- Google Analytics: configurar el ID de medición y la activación en **Google Analytics** del CMS. La medición requiere aceptar la analítica y solo funciona en el dominio principal. Consultar la [guía de configuración y verificación](docs/analytics.md).
 - Imágenes originales: añadir a `media/uploads/` y usar una ruta `/uploads/archivo.ext` en el frontmatter.
 - Marcar `draft: true` excluye una ficha de páginas públicas y su imagen exclusiva del procesamiento.
 

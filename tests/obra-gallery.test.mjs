@@ -9,7 +9,10 @@ const script = await read('../public/scripts/obra-gallery.js');
 test('artwork gallery loads externally under the site CSP', async () => {
   const template = await read('../src/pages/obra/[collection]/[id].astro');
   const headers = await read('../public/_headers');
-  assert.match(headers, /script-src 'self';/);
+  assert.match(
+    headers,
+    /script-src 'self' https:\/\/www.googletagmanager.com;/,
+  );
   assert.match(
     template,
     /<script\s+is:inline\s+type="module"\s+src="\/scripts\/obra-gallery\.js"><\/script>/,
