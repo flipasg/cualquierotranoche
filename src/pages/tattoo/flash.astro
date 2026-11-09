@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FlashCard from '../../components/FlashCard.astro';
 import GalleryFilters from '../../components/GalleryFilters.astro';
+import RichText from '../../components/RichText.astro';
 import { flashCategories } from '../../data';
 import { site } from '../../data';
 
@@ -58,7 +59,7 @@ const flashStatuses = [
       />
       <div class="flash-opening-copy" data-reveal>
         <h1>{site.ui.flash.heading}</h1>
-        <p class="lead">{site.ui.flash.description}</p>
+        <RichText content={site.ui.flash.description} class="lead" />
       </div>
       <GalleryFilters
         taxonomyLabel={site.ui.flash.taxonomyLabel ?? ''}
@@ -141,7 +142,7 @@ const flashStatuses = [
     max-width: 54rem;
     margin-bottom: 1.5rem;
   }
-  .flash-opening-copy .lead {
+  .flash-opening-copy :global(.lead) {
     font-size: 1rem;
     max-width: 42rem;
   }

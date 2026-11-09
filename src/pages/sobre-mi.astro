@@ -41,7 +41,7 @@ if (!page || page.data.draft) throw new Error('Página Sobre mí no disponible')
         )
       }
       <RichText content={page.body} class="prose" /><p class="about-location">
-        <strong>{page.data.location}</strong>
+        <RichText content={page.data.location} inline />
       </p>
       <div class="button-row about-actions">
         <a class="button" href="/obra/"

@@ -21,7 +21,18 @@ test('renderiza color de acento y color hexadecimal personalizado', () => {
 
 test('mantiene los párrafos y saltos de línea del formato de bloque', () => {
   assert.equal(
-    renderRichText('Primera línea.\nSegunda línea.\n\n{{accent}}Cierre.{{/accent}}'),
+    renderRichText(
+      'Primera línea.\nSegunda línea.\n\n{{accent}}Cierre.{{/accent}}',
+    ),
     '<p>Primera línea.<br>Segunda línea.</p>\n<p><span class="text-accent">Cierre.</span></p>\n',
+  );
+});
+
+test('combina ciruela, negritas y saltos sin mostrar las marcas del CMS', () => {
+  assert.equal(
+    renderRichText(
+      '{{accent}}**Dibujo** y textura.{{/accent}}\n\n**Patricia**\nVitoria-Gasteiz.',
+    ),
+    '<p><span class="text-accent"><strong>Dibujo</strong> y textura.</span></p>\n<p><strong>Patricia</strong><br>Vitoria-Gasteiz.</p>\n',
   );
 });

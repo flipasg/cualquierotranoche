@@ -106,7 +106,7 @@ export interface AboutPageData {
   eyebrow?: RichText;
   tagline?: RichText;
   subtitle?: RichText;
-  location?: string;
+  location?: RichText;
   portrait?: ImagePath;
   portraitAlt?: string;
   draft?: boolean;
@@ -195,7 +195,7 @@ export interface HeaderUi {
 
 export interface FooterUi {
   formsHeading?: string;
-  disciplines?: string;
+  disciplines?: RichText;
   contact?: string;
   email?: string;
   instagram?: string;
@@ -216,10 +216,10 @@ export interface FormsUi {
 }
 
 export interface ContactStudioUi {
-  address?: string;
+  address?: RichText;
   addressLinkText?: string;
   addressLinkUrl?: Url;
-  mapText?: string;
+  mapText?: RichText;
   mapUrl?: Url;
 }
 

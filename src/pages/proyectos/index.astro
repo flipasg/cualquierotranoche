@@ -46,7 +46,12 @@ const projects = await getCollection('proyectos', ({ data }) => !data.draft);
       <h2>{site.ui.illustration.contactHeading}</h2>
       {
         site.ui.illustration.contactDescription && (
-          <p>{site.ui.illustration.contactDescription}</p>
+          <p>
+            <RichText
+              content={site.ui.illustration.contactDescription}
+              inline
+            />
+          </p>
         )
       }
       <TallyLink

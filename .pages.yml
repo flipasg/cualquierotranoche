@@ -266,7 +266,13 @@ content:
           options: { format: markdown, media: false, switcher: false },
           description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
-      - { name: location, label: Ubicación, type: string }
+      - {
+          name: location,
+          label: Ubicación,
+          type: rich-text,
+          options: { format: markdown, media: false, switcher: false },
+          description: 'Admite **negrita**, {{accent}}ciruela{{/accent}} y saltos de línea.',
+        }
       - { name: portrait, label: Retrato, type: image }
       - { name: portraitAlt, label: Texto alternativo, type: string }
       - { name: draft, label: Borrador, type: boolean, default: false }
@@ -632,7 +638,12 @@ content:
                   label: Título de formularios,
                   type: string,
                 },
-                { name: disciplines, label: Disciplinas, type: string },
+                {
+                  name: disciplines,
+                  label: Disciplinas,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                },
                 { name: contact, label: Enlace de contacto, type: string },
                 { name: email, label: Enlace de email, type: string },
                 { name: instagram, label: Enlace de Instagram, type: string },
@@ -733,7 +744,14 @@ content:
                   type: object,
                   fields:
                     [
-                      { name: address, label: Dirección, type: text },
+                      {
+                        name: address,
+                        label: Dirección,
+                        type: rich-text,
+                        options:
+                          { format: markdown, media: false, switcher: false },
+                        description: 'Admite **negrita** y saltos de línea para separar el estudio, la calle y la ciudad.',
+                      },
                       {
                         name: addressLinkText,
                         label: Texto del enlace de dirección,
@@ -744,7 +762,13 @@ content:
                         label: URL del enlace de dirección,
                         type: string,
                       },
-                      { name: mapText, label: Texto del mapa, type: string },
+                      {
+                        name: mapText,
+                        label: Texto del mapa,
+                        type: rich-text,
+                        options:
+                          { format: markdown, media: false, switcher: false },
+                      },
                       { name: mapUrl, label: URL del mapa, type: string },
                     ],
                 },
@@ -840,7 +864,9 @@ content:
                 {
                   name: description,
                   label: Descripción de respaldo y contenido,
-                  type: text,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                  description: 'Admite **negrita**, {{accent}}ciruela{{/accent}} y párrafos separados por una línea vacía.',
                 },
                 {
                   name: seoTitle,
@@ -884,7 +910,9 @@ content:
                 {
                   name: description,
                   label: Descripción de respaldo y contenido,
-                  type: text,
+                  type: rich-text,
+                  options: { format: markdown, media: false, switcher: false },
+                  description: 'Admite **negrita**, {{accent}}ciruela{{/accent}} y párrafos separados por una línea vacía.',
                 },
                 {
                   name: seoTitle,

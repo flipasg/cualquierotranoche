@@ -29,7 +29,7 @@ test.beforeEach((context) => {
   });
 });
 
-async function renderContact(entries) {
+async function renderContact(entries, content = site) {
   const config = { ...configured, entries };
   const cache = new Map();
   const compile = async (path, source) => {
@@ -58,9 +58,11 @@ async function renderContact(entries) {
           `export const guests = ${JSON.stringify(config)};`,
         );
       else if (specifier === '../data')
-        replacement = moduleUrl(`export const site = ${JSON.stringify(site)};`);
+        replacement = moduleUrl(
+          `export const site = ${JSON.stringify(content)};`,
+        );
       else if (specifier === '../data/site.json')
-        replacement = moduleUrl(`export default ${JSON.stringify(site)};`);
+        replacement = moduleUrl(`export default ${JSON.stringify(content)};`);
       else if (specifier.endsWith('BaseLayout.astro'))
         replacement = await compile(
           resolve(root, 'BaseLayout.astro'),
@@ -95,6 +97,30 @@ async function renderContact(entries) {
   const container = await AstroContainer.create();
   return container.renderToString(Contact);
 }
+
+test('Contacto conserva negritas, ciruela y líneas del estudio desde el CMS', async () => {
+  const content = structuredClone(site);
+  content.ui.contact.intro = 'Una **idea**. {{accent}}Hablemos.{{/accent}}';
+  content.ui.contact.studio = {
+    address: '**Estudio de prueba**\nCalle de prueba 1\nCiudad de prueba',
+    mapText: '**Cómo llegar**',
+    mapUrl: 'https://example.com/mapa',
+  };
+  const html = await renderContact([], content);
+  assert.match(
+    html,
+    /Una <strong>idea<\/strong>\. <span class="text-accent">Hablemos\.<\/span>/,
+  );
+  assert.match(
+    html,
+    /<strong>Estudio de prueba<\/strong><br>Calle de prueba 1<br>Ciudad de prueba/,
+  );
+  assert.match(
+    html,
+    /href="https:\/\/example\.com\/mapa"[^>]*>[\s\S]*?<strong>Cómo llegar<\/strong>/,
+  );
+  assert.doesNotMatch(html, /\{\{accent\}\}|\*\*/);
+});
 
 for (const [name, entries] of [
   ['sin visitas', []],

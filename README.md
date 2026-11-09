@@ -87,6 +87,15 @@ Los textos alternativos son obligatorios. Si `showPrice` es `true`, `priceEur` d
 
 ## Pages CMS
 
+Los campos de texto enriquecido admiten `**negrita**`, `*cursiva*` y
+`{{accent}}texto en ciruela{{/accent}}`. El ciruela usa el color **Acento** del
+tema del CMS, por lo que cambia con él. Una línea vacía separa párrafos; un
+salto simple separa líneas. También se conserva este formato en las
+introducciones de las galerías, el texto de contacto de Proyectos, las
+disciplinas del pie y la ubicación de Sobre mí. La dirección del estudio y el
+enlace «Cómo llegar» se editan en **Datos generales → Página de contacto →
+Estudio**.
+
 1. Conectar el repositorio en [Pages CMS](https://pagescms.org/).
 2. Autorizar la rama editorial elegida.
 3. Pages CMS detectará `.pages.yml`, con colecciones y etiquetas en castellano.

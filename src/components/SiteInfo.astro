@@ -1,5 +1,6 @@
 ---
 import { site } from '../data';
+import RichText from './RichText.astro';
 
 interface Props {
   showContactLink?: boolean;
@@ -7,22 +8,12 @@ interface Props {
   variant?: 'default' | 'contact';
 }
 
-interface StudioInfo {
-  address?: string;
-  addressLinkText?: string;
-  addressLinkUrl?: string;
-  mapText?: string;
-  mapUrl?: string;
-}
-
 const {
   showContactLink = true,
   showStudioInfo = false,
   variant = 'default',
 } = Astro.props;
-const contact = site.ui.contact as typeof site.ui.contact & {
-  studio?: StudioInfo;
-};
+const contact = site.ui.contact;
 const studio = contact.studio ?? {};
 ---
 
@@ -40,7 +31,9 @@ const studio = contact.studio ?? {};
         </div>
         {showStudioInfo && studio.address && (
           <div class="studio-info">
-            <p>{studio.address}</p>
+            <p>
+              <RichText content={studio.address} inline />
+            </p>
             <div class="studio-links">
               {studio.addressLinkText && studio.addressLinkUrl && (
                 <a
@@ -53,7 +46,7 @@ const studio = contact.studio ?? {};
               )}
               {studio.mapText && studio.mapUrl && (
                 <a href={studio.mapUrl} target="_blank" rel="noreferrer">
-                  {studio.mapText}
+                  <RichText content={studio.mapText} inline />
                 </a>
               )}
             </div>
@@ -66,7 +59,9 @@ const studio = contact.studio ?? {};
     ) : (
       <>
         <strong>{site.artisticName}</strong>
-        <p>{site.ui.footer.disciplines}</p>
+        <p>
+          <RichText content={site.ui.footer.disciplines} inline />
+        </p>
         <div class="site-info-links">
           {showContactLink && (
             <>
@@ -83,7 +78,11 @@ const studio = contact.studio ?? {};
         </div>
         {showStudioInfo && (
           <div class="studio-info">
-            {studio.address && <p>{studio.address}</p>}
+            {studio.address && (
+              <p>
+                <RichText content={studio.address} inline />
+              </p>
+            )}
             <div class="studio-links">
               {studio.addressLinkText && studio.addressLinkUrl && (
                 <a
@@ -96,7 +95,7 @@ const studio = contact.studio ?? {};
               )}
               {studio.mapText && studio.mapUrl && (
                 <a href={studio.mapUrl} target="_blank" rel="noreferrer">
-                  {studio.mapText}
+                  <RichText content={studio.mapText} inline />
                 </a>
               )}
             </div>
