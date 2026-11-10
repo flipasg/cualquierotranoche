@@ -35,7 +35,7 @@ Referencias: [crear la propiedad y el flujo](https://support.google.com/analytic
 - La decisión se guarda en el navegador durante 180 días, asociada al ID de la
   propiedad. Si no se puede guardar, se aplica durante esa página y se vuelve a
   preguntar al navegar. Una decisión caducada o inválida nunca concede permiso.
-- **Preferencias de privacidad**, al final de cada página, permite cambiar la
+- **Preferencias de privacidad**, dentro del pie de cada página, permite cambiar la
   elección. Rechazar desactiva la transmisión y borra las cookies `_ga` y `_ga_…`
   del sitio; también se sincroniza entre pestañas y al recuperar una página.
 - Tras aceptar se carga una etiqueta y se configura una vista por documento.

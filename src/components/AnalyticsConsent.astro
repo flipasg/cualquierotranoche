@@ -18,7 +18,7 @@ const { config, origin, owner, email } = Astro.props;
       data-measurement-id={config.measurementId}
       data-site-origin={origin}
     >
-      <div class="container privacy-preferences" data-analytics-controls hidden>
+      <div class="privacy-preferences" data-analytics-controls hidden>
         <button
           type="button"
           class="privacy-settings"
@@ -28,7 +28,7 @@ const { config, origin, owner, email } = Astro.props;
         >
           {config.settingsLabel}
         </button>
-        <span data-analytics-status role="status" />
+        <span class="privacy-status" data-analytics-status role="status" />
       </div>
       <section
         id="analytics-consent"
@@ -81,12 +81,21 @@ const { config, origin, owner, email } = Astro.props;
 
 <style>
   .privacy-preferences {
-    padding-block: 0.75rem;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem 1.5rem;
-    font-size: 0.875rem;
+    font: inherit;
+  }
+  .privacy-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .privacy-settings {
     min-height: 44px;

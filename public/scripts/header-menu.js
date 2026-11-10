@@ -6,6 +6,12 @@ if (header && menuToggle) {
   const tablet = window.matchMedia(
     '(min-width: 768px) and (max-width: 1023px)',
   );
+  const updateHeaderHeight = () => {
+    document.documentElement.style.setProperty(
+      '--header-height',
+      `${header.getBoundingClientRect().height}px`,
+    );
+  };
   let previousScrollCompact = false;
   const updateHeader = () => {
     const isCompact = window.innerWidth < 1024;
@@ -21,10 +27,7 @@ if (header && menuToggle) {
       menuToggle.setAttribute('aria-expanded', 'false');
       if (menuLabel) menuLabel.textContent = menuLabel.dataset.openLabel;
     }
-    document.documentElement.style.setProperty(
-      '--header-height',
-      `${header.getBoundingClientRect().height}px`,
-    );
+    updateHeaderHeight();
   };
 
   menuToggle.addEventListener('click', () => {
@@ -40,14 +43,8 @@ if (header && menuToggle) {
   });
 
   updateHeader();
-  header
-    .querySelector('.header-inner')
-    ?.addEventListener('transitionend', () => {
-      document.documentElement.style.setProperty(
-        '--header-height',
-        `${header.getBoundingClientRect().height}px`,
-      );
-    });
+  // Keep anchor offsets current when the logo loads or the header contracts.
+  new ResizeObserver(updateHeaderHeight).observe(header);
   window.addEventListener('resize', updateHeader);
   window.addEventListener('scroll', updateHeader, { passive: true });
 }

@@ -30,7 +30,10 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
       <div class="contact-copy" data-guest-contact-copy>
         <header class="contact-intro">
           <h1><RichText content={site.ui.contact.heading} inline /></h1>
-          <RichText content={site.ui.contact.intro} class="lead" />
+          <RichText
+            content={site.ui.contact.intro}
+            class="contact-description"
+          />
         </header>
         <ContactOptions />
         {
@@ -47,7 +50,7 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
         )
       }
     </div>
-  </section><footer class="contact-footer">
+  </section><footer slot="footer" class="contact-footer">
     <div class="container">
       <SiteInfo showStudioInfo variant="contact" />
     </div>
@@ -63,9 +66,13 @@ const hasVisibleGuests = visibleGuests(guests.entries).length > 0;
     font-size: clamp(2.8rem, 6vw, 5rem);
     letter-spacing: -0.045em;
   }
-  .contact-intro .lead {
+  .contact-intro :global(.contact-description) {
     margin: 0;
-    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .contact-intro :global(.contact-description p) {
+    margin: 0;
   }
   .contact-content {
     display: grid;

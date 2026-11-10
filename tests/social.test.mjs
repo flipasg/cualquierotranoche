@@ -314,6 +314,13 @@ test('prepara medios sociales compartidos con borradores y excluye los exclusivo
     await mkdir(join(directory, 'src/data'), { recursive: true });
     await mkdir(join(directory, 'media/uploads'), { recursive: true });
     await writeFile(
+      join(directory, 'src/data/site.json'),
+      JSON.stringify({
+        ui: { header: { logo: { mobile: '/uploads/marca.png' } } },
+        home: { heroImage: '/uploads/retrato.png' },
+      }),
+    );
+    await writeFile(
       join(directory, 'src/data/social.json'),
       JSON.stringify({
         ...defaults,
@@ -335,6 +342,18 @@ test('prepara medios sociales compartidos con borradores y excluye los exclusivo
       })
         .png()
         .toFile(join(directory, `media/uploads/${name}.png`));
+    for (const name of ['marca', 'retrato']) {
+      await sharp({
+        create: {
+          width: 800,
+          height: 400,
+          channels: 4,
+          background: '#ffffff00',
+        },
+      })
+        .png()
+        .toFile(join(directory, `media/uploads/${name}.png`));
+    }
     await promisify(execFile)(
       process.execPath,
       [fileURLToPath(new URL('../scripts/prepare-media.mjs', import.meta.url))],
@@ -351,6 +370,20 @@ test('prepara medios sociales compartidos con borradores y excluye los exclusivo
       result['/uploads/falta.png'].src,
       result['/uploads/shared.png'].src,
     );
+    assert.deepEqual(
+      result['/uploads/marca.png'].srcset.map((image) => image.width),
+      [160, 192, 256, 320, 384, 480, 768, 800],
+    );
+    assert.deepEqual(
+      result['/uploads/retrato.png'].srcset.map((image) => image.width),
+      [480, 640, 768, 800],
+    );
+    const logo = await sharp(
+      join(directory, 'public/uploads/marca-w320.webp'),
+    ).metadata();
+    assert.equal(logo.width, 320);
+    assert.equal(logo.height, 160);
+    assert.equal(logo.hasAlpha, true);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }

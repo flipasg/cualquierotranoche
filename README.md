@@ -94,8 +94,11 @@ tema del CMS, por lo que cambia con él. Una línea vacía separa párrafos; un
 salto simple separa líneas. También se conserva este formato en las
 introducciones de las galerías, el texto de contacto de Proyectos, las
 disciplinas del pie y la ubicación de Sobre mí. La dirección del estudio y el
-enlace «Cómo llegar» se editan en **Datos generales → Página de contacto →
-Estudio**.
+enlace a su ficha en Google Maps se editan en **Datos generales → Página de
+contacto → Estudio**. Ambos pies comparten la dirección como un enlace continuo,
+la identidad y los enlaces de contacto. El pie de Contacto dispone esta información
+en horizontal en escritorio y apila cada elemento en móvil y tablet. **Preferencias de privacidad**
+forma parte de ambos pies.
 
 1. Conectar el repositorio en [Pages CMS](https://pagescms.org/).
 2. Autorizar la rama editorial elegida.
@@ -105,6 +108,12 @@ Estudio**.
 Las operaciones permiten crear, pero impiden renombrar o borrar fichas desde el CMS para evitar enlaces rotos. Los medios entran por `media/uploads/` y se publican en `/uploads/`.
 
 ### Fuentes personalizadas
+
+Roboto se sirve desde `public/fonts/roboto/`, con los archivos originales de
+Google Fonts y su licencia OFL. Sus reglas se incluyen en el CSS de la web:
+la configuración predeterminada no solicita fuentes a Google. Se conservan
+los pesos 400, 600 y 700 y `font-display: swap`. Las fuentes personalizadas
+siguen utilizando el enlace configurado en el CMS.
 
 En **Datos generales → Tema visual** puedes elegir una fuente de la lista o
 completar **Fuente personalizada para titulares** y/o **Fuente personalizada
@@ -128,6 +137,15 @@ como `/fonts/mi-fuente.css` y el nombre declarado en `font-family`. Este paso re
 preparar los archivos en el repositorio. Los enlaces externos admitidos se limitan
 a Google Fonts; otros proveedores necesitan integración y revisión de la política
 de contenido en `public/_headers`.
+
+### Imágenes adaptadas a la pantalla
+
+La cabecera usa los tamaños generados del logo con `srcset` y `sizes`, incluyendo
+variantes pequeñas para pantallas de alta densidad. La portada y las tarjetas de
+disciplinas de Inicio declaran el ancho que ocupan en cada disposición; si cambia
+su CSS, hay que revisar también esos atributos `sizes`. El proceso `npm run media`
+añade tamaños pequeños a los logos configurados en el CMS y una variante de 640 px
+a la portada. Conserva los originales, los tamaños grandes y la calidad WebP 84.
 
 ## Cloudflare Pages
 

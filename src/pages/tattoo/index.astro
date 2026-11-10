@@ -34,7 +34,7 @@ const tattoos = await getCollection(
       <RichText content={site.ui.tattoo.intro} class="lead" />
       <div class="button-row">
         <a class="button" href="#flash"
-          >{site.ui.tattoo.flashCta ?? 'Ver flash disponibles'}</a
+          >{site.ui.tattoo.flashCta ?? 'Ver flashbook'}</a
         >
         <TallyLink
           url={forms.tattoo}
@@ -118,8 +118,14 @@ const tattoos = await getCollection(
   }
   #flash {
     margin-top: 2rem;
+    scroll-margin-top: calc(var(--header-height, 8rem) + 2rem);
   }
   @media (max-width: 767px) {
+    #tatuajes,
+    #flash {
+      width: 100%;
+      margin-inline: 0;
+    }
     .tattoo-opening :global(.page-opening__image) {
       display: none;
     }

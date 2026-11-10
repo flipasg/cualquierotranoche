@@ -750,7 +750,7 @@ content:
                         type: rich-text,
                         options:
                           { format: markdown, media: false, switcher: false },
-                        description: 'Admite **negrita** y saltos de línea para separar el estudio, la calle y la ciudad.',
+                        description: 'Compartida por ambos pies. Admite negrita y ciruela; los saltos de línea se muestran como espacios.',
                       },
                       {
                         name: addressLinkText,
@@ -764,7 +764,7 @@ content:
                       },
                       {
                         name: mapText,
-                        label: Texto del mapa,
+                        label: Texto accesible del enlace al mapa,
                         type: rich-text,
                         options:
                           { format: markdown, media: false, switcher: false },

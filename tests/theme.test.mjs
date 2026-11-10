@@ -23,6 +23,25 @@ const customHeading = {
     'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700',
 };
 
+test('Roboto predeterminada se sirve localmente con sus tres pesos y archivos WOFF2', async () => {
+  assert.deepEqual(themeModule.themeFontStylesheets(), []);
+  const css = await readFile(resolve(root, 'src/styles/roboto.css'), 'utf8');
+  assert.doesNotMatch(css, /https?:\/\//);
+  for (const weight of [400, 600, 700]) {
+    assert.match(css, new RegExp(`font-weight: ${weight};`));
+  }
+  assert.match(css, /font-display: swap;/);
+  const paths = new Set(
+    [...css.matchAll(/url\(['"]?([^)'"\s]+)/g)].map((match) => match[1]),
+  );
+  assert.equal(paths.size, 9);
+  for (const path of paths) {
+    assert.ok(path.startsWith('/fonts/roboto/'));
+    const font = await readFile(resolve(root, `public${path}`));
+    assert.equal(font.subarray(0, 4).toString(), 'wOF2');
+  }
+});
+
 test('las fuentes personalizadas son independientes y conservan la selección como alternativa', () => {
   const style = themeModule.themeStyle({
     headingFont: 'georgia',
@@ -50,8 +69,8 @@ test('las hojas de fuentes se deduplican y Google Fonts muestra texto durante la
       stylesheetUrl: `${customHeading.stylesheetUrl}&display=block`,
     },
   });
-  assert.equal(stylesheets.length, 2);
-  const custom = new URL(stylesheets[1]);
+  assert.equal(stylesheets.length, 1);
+  const custom = new URL(stylesheets[0]);
   assert.equal(
     custom.searchParams.get('family'),
     'Playfair Display:wght@400;600;700',
@@ -65,17 +84,15 @@ test('las hojas de fuentes se deduplican y Google Fonts muestra texto durante la
           'https://fonts.googleapis.com/css2?display=swap&family=Roboto:wght@400;600;700',
       },
     }).length,
-    1,
+    0,
   );
   assert.deepEqual(
-    themeModule
-      .themeFontStylesheets({
-        headingCustomFont: {
-          family: 'Mi Fuente',
-          stylesheetUrl: '/fonts/mi-fuente.css',
-        },
-      })
-      .slice(1),
+    themeModule.themeFontStylesheets({
+      headingCustomFont: {
+        family: 'Mi Fuente',
+        stylesheetUrl: '/fonts/mi-fuente.css',
+      },
+    }),
     ['/fonts/mi-fuente.css'],
   );
 });
@@ -106,7 +123,7 @@ test('fuentes incompletas y nombres que contienen código conservan la alternati
     };
     assert.match(themeModule.themeStyle(theme), /--font-heading:Georgia/);
     assert.match(themeModule.themeStyle(theme), /--font-body:Arial/);
-    assert.equal(themeModule.themeFontStylesheets(theme).length, 1);
+    assert.equal(themeModule.themeFontStylesheets(theme).length, 0);
   }
 });
 
@@ -136,7 +153,7 @@ test('las fuentes solo aceptan enlaces de Google Fonts o CSS local en /fonts/', 
     assert.match(themeModule.themeStyle(theme), /--font-heading:Roboto/);
     assert.equal(
       themeModule.themeFontStylesheets(theme).length,
-      1,
+      0,
       stylesheetUrl,
     );
   }

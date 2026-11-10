@@ -13,6 +13,7 @@ const moduleUrl = (code) =>
   `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
 const site = JSON.parse(await read('src/data/site.json'));
 const configured = JSON.parse(await read('src/data/guests.json'));
+const analytics = JSON.parse(await read('src/data/analytics.json'));
 const guest = {
   id: 'ciudad-prueba',
   city: 'Ciudad de prueba',
@@ -29,7 +30,12 @@ test.beforeEach((context) => {
   });
 });
 
-async function renderContact(entries, content = site) {
+async function renderComponent(
+  componentPath,
+  entries,
+  content = site,
+  props = {},
+) {
   const config = { ...configured, entries };
   const cache = new Map();
   const compile = async (path, source) => {
@@ -57,6 +63,10 @@ async function renderContact(entries, content = site) {
         replacement = moduleUrl(
           `export const guests = ${JSON.stringify(config)};`,
         );
+      else if (specifier === '../config/analytics')
+        replacement = moduleUrl(
+          `export const analytics = ${JSON.stringify({ ...analytics, enabled: true, measurementId: 'G-TEST123456' })};`,
+        );
       else if (specifier === '../data')
         replacement = moduleUrl(
           `export const site = ${JSON.stringify(content)};`,
@@ -66,7 +76,7 @@ async function renderContact(entries, content = site) {
       else if (specifier.endsWith('BaseLayout.astro'))
         replacement = await compile(
           resolve(root, 'BaseLayout.astro'),
-          '<slot />',
+          '<main><slot /></main><slot name="footer" />',
         );
       else if (specifier.startsWith('.')) {
         const dependency = resolve(dirname(path), specifier);
@@ -91,14 +101,17 @@ async function renderContact(entries, content = site) {
     cache.set(path, url);
     return url;
   };
-  const { default: Contact } = await import(
-    await compile(resolve(root, 'src/pages/contacto.astro'))
+  const { default: Component } = await import(
+    await compile(resolve(root, componentPath))
   );
   const container = await AstroContainer.create();
-  return container.renderToString(Contact);
+  return container.renderToString(Component, { props });
 }
 
-test('Contacto conserva negritas, ciruela y líneas del estudio desde el CMS', async () => {
+const renderContact = (entries, content) =>
+  renderComponent('src/pages/contacto.astro', entries, content);
+
+test('Contacto conserva el formato del CMS y muestra la dirección como un único enlace continuo', async () => {
   const content = structuredClone(site);
   content.ui.contact.intro = 'Una **idea**. {{accent}}Hablemos.{{/accent}}';
   content.ui.contact.studio = {
@@ -113,13 +126,55 @@ test('Contacto conserva negritas, ciruela y líneas del estudio desde el CMS', a
   );
   assert.match(
     html,
-    /<strong>Estudio de prueba<\/strong><br>Calle de prueba 1<br>Ciudad de prueba/,
+    /<strong>Estudio de prueba<\/strong> Calle de prueba 1 Ciudad de prueba/,
   );
   assert.match(
     html,
-    /href="https:\/\/example\.com\/mapa"[^>]*>[\s\S]*?<strong>Cómo llegar<\/strong>/,
+    /href="https:\/\/example\.com\/mapa"[^>]*aria-label="Cómo llegar: Estudio de prueba Calle de prueba 1 Ciudad de prueba"/,
   );
   assert.doesNotMatch(html, /\{\{accent\}\}|\*\*/);
+});
+
+test('los dos pies comparten identidad, dirección y preferencias dentro del footer', async () => {
+  const normal = await renderComponent('src/components/Footer.astro', []);
+  const contact = await renderContact([]);
+  for (const html of [normal, contact]) {
+    const footer = html.slice(
+      html.indexOf('<footer'),
+      html.indexOf('</footer>'),
+    );
+    assert.equal((footer.match(/data-analytics-settings/g) ?? []).length, 1);
+    assert.equal((html.match(/data-measurement-id=/g) ?? []).length, 1);
+    for (const content of [
+      site.artisticName,
+      site.ui.footer.disciplines,
+      site.ui.contact.studio.address,
+      site.ui.footer.sampleNotice,
+    ]) {
+      assert.ok(footer.includes(content), content);
+    }
+    assert.match(footer, /query_place_id=ChIJ_12O3G_CTw0RArWC0OgzYTA/);
+  }
+  assert.ok(contact.indexOf('</main>') < contact.indexOf('<footer'));
+});
+
+test('el pie conserva la dirección si no hay mapa y no inventa una ubicación vacía', async () => {
+  const content = structuredClone(site);
+  content.ui.contact.studio = { address: 'Estudio de prueba' };
+  const withoutMap = await renderComponent(
+    'src/components/Footer.astro',
+    [],
+    content,
+  );
+  assert.match(withoutMap, /Estudio de prueba/);
+  assert.doesNotMatch(withoutMap, /google\.com\/maps/);
+  content.ui.contact.studio = {};
+  const withoutAddress = await renderComponent(
+    'src/components/Footer.astro',
+    [],
+    content,
+  );
+  assert.doesNotMatch(withoutAddress, /class="studio-address/);
 });
 
 for (const [name, entries] of [

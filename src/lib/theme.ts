@@ -24,8 +24,9 @@ function safeFont(value: ThemeFont | undefined, fallback: ThemeFont): string {
   return value && Object.hasOwn(fonts, value) ? fonts[value] : fonts[fallback];
 }
 
-const robotoStylesheet =
-  'https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap';
+// The default Roboto faces are bundled in BaseLayout, using local WOFF2 files.
+const bundledRobotoStylesheet =
+  'https://fonts.googleapis.com/css2?display=swap&family=Roboto%3Awght%40400%3B600%3B700';
 
 function customFont(value?: CustomThemeFont) {
   const family = typeof value?.family === 'string' ? value.family.trim() : '';
@@ -66,7 +67,7 @@ function fontFamily(preset: ThemeFont | undefined, custom?: CustomThemeFont) {
 }
 
 export function themeFontStylesheets(theme?: SiteTheme): string[] {
-  const stylesheets = [robotoStylesheet];
+  const stylesheets: string[] = [];
   for (const value of [theme?.headingCustomFont, theme?.bodyCustomFont]) {
     const resolved = customFont(value);
     if (resolved) stylesheets.push(resolved.stylesheet);
@@ -74,12 +75,14 @@ export function themeFontStylesheets(theme?: SiteTheme): string[] {
   // Compare normalized URLs, including when a custom family is Roboto itself.
   return [
     ...new Set(
-      stylesheets.map((stylesheet) => {
-        if (stylesheet.startsWith('/')) return stylesheet;
-        const url = new URL(stylesheet);
-        url.searchParams.sort();
-        return url.href;
-      }),
+      stylesheets
+        .map((stylesheet) => {
+          if (stylesheet.startsWith('/')) return stylesheet;
+          const url = new URL(stylesheet);
+          url.searchParams.sort();
+          return url.href;
+        })
+        .filter((stylesheet) => stylesheet !== bundledRobotoStylesheet),
     ),
   ];
 }

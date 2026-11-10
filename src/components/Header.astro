@@ -16,15 +16,28 @@ const navigation = site.navigation;
 const artisticName = site.artisticName?.trim() || 'Cualquier otra noche';
 const header = site.ui.header as typeof site.ui.header & { logo?: HeaderLogo };
 const headerLogo = header.logo ?? {};
-const mediaPath = (path: string) =>
-  media[path as keyof typeof media]?.src ?? path;
-const desktopLogo = headerLogo.desktop ? mediaPath(headerLogo.desktop) : '';
-const tabletLogo = headerLogo.tablet
-  ? mediaPath(headerLogo.tablet)
-  : desktopLogo;
-const mobileLogo = headerLogo.mobile
-  ? mediaPath(headerLogo.mobile)
-  : tabletLogo || desktopLogo;
+function logoImage(path?: string) {
+  if (!path) return undefined;
+  const entry = media[path as keyof typeof media] as
+    | {
+        src: string;
+        width: number;
+        height: number;
+        srcset?: { src: string; width: number }[];
+      }
+    | undefined;
+  return {
+    src: entry?.srcset?.[0]?.src ?? entry?.src ?? path,
+    srcset: entry?.srcset
+      ?.map((image) => `${image.src} ${image.width}w`)
+      .join(', '),
+    width: entry?.width,
+    height: entry?.height,
+  };
+}
+const desktopLogo = logoImage(headerLogo.desktop);
+const tabletLogo = logoImage(headerLogo.tablet) ?? desktopLogo;
+const mobileLogo = logoImage(headerLogo.mobile) ?? tabletLogo;
 const hasLogo = Boolean(desktopLogo || tabletLogo || mobileLogo);
 const logoAlt = headerLogo.alt?.trim() || artisticName;
 const brandWords = artisticName.split(/\s+/);
@@ -38,13 +51,29 @@ const brandSplit = Math.max(1, Math.floor(brandWords.length / 2));
         hasLogo ? (
           <picture>
             {desktopLogo && (
-              <source media="(min-width: 1024px)" srcset={desktopLogo} />
+              <source
+                media="(min-width: 1024px)"
+                srcset={desktopLogo.srcset ?? desktopLogo.src}
+                sizes="12rem"
+                width={desktopLogo.width}
+                height={desktopLogo.height}
+              />
             )}
             {tabletLogo && (
-              <source media="(min-width: 768px)" srcset={tabletLogo} />
+              <source
+                media="(min-width: 768px)"
+                srcset={tabletLogo.srcset ?? tabletLogo.src}
+                sizes="10rem"
+                width={tabletLogo.width}
+                height={tabletLogo.height}
+              />
             )}
             <img
-              src={mobileLogo || desktopLogo || tabletLogo}
+              src={mobileLogo?.src}
+              srcset={mobileLogo?.srcset}
+              sizes="clamp(8rem, 36vw, 9rem)"
+              width={mobileLogo?.width}
+              height={mobileLogo?.height}
               alt=""
               aria-hidden="true"
             />

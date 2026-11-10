@@ -1,5 +1,8 @@
 ---
 import { site } from '../data';
+import { analytics } from '../config/analytics';
+import { richTextToPlainText } from '../lib/rich-text.mjs';
+import AnalyticsConsent from './AnalyticsConsent.astro';
 import RichText from './RichText.astro';
 
 interface Props {
@@ -15,137 +18,131 @@ const {
 } = Astro.props;
 const contact = site.ui.contact;
 const studio = contact.studio ?? {};
+// Both footers display the same address without editorial line breaks.
+const address = studio.address?.replace(/\s*\r?\n\s*/g, ' ').trim();
+const mapLabel = richTextToPlainText(studio.mapText);
+const mapAccessibleName = mapLabel
+  ? `${mapLabel}: ${richTextToPlainText(address)}`
+  : undefined;
 ---
 
-<div class="site-info">
+<div
+  class:list={['site-info', { 'site-info--contact': variant === 'contact' }]}
+>
+  <strong class="site-name">{site.artisticName}</strong>
+  <p class="site-disciplines">
+    <RichText content={site.ui.footer.disciplines} inline />
+  </p>
+  <div class="site-info-links">
+    {
+      showContactLink && (
+        <>
+          <a href="/contacto/">{site.ui.footer.contact}</a>
+          <span aria-hidden="true">·</span>
+        </>
+      )
+    }
+    <a href={`mailto:${site.email}`} data-responsive-external>
+      {site.ui.footer.email}
+    </a>
+    <span aria-hidden="true">·</span>
+    <a href={site.instagram} rel="me noreferrer" data-responsive-external>
+      {site.ui.footer.instagram}
+    </a>
+  </div>
   {
-    variant === 'contact' ? (
-      <>
-        <div class="contact-site-links">
-          <a href={`mailto:${site.email}`} data-responsive-external>
-            {site.email}
-          </a>
-          <a href={site.instagram} rel="me noreferrer" data-responsive-external>
-            {site.ui.footer.instagram}
-          </a>
-        </div>
-        {showStudioInfo && studio.address && (
-          <div class="studio-info">
-            <p>
-              <RichText content={studio.address} inline />
-            </p>
-            <div class="studio-links">
-              {studio.addressLinkText && studio.addressLinkUrl && (
-                <a
-                  href={studio.addressLinkUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {studio.addressLinkText}
-                </a>
-              )}
-              {studio.mapText && studio.mapUrl && (
-                <a href={studio.mapUrl} target="_blank" rel="noreferrer">
-                  <RichText content={studio.mapText} inline />
-                </a>
-              )}
-            </div>
-          </div>
-        )}
-        <p class="site-copyright contact-copyright">
-          © {contact.copyrightLabel?.trim() || site.name}
-        </p>
-      </>
-    ) : (
-      <>
-        <strong>{site.artisticName}</strong>
-        <p>
-          <RichText content={site.ui.footer.disciplines} inline />
-        </p>
-        <div class="site-info-links">
-          {showContactLink && (
-            <>
-              <a href="/contacto/">{site.ui.footer.contact}</a> ·{' '}
-            </>
-          )}
-          <a href={`mailto:${site.email}`} data-responsive-external>
-            {site.ui.footer.email}
-          </a>{' '}
-          ·{' '}
-          <a href={site.instagram} rel="me noreferrer" data-responsive-external>
-            {site.ui.footer.instagram}
-          </a>
-        </div>
-        {showStudioInfo && (
-          <div class="studio-info">
-            {studio.address && (
-              <p>
-                <RichText content={studio.address} inline />
-              </p>
+    showStudioInfo && (
+      <div class="studio-info">
+        {address && (
+          <p class="studio-address">
+            {studio.mapUrl ? (
+              <a
+                href={studio.mapUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={mapAccessibleName}
+              >
+                <RichText content={address} inline />
+              </a>
+            ) : (
+              <RichText content={address} inline />
             )}
-            <div class="studio-links">
-              {studio.addressLinkText && studio.addressLinkUrl && (
-                <a
-                  href={studio.addressLinkUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {studio.addressLinkText}
-                </a>
-              )}
-              {studio.mapText && studio.mapUrl && (
-                <a href={studio.mapUrl} target="_blank" rel="noreferrer">
-                  <RichText content={studio.mapText} inline />
-                </a>
-              )}
-            </div>
-          </div>
+          </p>
         )}
-        <p class="site-copyright">
-          {site.ui.footer.sampleNotice} © {new Date().getFullYear()}
-        </p>
-      </>
+        {studio.addressLinkText && studio.addressLinkUrl && (
+          <a href={studio.addressLinkUrl} target="_blank" rel="noreferrer">
+            {studio.addressLinkText}
+          </a>
+        )}
+      </div>
     )
   }
+  <p class="site-copyright">
+    {site.ui.footer.sampleNotice} © {new Date().getFullYear()}
+  </p>
+  <AnalyticsConsent
+    config={analytics}
+    origin={Astro.site?.origin ?? ''}
+    owner={contact.copyrightLabel || site.name}
+    email={site.email}
+  />
 </div>
 
 <style>
   .site-info {
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
     min-width: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
     overflow-wrap: anywhere;
   }
+  .site-name {
+    font-size: 1rem;
+  }
   p {
-    margin: 0.25rem 0;
+    margin: 0;
     color: var(--color-muted);
   }
   .site-info-links {
-    margin-block: 1rem;
-  }
-  .contact-site-links {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
+    align-items: center;
     flex-wrap: wrap;
+    gap: 0.4em;
   }
   .site-copyright {
     color: var(--color-accent);
-  }
-  .contact-copyright {
-    margin: 0;
+    font-size: 0.8rem;
   }
   .studio-info {
-    margin-bottom: 1rem;
-  }
-  .studio-links {
     display: flex;
-    gap: 0.75rem;
+    align-items: center;
     flex-wrap: wrap;
+    gap: 0.5rem;
+    min-width: 0;
   }
   a {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     padding-block: 0.5rem;
     color: var(--color-link);
     text-decoration-line: underline;
     text-underline-offset: 0.25em;
+  }
+  @media (min-width: 1360px) and (hover: hover) and (pointer: fine) {
+    .site-info--contact {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: 1rem;
+      row-gap: 0.35rem;
+      font-size: 0.8rem;
+      justify-content: space-between;
+    }
+    .site-info--contact .site-name {
+      font-size: inherit;
+    }
   }
 </style>

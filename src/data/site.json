@@ -126,15 +126,15 @@
       "description": "Cada idea empieza con una conversación.",
       "eyebrow": "CONTACTO",
       "heading": "Hablemos.",
-      "intro": "Cada idea empieza con una conversación. Cuéntame tu idea para un tatuaje o un proyecto de ilustración, o pregúntame por una obra.",
+      "intro": "{{accent}}Cada idea empieza con una conversación. Cuéntame tu idea para un tatuaje o un proyecto de ilustración, o pregúntame por una obra.{{/accent}}",
       "actionLabel": "Escríbeme",
       "copyrightLabel": "Patricia García Ramírez",
       "seoTitle": "Contacto y citas en Vitoria",
       "seoDescription": "Contacta con Patricia para tatuarte en No Limits Tattoo, calle Fueros 24, Vitoria-Gasteiz, o consultar un proyecto de ilustración.",
       "studio": {
-        "address": "No Limits Tattoo\nCalle Fueros 24\nVitoria-Gasteiz",
+        "address": "No Limits Tattoo · Calle Fueros 24, Vitoria-Gasteiz",
         "mapText": "Cómo llegar",
-        "mapUrl": "https://goo.gl/maps/Y5EbEyiz6byv7YCfA"
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Estudio+de+Tatuajes+No+Limits+Fueros+24+Vitoria-Gasteiz&query_place_id=ChIJ_12O3G_CTw0RArWC0OgzYTA"
       }
     },
     "tattoo": {
@@ -146,9 +146,9 @@
       "heroImageAlt": "Tatuaje torso",
       "tattoos": "Tatuajes",
       "flash": "Flashbook",
-      "flashCta": "Ver flash disponibles",
-      "tattoosViewAll": "Ver tatuajes",
-      "flashViewAll": "Ver todos los flashes",
+      "flashCta": "Ver flashbook",
+      "tattoosViewAll": "Galería",
+      "flashViewAll": "Galería",
       "noTattoos": "No hay tatuajes seleccionados para mostrar.",
       "noFlash": "No hay flash seleccionados para mostrar.",
       "eyebrow": "TATUADORA EN VITORIA-GASTEIZ",
