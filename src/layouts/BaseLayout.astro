@@ -9,7 +9,11 @@ import { social } from '../config/social';
 import { resolveSocial } from '../lib/social';
 import { resolveSeo, serializeJsonLd } from '../lib/seo.mjs';
 import { richTextToPlainText } from '../lib/rich-text.mjs';
-import { themeFontStylesheets, themeStyle } from '../lib/theme';
+import {
+  themeFontPreloads,
+  themeFontStylesheets,
+  themeStyle,
+} from '../lib/theme';
 import media from '../generated/media.json';
 import '../styles/global.css';
 import '../styles/roboto.css';
@@ -34,6 +38,7 @@ const {
   showBackToTop = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const fontPreloads = themeFontPreloads(site.theme);
 const fontStylesheets = themeFontStylesheets(site.theme);
 const usesGoogleFonts = fontStylesheets.some((href) =>
   href.startsWith('https://fonts.googleapis.com/'),
@@ -75,6 +80,16 @@ const metadata = resolveSocial(
       name="viewport"
       content="width=device-width, initial-scale=1"
     />{
+      fontPreloads.map((href) => (
+        <link
+          rel="preload"
+          href={href}
+          as="font"
+          type="font/woff2"
+          crossorigin
+        />
+      ))
+    }{
       usesGoogleFonts && (
         <>
           <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -26,7 +26,7 @@ function safeFont(value: ThemeFont | undefined, fallback: ThemeFont): string {
 
 // The default Roboto faces are bundled in BaseLayout, using local WOFF2 files.
 const bundledRobotoStylesheet =
-  'https://fonts.googleapis.com/css2?display=swap&family=Roboto%3Awght%40400%3B600%3B700';
+  'https://fonts.googleapis.com/css2?display=optional&family=Roboto%3Awght%40400%3B600%3B700';
 
 function customFont(value?: CustomThemeFont) {
   const family = typeof value?.family === 'string' ? value.family.trim() : '';
@@ -53,7 +53,8 @@ function customFont(value?: CustomThemeFont) {
     ) {
       return undefined;
     }
-    url.searchParams.set('display', 'swap');
+    // Keep late custom fonts from reintroducing the fallback-to-web-font blink.
+    url.searchParams.set('display', 'optional');
     return { family, stylesheet: url.href };
   } catch {
     return undefined;
@@ -64,6 +65,18 @@ function fontFamily(preset: ThemeFont | undefined, custom?: CustomThemeFont) {
   const fallback = safeFont(preset, 'roboto');
   const resolved = customFont(custom);
   return resolved ? `"${resolved.family}", ${fallback}` : fallback;
+}
+
+export function themeFontPreloads(theme?: SiteTheme): string[] {
+  const usesRoboto =
+    [theme?.headingFont, theme?.bodyFont].some(
+      (preset) => safeFont(preset, 'roboto') === fonts.roboto,
+    ) ||
+    [theme?.headingCustomFont, theme?.bodyCustomFont].some(
+      (custom) => customFont(custom)?.family.toLowerCase() === 'roboto',
+    );
+  // Spanish characters and all three weights share this one Latin font file.
+  return usesRoboto ? ['/fonts/roboto/roboto-v51-latin.woff2'] : [];
 }
 
 export function themeFontStylesheets(theme?: SiteTheme): string[] {

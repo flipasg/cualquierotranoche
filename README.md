@@ -112,8 +112,14 @@ Las operaciones permiten crear, pero impiden renombrar o borrar fichas desde el 
 Roboto se sirve desde `public/fonts/roboto/`, con los archivos originales de
 Google Fonts y su licencia OFL. Sus reglas se incluyen en el CSS de la web:
 la configuración predeterminada no solicita fuentes a Google. Se conservan
-los pesos 400, 600 y 700 y `font-display: swap`. Las fuentes personalizadas
-siguen utilizando el enlace configurado en el CMS.
+los pesos 400, 600 y 700. Cuando el tema utiliza Roboto, se precarga un único
+archivo latino que incluye esos tres pesos y los caracteres del español;
+los demás subconjuntos se descargan solo si el texto los necesita.
+Roboto y las fuentes personalizadas de Google Fonts usan `font-display: optional`
+para evitar cambios de tipografía después del primer renderizado. Si la fuente
+tarda en llegar, se mantiene la alternativa durante esa visita y la fuente
+descargada puede utilizarse en la siguiente navegación. Las fuentes personalizadas
+siguen utilizando el enlace configurado en el CMS, con esa política de carga.
 
 En **Datos generales → Tema visual** puedes elegir una fuente de la lista o
 completar **Fuente personalizada para titulares** y/o **Fuente personalizada
@@ -121,7 +127,7 @@ para textos y controles**. Cada apartado necesita dos datos:
 
 - **Nombre de la fuente**: el nombre exacto, sin comillas, por ejemplo `Playfair Display`.
 - **Enlace de la fuente**: la dirección de la hoja de estilos de Google Fonts,
-  por ejemplo `https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap`.
+  por ejemplo `https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=optional`.
   Copia solo el enlace del atributo `href` del código de inserción, no la etiqueta
   HTML completa ni la dirección de la página donde se presenta la fuente.
 
@@ -132,7 +138,7 @@ selección de la lista. Si la fuente no carga, esa selección también sirve com
 alternativa. Los cambios se aplican al publicar el siguiente build.
 
 Para alojar fuentes propias, añade una hoja CSS en `public/fonts/` con sus reglas
-`@font-face`, `font-display: swap` y archivos de fuente locales; introduce su ruta
+`@font-face`, `font-display: optional` y archivos de fuente locales; introduce su ruta
 como `/fonts/mi-fuente.css` y el nombre declarado en `font-family`. Este paso requiere
 preparar los archivos en el repositorio. Los enlaces externos admitidos se limitan
 a Google Fonts; otros proveedores necesitan integración y revisión de la política

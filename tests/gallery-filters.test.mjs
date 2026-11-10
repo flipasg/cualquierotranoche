@@ -12,8 +12,29 @@ test('el componente compartido cubre selector múltiple, destacados y filtros ac
   assert.match(component, /data-gallery-featured/);
   assert.match(component, /sizes="64px"/);
   assert.match(component, /object-fit: contain/);
-  assert.match(component, /gallery-featured__selection/);
-  assert.match(component, /content: '✓'[\s\S]*aria-pressed='true'/);
+  assert.match(
+    component,
+    /data-gallery-featured=\{taxonomy.id\}[^>]*aria-pressed="false"/,
+  );
+  const selectedFeaturedStyle = component.match(
+    /\.gallery-featured__card\[aria-pressed='true'\]\s*\{([^}]+)\}/,
+  )?.[1];
+  assert.ok(
+    selectedFeaturedStyle,
+    'Las categorías destacadas necesitan un estado seleccionado',
+  );
+  assert.match(
+    selectedFeaturedStyle,
+    /(?:^|;)\s*background: var\(--color-filter\);/,
+  );
+  assert.match(
+    selectedFeaturedStyle,
+    /(?:^|;)\s*color: var\(--color-surface\);/,
+  );
+  assert.match(
+    component,
+    /\.gallery-featured__card strong\s*\{[^}]*font-weight: 400;/,
+  );
   assert.doesNotMatch(component, /transform: scale\(1\.25\)/);
   assert.match(component, /data-gallery-active-filters/);
   assert.match(component, /data-gallery-clear/);

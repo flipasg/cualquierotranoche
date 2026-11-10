@@ -30,7 +30,11 @@ test('Roboto predeterminada se sirve localmente con sus tres pesos y archivos WO
   for (const weight of [400, 600, 700]) {
     assert.match(css, new RegExp(`font-weight: ${weight};`));
   }
-  assert.match(css, /font-display: swap;/);
+  const faces = [...css.matchAll(/@font-face\s*\{([^}]+)\}/g)];
+  assert.equal(faces.length, 27);
+  for (const [, face] of faces) {
+    assert.match(face, /font-display: optional;/);
+  }
   const paths = new Set(
     [...css.matchAll(/url\(['"]?([^)'"\s]+)/g)].map((match) => match[1]),
   );
@@ -40,6 +44,52 @@ test('Roboto predeterminada se sirve localmente con sus tres pesos y archivos WO
     const font = await readFile(resolve(root, `public${path}`));
     assert.equal(font.subarray(0, 4).toString(), 'wOF2');
   }
+});
+
+test('la precarga prioriza una sola fuente latina cuando Roboto forma parte del tema', () => {
+  const latinFont = ['/fonts/roboto/roboto-v51-latin.woff2'];
+  assert.deepEqual(themeModule.themeFontPreloads(), latinFont);
+  assert.deepEqual(
+    themeModule.themeFontPreloads({
+      headingFont: 'roboto',
+      bodyFont: 'roboto',
+    }),
+    latinFont,
+  );
+  assert.deepEqual(
+    themeModule.themeFontPreloads({
+      headingFont: 'georgia',
+      bodyFont: 'roboto',
+    }),
+    latinFont,
+  );
+  assert.deepEqual(
+    themeModule.themeFontPreloads({
+      headingFont: 'invalid',
+      bodyFont: 'arial',
+    }),
+    latinFont,
+  );
+  assert.deepEqual(
+    themeModule.themeFontPreloads({
+      headingFont: 'georgia',
+      bodyFont: 'arial',
+      headingCustomFont: customHeading,
+    }),
+    [],
+  );
+  assert.deepEqual(
+    themeModule.themeFontPreloads({
+      headingFont: 'georgia',
+      bodyFont: 'arial',
+      bodyCustomFont: {
+        family: 'Roboto',
+        stylesheetUrl:
+          'https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700',
+      },
+    }),
+    latinFont,
+  );
 });
 
 test('las fuentes personalizadas son independientes y conservan la selección como alternativa', () => {
@@ -61,7 +111,7 @@ test('las fuentes personalizadas son independientes y conservan la selección co
   assert.match(headingsOnly, /--font-body:Roboto/);
 });
 
-test('las hojas de fuentes se deduplican y Google Fonts muestra texto durante la carga', () => {
+test('las hojas de fuentes se deduplican y Google Fonts evita cambios de fuente tardíos', () => {
   const stylesheets = themeModule.themeFontStylesheets({
     headingCustomFont: customHeading,
     bodyCustomFont: {
@@ -75,7 +125,7 @@ test('las hojas de fuentes se deduplican y Google Fonts muestra texto durante la
     custom.searchParams.get('family'),
     'Playfair Display:wght@400;600;700',
   );
-  assert.equal(custom.searchParams.get('display'), 'swap');
+  assert.equal(custom.searchParams.get('display'), 'optional');
   assert.equal(
     themeModule.themeFontStylesheets({
       headingCustomFont: {
@@ -212,10 +262,10 @@ test('el tema admite valores válidos y reserva valores seguros ante datos invá
       headingFont: 'custom',
       bodyFont: 'custom',
     });
-    assert.match(invalid, /--color-bg:#F7F3EC/);
-    assert.match(invalid, /--color-text:#252821/);
+    assert.match(invalid, /--color-bg:#FFECE0/);
+    assert.match(invalid, /--color-text:#233A4B/);
     assert.match(invalid, /--color-accent:#75465D/);
-    assert.match(invalid, /--color-surface:#E6E9DF/);
+    assert.match(invalid, /--color-surface:#FFF7F1/);
     assert.match(
       invalid,
       /--font-heading:Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif/,
@@ -264,7 +314,7 @@ test('el tema separa enlaces y filtros ciruela de los controles azules y textos 
   assert.doesNotMatch(css, /text-decoration-thickness: 2px/);
 });
 
-test('los botones heredan acento y fondo cuando sus colores faltan, están vacíos o son inválidos', () => {
+test('los botones usan el azul predeterminado y heredan el fondo para su texto ante colores ausentes o inválidos', () => {
   for (const value of [
     undefined,
     '',
@@ -273,7 +323,7 @@ test('los botones heredan acento y fondo cuando sus colores faltan, están vací
     'url(https://example.invalid)',
   ]) {
     const style = themeModule.themeStyle({
-      accent: '#233A4B',
+      accent: '#75465D',
       background: '#F7F3EC',
       buttonBackground: value,
       buttonText: value,
@@ -282,8 +332,8 @@ test('los botones heredan acento y fondo cuando sus colores faltan, están vací
     assert.match(style, /--color-button-text:#F7F3EC;/);
   }
   const defaults = themeModule.themeStyle();
-  assert.match(defaults, /--color-button-bg:#75465D;/);
-  assert.match(defaults, /--color-button-text:#F7F3EC;/);
+  assert.match(defaults, /--color-button-bg:#233A4B;/);
+  assert.match(defaults, /--color-button-text:#FFECE0;/);
 });
 
 test('los colores de botones se pueden personalizar de forma independiente', () => {

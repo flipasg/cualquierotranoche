@@ -48,5 +48,8 @@ test('la ficha de proyecto quita el antetítulo y destaca la línea editorial en
   const detail = await read('src/pages/proyectos/[id].astro');
   assert.doesNotMatch(detail, /project\.data\.services\s*\}\s*\/?>\s*<h1/);
   assert.match(detail, /class="project-meta"/);
-  assert.match(detail, /\.project-meta\s*\{\s*color: var\(--color-accent\)/);
+  assert.match(
+    detail,
+    /\.project-meta\s*\{[^}]*\scolor: var\(--color-accent\);/,
+  );
 });

@@ -11,6 +11,8 @@ const script = await readFile(
 // Event-driven DOM double; each action runs the production gallery controller.
 function fixture(width = 768, query = '') {
   let focused;
+  let nextFrameId = 0;
+  const animationFrames = new Map();
   class Element {
     dataset = {};
     attributes = {};
@@ -221,7 +223,21 @@ function fixture(width = 768, query = '') {
     scrollTo() {},
     scrollY: 0,
   };
-  vm.runInNewContext(script, { document, window, URL, Set, performance });
+  vm.runInNewContext(script, {
+    document,
+    window,
+    URL,
+    Set,
+    performance,
+    requestAnimationFrame(callback) {
+      const id = ++nextFrameId;
+      animationFrames.set(id, callback);
+      return id;
+    },
+    cancelAnimationFrame(id) {
+      animationFrames.delete(id);
+    },
+  });
   return {
     cards,
     dialog,
@@ -258,6 +274,12 @@ function fixture(width = 768, query = '') {
     },
     shown() {
       return cards.filter((card) => !card.hidden);
+    },
+    advanceFrame(timestamp = 0) {
+      // Callbacks scheduled during a frame belong to the next frame.
+      const callbacks = [...animationFrames.values()];
+      animationFrames.clear();
+      for (const callback of callbacks) callback(timestamp);
     },
     choose(index, checked = true) {
       options[index].checked = checked;
@@ -360,7 +382,9 @@ test('escritorio aplica directamente; redimensionar descarta el borrador y conse
   assert.equal(f.options[0].checked, true);
   f.featured.emit('click');
   assert.equal(f.shown().length, 10);
+  assert.equal(f.featured.getAttribute('aria-pressed'), 'true');
   f.clearOutside.emit('click');
+  assert.equal(f.featured.getAttribute('aria-pressed'), 'false');
   assert.equal(new URL(f.url).search, '');
 });
 
@@ -420,4 +444,23 @@ test('la lista indica el desbordamiento y actualiza la pista al desplazar o busc
   assert.equal(f.url, initialUrl);
   assert.deepEqual(f.shown(), initialCards);
   f.close.emit('click');
+});
+
+test('abrir el modal actualiza la pista de desplazamiento tras cada frame de layout', () => {
+  const f = fixture(390);
+  f.trigger.emit('click');
+  assert.equal(f.taxonomyScroll.dataset.canScroll, 'false');
+
+  f.taxonomyScroll.scrollHeight = 240;
+  f.taxonomyScroll.clientHeight = 120;
+  f.taxonomyScroll.scrollTop = 50;
+  f.advanceFrame();
+  assert.equal(f.taxonomyScroll.dataset.canScroll, 'true');
+  assert.equal(f.taxonomyScroll.dataset.atBottom, 'false');
+  assert.equal(f.taxonomyScroll.scrollTop, 0);
+
+  f.taxonomyScroll.scrollHeight = 100;
+  f.advanceFrame();
+  assert.equal(f.taxonomyScroll.dataset.canScroll, 'false');
+  assert.equal(f.taxonomyScroll.dataset.atBottom, 'true');
 });
