@@ -36,6 +36,7 @@ content:
           name: coverAlt,
           label: Texto alternativo,
           type: string,
+          description: 'Incluye el título de la pieza en texto plano y, si ayuda, describe lo que se ve. Evita textos genéricos como Tattoo, Obra 1 o solo el código del flash.',
           required: true,
         }
       - { name: draft, label: Borrador, type: boolean, default: false }
@@ -101,6 +102,7 @@ content:
           name: coverAlt,
           label: Texto alternativo,
           type: string,
+          description: 'Incluye el título de la pieza en texto plano y, si ayuda, describe lo que se ve. Evita textos genéricos como Tattoo, Obra 1 o solo el código del flash.',
           required: true,
         }
       - {
@@ -114,7 +116,7 @@ content:
           name: body,
           label: Contenido,
           type: rich-text,
-          description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
+          description: 'Usa el título del tatuaje como contenido inicial o escribe un texto específico sobre la pieza; evita dejar solo Tattoo. Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
     operations: { create: true, rename: true, delete: true }
   - name: obras
@@ -166,6 +168,7 @@ content:
           name: coverAlt,
           label: Texto alternativo,
           type: string,
+          description: 'Incluye el título de la pieza en texto plano y, si ayuda, describe lo que se ve. Evita textos genéricos como Tattoo, Obra 1 o solo el código del flash.',
           required: true,
         }
       - name: gallery
@@ -175,7 +178,12 @@ content:
         fields:
           [
             { name: src, label: Imagen, type: image },
-            { name: alt, label: Texto alternativo, type: string },
+            {
+              name: alt,
+              label: Texto alternativo,
+              type: string,
+              description: 'Incluye el título de la obra o proyecto y describe esta vista o detalle. Por ejemplo: Detalle de En el parque. Evita textos como Obra 1 o Detalle sin identificar la pieza.',
+            },
           ]
       - { name: draft, label: Borrador, type: boolean, default: false }
       - {
@@ -216,7 +224,12 @@ content:
           description: 'Formato opcional: **negrita**, {{accent}}ciruela{{/accent}} o {{color:#RRGGBB}}otro color{{/color}}. Usa saltos de línea para separar líneas y una línea vacía para separar párrafos.',
         }
       - { name: cover, label: Portada, type: image }
-      - { name: coverAlt, label: Texto alternativo, type: string }
+      - {
+          name: coverAlt,
+          label: Texto alternativo,
+          type: string,
+          description: 'Incluye el título del proyecto en texto plano y describe la imagen. Evita etiquetas genéricas como Imagen 1.',
+        }
       - name: gallery
         label: Galería
         type: object
@@ -224,7 +237,12 @@ content:
         fields:
           [
             { name: src, label: Imagen, type: image },
-            { name: alt, label: Texto alternativo, type: string },
+            {
+              name: alt,
+              label: Texto alternativo,
+              type: string,
+              description: 'Incluye el título de la obra o proyecto y describe esta vista o detalle. Por ejemplo: Detalle de En el parque. Evita textos como Obra 1 o Detalle sin identificar la pieza.',
+            },
           ]
       - { name: draft, label: Borrador, type: boolean, default: false }
       - {

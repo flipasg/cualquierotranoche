@@ -1,9 +1,10 @@
 ---
 title: Enamorados
-description: "Figuras en un abrazo. Tatuaje para Andoni que realizamos en Vitoria. "
+description: 'Figuras en un abrazo. Tatuaje para Andoni que realizamos en Vitoria. '
 cover: /uploads/web15-1.jpg
-coverAlt: Tattoo
+coverAlt: 'Enamorados'
 draft: false
 showInCarousel: true
 ---
-Tattoo
+
+Enamorados

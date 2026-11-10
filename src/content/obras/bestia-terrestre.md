@@ -10,12 +10,13 @@ priceEur: 150
 showPrice: true
 collection: fauna
 cover: /uploads/pintura-12.jpg
-coverAlt: centauro deconstruido sobre fondo verde
+coverAlt: 'Bestia terrestre: centauro deconstruido sobre fondo verde'
 gallery:
   - src: /uploads/pintura-13.jpg
-    alt: Detalle del rostro
+    alt: 'Bestia terrestre: Detalle del rostro'
   - src: /uploads/pintura-14.jpg
-    alt: Detalle tres cuartos
+    alt: 'Bestia terrestre: Detalle tres cuartos'
 draft: false
 ---
-Esta obra forma parte de la serie Fauna que nace con una vocación más decorativa. Al usar de soporte un lienzo grueso, el formato caja constituye la pieza no solo como una imagen sino como un objeto artístico en sí mismo. 
+
+Esta obra forma parte de la serie Fauna que nace con una vocación más decorativa. Al usar de soporte un lienzo grueso, el formato caja constituye la pieza no solo como una imagen sino como un objeto artístico en sí mismo.

@@ -10,10 +10,11 @@ priceEur: 250
 showPrice: true
 collection: miscelanea
 cover: /uploads/pintura-37.jpg
-coverAlt: pintura de figuras una encima de otra
+coverAlt: 'Shunga: pintura de figuras una encima de otra'
 gallery:
   - src: /uploads/pintura-38.jpg
-    alt: detalle de los rostros de la pintura
+    alt: 'Shunga: detalle de los rostros de la pintura'
 draft: false
 ---
+
 Pintura en pequeño formato que muestra una escena erótica. El formato alargado, el gesto contenido y la composición de los cuerpos se inspira libremente en la tradición del shunga.

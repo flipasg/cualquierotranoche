@@ -10,11 +10,11 @@ priceEur: 120
 showPrice: true
 collection: collage
 cover: /uploads/collage-10.jpg
-coverAlt: Collage con papeles de color azul y lila que muestra una figura
-  femenina con una luna y un charco de gotas
+coverAlt: 'Una noche: Collage con papeles de color azul y lila que muestra una figura femenina con una luna y un charco de gotas'
 gallery:
   - src: /uploads/collage-11.jpg
-    alt: Detalle de cerca de los recortes de papel azul y lila
+    alt: 'Una noche: Detalle de cerca de los recortes de papel azul y lila'
 draft: false
 ---
-Esta pieza como el resto de la serie de collages, construyen la imagen con bloques de papel. Una figura en soledad, por la noche, posada en un charco de gotas. Elude a la introspección, la intimidad y lo esencial. 
+
+Esta pieza como el resto de la serie de collages, construyen la imagen con bloques de papel. Una figura en soledad, por la noche, posada en un charco de gotas. Elude a la introspección, la intimidad y lo esencial.

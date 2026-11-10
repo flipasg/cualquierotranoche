@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { access, readdir, readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { parse as parseYaml } from 'yaml';
+import { richTextToPlainText } from '../src/lib/rich-text.mjs';
 
 const root = new URL('../', import.meta.url);
 const read = (path) => readFile(new URL(path, root), 'utf8');
@@ -93,7 +94,14 @@ test('cada ficha conserva un título editorial y una referencia única a su cód
     assert.ok(frontmatter.title.trim().length > 0);
     assert.equal(frontmatter.description, undefined);
     assert.equal(frontmatter.note, undefined);
-    assert.equal(frontmatter.coverAlt, expectedCode);
+    assert.ok(
+      frontmatter.coverAlt
+        .toLocaleLowerCase('es')
+        .includes(
+          richTextToPlainText(frontmatter.title).toLocaleLowerCase('es'),
+        ),
+      `${name}: el texto alternativo debe identificar el diseño por su título`,
+    );
     const image = name.replace(/^f-(\d{3})\.md$/, 'flash-$1.png');
     assert.equal(frontmatter.cover, `/uploads/${image}`);
     assert.equal(

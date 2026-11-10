@@ -4,6 +4,19 @@ import test from 'node:test';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
+test('el layout de tatuajes respeta las tarjetas ocultas por la paginación', async () => {
+  const css = await read('src/styles/global.css');
+  assert.match(css, /\[data-gallery-card\]\[hidden\]\s*\{\s*display: none;/);
+  assert.match(
+    css,
+    /\.tattoo-gallery-page \.gallery-card-grid > \[data-gallery-card\]:not\(\[hidden\]\)\s*\{\s*display: flex;/,
+  );
+  assert.doesNotMatch(
+    css,
+    /\.tattoo-gallery-page \.gallery-card-grid > \[data-gallery-card\]\s*\{/,
+  );
+});
+
 test('Obra y Flash vuelven a mostrar sus buscadores desde el CMS', async () => {
   const site = JSON.parse(await read('src/data/site.json'));
   assert.equal(site.ui.flash.showGlobalSearch, true);

@@ -10,12 +10,13 @@ priceEur: 250
 showPrice: true
 collection: miscelanea
 cover: /uploads/pintura-34.jpg
-coverAlt: Pintura en tonos rosas y marrones que muestra dos figuras híbridas entrelzadas
+coverAlt: 'Polemos: Pintura en tonos rosas y marrones que muestra dos figuras híbridas entrelzadas'
 gallery:
   - src: /uploads/pintura-36.jpg
-    alt: detalle del rostro de la figura rosa
+    alt: 'Polemos: detalle del rostro de la figura rosa'
   - src: /uploads/pintura-35.jpg
-    alt: detalle del rostro de la figura marrón
+    alt: 'Polemos: detalle del rostro de la figura marrón'
 draft: false
 ---
+
 Polemos representa una batalla primigenia entre bestias híbridas.

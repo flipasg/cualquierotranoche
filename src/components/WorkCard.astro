@@ -36,7 +36,7 @@ const details = [work.data.technique, work.data.dimensions].filter(Boolean);
   <a class="card__link" href={`/obra/${collectionSlug}/${work.id}/`}>
     <GalleryImage
       src={work.data.cover}
-      alt=""
+      alt={work.data.coverAlt}
       class="work-card__image"
       viewerTitle={work.data.title}
       viewerDescription={work.data.description}

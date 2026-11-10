@@ -364,7 +364,7 @@ p {
 .carousel .card .gallery-image-link:focus-visible .gallery-image {
   transform: none;
 }
-.tattoo-gallery-page .gallery-card-grid > [data-gallery-card] {
+.tattoo-gallery-page .gallery-card-grid > [data-gallery-card]:not([hidden]) {
   display: flex;
   min-width: 0;
 }
