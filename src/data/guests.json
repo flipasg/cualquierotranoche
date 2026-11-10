@@ -26,6 +26,9 @@
     {
       "id": "madrid-noviembre",
       "city": "Madrid",
+      "studio": "El Cisne Negro Tatto",
+      "address": "C. de Manuela Malasaña, 26, Centro, 28004 Madrid, Spain",
+      "mapsUrl": "https://maps.app.goo.gl/iGubadYATFwqHhB17",
       "startDate": "2026-11-26",
       "endDate": "2026-11-28",
       "color": "#b6bdce",
