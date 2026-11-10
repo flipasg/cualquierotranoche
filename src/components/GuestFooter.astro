@@ -11,6 +11,7 @@ interface Props {
 }
 const { config, pathname } = Astro.props;
 const entries = visibleGuests(config.entries);
+const limit = 3;
 const show =
   config.showInFooter &&
   pathname.replace(/\/+$/, '') !== '/contacto' &&
@@ -23,11 +24,12 @@ const show =
       class="footer-guests"
       aria-labelledby="footer-guests-heading"
       data-guest-list
+      data-guest-limit={limit}
     >
       <h2 id="footer-guests-heading">{config.footerHeading}</h2>
       <ul>
-        {entries.map((guest) => (
-          <li data-guest-end={guest.endDate}>
+        {entries.map((guest, index) => (
+          <li data-guest-end={guest.endDate} hidden={index >= limit}>
             <div class="footer-guest">
               <span class="footer-guest-title">
                 <span
@@ -38,25 +40,7 @@ const show =
                 <span class="guest-city">{guest.city}</span>
                 <span class="guest-range">{guestDateRange(guest)}</span>
               </span>
-              {guest.studio && <span class="guest-studio">{guest.studio}</span>}
-              {guest.address && (
-                <span class="guest-address">{guest.address}</span>
-              )}
-              {guest.description && (
-                <span class="guest-description">{guest.description}</span>
-              )}
             </div>
-            {guest.mapsUrl && (
-              <a
-                class="guest-map"
-                href={guest.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${config.mapsLabel}: ${guest.city}`}
-              >
-                {config.mapsLabel}
-              </a>
-            )}
           </li>
         ))}
       </ul>
@@ -110,29 +94,5 @@ const show =
     color: var(--color-accent);
     font-size: 0.8rem;
     margin-left: auto;
-  }
-  .guest-studio,
-  .guest-address,
-  .guest-description {
-    display: block;
-    font-size: 0.8rem;
-    margin-top: 0.2rem;
-    padding-left: 1.05rem;
-  }
-  .guest-description,
-  .guest-address {
-    white-space: pre-line;
-  }
-  .guest-map {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    margin-left: 1.05rem;
-    font-size: 0.8rem;
-    text-underline-offset: 0.25em;
-  }
-  .guest-map:focus-visible {
-    outline: 2px solid var(--color-action);
-    outline-offset: 2px;
   }
 </style>

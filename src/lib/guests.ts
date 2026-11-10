@@ -94,8 +94,18 @@ const monthFormat = new Intl.DateTimeFormat('es-ES', {
 });
 const rangeFormat = new Intl.DateTimeFormat('es-ES', {
   day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const compactRangeFormat = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
   month: 'short',
   year: 'numeric',
+  timeZone: 'UTC',
+});
+const weekdayFormat = new Intl.DateTimeFormat('es-ES', {
+  weekday: 'short',
   timeZone: 'UTC',
 });
 
@@ -136,6 +146,23 @@ export function guestDays(guest: Pick<Guest, 'startDate' | 'endDate'>): string {
     return `${guest.startDate.slice(8)}–${guest.endDate.slice(8)}`;
   }
   return `${guest.startDate.slice(8)}/${guest.startDate.slice(5, 7)}–${guest.endDate.slice(8)}/${guest.endDate.slice(5, 7)}`;
+}
+
+export function guestDateLabels(guest: Pick<Guest, 'startDate' | 'endDate'>) {
+  const start = asDate(guest.startDate);
+  const end = asDate(guest.endDate);
+  return {
+    month: monthFormat.formatRange(start, end).replace(/ de /g, ' '),
+    days: guestDays(guest),
+    weekdays:
+      guest.startDate === guest.endDate
+        ? weekdayFormat.format(start)
+        : `${weekdayFormat.format(start)}–${weekdayFormat.format(end)}`,
+    compact: compactRangeFormat
+      .formatRangeToParts(start, end)
+      .map(({ type, value }) => (type === 'year' ? `· ${value}` : value))
+      .join(''),
+  };
 }
 
 export function guestDateColor(background: string): string {

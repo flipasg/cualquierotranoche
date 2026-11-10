@@ -153,6 +153,20 @@ su CSS, hay que revisar también esos atributos `sizes`. El proceso `npm run med
 añade tamaños pequeños a los logos configurados en el CMS y una variante de 640 px
 a la portada. Conserva los originales, los tamaños grandes y la calidad WebP 84.
 
+El favicon se elige en `social.json` o en **Compartir en redes y favicon** del CMS.
+`npm run media` genera PNG de 16, 32 y 48 px para las pestañas y de 180 px para
+accesos directos de Apple, sin recortar ni deformar la imagen. El original se
+conserva en `media/uploads/`; los iconos se enlazan en todas las páginas desde
+`BaseLayout.astro`. Conviene usar una imagen cuadrada con el dibujo bien visible.
+
+Para cambiarlo, abre **Compartir en redes y favicon → Favicon (icono de la web)**,
+sube o selecciona un JPG, PNG, WebP o SVG (recomendado: al menos 180 × 180 px) y
+guarda. Se aplicará cuando termine la publicación de la web, sin convertir archivos
+ni editar código. Las URLs de los iconos cambian con su contenido para renovar la
+caché incluso si sustituyes un archivo por otro con el mismo nombre. Si el archivo
+seleccionado no existe o su formato no se admite, la preparación avisa con un error
+en lugar de usar una imagen distinta como favicon.
+
 ## Cloudflare Pages
 
 Conectar el repositorio y configurar:

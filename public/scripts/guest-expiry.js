@@ -19,6 +19,16 @@ export function refreshGuests(root = document, today = guestToday()) {
   });
 
   root.querySelectorAll('[data-guest-agenda]').forEach((agenda) => {
+    const entries = [...agenda.querySelectorAll('[data-guest-end]')];
+    const limit = Number(agenda.dataset.guestLimit) || entries.length;
+    entries.forEach((entry, index) => {
+      entry.hidden = index >= limit;
+    });
+    agenda.querySelectorAll('[data-guest-list]').forEach((list) => {
+      list.hidden = [...list.querySelectorAll('[data-guest-end]')].every(
+        (entry) => entry.hidden,
+      );
+    });
     if (agenda.querySelector('[data-guest-end]')) return;
     const contact = agenda.closest('[data-guest-contact]');
     const copy = contact?.querySelector('[data-guest-contact-copy]');

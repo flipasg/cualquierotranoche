@@ -111,6 +111,191 @@ async function renderComponent(
 const renderContact = (entries, content) =>
   renderComponent('src/pages/contacto.astro', entries, content);
 
+test('Contacto muestra las tres primeras fechas en móvil y escritorio, sin paginación', async () => {
+  const dates = [
+    '2026-10-03',
+    '2026-11-01',
+    '2026-11-02',
+    '2026-12-01',
+    '2026-12-02',
+  ];
+  const entries = dates.map((date, index) => ({
+    ...guest,
+    id: `prueba-${index}`,
+    startDate: date,
+    endDate: date,
+  }));
+  const html = await renderContact(entries.toReversed());
+  assert.match(html, /data-guest-limit="3"/);
+  const cards = [...html.matchAll(/<li\b[^>]*id="guest-prueba-\d"[^>]*>/g)].map(
+    ([tag]) => tag,
+  );
+  assert.equal(cards.length, 5);
+  cards.forEach((card, index) => {
+    assert.match(card, new RegExp(`id="guest-prueba-${index}"`));
+    assert.equal(/\shidden(?:\s|=|>)/.test(card), index >= 3);
+  });
+  assert.match(
+    html,
+    /<section\b[^>]*\shidden(?:\s|=)[^>]*aria-labelledby="month-2026-12"/,
+  );
+  assert.doesNotMatch(
+    html,
+    /data-guest-(?:pagination|previous|next|page-status)/,
+  );
+});
+
+test('el pie muestra el mes y las tarjetas de Contacto incluyen la fecha accesible y sus dos formatos', async () => {
+  const footer = await renderComponent('src/components/Footer.astro', [guest]);
+  assert.match(
+    footer,
+    /class="guest-range(?:\s[^"]*)?"[^>]*>1–3 de octubre de 2026<\/span>/,
+  );
+  const contact = await renderContact([guest]);
+  assert.match(contact, /id="month-2026-10"[^>]*>\s*octubre de 2026\s*<\/h3>/);
+  assert.match(contact, /<time\b[^>]*aria-label="1–3 de octubre de 2026"/);
+  assert.match(contact, /class="guest-card-days\b[^>]*>01–03<\/span>/);
+  assert.match(contact, /class="guest-card-weekdays\b[^>]*>jue–sáb<\/span>/);
+  assert.match(
+    contact,
+    /class="guest-card-date-compact\b[^>]*>\s*1–3 oct · 2026\s*<\/span>/,
+  );
+});
+
+test('el resumen del pie muestra ciudad y fecha de los tres próximos guests, sin datos del estudio', async () => {
+  const dates = [
+    '2026-10-03',
+    '2026-10-10',
+    '2026-11-01',
+    '2026-12-01',
+    '2027-01-01',
+  ];
+  const entries = dates.map((date, index) => ({
+    ...guest,
+    id: `resumen-${index}`,
+    city: `Ciudad ${index}`,
+    startDate: date,
+    endDate: date,
+    studio: 'Estudio que solo aparece en Contacto',
+    address: 'Dirección detallada',
+    description: 'Descripción detallada',
+    mapsUrl: 'https://example.com/maps',
+  }));
+  entries.push({
+    ...guest,
+    id: 'oculta',
+    city: 'Ciudad oculta',
+    visible: false,
+  });
+  entries.push({
+    ...guest,
+    id: 'pasada',
+    city: 'Ciudad pasada',
+    endDate: '2026-10-01',
+  });
+  const html = await renderComponent(
+    'src/components/GuestFooter.astro',
+    entries,
+    site,
+    {
+      config: { ...configured, entries: entries.toReversed() },
+      pathname: '/sobre-mi/',
+    },
+  );
+  assert.match(html, /data-guest-limit="3"/);
+  const rows = [
+    ...html.matchAll(/<li\b[^>]*data-guest-end[^>]*>[\s\S]*?<\/li>/g),
+  ].map(([row]) => row);
+  assert.equal(rows.length, 5);
+  rows.forEach((row, index) => {
+    assert.match(row, new RegExp(`Ciudad ${index}`));
+    assert.equal(/<li\b[^>]*\shidden(?:\s|=|>)/.test(row), index >= 3);
+  });
+  assert.match(rows[0], /3 de octubre de 2026/);
+  assert.doesNotMatch(
+    html,
+    /Ciudad oculta|Ciudad pasada|Estudio que|Dirección detallada|Descripción detallada|https:\/\/example\.com\/maps|<a\b/,
+  );
+});
+
+test('la tarjeta enlaza la dirección a Maps y ofrece Consultar cita sin flechas', async () => {
+  const html = await renderContact([
+    {
+      ...guest,
+      studio: 'Estudio de prueba',
+      address: 'Calle de prueba, 26\n28004 Madrid',
+      mapsUrl: 'https://example.com/maps',
+    },
+  ]);
+  const card = html.match(
+    /<li\b[^>]*id="guest-ciudad-prueba"[\s\S]*?<\/li>/,
+  )?.[0];
+  assert.ok(card);
+  assert.match(card, /class="guest-card-studio\b[^>]*>Estudio de prueba<\/p>/);
+  const map = card.match(/<a\b[^>]*class="guest-card-map\b[\s\S]*?<\/a>/)?.[0];
+  assert.ok(map);
+  assert.match(map, /href="https:\/\/example.com\/maps"/);
+  assert.match(map, /target="_blank"\s+rel="noopener noreferrer"/);
+  assert.match(map, /Calle de prueba, 26\n28004 Madrid<\/span>/);
+  assert.match(map, /<svg\b[^>]*aria-hidden="true"/);
+  assert.match(
+    card,
+    /<a\b[^>]*class="button guest-card-inquiry\b[^>]*source=portfolio-guest-ciudad-prueba/,
+  );
+  assert.match(card, /Consultar cita/);
+  assert.doesNotMatch(card, /[→↗]/);
+});
+
+test('sin URL la dirección es texto; con solo URL se conserva el enlace; los campos vacíos se omiten', async () => {
+  const plain = await renderContact([
+    {
+      ...guest,
+      address: 'Dirección sin enlace\nSegunda línea',
+    },
+  ]);
+  assert.match(
+    plain,
+    /<p\b[^>]*class="guest-card-address\b[^>]*>Dirección sin enlace\nSegunda línea<\/p>/,
+  );
+  assert.doesNotMatch(plain, /class="guest-card-map\b/);
+  const mapOnly = await renderContact([
+    {
+      ...guest,
+      mapsUrl: 'https://example.com/maps',
+    },
+  ]);
+  assert.match(
+    mapOnly,
+    /class="guest-card-map\b[^>]*href="https:\/\/example.com\/maps"/,
+  );
+  assert.match(mapOnly, /<span\b[^>]*>Ver en Google Maps<\/span>/);
+  const minimal = await renderContact([guest]);
+  assert.doesNotMatch(minimal, /class="guest-card-meta\b/);
+  assert.doesNotMatch(
+    minimal,
+    /class="guest-card-(?:map|address|studio|description)\b/,
+  );
+});
+
+test('sin dirección se conservan el estudio con la ciudad y la descripción en su propia fila', async () => {
+  const html = await renderContact([
+    {
+      ...guest,
+      studio: 'Estudio sin dirección',
+      description: 'La dirección se confirmará al reservar.',
+    },
+  ]);
+  assert.match(
+    html,
+    /class="guest-card-info\b[^>]*>[\s\S]*class="guest-card-studio\b[^>]*>Estudio sin dirección<\/p>\s*<\/div>/,
+  );
+  assert.match(
+    html,
+    /class="guest-card-meta\b[^>]*>\s*<p\b[^>]*class="guest-card-description\b[^>]*>La dirección se confirmará al reservar\.<\/p>/,
+  );
+  assert.doesNotMatch(html, /class="guest-card-(?:address|map)\b/);
+});
+
 test('Contacto conserva el formato del CMS y muestra la dirección como un único enlace continuo', async () => {
   const content = structuredClone(site);
   content.ui.contact.intro = 'Una **idea**. {{accent}}Hablemos.{{/accent}}';

@@ -32,11 +32,13 @@ const {
   groupGuestsByMonth,
   guestDays,
   guestDateRange,
+  guestDateLabels,
   guestDateColor,
 } = await import(helpersUrl);
-const [agendaSource, footerSource] = await Promise.all([
+const [agendaSource, footerSource, homeSource] = await Promise.all([
   read('../src/components/GuestAgenda.astro'),
   read('../src/components/GuestFooter.astro'),
+  read('../src/pages/index.astro'),
 ]);
 const configured = JSON.parse(await read('../src/data/guests.json'));
 // Las pruebas de comportamiento no deben impedir editar o retirar las visitas reales.
@@ -142,16 +144,12 @@ test('el enlace opcional admite Google Maps completo o corto y rechaza URLs inse
   }
 });
 
-test('dirección y Maps son independientes y el pie evita enlaces anidados', () => {
-  assert.match(agendaSource, /guest\.address && <p class="guest-address">/);
-  assert.match(agendaSource, /guest\.mapsUrl && \(\s*<a\s+class="guest-map"/);
+test('dirección y Maps son independientes en la agenda', () => {
   assert.match(
-    footerSource,
-    /guest\.address && \(\s*<span class="guest-address">/,
+    agendaSource,
+    /guest\.address && \(\s*<p class="guest-address">/,
   );
-  assert.match(footerSource, /guest\.mapsUrl && \(\s*<a\s+class="guest-map"/);
-  assert.match(footerSource, /target="_blank"[\s\S]*rel="noopener noreferrer"/);
-  assert.match(footerSource, /<\/div>\s*\{guest\.mapsUrl && \(/);
+  assert.match(agendaSource, /guest\.mapsUrl && \(\s*<a\s+class="guest-map"/);
 });
 
 test('representa un día, rangos de días y cambios de mes o año sin desfase horario', () => {
@@ -164,6 +162,79 @@ test('representa un día, rangos de días y cambios de mes o año sin desfase ho
   };
   assert.equal(guestDays(yearChange), '31/12–02/01');
   assert.match(guestDateRange(yearChange), /2026.*2027/);
+});
+
+test('las fechas sin agrupación incluyen el mes completo y el año en cada extremo necesario', () => {
+  for (const [startDate, endDate, expected] of [
+    ['2026-11-26', '2026-11-26', '26 de noviembre de 2026'],
+    ['2026-11-26', '2026-11-28', '26–28 de noviembre de 2026'],
+    ['2026-10-31', '2026-11-02', '31 de octubre–2 de noviembre de 2026'],
+    ['2026-12-31', '2027-01-02', '31 de diciembre de 2026–2 de enero de 2027'],
+  ]) {
+    const formatted = guestDateRange({ ...guest, startDate, endDate });
+    assert.equal(formatted.replace(/\s*–\s*/g, '–'), expected);
+  }
+});
+
+test('la agenda de inicio y el pie usan fechas completas fuera de los grupos por mes', () => {
+  assert.match(
+    homeSource,
+    /<time datetime=\{guest\.startDate\}>\{guestDateRange\(guest\)\}<\/time>/,
+  );
+  assert.match(
+    footerSource,
+    /class="guest-range">\{guestDateRange\(guest\)\}<\/span>/,
+  );
+});
+
+test('las tarjetas de Contacto calculan fechas compactas y días de la semana en UTC', () => {
+  const dates = guestDateLabels({
+    startDate: '2026-11-26',
+    endDate: '2026-11-28',
+  });
+  assert.deepEqual(dates, {
+    month: 'noviembre 2026',
+    days: '26–28',
+    weekdays: 'jue–sáb',
+    compact: '26–28 nov · 2026',
+  });
+  assert.deepEqual(
+    guestDateLabels({ startDate: '2026-11-26', endDate: '2026-11-26' }),
+    {
+      month: 'noviembre 2026',
+      days: '26',
+      weekdays: 'jue',
+      compact: '26 nov · 2026',
+    },
+  );
+  const monthChange = guestDateLabels({
+    startDate: '2026-11-30',
+    endDate: '2026-12-02',
+  });
+  assert.equal(
+    monthChange.month.replace(/\s*–\s*/g, '–'),
+    'noviembre–diciembre 2026',
+  );
+  assert.equal(monthChange.days, '30/11–02/12');
+  assert.equal(monthChange.weekdays, 'lun–mié');
+  assert.equal(
+    monthChange.compact.replace(/\s*–\s*/g, '–'),
+    '30 nov–2 dic · 2026',
+  );
+  const yearChange = guestDateLabels({
+    startDate: '2026-12-31',
+    endDate: '2027-01-02',
+  });
+  assert.equal(
+    yearChange.month.replace(/\s*–\s*/g, '–'),
+    'diciembre 2026–enero 2027',
+  );
+  assert.equal(yearChange.days, '31/12–02/01');
+  assert.equal(yearChange.weekdays, 'jue–sáb');
+  assert.equal(
+    yearChange.compact.replace(/\s*–\s*/g, '–'),
+    '31 dic · 2026–2 ene · 2027',
+  );
 });
 
 test('la agenda omite visitas ocultas y escapa campos editoriales', () => {
@@ -217,8 +288,10 @@ test('el pie muestra las ciudades como texto y se oculta en Contacto o sin conte
   assert.match(footerSource, /<div class="footer-guest">/);
   assert.doesNotMatch(footerSource, /href=\{`\/contacto\/#guest-/);
   assert.match(footerSource, /class="guest-city"/);
-  assert.match(footerSource, /guest\.studio &&/);
-  assert.match(footerSource, /guest\.description &&/);
+  assert.doesNotMatch(
+    footerSource,
+    /guest\.(?:studio|address|description|mapsUrl)/,
+  );
 });
 
 test('el texto mantiene contraste mínimo AA con los colores editables', () => {

@@ -48,7 +48,7 @@ const entry = (endDate) => new Element({ guestEnd: endDate });
 const list = (children, limit) =>
   new Element({ guestList: '', guestLimit: limit }, children);
 
-test('a stale static page removes past dates and refills the three home slots', () => {
+test('a stale static page removes past dates and refills the three home and footer slots', () => {
   const dates = [
     '2026-10-17',
     '2026-10-24',
@@ -57,7 +57,7 @@ test('a stale static page removes past dates and refills the three home slots', 
     '2027-01-02',
   ];
   const home = list(dates.map(entry), '3');
-  const footer = list(dates.map(entry));
+  const footer = list(dates.map(entry), '3');
   const root = new Element({}, [home, footer]);
   refreshGuests(root, '2026-10-21');
   assert.deepEqual(
@@ -69,11 +69,19 @@ test('a stale static page removes past dates and refills the three home slots', 
     [false, false, false, true],
   );
   assert.equal(footer.children.length, 4);
+  assert.deepEqual(
+    footer.children.map((item) => item.hidden),
+    [false, false, false, true],
+  );
   refreshGuests(root, '2026-10-24');
   assert.equal(home.children.length, 4);
   refreshGuests(root, '2026-10-25');
   assert.deepEqual(
     home.children.map((item) => item.hidden),
+    [false, false, false],
+  );
+  assert.deepEqual(
+    footer.children.map((item) => item.hidden),
     [false, false, false],
   );
   refreshGuests(root, '2027-01-03');
@@ -106,6 +114,28 @@ test('expired months disappear and Contact moves its existing alerts link when e
   assert.equal(contact.classList.has('contact-content--without-agenda'), true);
   refreshGuests(root, '2026-11-30');
   assert.equal(copy.children.length, 1);
+});
+
+test('Contact refills its first three dates across months on every viewport', () => {
+  const months = [
+    list([entry('2026-11-01'), entry('2026-11-02')]),
+    list([entry('2026-12-01'), entry('2026-12-02')]),
+    list([entry('2027-01-01')]),
+  ];
+  const agenda = new Element({ guestAgenda: '', guestLimit: '3' }, months);
+  const root = new Element({}, [agenda]);
+  const cards = () => [...agenda.querySelectorAll('[data-guest-end]')];
+  const flags = () => cards().map((card) => card.hidden);
+  refreshGuests(root, '2026-11-01');
+  assert.deepEqual(flags(), [false, false, false, true, true]);
+  assert.equal(months[2].hidden, true);
+
+  refreshGuests(root, '2026-11-03');
+  assert.equal(months[0].parent, null);
+  assert.deepEqual(flags(), [false, false, false]);
+  assert.equal(months[2].hidden, false);
+  refreshGuests(root, '2026-11-03');
+  assert.deepEqual(flags(), [false, false, false]);
 });
 
 test('the standalone agenda keeps its empty message and the About CTA expires', () => {

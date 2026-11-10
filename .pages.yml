@@ -1469,7 +1469,11 @@ content:
     path: src/data/social.json
     format: json
     fields:
-      - { name: favicon, label: Favicon, type: image, required: true }
+      - name: favicon
+        label: Favicon (icono de la web)
+        type: image
+        required: true
+        description: 'Sube o selecciona una imagen JPG, PNG, WebP o SVG. Recomendado: imagen cuadrada de al menos 180 × 180 píxeles, con un dibujo sencillo y visible. Los tamaños para pestañas y accesos directos se preparan automáticamente. El cambio se verá cuando termine la publicación de la web.'
       - {
           name: title,
           label: Título general para compartir la portada,
@@ -1596,7 +1600,7 @@ content:
           - name: mapsUrl
             label: Enlace a Google Maps
             type: string
-            description: Pega el enlace completo de Google Maps, incluido https://. Opcional e independiente de la dirección.
+            description: Pega el enlace completo de Google Maps, incluido https://. En Contacto, la dirección será un enlace si hay URL y texto si no la hay. Si solo hay URL, se mostrará el enlace a Maps.
           - {
               name: description,
               label: Descripción,

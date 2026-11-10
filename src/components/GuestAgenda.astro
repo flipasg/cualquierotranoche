@@ -9,6 +9,7 @@ import {
 } from '../lib/guests';
 import TallyLink from './TallyLink.astro';
 import GuestAlerts from './GuestAlerts.astro';
+import ContactGuestCard from './ContactGuestCard.astro';
 
 interface Props {
   config: GuestsConfig;
@@ -16,6 +17,13 @@ interface Props {
 }
 const { config, presentation = 'default' } = Astro.props;
 const groups = groupGuestsByMonth(config.entries);
+const previewLimit = 3;
+const previewGuests = new Set(
+  groups
+    .flatMap((group) => group.entries)
+    .slice(0, previewLimit)
+    .map((guest) => guest.id),
+);
 ---
 
 <section
@@ -23,6 +31,7 @@ const groups = groupGuestsByMonth(config.entries);
   class="guest-agenda"
   data-guest-agenda
   data-presentation={presentation}
+  data-guest-limit={presentation === 'contact' ? previewLimit : undefined}
   aria-labelledby="guests-heading"
 >
   {config.eyebrow && <p class="eyebrow">{config.eyebrow}</p>}
@@ -30,84 +39,104 @@ const groups = groupGuestsByMonth(config.entries);
   <p class="guest-empty" data-guest-empty hidden={groups.length > 0}>
     {config.emptyMessage}
   </p>
-  {
-    groups.map((group) => (
-      <section
-        class="guest-month"
-        data-guest-list
-        aria-labelledby={`month-${group.key}`}
-        data-reveal
-      >
-        <h3 id={`month-${group.key}`}>{group.label}</h3>
-        <ul>
-          {group.entries.map((guest) => (
-            <li
-              id={`guest-${guest.id}`}
-              class="guest-event"
-              data-guest-end={guest.endDate}
-            >
-              <time
-                datetime={guest.startDate}
-                class:list={[
-                  'guest-date',
-                  {
-                    'guest-date--long':
-                      guest.startDate.slice(0, 7) !== guest.endDate.slice(0, 7),
-                  },
-                ]}
-                style={
-                  presentation === 'contact'
-                    ? undefined
-                    : {
-                        backgroundColor: guest.color,
-                        color: guestDateColor(guest.color),
-                      }
-                }
-                aria-label={guestDateRange(guest)}
-              >
-                {guestDays(guest)}
-              </time>
-
-              <div class="guest-details">
-                <h4 class="guest-city">{guest.city}</h4>
-                {guest.studio && <p class="guest-studio">{guest.studio}</p>}
-                {guest.address && <p class="guest-address">{guest.address}</p>}
-                {guest.description && (
-                  <p class="guest-description">{guest.description}</p>
-                )}
-                {guest.startDate.slice(0, 4) !== guest.endDate.slice(0, 4) && (
-                  <p class="guest-description">{guestDateRange(guest)}</p>
-                )}
-                <div class="guest-actions">
-                  <TallyLink
-                    url={forms.tattoo}
-                    params={{ source: `portfolio-guest-${guest.id}` }}
-                    linkStyle
+  <div id="guest-results" class="guest-results">
+    {
+      groups.map((group) => (
+        <section
+          class="guest-month"
+          data-guest-list
+          hidden={
+            presentation === 'contact' &&
+            group.entries.every((guest) => !previewGuests.has(guest.id))
+          }
+          aria-labelledby={`month-${group.key}`}
+          data-reveal
+        >
+          <h3
+            id={`month-${group.key}`}
+            class:list={{ 'sr-only': presentation === 'contact' }}
+          >
+            {group.label}
+          </h3>
+          <ul>
+            {group.entries.map((guest) =>
+              presentation === 'contact' ? (
+                <ContactGuestCard
+                  guest={guest}
+                  inquiryLabel={config.inquiryLabel}
+                  mapsLabel={config.mapsLabel}
+                  hidden={!previewGuests.has(guest.id)}
+                />
+              ) : (
+                <li
+                  id={`guest-${guest.id}`}
+                  class="guest-event"
+                  data-guest-end={guest.endDate}
+                >
+                  <time
+                    datetime={guest.startDate}
+                    class:list={[
+                      'guest-date',
+                      {
+                        'guest-date--long':
+                          guest.startDate.slice(0, 7) !==
+                          guest.endDate.slice(0, 7),
+                      },
+                    ]}
+                    style={{
+                      backgroundColor: guest.color,
+                      color: guestDateColor(guest.color),
+                    }}
+                    aria-label={guestDateRange(guest)}
                   >
-                    {config.inquiryLabel}
-                    <span class="sr-only">
-                      : {guest.city}, {guestDateRange(guest)}
-                    </span>
-                  </TallyLink>
-                  {guest.mapsUrl && (
-                    <a
-                      class="guest-map"
-                      href={guest.mapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {config.mapsLabel}
-                      <span class="sr-only">: {guest.city}</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))
-  }
+                    {guestDays(guest)}
+                  </time>
+
+                  <div class="guest-details">
+                    <h4 class="guest-city">{guest.city}</h4>
+                    {guest.studio && <p class="guest-studio">{guest.studio}</p>}
+                    {guest.address && (
+                      <p class="guest-address">{guest.address}</p>
+                    )}
+                    {guest.description && (
+                      <p class="guest-description">{guest.description}</p>
+                    )}
+                    {guest.startDate.slice(0, 4) !==
+                      guest.endDate.slice(0, 4) && (
+                      <p class="guest-description">{guestDateRange(guest)}</p>
+                    )}
+                    <div class="guest-actions">
+                      <TallyLink
+                        url={forms.tattoo}
+                        params={{ source: `portfolio-guest-${guest.id}` }}
+                        linkStyle
+                      >
+                        {config.inquiryLabel}
+                        <span class="sr-only">
+                          : {guest.city}, {guestDateRange(guest)}
+                        </span>
+                      </TallyLink>
+                      {guest.mapsUrl && (
+                        <a
+                          class="guest-map"
+                          href={guest.mapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {config.mapsLabel}
+                          <span class="sr-only">: {guest.city}</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              ),
+            )}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
   <div class="guest-alerts" data-guest-alerts>
     <GuestAlerts label={config.alertsLabel} />
   </div>
@@ -115,7 +144,7 @@ const groups = groupGuestsByMonth(config.entries);
 
 <style>
   .guest-agenda,
-  .guest-event {
+  .guest-agenda[data-presentation='default'] .guest-event {
     scroll-margin-top: 8rem;
   }
   .guest-agenda h2 {
@@ -137,7 +166,7 @@ const groups = groupGuestsByMonth(config.entries);
     margin: 0;
     padding: 0;
   }
-  .guest-event {
+  .guest-agenda[data-presentation='default'] .guest-event {
     display: grid;
     grid-template-columns: 6.5rem minmax(0, 1fr);
     gap: 1.25rem;
@@ -217,83 +246,28 @@ const groups = groupGuestsByMonth(config.entries);
     border: 0;
   }
   .guest-agenda[data-presentation='contact'] {
-    padding: clamp(1.5rem, 3vw, 2rem);
-    background: var(--color-surface);
+    container-type: inline-size;
   }
   .guest-agenda[data-presentation='contact'] h2 {
-    margin-bottom: 1.25rem;
-    font-size: clamp(2rem, 3vw, 2.6rem);
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.6rem, 2.3vw, 2rem);
   }
   .guest-agenda[data-presentation='contact'] .guest-month + .guest-month {
-    margin-top: 1.5rem;
+    margin-top: 0;
   }
-  .guest-agenda[data-presentation='contact'] .guest-month h3 {
-    margin-bottom: 0.5rem;
-    color: var(--color-accent);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-  }
-  .guest-agenda[data-presentation='contact'] .guest-event {
-    grid-template-columns: 5.25rem minmax(0, 1fr);
-    align-items: center;
-    gap: 1rem;
-    padding: 0.75rem 0;
-    border-color: color-mix(in srgb, var(--color-text), transparent 86%);
-  }
-  .guest-agenda[data-presentation='contact'] .guest-details {
+  .guest-agenda[data-presentation='contact'] .guest-results,
+  .guest-agenda[data-presentation='contact'] ul {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    column-gap: 1rem;
-    container-type: inline-size;
+    gap: 1.25rem;
   }
   .guest-empty {
     color: var(--color-muted);
   }
-  .guest-agenda[data-presentation='contact'] .guest-date {
-    display: block;
-    min-height: auto;
-    padding: 0;
-    border-radius: 0;
-    background: none !important;
-    color: var(--color-accent) !important;
-    font-size: 1.4rem;
-    line-height: 1.3;
-  }
-  .guest-agenda[data-presentation='contact'] .guest-details h4 {
-    margin: 0;
-    grid-column: 1;
-    grid-row: 1;
-    font-family: var(--font-heading);
-    font-size: 1.45rem;
-    font-weight: 400;
-  }
-  .guest-agenda[data-presentation='contact'] .guest-actions {
-    grid-column: 2;
-    grid-row: 1;
-    gap: 0;
-    justify-content: flex-end;
-  }
-  .guest-agenda[data-presentation='contact'] .guest-details > p {
-    grid-column: 1 / -1;
-  }
-  .guest-agenda[data-presentation='contact']
-    .guest-details
-    :global(.link-button) {
-    min-height: auto;
-    font-size: 0.85rem;
-    font-weight: 700;
-  }
-  .guest-agenda[data-presentation='contact'] .guest-alerts {
-    margin-top: 1rem;
-  }
-  .guest-agenda[data-presentation='contact']
-    .guest-alerts
-    :global(.link-button) {
-    font-weight: 700;
+  .guest-results {
+    scroll-margin-top: 8rem;
   }
   @media (max-width: 380px) {
-    .guest-event {
+    .guest-agenda[data-presentation='default'] .guest-event {
       grid-template-columns: 5.5rem minmax(0, 1fr);
       gap: 1rem;
     }
@@ -302,21 +276,6 @@ const groups = groupGuestsByMonth(config.entries);
     }
     .guest-date--long {
       font-size: 0.85rem;
-    }
-    .guest-agenda[data-presentation='contact'] .guest-event {
-      grid-template-columns: 4.5rem minmax(0, 1fr);
-      gap: 0.75rem;
-    }
-  }
-  @container (max-width: 23rem) {
-    .guest-agenda[data-presentation='contact'] .guest-details h4 {
-      grid-column: 1 / -1;
-      grid-row: 1;
-    }
-    .guest-agenda[data-presentation='contact'] .guest-actions {
-      grid-column: 1 / -1;
-      grid-row: 2;
-      justify-content: flex-start;
     }
   }
 </style>

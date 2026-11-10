@@ -6,6 +6,7 @@ import {
   copyFile,
 } from 'node:fs/promises';
 import { join, extname, basename } from 'node:path';
+import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 const input = 'media/uploads',
   output = 'public/uploads';
@@ -100,6 +101,34 @@ for (const name of await readdir(input)) {
         : {}),
     };
   }
+  if (social.favicon === `/uploads/${name}` && manifest[social.favicon]) {
+    // Favicons need small, lossless PNGs rather than the gallery's largest WebP.
+    const icons = [];
+    for (const size of [16, 32, 48, 180]) {
+      const png = await sharp(source)
+        .rotate()
+        .resize(size, size, {
+          fit: 'contain',
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
+        })
+        .png({ compressionLevel: 9 })
+        .toBuffer();
+      // Replacing a CMS file with the same name must also refresh cached icons.
+      const version = createHash('sha256')
+        .update(png)
+        .digest('hex')
+        .slice(0, 12);
+      const out = `${name}-icon-${size}-${version}.png`;
+      await writeFile(join(output, out), png);
+      icons.push({ src: `/uploads/${out}`, size });
+    }
+    manifest[social.favicon].icons = icons;
+  }
+}
+if (!manifest[social.favicon]?.icons?.length) {
+  throw new Error(
+    `Favicon: no se ha podido preparar ${social.favicon}. Selecciona una imagen JPG, PNG, WebP o SVG existente en el CMS.`,
+  );
 }
 const keys = Object.keys(manifest);
 const fallbackAnyPath = keys[0];

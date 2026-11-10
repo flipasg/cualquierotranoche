@@ -6,12 +6,14 @@ const optionalText = z
   .trim()
   .nullish()
   .transform((value) => value ?? '');
-const isImagePath = (value: string) =>
-  /^\/uploads\/[^?#\\%]+\.(?:jpe?g|png|webp)$/i.test(value) &&
+const isUploadImagePath = (value: string) =>
+  /^\/uploads\/[^?#\\%]+\.(?:jpe?g|png|webp|svg)$/i.test(value) &&
   value
     .split('/')
     .slice(2)
     .every((part) => part !== '.' && part !== '..' && part !== '');
+const isImagePath = (value: string) =>
+  isUploadImagePath(value) && !/\.svg$/i.test(value);
 const pagePath = z
   .string()
   .trim()
@@ -41,7 +43,13 @@ const pageSchema = z
 
 export const socialSchema = z
   .object({
-    favicon: z.string().trim().startsWith('/uploads/'),
+    favicon: z
+      .string()
+      .trim()
+      .refine(
+        isUploadImagePath,
+        'Selecciona un favicon JPG, PNG, WebP o SVG de /uploads/',
+      ),
     title: z.string().trim().min(1),
     description: z.string().trim().min(1),
     image: z
@@ -67,7 +75,12 @@ export const socialSchema = z
 export type SocialConfig = z.infer<typeof socialSchema>;
 export type MediaManifest = Record<
   string,
-  { src: string; width: number; height: number }
+  {
+    src: string;
+    width: number;
+    height: number;
+    icons?: { src: string; size: number }[];
+  }
 >;
 interface PageSocial {
   pathname: string;

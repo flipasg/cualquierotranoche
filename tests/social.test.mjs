@@ -61,6 +61,9 @@ test('la configuración del CMS es válida y conserva todos los campos editables
     (entry) => entry.name === 'social',
   );
   assert.equal(cms.path, 'src/data/social.json');
+  const faviconField = cms.fields.find((field) => field.name === 'favicon');
+  assert.equal(faviconField.type, 'image');
+  assert.equal(faviconField.required, true);
   assert.deepEqual(
     Object.keys(data).sort(),
     cms.fields.map((field) => field.name).sort(),
@@ -71,6 +74,36 @@ test('la configuración del CMS es válida y conserva todos los campos editables
   for (const page of data.pages) {
     assert.ok(Object.keys(page).every((name) => pageFieldNames.includes(name)));
     assert.equal(typeof page.path, 'string');
+  }
+});
+
+test('el favicon admite los formatos del CMS y rechaza rutas no válidas', () => {
+  for (const extension of ['jpg', 'jpeg', 'png', 'webp', 'svg', 'SVG']) {
+    assert.equal(
+      socialSchema.safeParse({
+        ...defaults,
+        favicon: `/uploads/icono.${extension}`,
+      }).success,
+      true,
+      extension,
+    );
+  }
+  for (const favicon of [
+    '',
+    'https://example.com/icono.png',
+    '/uploads/icono.ico',
+    '/uploads/icono.gif',
+    '/uploads/../icono.png',
+    '/uploads/carpeta/../icono.svg',
+    '/uploads/%2e%2e/icono.jpg',
+    '/uploads/icono.png?version=2',
+    '/uploads/icono.svg#icono',
+  ]) {
+    assert.equal(
+      socialSchema.safeParse({ ...defaults, favicon }).success,
+      false,
+      favicon,
+    );
   }
 });
 
@@ -324,6 +357,7 @@ test('prepara medios sociales compartidos con borradores y excluye los exclusivo
       join(directory, 'src/data/social.json'),
       JSON.stringify({
         ...defaults,
+        favicon: '/uploads/marca.png',
         image: '/uploads/shared.png',
         pages: [{ path: '/tattoo/', image: '/uploads/custom.png' }],
       }),
@@ -348,7 +382,7 @@ test('prepara medios sociales compartidos con borradores y excluye los exclusivo
           width: 800,
           height: 400,
           channels: 4,
-          background: '#ffffff00',
+          background: '#ffffff80',
         },
       })
         .png()
@@ -384,6 +418,29 @@ test('prepara medios sociales compartidos con borradores y excluye los exclusivo
     assert.equal(logo.width, 320);
     assert.equal(logo.height, 160);
     assert.equal(logo.hasAlpha, true);
+    const icons = result['/uploads/marca.png'].icons;
+    assert.deepEqual(
+      icons.map(({ size }) => size),
+      [16, 32, 48, 180],
+    );
+    for (const { src, size } of icons) {
+      const icon = sharp(join(directory, 'public', src));
+      const metadata = await icon.metadata();
+      assert.equal(metadata.format, 'png');
+      assert.equal(metadata.width, size);
+      assert.equal(metadata.height, size);
+      const { data, info } = await icon
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+      // A wide source keeps its full proportions with transparent padding.
+      assert.equal(data[3], 0);
+      const center = ((size / 2) * info.width + size / 2) * info.channels;
+      assert.deepEqual(
+        [...data.subarray(center, center + 4)],
+        [255, 255, 255, 128],
+      );
+    }
+    assert.equal(result['/uploads/shared.png'].icons, undefined);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }

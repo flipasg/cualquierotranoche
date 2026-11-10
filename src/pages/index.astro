@@ -7,7 +7,7 @@ import WorkCard from '../components/WorkCard.astro';
 import RichText from '../components/RichText.astro';
 import { guests } from '../config/guests';
 import { site } from '../data';
-import { guestDays, visibleGuests } from '../lib/guests';
+import { guestDateRange, visibleGuests } from '../lib/guests';
 
 const works = await getCollection('obras', ({ data }) => !data.draft);
 const workById = new Map(works.map((work) => [work.id, work]));
@@ -101,7 +101,7 @@ const nextGuests = visibleGuests(guests.entries);
             {nextGuests.map((guest, index) => (
               <li data-guest-end={guest.endDate} hidden={index >= 3}>
                 {guest.city}{' '}
-                <time datetime={guest.startDate}>{guestDays(guest)}</time>
+                <time datetime={guest.startDate}>{guestDateRange(guest)}</time>
               </li>
             ))}
           </ul>

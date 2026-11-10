@@ -6,7 +6,7 @@ import BackToTop from '../components/BackToTop.astro';
 import SocialMeta from '../components/SocialMeta.astro';
 import { site } from '../data';
 import { social } from '../config/social';
-import { resolveSocial } from '../lib/social';
+import { resolveSocial, type MediaManifest } from '../lib/social';
 import { resolveSeo, serializeJsonLd } from '../lib/seo.mjs';
 import { richTextToPlainText } from '../lib/rich-text.mjs';
 import {
@@ -57,9 +57,9 @@ const website =
         url: canonical.href,
       }
     : undefined;
-const mediaPath = (path: string) =>
-  media[path as keyof typeof media]?.src ?? path;
-const favicon = mediaPath(social.favicon);
+const favicon: MediaManifest[string] | undefined =
+  media[social.favicon as keyof typeof media];
+const faviconIcons = favicon?.icons ?? [];
 const metadata = resolveSocial(
   social,
   {
@@ -100,12 +100,20 @@ const metadata = resolveSocial(
       fontStylesheets.map((href) => (
         <link rel="stylesheet" href={href} referrerpolicy="no-referrer" />
       ))
+    }{seo.description && <meta name="description" content={seo.description} />}{
+      faviconIcons.map(({ src, size }) => (
+        <link
+          rel={size === 180 ? 'apple-touch-icon' : 'icon'}
+          type="image/png"
+          sizes={`${size}x${size}`}
+          href={src}
+        />
+      ))
     }{
-      seo.description && <meta name="description" content={seo.description} />
-    }<link rel="icon" href={favicon} /><link
-      rel="canonical"
-      href={canonical}
-    /><SocialMeta
+      !faviconIcons.length && (
+        <link rel="icon" href={favicon?.src ?? social.favicon} />
+      )
+    }<link rel="canonical" href={canonical} /><SocialMeta
       metadata={metadata}
       canonical={canonical}
       siteName={siteName}
