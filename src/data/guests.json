@@ -32,7 +32,7 @@
       "startDate": "2026-11-26",
       "endDate": "2026-11-28",
       "color": "#b6bdce",
-      "visible": false
+      "visible": true
     }
   ]
 }
