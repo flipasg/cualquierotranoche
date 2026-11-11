@@ -1,6 +1,6 @@
 ---
-title: Soy {{accent}}Patricia,{{/accent}}
-subtitle: '*{{accent}}Y solo soy un animalillo.{{/accent}}*'
+title: Soy Patricia,
+subtitle: "*{{accent}}Y solo soy un animalillo.{{/accent}}*"
 location: |-
   Patricia García Ramírez · Cualquier otra noche
   Tatuadora e ilustradora en Vitoria-Gasteiz
@@ -10,7 +10,6 @@ portraitAlt: Foto Patricia
 draft: false
 eyebrow: Sobre mi
 ---
-
 Una bestia cruda que olfatea y busca imágenes que desvelen algo.
 
 Hay un anhelo en el dibujo. Estoy siempre rondando las mismas formas, como un buitre. Y algo se desoculta. Algo que no puedo simplemente tomar como mío.
